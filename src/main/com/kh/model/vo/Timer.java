@@ -11,7 +11,22 @@ public class Timer {
   private String memo;
 
   public Timer() {
+
+  }
+
+  private Timer(String title) {
     this.setDefaultTimer();
+  }
+
+  private Timer(String title, int hours, int minutes, int seconds) {
+    this.title = title;
+    this.hours = hours;
+    this.minutes = minutes;
+    this.seconds = seconds;
+  }
+
+  public static Timer create(String title, int hour, int minute, int second) {
+    return new Timer(title,hour,minute,second);
   }
 
   private void setDefaultTimer() {
@@ -20,11 +35,24 @@ public class Timer {
     this.seconds = 0;
   }
 
-  public Timer(String title, int hours, int minutes, int seconds) {
-    this.title = title;
-    this.hours = hours;
-    this.minutes = minutes;
-    this.seconds = seconds;
+  public static Timer userInput(String title, Scanner scanner) {
+    System.out.print("Hour: ");
+    int hour = Integer.parseInt(scanner.next());
+    System.out.println();
+
+    System.out.print("Minute: ");
+    int minute = Integer.parseInt(scanner.next());
+    System.out.println();
+
+    System.out.print("Second: ");
+    int second = Integer.parseInt(scanner.next());
+    System.out.println();
+
+    return new Timer(title, hour, minute, second);
+  }
+
+  public static Timer defaultTimer(String title) {
+    return new Timer(title);
   }
 
   public String getTitle() {
