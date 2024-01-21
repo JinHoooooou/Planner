@@ -1,4 +1,4 @@
-package com.kh.view.timer;
+package main.com.kh.view.timer;
 
 public class MainView extends AbstractView {
 

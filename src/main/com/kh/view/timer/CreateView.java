@@ -1,11 +1,10 @@
-package com.kh.view.timer;
+package main.com.kh.view.timer;
 
-import com.kh.controller.TimerController;
+import main.com.kh.controller.TimerController;
 
 import java.util.Scanner;
 
 public class CreateView extends AbstractView {
-
 
   public CreateView(TimerController controller, final Scanner scanner) {
     this.timerController = controller;
