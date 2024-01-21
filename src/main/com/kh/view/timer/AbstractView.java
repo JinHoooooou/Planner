@@ -10,7 +10,6 @@ public abstract class AbstractView {
 
   public AbstractView() {
     timerController = new TimerController();
-    scanner = new Scanner(System.in);
   }
 
   public abstract void main();

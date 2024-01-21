@@ -1,5 +1,7 @@
 package main.com.kh.view.timer;
 
+import java.util.Scanner;
+
 public class MainView extends AbstractView {
 
   private static final int CREATE = 1;
@@ -19,22 +21,28 @@ public class MainView extends AbstractView {
 
   @Override
   public void main() {
+    scanner = new Scanner(System.in);
     while (menu != 9) {
       printMain();
       menu = Integer.parseInt(scanner.next());
-      if (menu == 1) {
-        subView = new CreateView(timerController, scanner);
-      } else if (menu == 2) {
+      System.out.println();
+      execute();
+    }
+  }
+
+  private void execute() {
+    if (menu == CREATE) {
+      subView = new CreateView(timerController, scanner);
+    } else if (menu == 2) {
 //        this.viewOfReadTimer();
-      } else if (menu == 3) {
+    } else if (menu == 3) {
 //        this.viewOfUpdateTimer();
-      } else if (menu == 4) {
+    } else if (menu == 4) {
 //        this.viewOfDeleteTimer();
-      } else if (menu == 9) {
+    } else if (menu == 9) {
 //        this.viewOfExit();
-      } else {
+    } else {
 //        this.viewOfError();
-      }
     }
   }
 
