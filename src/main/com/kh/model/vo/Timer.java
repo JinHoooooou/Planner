@@ -8,13 +8,21 @@ public class Timer {
   private int hours;
   private int minutes;
   private int seconds;
-  private String memo;
 
   public Timer() {
 
   }
 
+  public static Timer create(String title, int hour, int minute, int second) {
+    return new Timer(title, hour, minute, second);
+  }
+
+  public static Timer createDefault(String title) {
+    return new Timer(title);
+  }
+
   private Timer(String title) {
+    this.title = title;
     this.setDefaultTimer();
   }
 
@@ -23,10 +31,6 @@ public class Timer {
     this.hours = hours;
     this.minutes = minutes;
     this.seconds = seconds;
-  }
-
-  public static Timer create(String title, int hour, int minute, int second) {
-    return new Timer(title,hour,minute,second);
   }
 
   private void setDefaultTimer() {
@@ -51,9 +55,6 @@ public class Timer {
     return new Timer(title, hour, minute, second);
   }
 
-  public static Timer defaultTimer(String title) {
-    return new Timer(title);
-  }
 
   public String getTitle() {
     return title;
@@ -85,13 +86,5 @@ public class Timer {
 
   public void setSeconds(int seconds) {
     this.seconds = seconds;
-  }
-
-  public String getMemo() {
-    return memo;
-  }
-
-  public void setMemo(String memo) {
-    this.memo = memo;
   }
 }

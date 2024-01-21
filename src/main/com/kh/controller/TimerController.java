@@ -18,4 +18,9 @@ public class TimerController {
     return true;
   }
 
+
+  public List<Timer> getTimerList() {
+    return timerList;
+  }
+
 }
