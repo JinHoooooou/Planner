@@ -1,6 +1,7 @@
 package test.view.timer;
 
 import main.com.kh.controller.TimerController;
+import main.com.kh.model.vo.Timer;
 import main.com.kh.view.timer.MainView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static test.constant.Constant.*;
@@ -65,5 +69,18 @@ class MainViewTest {
             MAIN_DELETE + LINE +
             MAIN_EXIT + LINE +
             MAIN_INPUT_MENU + LINE;
+  }
+
+  public List<Timer> setDataInList(int count) {
+    List<Timer> list = new ArrayList<>();
+    Random random = new Random();
+    for (int i = 0; i < count; i++) {
+      list.add(Timer.create("title" + i,
+              random.nextInt(0, 10),
+              random.nextInt(0, 60),
+              random.nextInt(0, 60)));
+    }
+    timerController.setTimerList(list);
+    return list;
   }
 }

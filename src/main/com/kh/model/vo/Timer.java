@@ -87,4 +87,9 @@ public class Timer {
   public void setSeconds(int seconds) {
     this.seconds = seconds;
   }
+
+  @Override
+  public String toString() {
+    return String.format("Title: %s (%d:%d:%d)", title, hours, minutes, seconds);
+  }
 }

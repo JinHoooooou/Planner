@@ -18,9 +18,11 @@ public class TimerController {
     return true;
   }
 
-
   public List<Timer> getTimerList() {
     return timerList;
   }
 
+  public void setTimerList(List<Timer> list) {
+    this.timerList = list;
+  }
 }

@@ -11,7 +11,6 @@ public class MainView extends AbstractView {
   private static final int DELETE = 5;
   private static final int EXIT = 9;
   private static final int DEFAULT = -1;
-  private AbstractView subView;
   private int menu;
 
   public MainView() {
@@ -34,10 +33,12 @@ public class MainView extends AbstractView {
     if (menu == CREATE) {
       new CreateView(timerController, scanner).main();
     } else if (menu == 2) {
-//        this.viewOfReadTimer();
+      new ReadOneView(timerController, scanner).main();
     } else if (menu == 3) {
-//        this.viewOfUpdateTimer();
+      new ReadAllView(timerController).main();
     } else if (menu == 4) {
+//        this.viewOfUpdateTimer();
+    } else if (menu == 5) {
 //        this.viewOfDeleteTimer();
     } else if (menu == 9) {
 //        this.viewOfExit();
@@ -50,7 +51,7 @@ public class MainView extends AbstractView {
     System.out.println("======= MINI TIMER APP =======");
     System.out.println("1. Timer 생성");
     System.out.println("2. Timer 시작");
-    System.out.println("3. Timer 보기");
+    System.out.println("3. 모든 Timer 보기");
     System.out.println("4. Timer 수정");
     System.out.println("5. Timer 삭제");
     System.out.println("9. 프로그램 종료");

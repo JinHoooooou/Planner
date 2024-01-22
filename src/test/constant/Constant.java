@@ -19,4 +19,10 @@ public interface Constant {
   String CREATE_INPUT_SECOND = "Second: ";
   String CREATE_RESULT_SUCCESS = "새 타이머를 생성하였습니다.";
   String CREATE_INPUT_DEFAULT_ERROR = "잘못 입력하였습니다. 다시 입력해주세요.";
+
+  String READ_ONE_TITLE = "======= TIMER 시작 =======";
+  String READ_ALL_TITLE = "======= 모든 Timer 보기 =======";
+  String READ_ONE_INPUT_INDEX = "시작할 Timer Id를 입력하세요: (0~%d)";
+  String READ_ONE_INPUT_INDEX_ERROR = "Index를 잘못 입력하였습니다. 다시 입력해주세요.";
+  String READ_LIST_EMPTY = "저장된 Timer가 없습니다.";
 }
