@@ -1,6 +1,5 @@
 package test.view.timer;
 
-import main.com.kh.controller.TimerController;
 import main.com.kh.view.timer.CreateView;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +12,16 @@ public class CreateViewTest extends MainViewTest {
 
   private CreateView createView;
 
+  @Override
   public void setInput(String input) {
-    super.setUp();
     super.setInput(input);
-    createView = new CreateView(new TimerController(), new Scanner(System.in));
+    createView = new CreateView(timerController, new Scanner(System.in));
   }
 
   @Test
   public void createViewCase1Test() {
+    // Case: Timer title은 입력하고
+    // And: hour/minute/second는 입력하지 않는 상황
     // Given
     String input = """
             title
@@ -43,6 +44,8 @@ public class CreateViewTest extends MainViewTest {
 
   @Test
   public void createViewCase2Test() {
+    // Case: Timer title을 입력하고
+    // And: hour/minute/second를 모두 입력하는 상황
     // Given
     String input = """
             title
@@ -72,6 +75,8 @@ public class CreateViewTest extends MainViewTest {
 
   @Test
   public void createViewCase3Test() {
+    // Case: Timer title을 입력하고
+    // And: hour/minute/second는 입력하지 않는데, (Y/N)입력을 한번 잘못한 상황
     // Given
     String input = """
             title
@@ -97,6 +102,8 @@ public class CreateViewTest extends MainViewTest {
 
   @Test
   public void createViewCase4Test() {
+    // Case: Timer의 title을 입력하고
+    // And: hour/minute/second도 입력하는데 (Y/N)입력을 한번 잘못한 상황
     // Given
     String input = """
             title

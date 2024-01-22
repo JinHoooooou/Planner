@@ -32,7 +32,7 @@ public class MainView extends AbstractView {
 
   private void execute() {
     if (menu == CREATE) {
-      subView = new CreateView(timerController, scanner);
+      new CreateView(timerController, scanner).main();
     } else if (menu == 2) {
 //        this.viewOfReadTimer();
     } else if (menu == 3) {
