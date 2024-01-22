@@ -26,7 +26,6 @@ public class CreateView extends AbstractView {
   public CreateView(TimerController controller, final Scanner scanner) {
     this.timerController = controller;
     this.scanner = scanner;
-    main();
   }
 
   @Override

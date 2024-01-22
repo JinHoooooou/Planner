@@ -1,56 +1,50 @@
 package test.view.timer;
 
+import main.com.kh.controller.TimerController;
+import main.com.kh.view.timer.CreateView;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
+import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static test.constant.Constant.*;
 
 public class CreateViewTest extends MainViewTest {
+
+  private CreateView createView;
+
+  public void setInput(String input) {
+    super.setUp();
+    super.setInput(input);
+    createView = new CreateView(new TimerController(), new Scanner(System.in));
+  }
+
   @Test
   public void createViewCase1Test() {
+    // Given
     String input = """
-            1
             title
             N
             9
             """;
-    in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
+    setInput(input);
 
-    mainView.main();
-    String result = out.toString();
+    // When
+    createView.main();
+    String actual = out.toString();
 
-    String expected = """
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r
-            ======= TIMER 생성 =======\r
-            Title 입력: \r
-            Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): \r
-            새 타이머를 생성하였습니다.\r
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r                   
-            """;
-
-    assertThat(result).isEqualTo(expected);
+    // Then
+    String expected = CREATE_TITLE + LINE +
+            CREATE_INPUT_TITLE + LINE +
+            CREATE_INPUT_DEFAULT + LINE +
+            CREATE_RESULT_SUCCESS + LINE;
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
   public void createViewCase2Test() {
+    // Given
     String input = """
-            1
             title
             Y
             0
@@ -58,88 +52,53 @@ public class CreateViewTest extends MainViewTest {
             0
             9
             """;
-    in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
+    setInput(input);
 
-    mainView.main();
-    String result = out.toString();
+    // When
+    createView.main();
+    String actual = out.toString();
 
-    String expected = """
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r
-            ======= TIMER 생성 =======\r
-            Title 입력: \r
-            Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): \r
-            Hour: \r
-            Minute: \r
-            Second: \r
-            새 타이머를 생성하였습니다.\r
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r                   
-            """;
-
-    assertThat(result).isEqualTo(expected);
+    //Then
+    String expected =
+            CREATE_TITLE + LINE +
+                    CREATE_INPUT_TITLE + LINE +
+                    CREATE_INPUT_DEFAULT + LINE +
+                    CREATE_INPUT_HOUR + LINE +
+                    CREATE_INPUT_MINUTE + LINE +
+                    CREATE_INPUT_SECOND + LINE +
+                    CREATE_RESULT_SUCCESS + LINE;
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
   public void createViewCase3Test() {
+    // Given
     String input = """
-            1
             title
             INVALID_INPUT
             N
             9
             """;
-    in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
+    setInput(input);
 
-    mainView.main();
-    String result = out.toString();
+    // When
+    createView.main();
+    String actual = out.toString();
 
-    String expected = """
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r
-            ======= TIMER 생성 =======\r
-            Title 입력: \r
-            Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): \r
-            잘못 입력하였습니다. 다시 입력해주세요.\r
-            Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): \r
-            새 타이머를 생성하였습니다.\r
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r                   
-            """;
-
-    assertThat(result).isEqualTo(expected);
+    // Then
+    String expected = CREATE_TITLE + LINE +
+            CREATE_INPUT_TITLE + LINE +
+            CREATE_INPUT_DEFAULT + LINE +
+            CREATE_INPUT_DEFAULT_ERROR + LINE +
+            CREATE_INPUT_DEFAULT + LINE +
+            CREATE_RESULT_SUCCESS + LINE;
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
   public void createViewCase4Test() {
+    // Given
     String input = """
-            1
             title
             INVALID_INPUT
             Y
@@ -148,42 +107,22 @@ public class CreateViewTest extends MainViewTest {
             0
             9
             """;
-    in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
+    setInput(input);
 
-    mainView.main();
-    String result = out.toString();
+    // When
+    createView.main();
+    String actual = out.toString();
 
-    String expected = """
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r
-            ======= TIMER 생성 =======\r
-            Title 입력: \r
-            Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): \r
-            잘못 입력하였습니다. 다시 입력해주세요.\r
-            Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): \r
-            Hour: \r
-            Minute: \r
-            Second: \r
-            새 타이머를 생성하였습니다.\r
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r                   
-            """;
-
-    assertThat(result).isEqualTo(expected);
+    // Then
+    String expected = CREATE_TITLE + LINE +
+            CREATE_INPUT_TITLE + LINE +
+            CREATE_INPUT_DEFAULT + LINE +
+            CREATE_INPUT_DEFAULT_ERROR + LINE +
+            CREATE_INPUT_DEFAULT + LINE +
+            CREATE_INPUT_HOUR + LINE +
+            CREATE_INPUT_MINUTE + LINE +
+            CREATE_INPUT_SECOND + LINE +
+            CREATE_RESULT_SUCCESS + LINE;
+    assertThat(actual).isEqualTo(expected);
   }
-
-
 }

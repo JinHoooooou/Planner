@@ -10,19 +10,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static test.constant.Constant.*;
 
 class MainViewTest {
 
   protected ByteArrayInputStream in;
   protected ByteArrayOutputStream out;
-  protected MainView mainView;
-
+  private MainView mainView;
 
   @BeforeEach
   public void setUp() {
-    mainView = new MainView();
     out = new ByteArrayOutputStream();
     System.setOut(new PrintStream(out));
+    mainView = new MainView();
+  }
+
+  public void setInput(String input) {
+    in = new ByteArrayInputStream(input.getBytes());
+    System.setIn(in);
+
   }
 
   @AfterEach
@@ -31,28 +37,31 @@ class MainViewTest {
     System.setIn(System.in);
   }
 
+  public String mainView() {
+    return MAIN_TITLE + LINE +
+            MAIN_CREATE + LINE +
+            MAIN_START + LINE +
+            MAIN_READ_ALL + LINE +
+            MAIN_UPDATE + LINE +
+            MAIN_DELETE + LINE +
+            MAIN_EXIT + LINE +
+            MAIN_INPUT_MENU + LINE;
+  }
+
   @Test
   public void mainViewTest() {
+    // Given
     String input = """
             9
             """;
-    in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
+    setInput(input);
 
+    // When
     mainView.main();
-    String result = out.toString();
+    String actual = out.toString();
 
-    String expected = """
-            ======= MINI TIMER APP =======\r
-            1. Timer 생성\r
-            2. Timer 시작\r
-            3. Timer 보기\r
-            4. Timer 수정\r
-            5. Timer 삭제\r
-            9. 프로그램 종료\r
-            메뉴 번호 선택: \r
-            """;
-
-    assertThat(result).isEqualTo(expected);
+    // Then
+    String expected = mainView();
+    assertThat(actual).isEqualTo(expected);
   }
 }
