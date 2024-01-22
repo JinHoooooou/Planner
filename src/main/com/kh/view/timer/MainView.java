@@ -56,10 +56,4 @@ public class MainView extends AbstractView {
     System.out.println("9. 프로그램 종료");
     System.out.print("메뉴 번호 선택: ");
   }
-
-
-  @Override
-  public void input() {
-
-  }
 }

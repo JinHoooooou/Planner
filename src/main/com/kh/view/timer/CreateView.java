@@ -78,9 +78,4 @@ public class CreateView extends AbstractView {
   private void print(boolean result) {
     System.out.println(result ? "새 타이머를 생성하였습니다." : "새 타이머 생성에 실패하였습니다. 다시 입력해주세요");
   }
-
-  @Override
-  public void input() {
-
-  }
 }

@@ -13,8 +13,4 @@ public abstract class AbstractView {
   }
 
   public abstract void main();
-
-
-  public abstract void input();
-
 }
