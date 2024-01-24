@@ -28,7 +28,7 @@ public class ReadOneView extends AbstractView {
     List<Timer> timerList = timerController.getTimerList();
     while (true) {
       System.out.printf("시작할 Timer Id를 입력하세요: (0~%d)", timerList.size() - 1);
-      int result = Integer.parseInt(scanner.next());
+      int result = Integer.parseInt(scanner.nextLine());
       System.out.println();
 
       if (result >= 0 && result < timerList.size()) {

@@ -42,14 +42,14 @@ public class CreateView extends AbstractView {
 
   private void inputTitle() {
     System.out.print("Title 입력: ");
-    title = scanner.next();
+    title = scanner.nextLine();
     System.out.println();
   }
 
   private void inputDetailTimerSetting() {
     while (true) {
       System.out.print("Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): ");
-      Boolean isUserInput = userInput.get(scanner.next());
+      Boolean isUserInput = userInput.get(scanner.nextLine());
       System.out.println();
 
       if (isUserInput != null) {
@@ -69,7 +69,7 @@ public class CreateView extends AbstractView {
     }
 
     System.out.print(type + ": ");
-    int result = Integer.parseInt(scanner.next());
+    int result = Integer.parseInt(scanner.nextLine());
     System.out.println();
     return result;
   }

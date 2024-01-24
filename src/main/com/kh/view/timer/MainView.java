@@ -23,7 +23,7 @@ public class MainView extends AbstractView {
     scanner = new Scanner(System.in);
     while (menu != 9) {
       printMain();
-      menu = Integer.parseInt(scanner.next());
+      menu = Integer.parseInt(scanner.nextLine());
       System.out.println();
       execute();
     }
