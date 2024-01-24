@@ -12,7 +12,7 @@ public class ReadAllView extends AbstractView {
   @Override
   public void main() {
     System.out.println("======= 모든 Timer 보기 =======");
-    if (timerController.getTimerList().isEmpty()) {
+    if (timerController.isEmpty()) {
       System.out.println("저장된 Timer가 없습니다.");
     }
     for (Timer timer : timerController.getTimerList()) {

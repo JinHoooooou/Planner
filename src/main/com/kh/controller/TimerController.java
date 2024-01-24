@@ -18,6 +18,21 @@ public class TimerController {
     return true;
   }
 
+  public Timer getTimer(int index) {
+    if(index < 0 || index >= size()) {
+      throw new IndexOutOfBoundsException();
+    }
+    return timerList.get(index);
+  }
+
+  public int size() {
+    return timerList.size();
+  }
+
+  public boolean isEmpty() {
+    return timerList.isEmpty();
+  }
+
   public List<Timer> getTimerList() {
     return timerList;
   }
