@@ -19,10 +19,19 @@ public class TimerController {
   }
 
   public Timer getTimer(int index) {
-    if(index < 0 || index >= size()) {
+    if (index < 0 || index >= size()) {
       throw new IndexOutOfBoundsException();
     }
     return timerList.get(index);
+  }
+  public boolean updateTimer(int index, String updatedTitle, int hour, int minute, int second) {
+    Timer original = getTimer(index);
+    original.setTitle(updatedTitle);
+    original.setHours(hour);
+    original.setMinutes(minute);
+    original.setSeconds(second);
+
+    return true;
   }
 
   public int size() {

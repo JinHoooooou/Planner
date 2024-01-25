@@ -24,5 +24,15 @@ public interface Constant {
   String READ_ALL_TITLE = "======= 모든 Timer 보기 =======";
   String READ_ONE_INPUT_INDEX = "시작할 Timer Id를 입력하세요: (0~%d)";
   String READ_ONE_INPUT_INDEX_ERROR = "Index를 잘못 입력하였습니다. 다시 입력해주세요.";
-  String READ_LIST_EMPTY = "저장된 Timer가 없습니다.";
+  String READ_EMPTY = "저장된 Timer가 없습니다.";
+
+  String UPDATE_TITLE = "======= TIMER 수정 =======";
+  String UPDATE_EMPTY = "저장된 Timer가 없습니다.";
+  String UPDATE_INPUT_INDEX = "수정할 Timer Id를 입력하세요: (0~%d)";
+  String UPDATE_INPUT_NEW_TITLE = "수정할 Title 입력: ";
+  String UPDATE_INPUT_HOUR = "수정할 Hour 입력: ";
+  String UPDATE_INPUT_MINUTE = "수정할 Minute 입력: ";
+  String UPDATE_INPUT_SECOND = "수정할 Second 입력: ";
+  String UPDATE_RESULT_SUCCESS = "타이머를 수정하였습니다.";
+
 }
