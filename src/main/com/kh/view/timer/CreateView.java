@@ -53,9 +53,9 @@ public class CreateView extends AbstractView {
       System.out.println();
 
       if (isUserInput != null) {
-        hour = inputTime("Hour", isUserInput);
-        minute = inputTime("Minute", isUserInput);
-        second = inputTime("Second", isUserInput);
+        hour = setTimer("Hour", isUserInput);
+        minute = setTimer("Minute", isUserInput);
+        second = setTimer("Second", isUserInput);
         break;
       }
 
@@ -63,12 +63,12 @@ public class CreateView extends AbstractView {
     }
   }
 
-  private int inputTime(String type, Boolean isUserInput) {
+  private int setTimer(String type, Boolean isUserInput) {
     if (!isUserInput) {
       return defaultTimes.get(type);
     }
 
-    System.out.print(type + ": ");
+    System.out.print(type + " 입력: ");
     int result = Integer.parseInt(scanner.nextLine());
     System.out.println();
     return result;

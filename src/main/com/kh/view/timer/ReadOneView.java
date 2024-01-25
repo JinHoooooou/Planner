@@ -3,7 +3,6 @@ package main.com.kh.view.timer;
 import main.com.kh.controller.TimerController;
 import main.com.kh.model.vo.Timer;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class ReadOneView extends AbstractView {

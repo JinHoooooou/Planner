@@ -14,9 +14,9 @@ public interface Constant {
   String CREATE_TITLE = "======= TIMER 생성 =======";
   String CREATE_INPUT_TITLE = "Title 입력: ";
   String CREATE_INPUT_DEFAULT = "Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): ";
-  String CREATE_INPUT_HOUR = "Hour: ";
-  String CREATE_INPUT_MINUTE = "Minute: ";
-  String CREATE_INPUT_SECOND = "Second: ";
+  String CREATE_INPUT_HOUR = "Hour 입력: ";
+  String CREATE_INPUT_MINUTE = "Minute 입력: ";
+  String CREATE_INPUT_SECOND = "Second 입력: ";
   String CREATE_RESULT_SUCCESS = "새 타이머를 생성하였습니다.";
   String CREATE_INPUT_DEFAULT_ERROR = "잘못 입력하였습니다. 다시 입력해주세요.";
 

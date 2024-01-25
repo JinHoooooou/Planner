@@ -83,7 +83,7 @@ public class ReadOneViewTest extends MainViewTest {
 
     // Then
     String expected = READ_ONE_TITLE + LINE +
-            READ_LIST_EMPTY + LINE;
+            READ_EMPTY + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 }

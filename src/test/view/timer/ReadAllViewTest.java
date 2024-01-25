@@ -54,7 +54,7 @@ public class ReadAllViewTest extends MainViewTest {
 
     // Then
     String expected = READ_ALL_TITLE + LINE +
-            READ_LIST_EMPTY + LINE;
+            READ_EMPTY + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
