@@ -29,7 +29,7 @@ public class CreateView extends AbstractView {
   }
 
   @Override
-  public void main() {
+  public void execute() {
     System.out.println("======= TIMER 생성 =======");
     inputTimerSetting();
     print(timerController.createTimer(title, hour, minute, second));

@@ -16,7 +16,7 @@ public class UpdateView extends AbstractView {
   }
 
   @Override
-  public void main() {
+  public void execute() {
     System.out.println("======= TIMER 수정 =======");
     if (timerController.isEmpty()) {
       System.out.println("저장된 Timer가 없습니다.");

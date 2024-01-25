@@ -14,22 +14,19 @@ public class MainView extends AbstractView {
   }
 
   @Override
-  public void main() {
+  public void execute() {
     scanner = new Scanner(System.in);
     while (menu != 9) {
       printMain();
-      menu = Integer.parseInt(scanner.nextLine());
-      System.out.println();
-      execute();
+      inputSubMenu();
+      subView.execute();
     }
   }
 
-  private void execute() {
-    if (menu == 9) {
-      return;
-    }
+  private void inputSubMenu() {
+    menu = Integer.parseInt(scanner.nextLine());
+    System.out.println();
     subView = AbstractView.subView(menu, timerController, scanner);
-    subView.main();
   }
 
   public void printMain() {

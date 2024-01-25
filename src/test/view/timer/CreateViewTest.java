@@ -31,7 +31,7 @@ public class CreateViewTest extends MainViewTest {
     setInput(input);
 
     // When
-    createView.main();
+    createView.execute();
     String actual = out.toString();
 
     // Then
@@ -58,7 +58,7 @@ public class CreateViewTest extends MainViewTest {
     setInput(input);
 
     // When
-    createView.main();
+    createView.execute();
     String actual = out.toString();
 
     //Then
@@ -87,7 +87,7 @@ public class CreateViewTest extends MainViewTest {
     setInput(input);
 
     // When
-    createView.main();
+    createView.execute();
     String actual = out.toString();
 
     // Then
@@ -117,7 +117,7 @@ public class CreateViewTest extends MainViewTest {
     setInput(input);
 
     // When
-    createView.main();
+    createView.execute();
     String actual = out.toString();
 
     // Then

@@ -31,7 +31,7 @@ public class ReadAllViewTest extends MainViewTest {
     List<Timer> timerList = setDataInList(10);
 
     // When
-    readAllView.main();
+    readAllView.execute();
     String actual = out.toString();
 
     // Then
@@ -49,7 +49,7 @@ public class ReadAllViewTest extends MainViewTest {
     setInput();
 
     // When
-    readAllView.main();
+    readAllView.execute();
     String actual = out.toString();
 
     // Then

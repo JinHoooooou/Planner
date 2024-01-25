@@ -47,7 +47,7 @@ class MainViewTest {
     setInput(input);
 
     // When
-    mainView.main();
+    mainView.execute();
     String actual = out.toString();
 
     // Then

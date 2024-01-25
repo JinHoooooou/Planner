@@ -27,7 +27,7 @@ class UpdateViewTest extends MainViewTest {
             """;
     setInput(input);
 
-    updateView.main();
+    updateView.execute();
     String actual = out.toString();
 
     String expected = UPDATE_TITLE + LINE +
@@ -54,7 +54,7 @@ class UpdateViewTest extends MainViewTest {
     setInput(input);
     setDataInList(10);
 
-    updateView.main();
+    updateView.execute();
     String actual = out.toString();
 
     String expected = UPDATE_TITLE + LINE +

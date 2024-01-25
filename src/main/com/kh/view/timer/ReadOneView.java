@@ -13,7 +13,7 @@ public class ReadOneView extends AbstractView {
   }
 
   @Override
-  public void main() {
+  public void execute() {
     System.out.println("======= TIMER 시작 =======");
     if (timerController.isEmpty()) {
       System.out.println("저장된 Timer가 없습니다.");
