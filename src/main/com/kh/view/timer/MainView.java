@@ -4,14 +4,9 @@ import java.util.Scanner;
 
 public class MainView extends AbstractView {
 
-  private static final int CREATE = 1;
-  private static final int START = 2;
-  private static final int READ_ALL = 3;
-  private static final int UPDATE = 4;
-  private static final int DELETE = 5;
-  private static final int EXIT = 9;
   private static final int DEFAULT = -1;
   private int menu;
+  private AbstractView subView;
 
   public MainView() {
     super();
@@ -30,21 +25,11 @@ public class MainView extends AbstractView {
   }
 
   private void execute() {
-    if (menu == CREATE) {
-      new CreateView(timerController, scanner).main();
-    } else if (menu == 2) {
-      new ReadOneView(timerController, scanner).main();
-    } else if (menu == 3) {
-      new ReadAllView(timerController).main();
-    } else if (menu == 4) {
-//        this.viewOfUpdateTimer();
-    } else if (menu == 5) {
-//        this.viewOfDeleteTimer();
-    } else if (menu == 9) {
-//        this.viewOfExit();
-    } else {
-//        this.viewOfError();
+    if (menu == 9) {
+      return;
     }
+    subView = AbstractView.subView(menu, timerController, scanner);
+    subView.main();
   }
 
   public void printMain() {
