@@ -19,7 +19,7 @@ public class ReadOneView extends AbstractView {
       System.out.println("저장된 Timer가 없습니다.");
       return;
     }
-    Timer timer = timerController.getTimer(inputIndex());
+    Timer timer = timerController.readOne(inputIndex());
     print(timer);
   }
 

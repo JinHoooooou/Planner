@@ -35,15 +35,16 @@ public class TimerController {
             && (second >= 0 && second < 60);
   }
 
-  public Timer getTimer(int index) {
-    if (index < 0 || index >= size()) {
-      throw new IndexOutOfBoundsException();
-    }
+  public Timer readOne(int index) {
     return timerList.get(index);
   }
 
+  public List<Timer> readAll() {
+    return timerList;
+  }
+
   public boolean updateTimer(int index, String updatedTitle, int hour, int minute, int second) {
-    Timer original = getTimer(index);
+    Timer original = readOne(index);
     original.setTitle(updatedTitle);
     original.setHours(hour);
     original.setMinutes(minute);

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TimerControllerTest {
+public class CreateTest {
 
   private TimerController timerController;
 
@@ -33,7 +33,7 @@ public class TimerControllerTest {
     // And: 저장된 Timer는 1개이다.
     assertThat(timerController.size()).isEqualTo(1);
     // And: 저장된 데이터의 title은 "valid title 0"이다.
-    Timer actualTimer = timerController.getTimer(0);
+    Timer actualTimer = timerController.readOne(0);
     assertThat(actualTimer.getTitle()).isEqualTo(validTitle);
     // And: 저장된 데이터의 hour은 0, minute는 20, second는 0이다.
     assertThat(actualTimer.getHours()).isEqualTo(0);
@@ -62,7 +62,7 @@ public class TimerControllerTest {
     // And: 저장된 Timer는 1개이다.
     assertThat(timerController.size()).isEqualTo(1);
     // And: 저장된 데이터의 title은 "valid title 0"이다.
-    Timer actualTimer = timerController.getTimer(0);
+    Timer actualTimer = timerController.readOne(0);
     assertThat(actualTimer.getTitle()).isEqualTo(validTitle);
     // And: 저장된 데이터의 hour은 1, minute는 2, second는 3이다.
     assertThat(actualTimer.getHours()).isEqualTo(validHour);
