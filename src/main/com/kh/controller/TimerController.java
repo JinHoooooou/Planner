@@ -43,9 +43,16 @@ public class TimerController {
     return timerList;
   }
 
-  public boolean updateTimer(int index, String updatedTitle, int hour, int minute, int second) {
+  public boolean update(int index, String title) {
+    return update(index, title, DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
+  }
+
+  public boolean update(int index, String title, int hour, int minute, int second) {
     Timer original = readOne(index);
-    original.setTitle(updatedTitle);
+    if (!isValid(title, hour, minute, second)) {
+      return false;
+    }
+    original.setTitle(title);
     original.setHours(hour);
     original.setMinutes(minute);
     original.setSeconds(second);

@@ -35,7 +35,7 @@ public class UpdateView extends AbstractView {
     hour = inputTime("Hour");
     minute = inputTime("Minute");
     second = inputTime("Second");
-    return timerController.updateTimer(index, updatedTitle, hour, minute, second);
+    return timerController.update(index, updatedTitle, hour, minute, second);
   }
 
   private int inputTime(String type) {
