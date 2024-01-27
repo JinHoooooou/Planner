@@ -20,12 +20,11 @@ public class UpdateTest {
   @BeforeEach
   public void setUp() {
     timerController = new TimerController();
-    originals = setOriginals(10);
+    setOriginals(10);
   }
 
-  private List<Timer> setOriginals(int count) {
+  private void setOriginals(int count) {
     originals = new ArrayList<>();
-    List<Timer> list = new ArrayList<>();
     Random random = new Random();
     for (int i = 0; i < count; i++) {
       String title = "title" + i;
@@ -33,10 +32,8 @@ public class UpdateTest {
       int minute = random.nextInt(0, 60);
       int second = random.nextInt(0, 60);
 
-      list.add(Timer.create(title, hour, minute, second));
+      originals.add(Timer.create(title, hour, minute, second));
     }
-
-    return list;
   }
 
   @Test
