@@ -75,4 +75,9 @@ public class TimerController {
   public void setTimerList(List<Timer> list) {
     this.timerList = list;
   }
+
+  public boolean delete(int index) {
+    timerList.remove(index);
+    return true;
+  }
 }
