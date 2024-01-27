@@ -30,7 +30,7 @@ public class TimerController {
     if (title.isEmpty()) {
       return false;
     }
-    return (hour >= 0 && hour < 13)
+    return (hour >= 0 && hour < 12)
             && (minute >= 0 && minute < 60)
             && (second >= 0 && second < 60);
   }

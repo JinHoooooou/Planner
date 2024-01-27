@@ -36,7 +36,7 @@ public class ReadTest {
     // Then : actual의 title은 "title0"이다.
     assertThat(actual.getTitle()).isEqualTo("title0");
     // And: actual의 hour/minute/second값은 모두 valid하다.
-    assertThat(actual.getHours()).isBetween(0, 12);
+    assertThat(actual.getHours()).isBetween(0, 11);
     assertThat(actual.getMinutes()).isBetween(0, 59);
     assertThat(actual.getSeconds()).isBetween(0, 59);
   }
@@ -105,7 +105,7 @@ public class ReadTest {
     Random random = new Random();
     for (int i = 0; i < count; i++) {
       timerController.create("title" + i,
-              random.nextInt(0, 10),
+              random.nextInt(0, 12),
               random.nextInt(0, 60),
               random.nextInt(0, 60));
     }

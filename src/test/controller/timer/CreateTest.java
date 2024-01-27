@@ -17,7 +17,7 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerSuccessTest1() {
+  public void createSuccessTest1() {
     // Valid한 title이 주어지고 Hour/Minute/Second는 주어지지 않을 때 create에 성공한다.
 
     // Given: valid한 title이 주어지고 시간은 주어지지 않는다.
@@ -42,7 +42,7 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerSuccessTest2() {
+  public void createSuccessTest2() {
     // Valid한 title이 주어지고 Valid한 Hour/Minute/Second는 주어졌을 때 create에 성공한다.
 
     // Given: valid한 title이 주어지고
@@ -71,7 +71,7 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerFailTest1() {
+  public void createFail1() {
     // Invalid한 title이 주어지고 시간은 주어지지 않을 때 create에 실패한다.
 
     // Given: invalid한 title이 주어진다. (Empty String)
@@ -89,15 +89,15 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerFailTest2() {
+  public void createFail2() {
     // Invalid한 title이 주어지고 Valid한 Hour/Minute/Second는 주어졌을 때 create에 실패한다.
 
     // Given: invalid한 title이 주어지고 (Empty String)
     String invalidTitle = "";
     // And: valid한 hour/minute/second가 주어진다.
-    int validHour = 1;
-    int validMinute = 2;
-    int validSecond = 3;
+    int validHour = 11;
+    int validMinute = 59;
+    int validSecond = 59;
     // And: 저장되어 있는 Timer객체는 없다.
     assert timerController.isEmpty();
 
@@ -111,7 +111,7 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerFailTest3() {
+  public void createFail3() {
     // Valid한 title, minute, second가 주어지고 Invalid한 hour가 주어졌을 때 create에 실패한다.
 
     // Given: valid한 title, minute, second가 주어지고
@@ -119,7 +119,7 @@ public class CreateTest {
     int validMinute = 59;
     int validSecond = 59;
     // And: invalid한 hour가 주어진다.
-    int invalidHour = 13;
+    int invalidHour = 12;
     // And: 저장되어 있는 Timer객체는 없다.
     assert timerController.isEmpty();
 
@@ -133,12 +133,12 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerFailTest4() {
+  public void createFail4() {
     // Valid한 title, hour, second가 주어지고 Invalid한 minute이 주어졌을 때 create에 실패한다.
 
     // Given: valid한 title, hour, second가 주어지고
     String validTitle = "valid title 4";
-    int validHour = 12;
+    int validHour = 11;
     int validSecond = 59;
     // And: invalid한 minute이 주어진다.
     int invalidMinute = 60;
@@ -155,12 +155,12 @@ public class CreateTest {
   }
 
   @Test
-  public void createTimerFailTest5() {
+  public void createFail5() {
     // Valid한 title, hour, minute이 주어지고 Invalid한 second가 주어졌을 때 create에 실패한다.
 
     // Given: valid한 title, hour, minute이 주어지고
     String validTitle = "valid title 4";
-    int validHour = 0;
+    int validHour = 11;
     int validMinute = 59;
     // And: invalid한 second가 주어진다.
     int invalidSecond = 60;
