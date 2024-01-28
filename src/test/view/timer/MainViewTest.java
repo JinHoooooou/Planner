@@ -15,20 +15,36 @@ import java.util.List;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static test.constant.Constant.*;
+import static main.com.kh.view.timer.constant.Constant.*;
 
 class MainViewTest {
   protected ByteArrayInputStream in;
   protected ByteArrayOutputStream out;
   protected TimerController timerController;
+  protected List<Timer> originals;
+
   private MainView mainView;
 
   @BeforeEach
   public void setUp() {
     timerController = new TimerController();
+    setOriginals(10);
     out = new ByteArrayOutputStream();
     System.setOut(new PrintStream(out));
     mainView = new MainView();
+  }
+
+  private void setOriginals(int count) {
+    originals = new ArrayList<>();
+    Random random = new Random();
+    for (int i = 0; i < count; i++) {
+      String title = "title" + i;
+      int hour = random.nextInt(0, 12);
+      int minute = random.nextInt(0, 60);
+      int second = random.nextInt(0, 60);
+
+      originals.add(Timer.create(title, hour, minute, second));
+    }
   }
 
   @AfterEach
@@ -61,26 +77,23 @@ class MainViewTest {
   }
 
   public String mainView() {
-    return MAIN_TITLE + LINE +
+    return MAIN_HEAD + LINE +
             MAIN_CREATE + LINE +
-            MAIN_START + LINE +
+            MAIN_READ_ONE + LINE +
             MAIN_READ_ALL + LINE +
             MAIN_UPDATE + LINE +
             MAIN_DELETE + LINE +
             MAIN_EXIT + LINE +
-            MAIN_INPUT_MENU + LINE;
+            MAIN_INPUT_MENU + LINE +
+            EXIT_APP + LINE;
   }
 
-  public List<Timer> setDataInList(int count) {
-    List<Timer> list = new ArrayList<>();
-    Random random = new Random();
-    for (int i = 0; i < count; i++) {
-      list.add(Timer.create("title" + i,
-              random.nextInt(0, 10),
-              random.nextInt(0, 60),
-              random.nextInt(0, 60)));
+  public void addMockData(List<Timer> originals) {
+    for (Timer target : originals) {
+      timerController.create(target.getTitle(),
+              target.getHours(),
+              target.getMinutes(),
+              target.getSeconds());
     }
-    timerController.setTimerList(list);
-    return list;
   }
 }

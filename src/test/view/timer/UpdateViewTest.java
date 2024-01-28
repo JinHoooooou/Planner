@@ -1,12 +1,15 @@
 package test.view.timer;
 
+import main.com.kh.model.vo.Timer;
 import main.com.kh.view.timer.UpdateView;
+import main.com.kh.view.timer.constant.Constant;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static test.constant.Constant.*;
+import static main.com.kh.view.timer.constant.Constant.*;
 
 class UpdateViewTest extends MainViewTest {
 
@@ -30,8 +33,8 @@ class UpdateViewTest extends MainViewTest {
     updateView.execute();
     String actual = out.toString();
 
-    String expected = UPDATE_TITLE + LINE +
-            UPDATE_EMPTY + LINE;
+    String expected = UPDATE_HEAD + LINE +
+            Constant.EMPTY + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -47,23 +50,25 @@ class UpdateViewTest extends MainViewTest {
     String input = """
             2
             Updated Title 2
+            Y
             0
             20
             0
             """;
     setInput(input);
-    setDataInList(10);
+    addMockData(originals);
 
     updateView.execute();
     String actual = out.toString();
 
-    String expected = UPDATE_TITLE + LINE +
-            String.format(UPDATE_INPUT_INDEX,timerController.size()-1) + LINE +
-            UPDATE_INPUT_NEW_TITLE + LINE +
+    String expected = UPDATE_HEAD + LINE +
+            INPUT_INDEX + LINE +
+            UPDATE_INPUT_TITLE + LINE +
+            UPDATE_ASK_USER_INPUT_TIME + LINE +
             UPDATE_INPUT_HOUR + LINE +
             UPDATE_INPUT_MINUTE + LINE +
             UPDATE_INPUT_SECOND + LINE +
-            UPDATE_RESULT_SUCCESS + LINE;
+            String.format(UPDATE_RESULT_SUCCESS_FORMAT, originals.get(2), timerController.readOne(2)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 }

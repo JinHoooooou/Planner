@@ -17,11 +17,22 @@ public class Timer {
     return new Timer(title, hour, minute, second);
   }
 
+  public static Timer copy(Timer original) {
+    return new Timer(original);
+  }
+
   private Timer(String title, int hours, int minutes, int seconds) {
     this.title = title;
     this.hours = hours;
     this.minutes = minutes;
     this.seconds = seconds;
+  }
+
+  private Timer(Timer original) {
+    this.title = original.getTitle();
+    this.hours = original.getHours();
+    this.minutes = original.getMinutes();
+    this.seconds = original.getSeconds();
   }
 
 
@@ -59,6 +70,6 @@ public class Timer {
 
   @Override
   public String toString() {
-    return String.format("Title: %s (%d:%d:%d)", title, hours, minutes, seconds);
+    return String.format("%s (%02d:%02d:%02d)", title, hours, minutes, seconds);
   }
 }

@@ -3,6 +3,9 @@ package main.com.kh.view.timer;
 import main.com.kh.controller.TimerController;
 import main.com.kh.model.vo.Timer;
 
+import static main.com.kh.view.timer.constant.Constant.READ_ALL_HEAD;
+import static main.com.kh.view.timer.constant.Constant.EMPTY;
+
 public class ReadAllView extends AbstractView {
 
   public ReadAllView(TimerController timerController) {
@@ -11,9 +14,9 @@ public class ReadAllView extends AbstractView {
 
   @Override
   public void execute() {
-    System.out.println("======= 모든 Timer 보기 =======");
+    System.out.println(READ_ALL_HEAD);
     if (timerController.isEmpty()) {
-      System.out.println("저장된 Timer가 없습니다.");
+      System.out.println(EMPTY);
     }
     for (Timer timer : timerController.getTimerList()) {
       System.out.println(timer);

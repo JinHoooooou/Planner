@@ -2,8 +2,11 @@ package main.com.kh.view.timer;
 
 import main.com.kh.controller.TimerController;
 import main.com.kh.model.vo.Timer;
+import main.com.kh.view.timer.constant.Constant;
 
 import java.util.Scanner;
+
+import static main.com.kh.view.timer.constant.Constant.*;
 
 public class ReadOneView extends AbstractView {
 
@@ -14,9 +17,9 @@ public class ReadOneView extends AbstractView {
 
   @Override
   public void execute() {
-    System.out.println("======= TIMER 시작 =======");
+    System.out.println(READ_ONE_HEAD);
     if (timerController.isEmpty()) {
-      System.out.println("저장된 Timer가 없습니다.");
+      System.out.println(Constant.EMPTY);
       return;
     }
     Timer timer = timerController.readOne(inputIndex());
@@ -25,14 +28,14 @@ public class ReadOneView extends AbstractView {
 
   private int inputIndex() {
     while (true) {
-      System.out.printf("시작할 Timer Id를 입력하세요: (0~%d)", timerController.size() - 1);
+      System.out.print(Constant.INPUT_INDEX);
       int result = Integer.parseInt(scanner.nextLine());
       System.out.println();
 
       if (result >= 0 && result < timerController.size()) {
         return result;
       }
-      System.out.println("Index를 잘못 입력하였습니다. 다시 입력해주세요.");
+      System.out.println(Constant.INPUT_ERROR);
     }
   }
 

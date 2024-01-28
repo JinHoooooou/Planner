@@ -1,11 +1,17 @@
 package main.com.kh.view.timer;
 
 import main.com.kh.controller.TimerController;
+import main.com.kh.model.vo.Timer;
 
 import java.util.Scanner;
 
+import static main.com.kh.view.timer.constant.Constant.*;
+
 public class UpdateView extends AbstractView {
 
+  private Timer original;
+  private int index;
+  private String updatedTitle;
   private int hour;
   private int minute;
   private int second;
@@ -17,48 +23,77 @@ public class UpdateView extends AbstractView {
 
   @Override
   public void execute() {
-    System.out.println("======= TIMER 수정 =======");
+    System.out.println(UPDATE_HEAD);
     if (timerController.isEmpty()) {
-      System.out.println("저장된 Timer가 없습니다.");
+      System.out.println(EMPTY);
       return;
     }
+    inputIndex();
+    inputTitle();
+    setTime();
+    boolean result = timerController.update(index, updatedTitle, hour, minute, second);
 
-    int originalIndex = inputIndex();
-    print(updateTimer(originalIndex));
+    print(result);
   }
 
-  private boolean updateTimer(int index) {
-    System.out.print("수정할 Title 입력: ");
-    String updatedTitle = scanner.nextLine();
-    System.out.println();
-
-    hour = inputTime("Hour");
-    minute = inputTime("Minute");
-    second = inputTime("Second");
-    return timerController.update(index, updatedTitle, hour, minute, second);
-  }
-
-  private int inputTime(String type) {
-    System.out.print("수정할 " + type + " 입력: ");
-    int result = Integer.parseInt(scanner.nextLine());
-    System.out.println();
-    return result;
-  }
-
-  private int inputIndex() {
+  private boolean isTimeUserInput() {
     while (true) {
-      System.out.printf("수정할 Timer Id를 입력하세요: (0~%d)", timerController.size() - 1);
-      int result = Integer.parseInt(scanner.nextLine());
+      System.out.print(UPDATE_ASK_USER_INPUT_TIME);
+      String isUserInput = scanner.nextLine();
       System.out.println();
 
-      if (result >= 0 && result < timerController.size()) {
-        return result;
+      if (isUserInput.equals("Y")) {
+        return true;
+      } else if (isUserInput.equals("N")) {
+        return false;
       }
-      System.out.println("Index를 잘못 입력하였습니다. 다시 입력해주세요.");
+      System.out.println(INPUT_ERROR);
+    }
+  }
+
+  private void setTime() {
+    original = Timer.copy(timerController.readOne(index));
+    if (isTimeUserInput()) {
+      System.out.print(UPDATE_INPUT_HOUR);
+      hour = Integer.parseInt(scanner.nextLine());
+      System.out.println();
+
+      System.out.print(UPDATE_INPUT_MINUTE);
+      minute = Integer.parseInt(scanner.nextLine());
+      System.out.println();
+
+      System.out.print(UPDATE_INPUT_SECOND);
+      second = Integer.parseInt(scanner.nextLine());
+      System.out.println();
+    } else {
+      hour = original.getHours();
+      minute = original.getMinutes();
+      second = original.getSeconds();
+    }
+  }
+
+  private void inputTitle() {
+    System.out.print(UPDATE_INPUT_TITLE);
+    updatedTitle = scanner.nextLine();
+    System.out.println();
+  }
+
+  private void inputIndex() {
+    while (true) {
+      System.out.print(INPUT_INDEX);
+      index = Integer.parseInt(scanner.nextLine());
+      System.out.println();
+
+      if (index >= 0 && index < timerController.size()) {
+        return;
+      }
+      System.out.println(INPUT_ERROR);
     }
   }
 
   private void print(boolean result) {
-    System.out.println(result ? "타이머를 수정하였습니다." : "타이머 수정을 실패하였습니다.");
+    System.out.println(result ?
+            String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, timerController.readOne(index)) :
+            UPDATE_RESULT_FAIL);
   }
 }

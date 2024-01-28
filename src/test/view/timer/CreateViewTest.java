@@ -1,12 +1,13 @@
 package test.view.timer;
 
 import main.com.kh.view.timer.CreateView;
+import main.com.kh.view.timer.constant.Constant;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static test.constant.Constant.*;
+import static main.com.kh.view.timer.constant.Constant.*;
 
 public class CreateViewTest extends MainViewTest {
 
@@ -23,22 +24,24 @@ public class CreateViewTest extends MainViewTest {
     // Case: Timer title은 입력하고
     // And: hour/minute/second는 입력하지 않는 상황
     // Given
+    String title = "title";
     String input = """
-            title
+            %s
             N
             9
             """;
-    setInput(input);
+    setInput(String.format(input, title));
 
     // When
     createView.execute();
     String actual = out.toString();
 
     // Then
-    String expected = CREATE_TITLE + LINE +
+    String expected = CREATE_HEAD + LINE +
             CREATE_INPUT_TITLE + LINE +
-            CREATE_INPUT_DEFAULT + LINE +
-            CREATE_RESULT_SUCCESS + LINE;
+            CREATE_ASK_USER_INPUT_TIME + LINE +
+            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
+
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -47,15 +50,19 @@ public class CreateViewTest extends MainViewTest {
     // Case: Timer title을 입력하고
     // And: hour/minute/second를 모두 입력하는 상황
     // Given
+    String title = "title";
+    int hour = 0;
+    int minute = 20;
+    int second = 0;
     String input = """
-            title
+            %s
             Y
-            0
-            20
-            0
+            %d
+            %d
+            %d
             9
             """;
-    setInput(input);
+    setInput(String.format(input, title, hour, minute, second));
 
     // When
     createView.execute();
@@ -63,13 +70,13 @@ public class CreateViewTest extends MainViewTest {
 
     //Then
     String expected =
-            CREATE_TITLE + LINE +
+            CREATE_HEAD + LINE +
                     CREATE_INPUT_TITLE + LINE +
-                    CREATE_INPUT_DEFAULT + LINE +
+                    CREATE_ASK_USER_INPUT_TIME + LINE +
                     CREATE_INPUT_HOUR + LINE +
                     CREATE_INPUT_MINUTE + LINE +
                     CREATE_INPUT_SECOND + LINE +
-                    CREATE_RESULT_SUCCESS + LINE;
+                    String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -78,25 +85,26 @@ public class CreateViewTest extends MainViewTest {
     // Case: Timer title을 입력하고
     // And: hour/minute/second는 입력하지 않는데, (Y/N)입력을 한번 잘못한 상황
     // Given
+    String title = "title";
     String input = """
-            title
+            %s
             INVALID_INPUT
             N
             9
             """;
-    setInput(input);
+    setInput(String.format(input, title));
 
     // When
     createView.execute();
     String actual = out.toString();
 
     // Then
-    String expected = CREATE_TITLE + LINE +
+    String expected = CREATE_HEAD + LINE +
             CREATE_INPUT_TITLE + LINE +
-            CREATE_INPUT_DEFAULT + LINE +
-            CREATE_INPUT_DEFAULT_ERROR + LINE +
-            CREATE_INPUT_DEFAULT + LINE +
-            CREATE_RESULT_SUCCESS + LINE;
+            CREATE_ASK_USER_INPUT_TIME + LINE +
+            Constant.INPUT_ERROR + LINE +
+            CREATE_ASK_USER_INPUT_TIME + LINE +
+            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -105,31 +113,35 @@ public class CreateViewTest extends MainViewTest {
     // Case: Timer의 title을 입력하고
     // And: hour/minute/second도 입력하는데 (Y/N)입력을 한번 잘못한 상황
     // Given
+    String title = "title";
+    int hour = 0;
+    int minute = 59;
+    int second = 59;
     String input = """
-            title
+            %s
             INVALID_INPUT
             Y
-            0
-            13
-            0
+            %d
+            %d
+            %d
             9
             """;
-    setInput(input);
+    setInput(String.format(input, title, hour, minute, second));
 
     // When
     createView.execute();
     String actual = out.toString();
 
     // Then
-    String expected = CREATE_TITLE + LINE +
+    String expected = CREATE_HEAD + LINE +
             CREATE_INPUT_TITLE + LINE +
-            CREATE_INPUT_DEFAULT + LINE +
-            CREATE_INPUT_DEFAULT_ERROR + LINE +
-            CREATE_INPUT_DEFAULT + LINE +
+            CREATE_ASK_USER_INPUT_TIME + LINE +
+            Constant.INPUT_ERROR + LINE +
+            CREATE_ASK_USER_INPUT_TIME + LINE +
             CREATE_INPUT_HOUR + LINE +
             CREATE_INPUT_MINUTE + LINE +
             CREATE_INPUT_SECOND + LINE +
-            CREATE_RESULT_SUCCESS + LINE;
+            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 }

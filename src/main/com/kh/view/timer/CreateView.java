@@ -2,8 +2,9 @@ package main.com.kh.view.timer;
 
 import main.com.kh.controller.TimerController;
 
-import java.util.HashMap;
 import java.util.Scanner;
+
+import static main.com.kh.view.timer.constant.Constant.*;
 
 public class CreateView extends AbstractView {
 
@@ -12,69 +13,64 @@ public class CreateView extends AbstractView {
   private int minute;
   private int second;
 
-  private static HashMap<String, Boolean> userInput = new HashMap<>();
-  private static HashMap<String, Integer> defaultTimes = new HashMap<>();
-
-  static {
-    userInput.put("Y", true);
-    userInput.put("N", false);
-    defaultTimes.put("Hour", 0);
-    defaultTimes.put("Minute", 20);
-    defaultTimes.put("Second", 0);
-  }
-
   public CreateView(TimerController controller, final Scanner scanner) {
     this.timerController = controller;
     this.scanner = scanner;
+    hour = 0;
+    minute = 20;
+    second = 0;
   }
 
   @Override
   public void execute() {
-    System.out.println("======= TIMER 생성 =======");
-    inputTimerSetting();
-    print(timerController.create(title, hour, minute, second));
+    System.out.println(CREATE_HEAD);
+    inputTitle();
+    if (isTimeUserInput()) {
+      inputTime();
+    }
+    boolean result = timerController.create(title, hour, minute, second);
+    print(result);
   }
 
-  private void inputTimerSetting() {
-    inputTitle();
-    inputDetailTimerSetting();
+  private boolean isTimeUserInput() {
+    while (true) {
+      System.out.print(CREATE_ASK_USER_INPUT_TIME);
+      String isUserInput = scanner.nextLine();
+      System.out.println();
+
+      if (isUserInput.equals("Y")) {
+        return true;
+      } else if (isUserInput.equals("N")) {
+        return false;
+      }
+      System.out.println(INPUT_ERROR);
+    }
   }
+
 
   private void inputTitle() {
-    System.out.print("Title 입력: ");
+    System.out.print(CREATE_INPUT_TITLE);
     title = scanner.nextLine();
     System.out.println();
   }
 
-  private void inputDetailTimerSetting() {
-    while (true) {
-      System.out.print("Timer를 입력하시겠습니까? 기본값은 20분입니다. (Y/N): ");
-      Boolean isUserInput = userInput.get(scanner.nextLine());
-      System.out.println();
-
-      if (isUserInput != null) {
-        hour = setTimer("Hour", isUserInput);
-        minute = setTimer("Minute", isUserInput);
-        second = setTimer("Second", isUserInput);
-        break;
-      }
-
-      System.out.println("잘못 입력하였습니다. 다시 입력해주세요.");
-    }
-  }
-
-  private int setTimer(String type, Boolean isUserInput) {
-    if (!isUserInput) {
-      return defaultTimes.get(type);
-    }
-
-    System.out.print(type + " 입력: ");
-    int result = Integer.parseInt(scanner.nextLine());
+  private void inputTime() {
+    System.out.print(CREATE_INPUT_HOUR);
+    hour = Integer.parseInt(scanner.nextLine());
     System.out.println();
-    return result;
+
+    System.out.print(CREATE_INPUT_MINUTE);
+    minute = Integer.parseInt(scanner.nextLine());
+    System.out.println();
+
+    System.out.print(CREATE_INPUT_SECOND);
+    second = Integer.parseInt(scanner.nextLine());
+    System.out.println();
   }
 
   private void print(boolean result) {
-    System.out.println(result ? "새 타이머를 생성하였습니다." : "새 타이머 생성에 실패하였습니다. 다시 입력해주세요");
+    System.out.println(result ?
+            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(timerController.size() - 1))
+            : CREATE_RESULT_FAIL);
   }
 }
