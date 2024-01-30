@@ -28,27 +28,17 @@ public class UpdateView extends AbstractView {
       System.out.println(EMPTY);
       return;
     }
-    inputIndex();
+    index = inputIndex();
     inputTitle();
     setTime();
     boolean result = timerController.update(index, updatedTitle, hour, minute, second);
 
     print(result);
   }
-
-  private boolean isTimeUserInput() {
-    while (true) {
-      System.out.print(UPDATE_ASK_USER_INPUT_TIME);
-      String isUserInput = scanner.nextLine();
-      System.out.println();
-
-      if (isUserInput.equals("Y")) {
-        return true;
-      } else if (isUserInput.equals("N")) {
-        return false;
-      }
-      System.out.println(INPUT_ERROR);
-    }
+  private void inputTitle() {
+    System.out.print(UPDATE_INPUT_TITLE);
+    updatedTitle = scanner.nextLine();
+    System.out.println();
   }
 
   private void setTime() {
@@ -71,25 +61,22 @@ public class UpdateView extends AbstractView {
       second = original.getSeconds();
     }
   }
-
-  private void inputTitle() {
-    System.out.print(UPDATE_INPUT_TITLE);
-    updatedTitle = scanner.nextLine();
-    System.out.println();
-  }
-
-  private void inputIndex() {
+  private boolean isTimeUserInput() {
     while (true) {
-      System.out.print(INPUT_INDEX);
-      index = Integer.parseInt(scanner.nextLine());
+      System.out.print(UPDATE_ASK_USER_INPUT_TIME);
+      String isUserInput = scanner.nextLine();
       System.out.println();
 
-      if (index >= 0 && index < timerController.size()) {
-        return;
+      if (isUserInput.equals("Y")) {
+        return true;
+      } else if (isUserInput.equals("N")) {
+        return false;
       }
       System.out.println(INPUT_ERROR);
     }
   }
+
+
 
   private void print(boolean result) {
     System.out.println(result ?

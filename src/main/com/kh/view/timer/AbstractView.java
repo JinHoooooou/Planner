@@ -1,6 +1,7 @@
 package main.com.kh.view.timer;
 
 import main.com.kh.controller.TimerController;
+import main.com.kh.view.timer.constant.Constant;
 
 import java.util.Scanner;
 
@@ -29,6 +30,19 @@ public abstract class AbstractView {
       case EXIT -> new TimerAppExitView();
       default -> throw new IllegalArgumentException();
     };
+  }
+
+  public int inputIndex() {
+    while (true) {
+      System.out.print(Constant.INPUT_INDEX);
+      int result = Integer.parseInt(scanner.nextLine());
+      System.out.println();
+
+      if (result >= 0 && result < timerController.size()) {
+        return result;
+      }
+      System.out.println(Constant.INPUT_ERROR);
+    }
   }
 
   public abstract void execute();

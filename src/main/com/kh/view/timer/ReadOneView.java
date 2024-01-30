@@ -19,24 +19,11 @@ public class ReadOneView extends AbstractView {
   public void execute() {
     System.out.println(READ_ONE_HEAD);
     if (timerController.isEmpty()) {
-      System.out.println(Constant.EMPTY);
+      System.out.println(EMPTY);
       return;
     }
     Timer timer = timerController.readOne(inputIndex());
     print(timer);
-  }
-
-  private int inputIndex() {
-    while (true) {
-      System.out.print(Constant.INPUT_INDEX);
-      int result = Integer.parseInt(scanner.nextLine());
-      System.out.println();
-
-      if (result >= 0 && result < timerController.size()) {
-        return result;
-      }
-      System.out.println(Constant.INPUT_ERROR);
-    }
   }
 
   public void print(Timer timer) {

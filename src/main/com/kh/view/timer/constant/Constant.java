@@ -41,4 +41,7 @@ public interface Constant {
   String UPDATE_RESULT_SUCCESS_FORMAT = "타이머를 수정하였습니다.(%s -> %s)";
   String UPDATE_RESULT_FAIL = " 타이머 수정에 실패하였습니다.";
 
+  String DELETE_HEAD = "======= 타이머 삭제 =======";
+  String DELETE_SUCCESS = "타이머를 삭제했습니다.";
+  String DELETE_FAIL =  "타이머 삭제에 실패하였습니다.";
 }
