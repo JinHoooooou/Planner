@@ -1,4 +1,4 @@
-package test.view.timer;
+package com.kh.view.timer;
 
 import main.com.kh.view.timer.CreateView;
 import main.com.kh.view.timer.constant.Constant;

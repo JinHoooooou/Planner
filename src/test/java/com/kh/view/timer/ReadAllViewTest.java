@@ -1,11 +1,9 @@
-package test.view.timer;
+package com.kh.view.timer;
 
 import main.com.kh.model.vo.Timer;
 import main.com.kh.view.timer.ReadAllView;
 import main.com.kh.view.timer.constant.Constant;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static main.com.kh.view.timer.constant.Constant.*;

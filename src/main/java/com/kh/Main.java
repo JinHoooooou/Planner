@@ -1,4 +1,4 @@
-package main.com.kh;
+package com.kh;
 
 import main.com.kh.view.timer.MainView;
 

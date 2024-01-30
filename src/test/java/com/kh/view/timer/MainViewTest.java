@@ -1,4 +1,4 @@
-package test.view.timer;
+package com.kh.view.timer;
 
 import main.com.kh.controller.TimerController;
 import main.com.kh.model.vo.Timer;
