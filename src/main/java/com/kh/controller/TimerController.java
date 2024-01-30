@@ -1,6 +1,7 @@
-package main.com.kh.controller;
+package com.kh.controller;
 
-import main.com.kh.model.vo.Timer;
+
+import com.kh.model.vo.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,14 +68,7 @@ public class TimerController {
   public boolean isEmpty() {
     return timerList.isEmpty();
   }
-
-  public List<Timer> getTimerList() {
-    return timerList;
-  }
-
-  public void setTimerList(List<Timer> list) {
-    this.timerList = list;
-  }
+  
 
   public boolean delete(int index) {
     timerList.remove(index);

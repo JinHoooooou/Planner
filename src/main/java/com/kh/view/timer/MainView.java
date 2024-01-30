@@ -1,8 +1,9 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
 import java.util.Scanner;
 
-import static main.com.kh.view.timer.constant.Constant.*;
+import static com.kh.view.timer.constant.Constant.*;
+
 
 public class MainView extends AbstractView {
 

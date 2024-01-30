@@ -1,13 +1,11 @@
 package com.kh.view.timer;
 
-import main.com.kh.view.timer.CreateView;
-import main.com.kh.view.timer.constant.Constant;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
 
+import static com.kh.view.timer.constant.Constant.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.com.kh.view.timer.constant.Constant.*;
 
 public class CreateViewTest extends MainViewTest {
 
@@ -102,7 +100,7 @@ public class CreateViewTest extends MainViewTest {
     String expected = CREATE_HEAD + LINE +
             CREATE_INPUT_TITLE + LINE +
             CREATE_ASK_USER_INPUT_TIME + LINE +
-            Constant.INPUT_ERROR + LINE +
+            INPUT_ERROR + LINE +
             CREATE_ASK_USER_INPUT_TIME + LINE +
             String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
@@ -136,7 +134,7 @@ public class CreateViewTest extends MainViewTest {
     String expected = CREATE_HEAD + LINE +
             CREATE_INPUT_TITLE + LINE +
             CREATE_ASK_USER_INPUT_TIME + LINE +
-            Constant.INPUT_ERROR + LINE +
+            INPUT_ERROR + LINE +
             CREATE_ASK_USER_INPUT_TIME + LINE +
             CREATE_INPUT_HOUR + LINE +
             CREATE_INPUT_MINUTE + LINE +

@@ -1,8 +1,7 @@
 package com.kh.view.timer;
 
-import main.com.kh.controller.TimerController;
-import main.com.kh.model.vo.Timer;
-import main.com.kh.view.timer.MainView;
+import com.kh.controller.TimerController;
+import com.kh.model.vo.Timer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.kh.view.timer.constant.Constant.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.com.kh.view.timer.constant.Constant.*;
 
 class MainViewTest {
   protected ByteArrayInputStream in;

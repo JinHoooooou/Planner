@@ -1,10 +1,11 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
-import main.com.kh.controller.TimerController;
+
+import com.kh.controller.TimerController;
 
 import java.util.Scanner;
 
-import static main.com.kh.view.timer.constant.Constant.*;
+import static com.kh.view.timer.constant.Constant.*;
 
 public class CreateView extends AbstractView {
 
@@ -29,6 +30,7 @@ public class CreateView extends AbstractView {
     boolean result = timerController.create(title, hour, minute, second);
     print(result);
   }
+
   private void inputTitle() {
     System.out.print(CREATE_INPUT_TITLE);
     title = scanner.nextLine();
@@ -54,6 +56,7 @@ public class CreateView extends AbstractView {
       second = DEFAULT_SECOND;
     }
   }
+
   private boolean isTimeUserInput() {
     while (true) {
       System.out.print(CREATE_ASK_USER_INPUT_TIME);
@@ -68,8 +71,6 @@ public class CreateView extends AbstractView {
       System.out.println(INPUT_ERROR);
     }
   }
-
-
 
 
   private void print(boolean result) {

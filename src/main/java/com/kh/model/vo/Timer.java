@@ -1,6 +1,4 @@
-package main.com.kh.model.vo;
-
-import java.util.Scanner;
+package com.kh.model.vo;
 
 public class Timer {
 

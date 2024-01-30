@@ -1,12 +1,10 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
-import main.com.kh.controller.TimerController;
-import main.com.kh.view.timer.constant.Constant;
+import com.kh.controller.TimerController;
 
 import java.util.Scanner;
 
-import static main.com.kh.view.timer.constant.Constant.*;
-import static main.com.kh.view.timer.constant.Constant.CREATE_RESULT_FAIL;
+import static com.kh.view.timer.constant.Constant.*;
 
 public class DeleteView extends AbstractView {
 

@@ -1,11 +1,13 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
-import main.com.kh.controller.TimerController;
-import main.com.kh.model.vo.Timer;
+import com.kh.controller.TimerController;
+import com.kh.model.vo.Timer;
+
 
 import java.util.Scanner;
 
-import static main.com.kh.view.timer.constant.Constant.*;
+import static com.kh.view.timer.constant.Constant.*;
+
 
 public class UpdateView extends AbstractView {
 
@@ -35,6 +37,7 @@ public class UpdateView extends AbstractView {
 
     print(result);
   }
+
   private void inputTitle() {
     System.out.print(UPDATE_INPUT_TITLE);
     updatedTitle = scanner.nextLine();
@@ -61,6 +64,7 @@ public class UpdateView extends AbstractView {
       second = original.getSeconds();
     }
   }
+
   private boolean isTimeUserInput() {
     while (true) {
       System.out.print(UPDATE_ASK_USER_INPUT_TIME);
@@ -75,7 +79,6 @@ public class UpdateView extends AbstractView {
       System.out.println(INPUT_ERROR);
     }
   }
-
 
 
   private void print(boolean result) {

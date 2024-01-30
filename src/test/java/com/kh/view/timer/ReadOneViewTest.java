@@ -1,13 +1,11 @@
 package com.kh.view.timer;
 
-import main.com.kh.view.timer.ReadOneView;
-import main.com.kh.view.timer.constant.Constant;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
 
+import static com.kh.view.timer.constant.Constant.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.com.kh.view.timer.constant.Constant.*;
 
 public class ReadOneViewTest extends MainViewTest {
 
@@ -36,7 +34,7 @@ public class ReadOneViewTest extends MainViewTest {
 
     // Then
     String expected = READ_ONE_HEAD + LINE +
-            String.format(Constant.INPUT_INDEX) + LINE +
+            String.format(INPUT_INDEX) + LINE +
             originals.get(index) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
@@ -60,9 +58,9 @@ public class ReadOneViewTest extends MainViewTest {
 
     // Then
     String expected = READ_ONE_HEAD + LINE +
-            Constant.INPUT_INDEX + LINE +
-            Constant.INPUT_ERROR + LINE +
-            Constant.INPUT_INDEX + LINE +
+            INPUT_INDEX + LINE +
+            INPUT_ERROR + LINE +
+            INPUT_INDEX + LINE +
             originals.get(validIndex) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
@@ -82,7 +80,7 @@ public class ReadOneViewTest extends MainViewTest {
 
     // Then
     String expected = READ_ONE_HEAD + LINE +
-            Constant.EMPTY + LINE;
+            EMPTY + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 }

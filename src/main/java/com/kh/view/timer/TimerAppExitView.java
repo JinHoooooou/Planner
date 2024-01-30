@@ -1,4 +1,4 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
 public class TimerAppExitView extends AbstractView {
   @Override

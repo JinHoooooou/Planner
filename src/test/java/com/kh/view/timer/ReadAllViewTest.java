@@ -1,12 +1,10 @@
 package com.kh.view.timer;
 
-import main.com.kh.model.vo.Timer;
-import main.com.kh.view.timer.ReadAllView;
-import main.com.kh.view.timer.constant.Constant;
+import com.kh.model.vo.Timer;
 import org.junit.jupiter.api.Test;
 
+import static com.kh.view.timer.constant.Constant.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.com.kh.view.timer.constant.Constant.*;
 
 public class ReadAllViewTest extends MainViewTest {
 
@@ -53,7 +51,7 @@ public class ReadAllViewTest extends MainViewTest {
 
     // Then
     String expected = READ_ALL_HEAD + LINE +
-            Constant.EMPTY + LINE;
+            EMPTY + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 

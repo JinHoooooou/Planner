@@ -1,4 +1,4 @@
-package main.com.kh.view.timer.constant;
+package com.kh.view.timer.constant;
 
 public interface Constant {
   int DEFAULT_HOUR = 0;

@@ -1,9 +1,11 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
-import main.com.kh.controller.TimerController;
-import main.com.kh.view.timer.constant.Constant;
+import com.kh.controller.TimerController;
 
 import java.util.Scanner;
+
+import static com.kh.view.timer.constant.Constant.INPUT_ERROR;
+import static com.kh.view.timer.constant.Constant.INPUT_INDEX;
 
 public abstract class AbstractView {
   private static final int CREATE = 1;
@@ -34,14 +36,14 @@ public abstract class AbstractView {
 
   public int inputIndex() {
     while (true) {
-      System.out.print(Constant.INPUT_INDEX);
+      System.out.print(INPUT_INDEX);
       int result = Integer.parseInt(scanner.nextLine());
       System.out.println();
 
       if (result >= 0 && result < timerController.size()) {
         return result;
       }
-      System.out.println(Constant.INPUT_ERROR);
+      System.out.println(INPUT_ERROR);
     }
   }
 

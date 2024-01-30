@@ -1,13 +1,11 @@
 package com.kh.view.timer;
 
-import main.com.kh.view.timer.UpdateView;
-import main.com.kh.view.timer.constant.Constant;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
 
+import static com.kh.view.timer.constant.Constant.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.com.kh.view.timer.constant.Constant.*;
 
 class UpdateViewTest extends MainViewTest {
 
@@ -32,7 +30,7 @@ class UpdateViewTest extends MainViewTest {
     String actual = out.toString();
 
     String expected = UPDATE_HEAD + LINE +
-            Constant.EMPTY + LINE;
+            EMPTY + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 

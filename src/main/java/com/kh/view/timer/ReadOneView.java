@@ -1,12 +1,12 @@
-package main.com.kh.view.timer;
+package com.kh.view.timer;
 
-import main.com.kh.controller.TimerController;
-import main.com.kh.model.vo.Timer;
-import main.com.kh.view.timer.constant.Constant;
+import com.kh.controller.TimerController;
+import com.kh.model.vo.Timer;
 
 import java.util.Scanner;
 
-import static main.com.kh.view.timer.constant.Constant.*;
+import static com.kh.view.timer.constant.Constant.EMPTY;
+import static com.kh.view.timer.constant.Constant.READ_ONE_HEAD;
 
 public class ReadOneView extends AbstractView {
 
