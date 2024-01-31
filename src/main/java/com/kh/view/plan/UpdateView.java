@@ -1,45 +1,45 @@
-package com.kh.view.timer;
+package com.kh.view.plan;
 
-import static com.kh.view.timer.constant.Constant.EMPTY;
-import static com.kh.view.timer.constant.Constant.INPUT_ERROR;
-import static com.kh.view.timer.constant.Constant.UPDATE_ASK_USER_INPUT_TIME;
-import static com.kh.view.timer.constant.Constant.UPDATE_HEAD;
-import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_HOUR;
-import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_MINUTE;
-import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_SECOND;
-import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_TITLE;
-import static com.kh.view.timer.constant.Constant.UPDATE_RESULT_FAIL;
-import static com.kh.view.timer.constant.Constant.UPDATE_RESULT_SUCCESS_FORMAT;
+import static com.kh.view.plan.constant.Constant.EMPTY;
+import static com.kh.view.plan.constant.Constant.INPUT_ERROR;
+import static com.kh.view.plan.constant.Constant.UPDATE_ASK_USER_INPUT_TIME;
+import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_HOUR;
+import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_MINUTE;
+import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_SECOND;
+import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_TITLE;
+import static com.kh.view.plan.constant.Constant.UPDATE_PLAN_HEAD;
+import static com.kh.view.plan.constant.Constant.UPDATE_RESULT_FAIL;
+import static com.kh.view.plan.constant.Constant.UPDATE_RESULT_SUCCESS_FORMAT;
 
-import com.kh.controller.TimerController;
-import com.kh.model.vo.Timer;
+import com.kh.controller.PlanController;
+import com.kh.model.vo.Plan;
 import java.util.Scanner;
 
 public class UpdateView extends AbstractView {
 
-  private Timer original;
+  private Plan original;
   private int index;
   private String updatedTitle;
   private int hour;
   private int minute;
   private int second;
 
-  public UpdateView(TimerController timerController, Scanner scanner) {
-    this.timerController = timerController;
-    this.scanner = scanner;
+  public UpdateView(PlanController planController) {
+    this.planController = planController;
   }
 
   @Override
   public void execute() {
-    System.out.println(UPDATE_HEAD);
-    if (timerController.isEmpty()) {
+    scanner = new Scanner(System.in);
+    System.out.println(UPDATE_PLAN_HEAD);
+    if (planController.isEmpty()) {
       System.out.println(EMPTY);
       return;
     }
     index = inputIndex();
     inputTitle();
     setTime();
-    boolean result = timerController.update(index, updatedTitle, hour, minute, second);
+    boolean result = planController.update(index, updatedTitle, hour, minute, second);
 
     print(result);
   }
@@ -51,7 +51,7 @@ public class UpdateView extends AbstractView {
   }
 
   private void setTime() {
-    original = Timer.copy(timerController.readOne(index));
+    original = Plan.copy(planController.selectOne(index));
     if (isTimeUserInput()) {
       System.out.print(UPDATE_INPUT_HOUR);
       hour = Integer.parseInt(scanner.nextLine());
@@ -88,7 +88,7 @@ public class UpdateView extends AbstractView {
 
   private void print(boolean result) {
     System.out.println(result
-        ? String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, timerController.readOne(index))
+        ? String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, planController.selectOne(index))
         : UPDATE_RESULT_FAIL);
   }
 }

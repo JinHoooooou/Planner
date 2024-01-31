@@ -1,6 +1,6 @@
-package com.kh.view.timer;
+package com.kh.view.plan;
 
-import static com.kh.view.timer.constant.Constant.EXIT_APP;
+import static com.kh.view.plan.constant.Constant.EXIT_APP;
 
 public class TimerAppExitView extends AbstractView {
 

@@ -1,6 +1,6 @@
 package com.kh;
 
-import com.kh.view.timer.MainView;
+import com.kh.view.plan.MainView;
 
 public class Main {
 

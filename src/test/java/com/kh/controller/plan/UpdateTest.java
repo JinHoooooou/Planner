@@ -1,10 +1,10 @@
-package com.kh.controller.timer;
+package com.kh.controller.plan;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.kh.controller.TimerController;
-import com.kh.model.vo.Timer;
+import com.kh.controller.PlanController;
+import com.kh.model.vo.Plan;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 
 public class UpdateTest {
 
-  private TimerController timerController;
-  private List<Timer> originals;
+  private PlanController planController;
+  private List<Plan> originals;
 
   @BeforeEach
   public void setUp() {
-    timerController = new TimerController();
+    planController = new PlanController();
     setOriginals(10);
   }
 
@@ -31,7 +31,7 @@ public class UpdateTest {
       int minute = random.nextInt(0, 60);
       int second = random.nextInt(0, 60);
 
-      originals.add(Timer.create(title, hour, minute, second));
+      originals.add(Plan.create(title, hour, minute, second));
     }
   }
 
@@ -41,23 +41,23 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index와 title이 주어진다.
     int validIndex = 0;
     String validTitleToUpdate = "valid updated title 0";
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex, validTitleToUpdate);
+    boolean actual = planController.update(validIndex, validTitleToUpdate);
 
     // Then: actual은 true이다.
     assertThat(actual).isTrue();
     // And: 0번째에 저장 된 Timer의 title은 "valid updated title 0"이다.
-    Timer actualTimer = timerController.readOne(validIndex);
-    assertThat(actualTimer.getTitle()).isEqualTo(validTitleToUpdate);
+    Plan actualPlan = planController.selectOne(validIndex);
+    assertThat(actualPlan.getTitle()).isEqualTo(validTitleToUpdate);
     // And:  hour/minute/second는 0/20/0이다.
-    assertThat(actualTimer.getHours()).isEqualTo(0);
-    assertThat(actualTimer.getMinutes()).isEqualTo(20);
-    assertThat(actualTimer.getSeconds()).isEqualTo(0);
+    assertThat(actualPlan.getHours()).isEqualTo(0);
+    assertThat(actualPlan.getMinutes()).isEqualTo(20);
+    assertThat(actualPlan.getSeconds()).isEqualTo(0);
   }
 
   @Test
@@ -66,7 +66,7 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index, title, hour/minute/second가 주어진다.
     int validIndex = 9;
     String validTitleToUpdate = "valid updated title 123";
@@ -75,7 +75,7 @@ public class UpdateTest {
     int validSecondToUpdate = 59;
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex,
+    boolean actual = planController.update(validIndex,
         validTitleToUpdate,
         validHourToUpdate,
         validMinuteToUpdate,
@@ -84,12 +84,12 @@ public class UpdateTest {
     // Then: actual은 true이다.
     assertThat(actual).isTrue();
     // And: 9번째에 저장 된 Timer의 title은 "valid updated title 0"이다.
-    Timer actualTimer = timerController.readOne(validIndex);
-    assertThat(actualTimer.getTitle()).isEqualTo(validTitleToUpdate);
+    Plan actualPlan = planController.selectOne(validIndex);
+    assertThat(actualPlan.getTitle()).isEqualTo(validTitleToUpdate);
     // And: hour/minute/second는 11/59/59이다.
-    assertThat(actualTimer.getHours()).isEqualTo(validHourToUpdate);
-    assertThat(actualTimer.getMinutes()).isEqualTo(validMinuteToUpdate);
-    assertThat(actualTimer.getSeconds()).isEqualTo(validSecondToUpdate);
+    assertThat(actualPlan.getHours()).isEqualTo(validHourToUpdate);
+    assertThat(actualPlan.getMinutes()).isEqualTo(validMinuteToUpdate);
+    assertThat(actualPlan.getSeconds()).isEqualTo(validSecondToUpdate);
   }
 
   @Test
@@ -98,19 +98,19 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index가 주어지고
     int validIndex = 3;
     // And: invalid한 title이 주어진다. (Empty String)
     String invalidTitleToUpdate = "";
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex, invalidTitleToUpdate);
+    boolean actual = planController.update(validIndex, invalidTitleToUpdate);
 
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
     // And: 3번째에 저장 된 Timer는 수정되지 않는다..
-    assertNotUpdated(timerController.readOne(validIndex), originals.get(validIndex));
+    assertNotUpdated(planController.selectOne(validIndex), originals.get(validIndex));
   }
 
   @Test
@@ -119,7 +119,7 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index, hour, minute, second가 주어지고
     int validIndex = 9;
     int validHourToUpdate = 11;
@@ -129,7 +129,7 @@ public class UpdateTest {
     String invalidTitleToUpdate = "";
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex,
+    boolean actual = planController.update(validIndex,
         invalidTitleToUpdate,
         validHourToUpdate,
         validMinuteToUpdate,
@@ -138,7 +138,7 @@ public class UpdateTest {
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
     // And: 9번째에 저장 된 Timer는 수정되지 않는다..
-    assertNotUpdated(timerController.readOne(validIndex), originals.get(validIndex));
+    assertNotUpdated(planController.selectOne(validIndex), originals.get(validIndex));
   }
 
   @Test
@@ -147,7 +147,7 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index, title, minute, second가 주어지고
     int validIndex = 4;
     String validTitleToUpdate = "valid updated title 231";
@@ -157,7 +157,7 @@ public class UpdateTest {
     int invalidHourToUpdate = -1;
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex,
+    boolean actual = planController.update(validIndex,
         validTitleToUpdate,
         invalidHourToUpdate,
         validMinuteToUpdate,
@@ -166,7 +166,7 @@ public class UpdateTest {
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
     // And: 4번째에 저장 된 Timer는 수정되지 않는다..
-    assertNotUpdated(timerController.readOne(validIndex), originals.get(validIndex));
+    assertNotUpdated(planController.selectOne(validIndex), originals.get(validIndex));
   }
 
   @Test
@@ -175,7 +175,7 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index, title, hour, second가 주어지고
     int validIndex = 4;
     String validTitleToUpdate = "valid updated title 231";
@@ -185,7 +185,7 @@ public class UpdateTest {
     int invalidMinuteToUpdate = -1;
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex,
+    boolean actual = planController.update(validIndex,
         validTitleToUpdate,
         validHourToUpdate,
         invalidMinuteToUpdate,
@@ -194,7 +194,7 @@ public class UpdateTest {
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
     // And: 4번째에 저장 된 Timer는 수정되지 않는다..
-    assertNotUpdated(timerController.readOne(validIndex), originals.get(validIndex));
+    assertNotUpdated(planController.selectOne(validIndex), originals.get(validIndex));
   }
 
   @Test
@@ -203,7 +203,7 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index, title, hour, minute가 주어지고
     int validIndex = 6;
     String validTitleToUpdate = "valid updated title 666";
@@ -213,7 +213,7 @@ public class UpdateTest {
     int invalidSecondToUpdate = -1;
 
     // When: update 메서드를 호출한다.
-    boolean actual = timerController.update(validIndex,
+    boolean actual = planController.update(validIndex,
         validTitleToUpdate,
         validHourToUpdate,
         validMinuteToUpdate,
@@ -222,7 +222,7 @@ public class UpdateTest {
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
     // And: 6번째에 저장 된 Timer는 수정되지 않는다..
-    assertNotUpdated(timerController.readOne(validIndex), originals.get(validIndex));
+    assertNotUpdated(planController.selectOne(validIndex), originals.get(validIndex));
   }
 
   @Test
@@ -230,14 +230,14 @@ public class UpdateTest {
     // 저장된 Timer가 없을 때 update에 실패한다.
 
     // Given: 저장된 Timer가 없다.
-    assert timerController.isEmpty();
+    assert planController.isEmpty();
     // And: valid index, title 주어진다.
     int validIndex = 0;
     String validTitleToUpdate = "valid updated title 666";
 
     // When: update 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
-    assertThatThrownBy(() -> timerController.update(validIndex, validTitleToUpdate))
+    assertThatThrownBy(() -> planController.update(validIndex, validTitleToUpdate))
         .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
@@ -247,27 +247,27 @@ public class UpdateTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     addMockData(originals);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: invalid index, valid title 주어진다.
     int invalidIndex = -2;
     String validTitleToUpdate = "valid updated title";
 
     // When: update 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
-    assertThatThrownBy(() -> timerController.update(invalidIndex, validTitleToUpdate))
+    assertThatThrownBy(() -> planController.update(invalidIndex, validTitleToUpdate))
         .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
-  private void addMockData(List<Timer> originals) {
-    for (Timer target : originals) {
-      timerController.create(target.getTitle(),
+  private void addMockData(List<Plan> originals) {
+    for (Plan target : originals) {
+      planController.create(target.getTitle(),
           target.getHours(),
           target.getMinutes(),
           target.getSeconds());
     }
   }
 
-  private void assertNotUpdated(Timer actual, Timer original) {
+  private void assertNotUpdated(Plan actual, Plan original) {
     assertThat(actual.getTitle()).isEqualTo(original.getTitle());
     assertThat(actual.getHours()).isEqualTo(original.getHours());
     assertThat(actual.getMinutes()).isEqualTo(original.getMinutes());

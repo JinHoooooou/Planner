@@ -1,10 +1,10 @@
-package com.kh.controller.timer;
+package com.kh.controller.plan;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.kh.controller.TimerController;
-import com.kh.model.vo.Timer;
+import com.kh.controller.PlanController;
+import com.kh.model.vo.Plan;
 import java.util.List;
 import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 public class ReadTest {
 
-  private TimerController timerController;
+  private PlanController planController;
 
   @BeforeEach
   public void setUp() {
-    timerController = new TimerController();
+    planController = new PlanController();
   }
 
   @Test
@@ -25,12 +25,12 @@ public class ReadTest {
 
     // Given: 10개의 Timer가 저장되어 있다.
     setDataInList(10);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: valid한 index가 주어진다.
     int validIndex = 0;
 
     // When: readOne 메서드를 호출한다.
-    Timer actual = timerController.readOne(validIndex);
+    Plan actual = planController.selectOne(validIndex);
 
     // Then : actual의 title은 "title0"이다.
     assertThat(actual.getTitle()).isEqualTo("title0");
@@ -45,13 +45,13 @@ public class ReadTest {
     // 저장된 Timer가 없을 때 read one에 실패한다.
 
     // Given: 저장되어 있는 Timer객체가 없다.
-    assert timerController.isEmpty();
+    assert planController.isEmpty();
     // And: valid한 index가 주어진다.
     int validIndex = 0;
 
     // When: readOne 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
-    assertThatThrownBy(() -> timerController.readOne(validIndex))
+    assertThatThrownBy(() -> planController.selectOne(validIndex))
         .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
@@ -61,13 +61,13 @@ public class ReadTest {
 
     // Given: 10개의 저장된 Timer가 있다.
     setDataInList(10);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
     // And: invalid한 index가 주어진다.
     int invalidIndex = 10;
 
     // When: readOne 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
-    assertThatThrownBy(() -> timerController.readOne(invalidIndex))
+    assertThatThrownBy(() -> planController.selectOne(invalidIndex))
         .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
@@ -77,10 +77,10 @@ public class ReadTest {
 
     // Given: 10개의 저장된 Timer가 있다.
     setDataInList(10);
-    assert timerController.size() == 10;
+    assert planController.size() == 10;
 
     // When: readAll 메서드를 호출한다.
-    List<Timer> actual = timerController.readAll();
+    List<Plan> actual = planController.listAll();
 
     // Then: actual의 size는 10이다.
     assertThat(actual.size()).isEqualTo(10);
@@ -91,10 +91,10 @@ public class ReadTest {
     // 저장된 Timer가 없을 때 read all에 성공한다.
 
     // Given: 저장도니 Timer가 없다.
-    assert timerController.isEmpty();
+    assert planController.isEmpty();
 
     // When: readAll 메서드를 호출한다.
-    List<Timer> actual = timerController.readAll();
+    List<Plan> actual = planController.listAll();
 
     // Then: actual의 size는 0이다.
     assertThat(actual.size()).isEqualTo(0);
@@ -103,7 +103,7 @@ public class ReadTest {
   public void setDataInList(int count) {
     Random random = new Random();
     for (int i = 0; i < count; i++) {
-      timerController.create("title" + i,
+      planController.create("title" + i,
           random.nextInt(0, 12),
           random.nextInt(0, 60),
           random.nextInt(0, 60));

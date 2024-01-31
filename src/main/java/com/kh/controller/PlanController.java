@@ -1,26 +1,36 @@
 package com.kh.controller;
 
-import com.kh.model.vo.Timer;
+import com.kh.model.vo.Plan;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimerController {
+public class PlanController {
 
   private static final int DEFAULT_HOUR = 0;
   private static final int DEFAULT_MINUTE = 20;
   private static final int DEFAULT_SECOND = 0;
-  List<Timer> timerList = new ArrayList<>();
+  List<Plan> planList = new ArrayList<>();
 
-  public boolean create(String title) {
-    return this.create(title, DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
+  public Plan create(String title, String memo) {
+    if (title.isEmpty()) {
+      return null;
+    }
+    Plan newPlan = Plan.create(title, memo);
+    planList.add(newPlan);
+    return newPlan;
   }
+
+  public Plan create(String title) {
+    return this.create(title, "");
+  }
+
 
   public boolean create(String title, int hour, int minute, int second) {
     if (!isValid(title, hour, minute, second)) {
       return false;
     }
-    Timer newTimer = Timer.create(title, hour, minute, second);
-    timerList.add(newTimer);
+    Plan newPlan = Plan.create(title, hour, minute, second);
+    planList.add(newPlan);
 
     return true;
   }
@@ -34,12 +44,12 @@ public class TimerController {
         && (second >= 0 && second < 60);
   }
 
-  public Timer readOne(int index) {
-    return timerList.get(index);
+  public Plan selectOne(int index) {
+    return planList.get(index);
   }
 
-  public List<Timer> readAll() {
-    return timerList;
+  public List<Plan> listAll() {
+    return planList;
   }
 
   public boolean update(int index, String title) {
@@ -47,7 +57,7 @@ public class TimerController {
   }
 
   public boolean update(int index, String title, int hour, int minute, int second) {
-    Timer original = readOne(index);
+    Plan original = selectOne(index);
     if (!isValid(title, hour, minute, second)) {
       return false;
     }
@@ -60,15 +70,15 @@ public class TimerController {
   }
 
   public int size() {
-    return timerList.size();
+    return planList.size();
   }
 
   public boolean isEmpty() {
-    return timerList.isEmpty();
+    return planList.isEmpty();
   }
 
   public boolean delete(int index) {
-    timerList.remove(index);
+    planList.remove(index);
     return true;
   }
 }
