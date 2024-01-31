@@ -33,7 +33,6 @@ public class Timer {
     this.seconds = original.getSeconds();
   }
 
-
   public String getTitle() {
     return title;
   }

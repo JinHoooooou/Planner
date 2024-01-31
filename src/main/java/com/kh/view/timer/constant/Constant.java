@@ -1,6 +1,7 @@
 package com.kh.view.timer.constant;
 
 public interface Constant {
+
   int DEFAULT_HOUR = 0;
   int DEFAULT_MINUTE = 20;
   int DEFAULT_SECOND = 0;
@@ -43,5 +44,5 @@ public interface Constant {
 
   String DELETE_HEAD = "======= 타이머 삭제 =======";
   String DELETE_SUCCESS = "타이머를 삭제했습니다.";
-  String DELETE_FAIL =  "타이머 삭제에 실패하였습니다.";
+  String DELETE_FAIL = "타이머 삭제에 실패하였습니다.";
 }

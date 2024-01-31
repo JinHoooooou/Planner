@@ -1,15 +1,14 @@
 package com.kh.controller.timer;
 
-import com.kh.controller.TimerController;
-import com.kh.model.vo.Timer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Random;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import com.kh.controller.TimerController;
+import com.kh.model.vo.Timer;
+import java.util.List;
+import java.util.Random;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ReadTest {
 
@@ -53,7 +52,7 @@ public class ReadTest {
     // When: readOne 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
     assertThatThrownBy(() -> timerController.readOne(validIndex))
-            .isInstanceOf(IndexOutOfBoundsException.class);
+        .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
   @Test
@@ -69,7 +68,7 @@ public class ReadTest {
     // When: readOne 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
     assertThatThrownBy(() -> timerController.readOne(invalidIndex))
-            .isInstanceOf(IndexOutOfBoundsException.class);
+        .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
   @Test
@@ -105,9 +104,9 @@ public class ReadTest {
     Random random = new Random();
     for (int i = 0; i < count; i++) {
       timerController.create("title" + i,
-              random.nextInt(0, 12),
-              random.nextInt(0, 60),
-              random.nextInt(0, 60));
+          random.nextInt(0, 12),
+          random.nextInt(0, 60),
+          random.nextInt(0, 60));
     }
   }
 }

@@ -1,13 +1,11 @@
 package com.kh.view.timer;
 
+import static com.kh.view.timer.constant.Constant.EMPTY;
+import static com.kh.view.timer.constant.Constant.READ_ALL_HEAD;
 
 import com.kh.controller.TimerController;
 import com.kh.model.vo.Timer;
-
 import java.util.List;
-
-import static com.kh.view.timer.constant.Constant.EMPTY;
-import static com.kh.view.timer.constant.Constant.READ_ALL_HEAD;
 
 public class ReadAllView extends AbstractView {
 

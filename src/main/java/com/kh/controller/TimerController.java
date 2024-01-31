@@ -1,8 +1,6 @@
 package com.kh.controller;
 
-
 import com.kh.model.vo.Timer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +30,8 @@ public class TimerController {
       return false;
     }
     return (hour >= 0 && hour < 12)
-            && (minute >= 0 && minute < 60)
-            && (second >= 0 && second < 60);
+        && (minute >= 0 && minute < 60)
+        && (second >= 0 && second < 60);
   }
 
   public Timer readOne(int index) {
@@ -68,7 +66,6 @@ public class TimerController {
   public boolean isEmpty() {
     return timerList.isEmpty();
   }
-  
 
   public boolean delete(int index) {
     timerList.remove(index);

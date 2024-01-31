@@ -1,11 +1,11 @@
 package com.kh.controller.timer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.kh.controller.TimerController;
 import com.kh.model.vo.Timer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateTest {
 

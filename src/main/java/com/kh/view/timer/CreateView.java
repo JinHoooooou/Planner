@@ -1,11 +1,20 @@
 package com.kh.view.timer;
 
+import static com.kh.view.timer.constant.Constant.CREATE_ASK_USER_INPUT_TIME;
+import static com.kh.view.timer.constant.Constant.CREATE_HEAD;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_HOUR;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_MINUTE;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_SECOND;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_TITLE;
+import static com.kh.view.timer.constant.Constant.CREATE_RESULT_FAIL;
+import static com.kh.view.timer.constant.Constant.CREATE_RESULT_SUCCESS_FORMAT;
+import static com.kh.view.timer.constant.Constant.DEFAULT_HOUR;
+import static com.kh.view.timer.constant.Constant.DEFAULT_MINUTE;
+import static com.kh.view.timer.constant.Constant.DEFAULT_SECOND;
+import static com.kh.view.timer.constant.Constant.INPUT_ERROR;
 
 import com.kh.controller.TimerController;
-
 import java.util.Scanner;
-
-import static com.kh.view.timer.constant.Constant.*;
 
 public class CreateView extends AbstractView {
 
@@ -74,8 +83,9 @@ public class CreateView extends AbstractView {
 
 
   private void print(boolean result) {
-    System.out.println(result ?
-            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(timerController.size() - 1))
-            : CREATE_RESULT_FAIL);
+    System.out.println(result
+        ? String.format(CREATE_RESULT_SUCCESS_FORMAT,
+        timerController.readOne(timerController.size() - 1))
+        : CREATE_RESULT_FAIL);
   }
 }

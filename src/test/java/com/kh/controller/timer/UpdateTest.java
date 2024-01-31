@@ -1,16 +1,15 @@
 package com.kh.controller.timer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.kh.controller.TimerController;
 import com.kh.model.vo.Timer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class UpdateTest {
 
@@ -77,10 +76,10 @@ public class UpdateTest {
 
     // When: update 메서드를 호출한다.
     boolean actual = timerController.update(validIndex,
-            validTitleToUpdate,
-            validHourToUpdate,
-            validMinuteToUpdate,
-            validSecondToUpdate);
+        validTitleToUpdate,
+        validHourToUpdate,
+        validMinuteToUpdate,
+        validSecondToUpdate);
 
     // Then: actual은 true이다.
     assertThat(actual).isTrue();
@@ -131,10 +130,10 @@ public class UpdateTest {
 
     // When: update 메서드를 호출한다.
     boolean actual = timerController.update(validIndex,
-            invalidTitleToUpdate,
-            validHourToUpdate,
-            validMinuteToUpdate,
-            validSecondToUpdate);
+        invalidTitleToUpdate,
+        validHourToUpdate,
+        validMinuteToUpdate,
+        validSecondToUpdate);
 
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
@@ -159,10 +158,10 @@ public class UpdateTest {
 
     // When: update 메서드를 호출한다.
     boolean actual = timerController.update(validIndex,
-            validTitleToUpdate,
-            invalidHourToUpdate,
-            validMinuteToUpdate,
-            validSecondToUpdate);
+        validTitleToUpdate,
+        invalidHourToUpdate,
+        validMinuteToUpdate,
+        validSecondToUpdate);
 
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
@@ -187,10 +186,10 @@ public class UpdateTest {
 
     // When: update 메서드를 호출한다.
     boolean actual = timerController.update(validIndex,
-            validTitleToUpdate,
-            validHourToUpdate,
-            invalidMinuteToUpdate,
-            validSecondToUpdate);
+        validTitleToUpdate,
+        validHourToUpdate,
+        invalidMinuteToUpdate,
+        validSecondToUpdate);
 
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
@@ -215,10 +214,10 @@ public class UpdateTest {
 
     // When: update 메서드를 호출한다.
     boolean actual = timerController.update(validIndex,
-            validTitleToUpdate,
-            validHourToUpdate,
-            validMinuteToUpdate,
-            invalidSecondToUpdate);
+        validTitleToUpdate,
+        validHourToUpdate,
+        validMinuteToUpdate,
+        invalidSecondToUpdate);
 
     // Then: actual은 false이다.
     assertThat(actual).isFalse();
@@ -239,7 +238,7 @@ public class UpdateTest {
     // When: update 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
     assertThatThrownBy(() -> timerController.update(validIndex, validTitleToUpdate))
-            .isInstanceOf(IndexOutOfBoundsException.class);
+        .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
   @Test
@@ -256,15 +255,15 @@ public class UpdateTest {
     // When: update 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
     assertThatThrownBy(() -> timerController.update(invalidIndex, validTitleToUpdate))
-            .isInstanceOf(IndexOutOfBoundsException.class);
+        .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
   private void addMockData(List<Timer> originals) {
     for (Timer target : originals) {
       timerController.create(target.getTitle(),
-              target.getHours(),
-              target.getMinutes(),
-              target.getSeconds());
+          target.getHours(),
+          target.getMinutes(),
+          target.getSeconds());
     }
   }
 

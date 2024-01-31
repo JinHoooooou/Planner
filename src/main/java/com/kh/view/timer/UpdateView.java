@@ -1,13 +1,19 @@
 package com.kh.view.timer;
 
+import static com.kh.view.timer.constant.Constant.EMPTY;
+import static com.kh.view.timer.constant.Constant.INPUT_ERROR;
+import static com.kh.view.timer.constant.Constant.UPDATE_ASK_USER_INPUT_TIME;
+import static com.kh.view.timer.constant.Constant.UPDATE_HEAD;
+import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_HOUR;
+import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_MINUTE;
+import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_SECOND;
+import static com.kh.view.timer.constant.Constant.UPDATE_INPUT_TITLE;
+import static com.kh.view.timer.constant.Constant.UPDATE_RESULT_FAIL;
+import static com.kh.view.timer.constant.Constant.UPDATE_RESULT_SUCCESS_FORMAT;
+
 import com.kh.controller.TimerController;
 import com.kh.model.vo.Timer;
-
-
 import java.util.Scanner;
-
-import static com.kh.view.timer.constant.Constant.*;
-
 
 public class UpdateView extends AbstractView {
 
@@ -80,10 +86,9 @@ public class UpdateView extends AbstractView {
     }
   }
 
-
   private void print(boolean result) {
-    System.out.println(result ?
-            String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, timerController.readOne(index)) :
-            UPDATE_RESULT_FAIL);
+    System.out.println(result
+        ? String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, timerController.readOne(index))
+        : UPDATE_RESULT_FAIL);
   }
 }

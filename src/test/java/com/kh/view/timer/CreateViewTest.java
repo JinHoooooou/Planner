@@ -1,11 +1,18 @@
 package com.kh.view.timer;
 
-import org.junit.jupiter.api.Test;
+import static com.kh.view.timer.constant.Constant.CREATE_ASK_USER_INPUT_TIME;
+import static com.kh.view.timer.constant.Constant.CREATE_HEAD;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_HOUR;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_MINUTE;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_SECOND;
+import static com.kh.view.timer.constant.Constant.CREATE_INPUT_TITLE;
+import static com.kh.view.timer.constant.Constant.CREATE_RESULT_SUCCESS_FORMAT;
+import static com.kh.view.timer.constant.Constant.INPUT_ERROR;
+import static com.kh.view.timer.constant.Constant.LINE;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Scanner;
-
-import static com.kh.view.timer.constant.Constant.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 public class CreateViewTest extends MainViewTest {
 
@@ -24,10 +31,10 @@ public class CreateViewTest extends MainViewTest {
     // Given
     String title = "title";
     String input = """
-            %s
-            N
-            9
-            """;
+        %s
+        N
+        9
+        """;
     setInput(String.format(input, title));
 
     // When
@@ -35,10 +42,10 @@ public class CreateViewTest extends MainViewTest {
     String actual = out.toString();
 
     // Then
-    String expected = CREATE_HEAD + LINE +
-            CREATE_INPUT_TITLE + LINE +
-            CREATE_ASK_USER_INPUT_TIME + LINE +
-            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
+    String expected = CREATE_HEAD + LINE
+        + CREATE_INPUT_TITLE + LINE
+        + CREATE_ASK_USER_INPUT_TIME + LINE
+        + String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -53,13 +60,13 @@ public class CreateViewTest extends MainViewTest {
     int minute = 20;
     int second = 0;
     String input = """
-            %s
-            Y
-            %d
-            %d
-            %d
-            9
-            """;
+        %s
+        Y
+        %d
+        %d
+        %d
+        9
+        """;
     setInput(String.format(input, title, hour, minute, second));
 
     // When
@@ -67,14 +74,13 @@ public class CreateViewTest extends MainViewTest {
     String actual = out.toString();
 
     //Then
-    String expected =
-            CREATE_HEAD + LINE +
-                    CREATE_INPUT_TITLE + LINE +
-                    CREATE_ASK_USER_INPUT_TIME + LINE +
-                    CREATE_INPUT_HOUR + LINE +
-                    CREATE_INPUT_MINUTE + LINE +
-                    CREATE_INPUT_SECOND + LINE +
-                    String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
+    String expected = CREATE_HEAD + LINE
+        + CREATE_INPUT_TITLE + LINE
+        + CREATE_ASK_USER_INPUT_TIME + LINE
+        + CREATE_INPUT_HOUR + LINE
+        + CREATE_INPUT_MINUTE + LINE
+        + CREATE_INPUT_SECOND + LINE
+        + String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -85,11 +91,11 @@ public class CreateViewTest extends MainViewTest {
     // Given
     String title = "title";
     String input = """
-            %s
-            INVALID_INPUT
-            N
-            9
-            """;
+        %s
+        INVALID_INPUT
+        N
+        9
+        """;
     setInput(String.format(input, title));
 
     // When
@@ -97,12 +103,12 @@ public class CreateViewTest extends MainViewTest {
     String actual = out.toString();
 
     // Then
-    String expected = CREATE_HEAD + LINE +
-            CREATE_INPUT_TITLE + LINE +
-            CREATE_ASK_USER_INPUT_TIME + LINE +
-            INPUT_ERROR + LINE +
-            CREATE_ASK_USER_INPUT_TIME + LINE +
-            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
+    String expected = CREATE_HEAD + LINE
+        + CREATE_INPUT_TITLE + LINE
+        + CREATE_ASK_USER_INPUT_TIME + LINE
+        + INPUT_ERROR + LINE
+        + CREATE_ASK_USER_INPUT_TIME + LINE
+        + String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -116,14 +122,14 @@ public class CreateViewTest extends MainViewTest {
     int minute = 59;
     int second = 59;
     String input = """
-            %s
-            INVALID_INPUT
-            Y
-            %d
-            %d
-            %d
-            9
-            """;
+        %s
+        INVALID_INPUT
+        Y
+        %d
+        %d
+        %d
+        9
+        """;
     setInput(String.format(input, title, hour, minute, second));
 
     // When
@@ -131,15 +137,15 @@ public class CreateViewTest extends MainViewTest {
     String actual = out.toString();
 
     // Then
-    String expected = CREATE_HEAD + LINE +
-            CREATE_INPUT_TITLE + LINE +
-            CREATE_ASK_USER_INPUT_TIME + LINE +
-            INPUT_ERROR + LINE +
-            CREATE_ASK_USER_INPUT_TIME + LINE +
-            CREATE_INPUT_HOUR + LINE +
-            CREATE_INPUT_MINUTE + LINE +
-            CREATE_INPUT_SECOND + LINE +
-            String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
+    String expected = CREATE_HEAD + LINE
+        + CREATE_INPUT_TITLE + LINE
+        + CREATE_ASK_USER_INPUT_TIME + LINE
+        + INPUT_ERROR + LINE
+        + CREATE_ASK_USER_INPUT_TIME + LINE
+        + CREATE_INPUT_HOUR + LINE
+        + CREATE_INPUT_MINUTE + LINE
+        + CREATE_INPUT_SECOND + LINE
+        + String.format(CREATE_RESULT_SUCCESS_FORMAT, timerController.readOne(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 }

@@ -1,16 +1,15 @@
 package com.kh.controller.timer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.kh.controller.TimerController;
 import com.kh.model.vo.Timer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DeleteTest {
 
@@ -68,7 +67,7 @@ public class DeleteTest {
     // When: delete 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
     assertThatThrownBy(() -> timerController.delete(invalidIndex))
-            .isInstanceOf(IndexOutOfBoundsException.class);
+        .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
   @Test
@@ -83,15 +82,15 @@ public class DeleteTest {
     // When: delete 메서드를 호출한다.
     // Then: IndexOutOfBoundException이 발생한다.
     assertThatThrownBy(() -> timerController.delete(validIndex))
-            .isInstanceOf(IndexOutOfBoundsException.class);
+        .isInstanceOf(IndexOutOfBoundsException.class);
   }
 
   private void addMockData(List<Timer> originals) {
     for (Timer target : originals) {
       timerController.create(target.getTitle(),
-              target.getHours(),
-              target.getMinutes(),
-              target.getSeconds());
+          target.getHours(),
+          target.getMinutes(),
+          target.getSeconds());
     }
   }
 

@@ -1,9 +1,15 @@
 package com.kh.view.timer;
 
+import static com.kh.view.timer.constant.Constant.MAIN_CREATE;
+import static com.kh.view.timer.constant.Constant.MAIN_DELETE;
+import static com.kh.view.timer.constant.Constant.MAIN_EXIT;
+import static com.kh.view.timer.constant.Constant.MAIN_HEAD;
+import static com.kh.view.timer.constant.Constant.MAIN_INPUT_MENU;
+import static com.kh.view.timer.constant.Constant.MAIN_READ_ALL;
+import static com.kh.view.timer.constant.Constant.MAIN_READ_ONE;
+import static com.kh.view.timer.constant.Constant.MAIN_UPDATE;
+
 import java.util.Scanner;
-
-import static com.kh.view.timer.constant.Constant.*;
-
 
 public class MainView extends AbstractView {
 

@@ -1,13 +1,13 @@
 package com.kh.view.timer;
 
-import com.kh.controller.TimerController;
-
-import java.util.Scanner;
-
 import static com.kh.view.timer.constant.Constant.INPUT_ERROR;
 import static com.kh.view.timer.constant.Constant.INPUT_INDEX;
 
+import com.kh.controller.TimerController;
+import java.util.Scanner;
+
 public abstract class AbstractView {
+
   private static final int CREATE = 1;
   private static final int START = 2;
   private static final int READ_ALL = 3;
@@ -16,7 +16,6 @@ public abstract class AbstractView {
   private static final int EXIT = 9;
   protected TimerController timerController;
   protected Scanner scanner;
-
 
   public AbstractView() {
     timerController = new TimerController();
