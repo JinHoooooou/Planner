@@ -51,7 +51,7 @@ public class DeleteTest {
     // Then: actual은 true이다.
     assertThat(actual).isTrue();
     // And: 0번째에 저장 된 Timer 객체는 originals의 1번째 저장된 Timer 객체와 같다.
-    assertEquals(planController.selectOne(validIndex), originals.get(validIndex + 1));
+    assertEquals(planController.select(validIndex), originals.get(validIndex + 1));
   }
 
   @Test

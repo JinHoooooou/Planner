@@ -51,7 +51,7 @@ public class UpdateView extends AbstractView {
   }
 
   private void setTime() {
-    original = Plan.copy(planController.selectOne(index));
+    original = Plan.copy(planController.select(index));
     if (isTimeUserInput()) {
       System.out.print(UPDATE_INPUT_HOUR);
       hour = Integer.parseInt(scanner.nextLine());
@@ -88,7 +88,7 @@ public class UpdateView extends AbstractView {
 
   private void print(boolean result) {
     System.out.println(result
-        ? String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, planController.selectOne(index))
+        ? String.format(UPDATE_RESULT_SUCCESS_FORMAT, original, planController.select(index))
         : UPDATE_RESULT_FAIL);
   }
 }

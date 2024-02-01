@@ -21,7 +21,7 @@ public class SelectPlanView extends AbstractView {
       System.out.println(EMPTY);
       return;
     }
-    Plan plan = planController.selectOne(inputIndex());
+    Plan plan = planController.select(inputIndex());
     print(plan);
   }
 

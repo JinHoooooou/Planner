@@ -49,7 +49,7 @@ public class SelectPlanViewTest {
     // Then
     String expected = SELECT_PLAN_HEAD + LINE
         + String.format(INPUT_INDEX) + LINE
-        + planController.selectOne(validIndex) + LINE;
+        + planController.select(validIndex) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -75,7 +75,7 @@ public class SelectPlanViewTest {
         + String.format(INPUT_INDEX) + LINE
         + INPUT_ERROR + LINE
         + String.format(INPUT_INDEX) + LINE
-        + planController.selectOne(validIndex) + LINE;
+        + planController.select(validIndex) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 

@@ -44,7 +44,7 @@ public class PlanController {
         && (second >= 0 && second < 60);
   }
 
-  public Plan selectOne(int index) {
+  public Plan select(int index) {
     return planList.get(index);
   }
 
@@ -52,12 +52,12 @@ public class PlanController {
     return planList;
   }
 
-  public boolean update(int index, String title) {
-    return update(index, title, DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
+  public Plan update(Plan original, Plan toUpdate) {
+    return original.update(toUpdate);
   }
 
   public boolean update(int index, String title, int hour, int minute, int second) {
-    Plan original = selectOne(index);
+    Plan original = select(index);
     if (!isValid(title, hour, minute, second)) {
       return false;
     }

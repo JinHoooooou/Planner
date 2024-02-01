@@ -106,8 +106,32 @@ public class Plan {
     this.seconds = seconds;
   }
 
+  public void setTimerCount(int timerCount) {
+    this.timerCount = timerCount;
+  }
+
+  public void setMemo(String memo) {
+    this.memo = memo;
+  }
+
+  public void setClear(boolean clear) {
+    this.clear = clear;
+  }
+
   @Override
   public String toString() {
     return this.title;
+  }
+
+  public Plan update(Plan toUpdate) {
+    if (toUpdate.getTitle().isEmpty()) {
+      return null;
+    }
+    setTitle(toUpdate.getTitle());
+    setMemo(toUpdate.getMemo());
+    setTimerCount(toUpdate.getTimerCount());
+    setClear(toUpdate.getClear());
+
+    return this;
   }
 }

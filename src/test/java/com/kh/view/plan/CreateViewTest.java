@@ -50,7 +50,7 @@ public class CreateViewTest {
     // Then
     String expected = CREATE_PLAN_HEAD + LINE
         + CREATE_PLAN_INPUT_TITLE + LINE
-        + String.format(CREATE_PLAN_RESULT_SUCCESS_FORMAT, planController.selectOne(0)) + LINE;
+        + String.format(CREATE_PLAN_RESULT_SUCCESS_FORMAT, planController.select(0)) + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
