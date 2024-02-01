@@ -12,9 +12,9 @@ public interface Constant {
   String MAIN_DELETE_PLAN = "5. Plan 삭제";
   String MAIN_MODIFY_TIMER = "6. 타이머 수정";
   String MAIN_EXIT = "9. 프로그램 종료";
-  String MAIN_INPUT_MENU = "메뉴 번호 선택: ";
   String EXIT_APP = "프로그램을 종료합니다.";
 
+  String INPUT_MENU = "메뉴 번호 선택: ";
   String INPUT_INDEX = "Index를 입력하세요.";
   String EMPTY = "저장된 타이머가 없습니다.";
   String INPUT_ERROR = "잘못 입력하였습니다. 다시 입력해주세요.";

@@ -10,13 +10,13 @@ import java.util.Scanner;
 
 public class DeleteView extends AbstractView {
 
-  public DeleteView(PlanController planController, Scanner scanner) {
+  public DeleteView(PlanController planController) {
     this.planController = planController;
-    this.scanner = scanner;
   }
 
   @Override
   public void execute() {
+    scanner = new Scanner(System.in);
     System.out.println(DELETE_HEAD);
     if (planController.isEmpty()) {
       System.out.println(EMPTY);

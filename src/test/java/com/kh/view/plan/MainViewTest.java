@@ -1,12 +1,12 @@
 package com.kh.view.plan;
 
 import static com.kh.view.plan.constant.Constant.EXIT_APP;
+import static com.kh.view.plan.constant.Constant.INPUT_MENU;
 import static com.kh.view.plan.constant.Constant.LINE;
 import static com.kh.view.plan.constant.Constant.MAIN_CREATE_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_DELETE_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_EXIT;
 import static com.kh.view.plan.constant.Constant.MAIN_HEAD;
-import static com.kh.view.plan.constant.Constant.MAIN_INPUT_MENU;
 import static com.kh.view.plan.constant.Constant.MAIN_LIST_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_MODIFY_TIMER;
 import static com.kh.view.plan.constant.Constant.MAIN_SELECT_PLAN;
@@ -72,11 +72,6 @@ class MainViewTest {
     assertThat(actual).isEqualTo(expected);
   }
 
-  public void setInput(String input) {
-    in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
-  }
-
   public String mainView() {
     return MAIN_HEAD + LINE
         + MAIN_CREATE_PLAN + LINE
@@ -85,7 +80,7 @@ class MainViewTest {
         + MAIN_UPDATE_PLAN + LINE
         + MAIN_DELETE_PLAN + LINE
         + MAIN_MODIFY_TIMER + LINE
-        + MAIN_EXIT + LINE + MAIN_INPUT_MENU + LINE
+        + MAIN_EXIT + LINE + INPUT_MENU + LINE
         + EXIT_APP + LINE;
   }
 

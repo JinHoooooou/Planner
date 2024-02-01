@@ -56,19 +56,6 @@ public class PlanController {
     return original.update(toUpdate);
   }
 
-  public boolean update(int index, String title, int hour, int minute, int second) {
-    Plan original = select(index);
-    if (!isValid(title, hour, minute, second)) {
-      return false;
-    }
-    original.setTitle(title);
-    original.setHours(hour);
-    original.setMinutes(minute);
-    original.setSeconds(second);
-
-    return true;
-  }
-
   public int size() {
     return planList.size();
   }

@@ -4,39 +4,32 @@ import static com.kh.view.plan.constant.Constant.MAIN_CREATE_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_DELETE_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_EXIT;
 import static com.kh.view.plan.constant.Constant.MAIN_HEAD;
-import static com.kh.view.plan.constant.Constant.MAIN_INPUT_MENU;
 import static com.kh.view.plan.constant.Constant.MAIN_LIST_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_MODIFY_TIMER;
 import static com.kh.view.plan.constant.Constant.MAIN_SELECT_PLAN;
 import static com.kh.view.plan.constant.Constant.MAIN_UPDATE_PLAN;
 
+import com.kh.view.plan.handler.MainViewHandler;
 import java.util.Scanner;
 
 public class MainView extends AbstractView {
 
   private static final int DEFAULT = -1;
-  private int menu;
-  private AbstractView subView;
+  private AbstractView mainSubView;
 
   public MainView() {
     super();
-    menu = DEFAULT;
+    subViewCommand = DEFAULT;
   }
 
   @Override
   public void execute() {
     scanner = new Scanner(System.in);
-    while (menu != 9) {
+    while (subViewCommand != 9) {
       printMain();
-      inputSubMenu();
-      subView.execute();
+      inputSubView();
+      MainViewHandler.subView(subViewCommand, planController).execute();
     }
-  }
-
-  private void inputSubMenu() {
-    menu = Integer.parseInt(scanner.nextLine());
-    System.out.println();
-    subView = AbstractView.subView(menu, planController, scanner);
   }
 
   public void printMain() {
@@ -48,6 +41,5 @@ public class MainView extends AbstractView {
     System.out.println(MAIN_DELETE_PLAN);
     System.out.println(MAIN_MODIFY_TIMER);
     System.out.println(MAIN_EXIT);
-    System.out.print(MAIN_INPUT_MENU);
   }
 }

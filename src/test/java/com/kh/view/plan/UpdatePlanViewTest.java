@@ -6,22 +6,23 @@ import static com.kh.view.plan.constant.Constant.UPDATE_PLAN_HEAD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kh.controller.PlanController;
+import com.kh.model.vo.Plan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class UpdateViewTest {
+class UpdatePlanViewTest {
 
   private CommandLineTester commandLineTester;
   private PlanController planController;
-  private UpdateView updateView;
+  private UpdatePlanView updatePlanView;
 
 
   @BeforeEach
   public void setUp() {
     commandLineTester = new CommandLineTester();
     planController = new PlanController();
-    updateView = new UpdateView(planController);
+    updatePlanView = new UpdatePlanView(planController, Plan.create("temp", ""));
   }
 
   @Test
@@ -35,7 +36,7 @@ class UpdateViewTest {
     commandLineTester.setInput(String.format(input, validIndex));
 
     // When
-    updateView.execute();
+    updatePlanView.execute();
     String actual = commandLineTester.getOutput();
 
     // Then
