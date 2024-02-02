@@ -3,6 +3,7 @@ package com.kh.view.plan.handler;
 import com.kh.controller.PlanController;
 import com.kh.model.vo.Plan;
 import com.kh.view.plan.AbstractView;
+import com.kh.view.plan.ConcentrateView;
 import com.kh.view.plan.DeletePlanView;
 import com.kh.view.plan.PlanerAppExitView;
 import com.kh.view.plan.UpdatePlanView;
@@ -16,7 +17,7 @@ public class SelectPlanViewHandler {
 
   public static AbstractView subView(int menu, PlanController planController, Plan target) {
     return switch (menu) {
-      case START_CONCENTRATION -> new PlanerAppExitView();
+      case START_CONCENTRATION -> new ConcentrateView(planController, target);
       case UPDATE_PLAN -> new UpdatePlanView(planController, target);
       case DELETE_PLAN -> new DeletePlanView(planController, target);
       case BACK_MAIN -> new PlanerAppExitView();
