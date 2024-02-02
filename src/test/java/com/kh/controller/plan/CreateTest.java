@@ -37,7 +37,7 @@ public class CreateTest {
     assertThat(actual.getTitle()).isEqualTo(validTitle);
     assertThat(actual.getTimerCount()).isZero();
     assertThat(actual.getMemo()).isEmpty();
-    assertThat(actual.getClear()).isFalse();
+    assertThat(actual.isClear()).isFalse();
     // And: 저장된 Plan는 1개이다.
     assertThat(planController.size()).isEqualTo(1);
   }
@@ -65,7 +65,7 @@ public class CreateTest {
     assertThat(actual.getTitle()).isEqualTo(validTitle);
     assertThat(actual.getTimerCount()).isZero();
     assertThat(actual.getMemo()).isEqualTo(validMemo);
-    assertThat(actual.getClear()).isFalse();
+    assertThat(actual.isClear()).isFalse();
     // And: 저장된 Timer는 1개이다.
     assertThat(planController.size()).isEqualTo(1);
   }

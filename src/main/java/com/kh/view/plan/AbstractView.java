@@ -31,7 +31,7 @@ public abstract class AbstractView {
   }
 
   public void inputSubView() {
-    System.out.println(INPUT_MENU);
+    System.out.print(INPUT_MENU);
     subViewCommand = Integer.parseInt(scanner.nextLine());
     System.out.println();
   }

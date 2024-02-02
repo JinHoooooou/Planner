@@ -3,8 +3,14 @@ package com.kh.view.plan;
 import static com.kh.view.plan.constant.Constant.EMPTY;
 import static com.kh.view.plan.constant.Constant.INPUT_ERROR;
 import static com.kh.view.plan.constant.Constant.INPUT_INDEX;
+import static com.kh.view.plan.constant.Constant.INPUT_MENU;
 import static com.kh.view.plan.constant.Constant.LINE;
+import static com.kh.view.plan.constant.Constant.SELECTED_PLAN;
+import static com.kh.view.plan.constant.Constant.SELECT_BACK_TO_MAIN;
+import static com.kh.view.plan.constant.Constant.SELECT_DELETE_PLAN;
 import static com.kh.view.plan.constant.Constant.SELECT_PLAN_HEAD;
+import static com.kh.view.plan.constant.Constant.SELECT_START_CONCENTRATION;
+import static com.kh.view.plan.constant.Constant.SELECT_UPDATE_PLAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kh.controller.PlanController;
@@ -38,6 +44,7 @@ public class SelectPlanViewTest {
     int validIndex = 0;
     String input = """
         %d
+        9
         """;
     commandLineTester.setInput(String.format(input, validIndex));
     addMockData(10);
@@ -49,7 +56,12 @@ public class SelectPlanViewTest {
     // Then
     String expected = SELECT_PLAN_HEAD + LINE
         + String.format(INPUT_INDEX) + LINE
-        + planController.select(validIndex) + LINE;
+        + String.format(SELECTED_PLAN, planController.select(validIndex)) + LINE
+        + SELECT_START_CONCENTRATION + LINE
+        + SELECT_UPDATE_PLAN + LINE
+        + SELECT_DELETE_PLAN + LINE
+        + SELECT_BACK_TO_MAIN + LINE
+        + INPUT_MENU + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 
@@ -62,6 +74,7 @@ public class SelectPlanViewTest {
     String input = """
         %d
         %d
+        9
         """;
     commandLineTester.setInput(String.format(input, invalidIndex, validIndex));
     addMockData(10);
@@ -75,7 +88,12 @@ public class SelectPlanViewTest {
         + String.format(INPUT_INDEX) + LINE
         + INPUT_ERROR + LINE
         + String.format(INPUT_INDEX) + LINE
-        + planController.select(validIndex) + LINE;
+        + String.format(SELECTED_PLAN, planController.select(validIndex)) + LINE
+        + SELECT_START_CONCENTRATION + LINE
+        + SELECT_UPDATE_PLAN + LINE
+        + SELECT_DELETE_PLAN + LINE
+        + SELECT_BACK_TO_MAIN + LINE
+        + INPUT_MENU + LINE;
     assertThat(actual).isEqualTo(expected);
   }
 

@@ -1,7 +1,13 @@
 package com.kh.view.plan;
 
 import static com.kh.view.plan.constant.Constant.EMPTY;
+import static com.kh.view.plan.constant.Constant.LINE;
+import static com.kh.view.plan.constant.Constant.SELECTED_PLAN;
+import static com.kh.view.plan.constant.Constant.SELECT_BACK_TO_MAIN;
+import static com.kh.view.plan.constant.Constant.SELECT_DELETE_PLAN;
 import static com.kh.view.plan.constant.Constant.SELECT_PLAN_HEAD;
+import static com.kh.view.plan.constant.Constant.SELECT_START_CONCENTRATION;
+import static com.kh.view.plan.constant.Constant.SELECT_UPDATE_PLAN;
 
 import com.kh.controller.PlanController;
 import com.kh.model.vo.Plan;
@@ -11,7 +17,6 @@ import java.util.Scanner;
 public class SelectPlanView extends AbstractView {
 
   private Plan target;
-  private AbstractView subView;
 
   public SelectPlanView(PlanController planController) {
     this.subViewCommand = -1;
@@ -33,12 +38,11 @@ public class SelectPlanView extends AbstractView {
   }
 
   private void printMain() {
-    System.out.println("선택한 Plan: " + target);
-    System.out.println();
-    System.out.println("1. 집중 시작");
-    System.out.println("2. Plan 수정");
-    System.out.println("3. Plan 삭제");
-    System.out.println();
+    System.out.printf(SELECTED_PLAN + LINE, target);
+    System.out.println(SELECT_START_CONCENTRATION);
+    System.out.println(SELECT_UPDATE_PLAN);
+    System.out.println(SELECT_DELETE_PLAN);
+    System.out.println(SELECT_BACK_TO_MAIN);
   }
 
 }

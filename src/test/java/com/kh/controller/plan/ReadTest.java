@@ -39,7 +39,7 @@ public class ReadTest {
      * */
     assertThat(actual.getTitle()).isEqualTo("title 0");
     assertThat(actual.getMemo()).isEmpty();
-    assertThat(actual.getClear()).isFalse();
+    assertThat(actual.isClear()).isFalse();
     assertThat(actual.getTimerCount()).isZero();
   }
 

@@ -6,9 +6,6 @@ import java.util.List;
 
 public class PlanController {
 
-  private static final int DEFAULT_HOUR = 0;
-  private static final int DEFAULT_MINUTE = 20;
-  private static final int DEFAULT_SECOND = 0;
   List<Plan> planList = new ArrayList<>();
 
   public Plan create(String title, String memo) {
@@ -24,26 +21,6 @@ public class PlanController {
     return this.create(title, "");
   }
 
-
-  public boolean create(String title, int hour, int minute, int second) {
-    if (!isValid(title, hour, minute, second)) {
-      return false;
-    }
-    Plan newPlan = Plan.create(title, hour, minute, second);
-    planList.add(newPlan);
-
-    return true;
-  }
-
-  private static boolean isValid(String title, int hour, int minute, int second) {
-    if (title.isEmpty()) {
-      return false;
-    }
-    return (hour >= 0 && hour < 12)
-        && (minute >= 0 && minute < 60)
-        && (second >= 0 && second < 60);
-  }
-
   public Plan select(int index) {
     return planList.get(index);
   }
@@ -53,6 +30,9 @@ public class PlanController {
   }
 
   public Plan update(Plan original, Plan toUpdate) {
+    if (toUpdate.getTitle().isEmpty()) {
+      throw new IllegalArgumentException("invalid title");
+    }
     return original.update(toUpdate);
   }
 
@@ -67,5 +47,12 @@ public class PlanController {
   public boolean delete(int index) {
     planList.remove(index);
     return true;
+  }
+
+  public boolean delete(Plan target) {
+    if (target == null) {
+      throw new IllegalArgumentException("null object");
+    }
+    return planList.remove(target);
   }
 }

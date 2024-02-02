@@ -9,12 +9,12 @@ import com.kh.controller.PlanController;
 import com.kh.model.vo.Plan;
 import java.util.Scanner;
 
-public class CreateView extends AbstractView {
+public class CreatePlanView extends AbstractView {
 
   private String title;
   private Plan newPlan;
 
-  public CreateView(PlanController controller) {
+  public CreatePlanView(PlanController controller) {
     this.planController = controller;
   }
 

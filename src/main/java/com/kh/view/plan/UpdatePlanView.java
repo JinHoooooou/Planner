@@ -1,40 +1,53 @@
 package com.kh.view.plan;
 
+import static com.kh.view.plan.constant.Constant.LINE;
+import static com.kh.view.plan.constant.Constant.SELECTED_PLAN;
+import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_MEMO;
+import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_TITLE;
 import static com.kh.view.plan.constant.Constant.UPDATE_PLAN_HEAD;
+import static com.kh.view.plan.constant.Constant.UPDATE_RESULT_SUCCESS_FORMAT;
 
 import com.kh.controller.PlanController;
 import com.kh.model.vo.Plan;
-import com.kh.view.plan.handler.UpdatePlanViewHandler;
 import java.util.Scanner;
 
 public class UpdatePlanView extends AbstractView {
 
-  private Plan original;
-  private AbstractView updatePlanSubView;
+  private Plan target;
+  private String updatedTitle;
+  private String updatedMemo;
 
-  public UpdatePlanView(PlanController planController, Plan original) {
+  public UpdatePlanView(PlanController planController, Plan target) {
     this.subViewCommand = -1;
     this.planController = planController;
-    this.original = original;
+    this.target = target;
   }
 
   @Override
   public void execute() {
     scanner = new Scanner(System.in);
-    printMain();
+    System.out.println(UPDATE_PLAN_HEAD);
+    System.out.printf(SELECTED_PLAN + LINE, target);
+    System.out.println();
     inputUpdateTitle();
     inputUpdateMemo();
-    inputSubView();
-    updatePlanSubView = UpdatePlanViewHandler.subView(subViewCommand, planController, original);
-    updatePlanSubView.execute();
+    planController.update(target, Plan.create(updatedTitle, updatedMemo));
+    print();
   }
 
-  private void printMain() {
-    System.out.println(UPDATE_PLAN_HEAD);
-    System.out.println("선택한 Plan: " + original);
+  private void inputUpdateTitle() {
+    System.out.print(UPDATE_INPUT_TITLE);
+    updatedTitle = scanner.nextLine();
     System.out.println();
-    System.out.println("1. 제목 수정");
-    System.out.println("2. 메모 수정");
   }
 
+  private void inputUpdateMemo() {
+    System.out.print(UPDATE_INPUT_MEMO);
+    updatedMemo = scanner.nextLine();
+    System.out.println();
+  }
+
+  private void print() {
+    System.out.printf(UPDATE_RESULT_SUCCESS_FORMAT + LINE, target);
+  }
 }

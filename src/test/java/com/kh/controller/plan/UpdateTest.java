@@ -1,10 +1,10 @@
 package com.kh.controller.plan;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.controller.PlanController;
 import com.kh.model.vo.Plan;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 public class UpdateTest {
 
   private PlanController planController;
-  private List<Plan> originals;
 
   @BeforeEach
   public void setUp() {
@@ -40,7 +39,7 @@ public class UpdateTest {
      * */
     assertThat(actual.getTitle()).isEqualTo(validUpdatedTitle);
     assertThat(actual.getMemo()).isEmpty();
-    assertThat(actual.getClear()).isFalse();
+    assertThat(actual.isClear()).isFalse();
     assertThat(actual.getTimerCount()).isZero();
     assertThat(actual).isEqualTo(newPlan);
   }
@@ -56,10 +55,10 @@ public class UpdateTest {
     Plan updatePlan = Plan.create(invalidUpdatedTitle, validUpdateMemo);
 
     // When: update 메서드를 호출한다.
-    Plan actual = planController.update(newPlan, updatePlan);
-
-    // Then: actual null 이다.
-    assertThat(actual).isNull();
+    // Then: IllegalArgumentException 발생한다.
+    assertThatThrownBy(() -> planController.update(newPlan, updatePlan)).isInstanceOf(
+            IllegalArgumentException.class)
+        .hasMessageContaining("invalid title");
     // And: newPlan title: "original title"이다.
     assertThat(newPlan.getTitle()).isEqualTo("original title");
   }

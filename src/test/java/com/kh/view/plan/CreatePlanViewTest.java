@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreateViewTest {
+public class CreatePlanViewTest {
 
-  private CreateView createView;
+  private CreatePlanView createPlanView;
   private PlanController planController;
   private CommandLineTester commandLineTester;
 
@@ -23,7 +23,7 @@ public class CreateViewTest {
   public void setUp() {
     commandLineTester = new CommandLineTester();
     planController = new PlanController();
-    createView = new CreateView(planController);
+    createPlanView = new CreatePlanView(planController);
   }
 
   @AfterEach
@@ -44,7 +44,7 @@ public class CreateViewTest {
     commandLineTester.setInput(String.format(input, validTitle));
 
     // When
-    createView.execute();
+    createPlanView.execute();
     String actual = commandLineTester.getOutput();
 
     // Then
@@ -67,7 +67,7 @@ public class CreateViewTest {
     commandLineTester.setInput(String.format(input, invalidTitle));
 
     // When
-    createView.execute();
+    createPlanView.execute();
     String actual = commandLineTester.getOutput();
 
     //Then

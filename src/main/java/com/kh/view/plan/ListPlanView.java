@@ -22,6 +22,5 @@ public class ListPlanView extends AbstractView {
     for (int i = 0; i < list.size(); i++) {
       System.out.println("Index " + i + ": " + list.get(i));
     }
-    System.out.println();
   }
 }

@@ -8,9 +8,7 @@ public interface Constant {
   String MAIN_CREATE_PLAN = "1. Plan 생성";
   String MAIN_LIST_PLAN = "2. Plan List 보기";
   String MAIN_SELECT_PLAN = "3. Plan 선택";
-  String MAIN_UPDATE_PLAN = "4. 타이머 수정";
-  String MAIN_DELETE_PLAN = "5. Plan 삭제";
-  String MAIN_MODIFY_TIMER = "6. 타이머 수정";
+  String MAIN_MODIFY_TIMER = "4. 타이머 수정";
   String MAIN_EXIT = "9. 프로그램 종료";
   String EXIT_APP = "프로그램을 종료합니다.";
 
@@ -25,19 +23,23 @@ public interface Constant {
   String CREATE_PLAN_RESULT_FAIL = "새 Plan 생성에 실패하였습니다.";
 
   String SELECT_PLAN_HEAD = "======= Plan 선택 =======";
+  String SELECTED_PLAN = "선택한 Plan: %s";
+  String SELECT_START_CONCENTRATION = "1. 집중 시작";
+  String SELECT_UPDATE_PLAN = "2. Plan 수정";
+  String SELECT_DELETE_PLAN = "3. Plan 삭제";
+  String SELECT_BACK_TO_MAIN = "9. 메인으로 돌아가기";
   String LIST_ALL_PLAN_HEAD = "======= 모든 Plan 보기 =======";
 
   String UPDATE_PLAN_HEAD = "======= Plan 수정 =======";
   String UPDATE_INPUT_TITLE = "수정할 Title 입력: ";
-  String UPDATE_ASK_USER_INPUT_TIME = "시간도 수정 하겠습니까? (Y/N): ";
+  String UPDATE_INPUT_MEMO = "수정할 Memo 입력: ";
 
-  String UPDATE_INPUT_HOUR = "수정할 Hour 입력: ";
-  String UPDATE_INPUT_MINUTE = "수정할 Minute 입력: ";
-  String UPDATE_INPUT_SECOND = "수정할 Second 입력: ";
-  String UPDATE_RESULT_SUCCESS_FORMAT = "타이머를 수정하였습니다.(%s -> %s)";
-  String UPDATE_RESULT_FAIL = " 타이머 수정에 실패하였습니다.";
+  String UPDATE_RESULT_SUCCESS_FORMAT = "Plan 수정 완료.(%s)";
+  String UPDATE_RESULT_FAIL = " Plan 수정에 실패하였습니다.";
 
-  String DELETE_HEAD = "======= 타이머 삭제 =======";
-  String DELETE_SUCCESS = "타이머를 삭제했습니다.";
-  String DELETE_FAIL = "타이머 삭제에 실패하였습니다.";
+  String DELETE_PLAN_HEAD = "======= 타이머 삭제 =======";
+
+  String DELETE_PLAN_WARNING_MESSAGE = "삭제하겠습니까? 삭제한 Plan은 복구가 불가능 합니다.(Y/N)";
+  String DELETE_PLAN_SUCCESS = "Plan을 삭제했습니다.";
+  String DELETE_PLAN_CANCEL = "Plan 삭제를 취소했습니다.";
 }
