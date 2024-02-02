@@ -12,4 +12,6 @@ repositories {
 dependencies {
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.25.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
 }
