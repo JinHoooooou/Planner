@@ -2,7 +2,6 @@ package com.kh.view.plan.constant;
 
 public interface Constant {
 
-
   String LINE = "\r\n";
   String MAIN_HEAD = "======= MINI PLANNER APP =======";
   String MAIN_CREATE_PLAN = "1. Plan 생성";
