@@ -63,5 +63,4 @@ public class UpdateTest {
     assertThat(newPlan.getTitle()).isEqualTo("original title");
   }
 
-
 }

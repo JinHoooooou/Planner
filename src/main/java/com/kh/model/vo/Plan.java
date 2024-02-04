@@ -12,25 +12,11 @@ public class Plan {
   private String memo;
   private boolean clear;
 
-
   public Plan() {
     this.timerCount = 0;
     this.clear = false;
     this.memo = "";
   }
-
-  public static Plan create(String title) {
-    return new Plan(title, "");
-  }
-
-  public static Plan create(String title, String memo) {
-    return new Plan(title, memo);
-  }
-
-  public static Plan copy(Plan original) {
-    return new Plan(original);
-  }
-
 
   private Plan(String title) {
     this.title = title;
@@ -44,12 +30,23 @@ public class Plan {
     this.memo = memo;
   }
 
-
   private Plan(Plan original) {
     this.title = original.getTitle();
     this.memo = original.getMemo();
     this.timerCount = original.getTimerCount();
     this.clear = original.isClear();
+  }
+
+  public static Plan create(String title) {
+    return new Plan(title, "");
+  }
+
+  public static Plan create(String title, String memo) {
+    return new Plan(title, memo);
+  }
+
+  public static Plan copy(Plan original) {
+    return new Plan(original);
   }
 
   @Override

@@ -22,7 +22,6 @@ class UpdatePlanViewTest {
   private UpdatePlanView updatePlanView;
   private Plan target;
 
-
   @BeforeEach
   public void setUp() {
     commandLineTester = new CommandLineTester();
