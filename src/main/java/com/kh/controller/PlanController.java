@@ -55,4 +55,8 @@ public class PlanController {
     }
     return planList.remove(target);
   }
+
+  public void countTimer(Plan target) {
+    target.setTimerCount(target.getTimerCount() + 1);
+  }
 }
