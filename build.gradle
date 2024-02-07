@@ -15,4 +15,5 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.3.0'
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc11', version: '21.3.0.0'
 }

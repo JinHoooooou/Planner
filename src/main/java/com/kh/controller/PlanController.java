@@ -1,59 +1,43 @@
 package com.kh.controller;
 
 import com.kh.model.vo.Plan;
-import java.util.ArrayList;
+import com.kh.service.PlanService;
 import java.util.List;
 
 public class PlanController {
 
-  List<Plan> planList = new ArrayList<>();
+  private PlanService planService;
+
+  public PlanController() {
+    planService = new PlanService();
+  }
+
 
   public Plan create(String title, String memo) {
-    if (title.isEmpty()) {
-      return null;
-    }
-    Plan newPlan = Plan.create(title, memo);
-    planList.add(newPlan);
-    return newPlan;
+    return planService.create(title, memo);
   }
 
   public Plan create(String title) {
     return this.create(title, "");
   }
 
-  public Plan select(int index) {
-    return planList.get(index);
+  public Plan select(int planId) {
+    return planService.findById(planId);
   }
 
   public List<Plan> listAll() {
-    return planList;
+
+    return planService.findAll();
   }
 
-  public Plan update(Plan original, Plan toUpdate) {
-    if (toUpdate.getTitle().isEmpty()) {
-      throw new IllegalArgumentException("invalid title");
-    }
-    return original.update(toUpdate);
-  }
+  public Plan update(Plan original, String updateTitle, String updateMemo) {
 
-  public int size() {
-    return planList.size();
-  }
-
-  public boolean isEmpty() {
-    return planList.isEmpty();
-  }
-
-  public boolean delete(int index) {
-    planList.remove(index);
-    return true;
+    return planService.update(original, updateTitle, updateMemo);
   }
 
   public boolean delete(Plan target) {
-    if (target == null) {
-      throw new IllegalArgumentException("null object");
-    }
-    return planList.remove(target);
+
+    return planService.delete(target);
   }
 
   public void countTimer(Plan target) {

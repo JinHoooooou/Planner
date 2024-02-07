@@ -31,7 +31,7 @@ public class UpdatePlanView extends AbstractView {
     System.out.println();
     inputUpdateTitle();
     inputUpdateMemo();
-    planController.update(target, Plan.create(updatedTitle, updatedMemo));
+    planController.update(target, updatedTitle, updatedMemo);
     print();
   }
 
