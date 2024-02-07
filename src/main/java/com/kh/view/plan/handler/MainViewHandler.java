@@ -16,8 +16,8 @@ public class MainViewHandler {
   private static final int MODIFY_TIMER = 4;
   private static final int EXIT = 9;
 
-  public static AbstractView subView(int menu, PlanController planController) {
-    return switch (menu) {
+  public static AbstractView subView(int command, PlanController planController) {
+    return switch (command) {
       case CREATE_PLAN -> new CreatePlanView(planController);
       case SELECT_PLAN -> new SelectPlanView(planController);
       case LIST_ALL_PLAN -> new ListPlanView(planController);

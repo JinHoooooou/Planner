@@ -12,7 +12,6 @@ public interface Constant {
   String EXIT_APP = "프로그램을 종료합니다.";
 
   String INPUT_MENU = "메뉴 번호 선택: ";
-  String INPUT_INDEX = "Index를 입력하세요.";
   String EMPTY = "저장된 타이머가 없습니다.";
   String INPUT_ERROR = "잘못 입력하였습니다. 다시 입력해주세요.";
 
@@ -22,6 +21,7 @@ public interface Constant {
   String CREATE_PLAN_RESULT_FAIL = "새 Plan 생성에 실패하였습니다.";
 
   String SELECT_PLAN_HEAD = "======= Plan 선택 =======";
+  String SELECT_PLAN_ID = "Plan ID를 입력하세요: ";
   String SELECTED_PLAN = "선택한 Plan: %s";
   String SELECT_START_CONCENTRATION = "1. 집중 시작";
   String SELECT_UPDATE_PLAN = "2. Plan 수정";

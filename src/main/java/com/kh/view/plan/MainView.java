@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class MainView extends AbstractView {
 
   private static final int DEFAULT = -1;
-  private AbstractView mainSubView;
+  private static final int EXIT = 9;
 
   public MainView() {
     super();
@@ -23,7 +23,7 @@ public class MainView extends AbstractView {
   @Override
   public void execute() {
     scanner = new Scanner(System.in);
-    while (subViewCommand != 9) {
+    while (subViewCommand != EXIT) {
       printMain();
       inputSubView();
       MainViewHandler.subView(subViewCommand, planController).execute();

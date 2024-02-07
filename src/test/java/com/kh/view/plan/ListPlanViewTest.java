@@ -35,7 +35,7 @@ public class ListPlanViewTest {
 
     // Then
     StringBuilder expected = new StringBuilder(LIST_ALL_PLAN_HEAD + LINE);
-    for (int i = 0; i < planController.size(); i++) {
+    for (int i = 0; i < 15; i++) {
       expected.append(String.format("Index %d: %s", i, planController.select(i))).append(LINE);
     }
     assertThat(actual).isEqualTo(expected.toString());
