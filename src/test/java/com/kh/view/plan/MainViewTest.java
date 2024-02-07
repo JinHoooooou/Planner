@@ -11,6 +11,7 @@ import static com.kh.view.plan.constant.Constant.MAIN_SELECT_PLAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kh.controller.PlanController;
+import com.kh.helper.CommandLineTester;
 import com.kh.model.vo.Plan;
 import java.util.ArrayList;
 import java.util.List;

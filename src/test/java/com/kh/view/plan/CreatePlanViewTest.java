@@ -8,6 +8,7 @@ import static com.kh.view.plan.constant.Constant.LINE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kh.controller.PlanController;
+import com.kh.helper.CommandLineTester;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
