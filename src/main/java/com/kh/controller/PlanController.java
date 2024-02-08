@@ -14,7 +14,11 @@ public class PlanController {
 
 
   public Plan create(String title, String memo) {
-    return planService.create(title, memo);
+    try {
+      return planService.create(title, memo);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
   }
 
   public Plan create(String title) {

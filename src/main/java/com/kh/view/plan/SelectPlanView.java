@@ -28,11 +28,11 @@ public class SelectPlanView extends AbstractView {
   public void execute() {
     scanner = new Scanner(System.in);
     System.out.println(SELECT_PLAN_HEAD);
-    if (planController.isEmpty()) {
-      System.out.println(EMPTY);
-      return;
-    }
-    target = planController.select(inputIndex());
+//    if (planController.isEmpty()) {
+//      System.out.println(EMPTY);
+//      return;
+//    }
+    target = planController.select(inputPlanId());
     printMain();
     inputSubView();
     SelectPlanViewHandler.subView(subViewCommand, planController, target).execute();
