@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="data:," rel="icon">
   <meta charset="UTF-8">
   <title>Create Form</title>
 </head>
 <body>
 
-<form action="/plan/create" accept-charset="utf-8" name="createPlan" method="post">
+<form accept-charset="utf-8" action="/plan/create" method="post" name="createPlan">
   <fieldset>
     <legend>Plan 생성</legend>
-    Title: <input type="text" name="title"/><br>
-    memo: <input type="textarea" name="memo"/><br>
+    Title: <input name="title" type="text"/><br>
+    memo: <input name="memo" type="textarea"/><br>
     <input type="submit" value="등록"/>
   </fieldset>
 </form>

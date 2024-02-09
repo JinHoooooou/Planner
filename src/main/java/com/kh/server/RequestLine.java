@@ -7,14 +7,13 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Getter
 public class RequestLine {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestLine.class);
 
-  @Getter
   @Setter
   private String method;
-  @Getter
   private String path;
   private Map<String, String> params = new HashMap<>();
 
@@ -26,7 +25,7 @@ public class RequestLine {
     }
     setMethod(tokens[0]);
     setPath(tokens[1]);
-    getParameterFrom(requestLine);
+    getParamsFrom(tokens[1]);
   }
 
   private void setPath(String token) {
@@ -35,7 +34,7 @@ public class RequestLine {
         : token;
   }
 
-  private void getParameterFrom(String requestLine) {
+  private void getParamsFrom(String requestLine) {
     if (!requestLine.contains("?")) {
       return;
     }
@@ -45,5 +44,9 @@ public class RequestLine {
       String[] keyValue = keyValueString.split("=");
       this.params.put(keyValue[0], keyValue[1]);
     }
+  }
+
+  public String getParam(String name) {
+    return this.params.get(name);
   }
 }
