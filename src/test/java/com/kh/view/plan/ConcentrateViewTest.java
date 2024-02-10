@@ -1,7 +1,8 @@
 package com.kh.view.plan;
 
-import com.kh.controller.PlanController;
-import com.kh.model.vo.Plan;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.model.vo.Plan;
+import com.kh.plan.view.ConcentrateView;
 import org.junit.jupiter.api.Test;
 
 public class ConcentrateViewTest {

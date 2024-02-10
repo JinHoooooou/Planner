@@ -3,9 +3,9 @@ package com.kh.controller.plan;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.DdlHelper;
-import com.kh.model.vo.Plan;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.model.vo.Plan;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

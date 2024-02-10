@@ -1,14 +1,15 @@
 package com.kh.view.plan;
 
-import static com.kh.view.plan.constant.Constant.CREATE_PLAN_HEAD;
-import static com.kh.view.plan.constant.Constant.CREATE_PLAN_INPUT_TITLE;
-import static com.kh.view.plan.constant.Constant.CREATE_PLAN_RESULT_FAIL;
-import static com.kh.view.plan.constant.Constant.CREATE_PLAN_RESULT_SUCCESS_FORMAT;
-import static com.kh.view.plan.constant.Constant.LINE;
+import static com.kh.plan.view.constant.Constant.CREATE_PLAN_HEAD;
+import static com.kh.plan.view.constant.Constant.CREATE_PLAN_INPUT_TITLE;
+import static com.kh.plan.view.constant.Constant.CREATE_PLAN_RESULT_FAIL;
+import static com.kh.plan.view.constant.Constant.CREATE_PLAN_RESULT_SUCCESS_FORMAT;
+import static com.kh.plan.view.constant.Constant.LINE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.CommandLineTester;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.view.CreatePlanView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

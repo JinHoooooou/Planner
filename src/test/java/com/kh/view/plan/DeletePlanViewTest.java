@@ -1,17 +1,18 @@
 package com.kh.view.plan;
 
-import static com.kh.view.plan.constant.Constant.DELETE_PLAN_CANCEL;
-import static com.kh.view.plan.constant.Constant.DELETE_PLAN_HEAD;
-import static com.kh.view.plan.constant.Constant.DELETE_PLAN_SUCCESS;
-import static com.kh.view.plan.constant.Constant.DELETE_PLAN_WARNING_MESSAGE;
-import static com.kh.view.plan.constant.Constant.LINE;
-import static com.kh.view.plan.constant.Constant.SELECTED_PLAN;
+import static com.kh.plan.view.constant.Constant.DELETE_PLAN_CANCEL;
+import static com.kh.plan.view.constant.Constant.DELETE_PLAN_HEAD;
+import static com.kh.plan.view.constant.Constant.DELETE_PLAN_SUCCESS;
+import static com.kh.plan.view.constant.Constant.DELETE_PLAN_WARNING_MESSAGE;
+import static com.kh.plan.view.constant.Constant.LINE;
+import static com.kh.plan.view.constant.Constant.SELECTED_PLAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.CommandLineTester;
-import com.kh.model.vo.Plan;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.model.vo.Plan;
+import com.kh.plan.view.DeletePlanView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,17 +1,18 @@
 package com.kh.view.plan;
 
-import static com.kh.view.plan.constant.Constant.LINE;
-import static com.kh.view.plan.constant.Constant.SELECTED_PLAN;
-import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_MEMO;
-import static com.kh.view.plan.constant.Constant.UPDATE_INPUT_TITLE;
-import static com.kh.view.plan.constant.Constant.UPDATE_PLAN_HEAD;
-import static com.kh.view.plan.constant.Constant.UPDATE_RESULT_SUCCESS_FORMAT;
+import static com.kh.plan.view.constant.Constant.LINE;
+import static com.kh.plan.view.constant.Constant.SELECTED_PLAN;
+import static com.kh.plan.view.constant.Constant.UPDATE_INPUT_MEMO;
+import static com.kh.plan.view.constant.Constant.UPDATE_INPUT_TITLE;
+import static com.kh.plan.view.constant.Constant.UPDATE_PLAN_HEAD;
+import static com.kh.plan.view.constant.Constant.UPDATE_RESULT_SUCCESS_FORMAT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.CommandLineTester;
-import com.kh.model.vo.Plan;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.model.vo.Plan;
+import com.kh.plan.view.UpdatePlanView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,20 +1,21 @@
 package com.kh.view.plan;
 
-import static com.kh.view.plan.constant.Constant.EMPTY;
-import static com.kh.view.plan.constant.Constant.INPUT_ERROR;
-import static com.kh.view.plan.constant.Constant.INPUT_MENU;
-import static com.kh.view.plan.constant.Constant.LINE;
-import static com.kh.view.plan.constant.Constant.SELECTED_PLAN;
-import static com.kh.view.plan.constant.Constant.SELECT_BACK_TO_MAIN;
-import static com.kh.view.plan.constant.Constant.SELECT_DELETE_PLAN;
-import static com.kh.view.plan.constant.Constant.SELECT_PLAN_HEAD;
-import static com.kh.view.plan.constant.Constant.SELECT_PLAN_ID;
-import static com.kh.view.plan.constant.Constant.SELECT_START_CONCENTRATION;
-import static com.kh.view.plan.constant.Constant.SELECT_UPDATE_PLAN;
+import static com.kh.plan.view.constant.Constant.EMPTY;
+import static com.kh.plan.view.constant.Constant.INPUT_ERROR;
+import static com.kh.plan.view.constant.Constant.INPUT_MENU;
+import static com.kh.plan.view.constant.Constant.LINE;
+import static com.kh.plan.view.constant.Constant.SELECTED_PLAN;
+import static com.kh.plan.view.constant.Constant.SELECT_BACK_TO_MAIN;
+import static com.kh.plan.view.constant.Constant.SELECT_DELETE_PLAN;
+import static com.kh.plan.view.constant.Constant.SELECT_PLAN_HEAD;
+import static com.kh.plan.view.constant.Constant.SELECT_PLAN_ID;
+import static com.kh.plan.view.constant.Constant.SELECT_START_CONCENTRATION;
+import static com.kh.plan.view.constant.Constant.SELECT_UPDATE_PLAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.CommandLineTester;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.view.SelectPlanView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
