@@ -1,10 +1,9 @@
-package com.kh.controller.plan;
+package com.kh.plan.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.helper.DdlHelper;
-import com.kh.plan.controller.PlanController;
 import com.kh.plan.model.vo.Plan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 public class UpdateTest {
 
-  private PlanController planController;
+  private PlanService planService;
 
   @BeforeEach
   public void setUp() {
-    planController = new PlanController();
+    planService = new PlanService();
     DdlHelper.dropTable();
     DdlHelper.createTable();
   }
@@ -25,14 +24,14 @@ public class UpdateTest {
   @DisplayName("valid original Plan 객체와 valid update title, valid update memo 주어질 때 update 성공한다.")
   public void updateSuccessTest1() {
     // Given: valid plan 객체를 저장한다.
-    Plan original = planController.create("original title 1", "original memo 1");
+    Plan original = planService.create("original title 1", "original memo 1");
 
     // And: valid update title, valid update memo 주어진다.
     String validUpdateTitle = "update title";
     String validUpdateMemo = "";
 
     // When: update 메서드를 호출한다.
-    Plan actual = planController.update(original, validUpdateTitle, validUpdateMemo);
+    Plan actual = planService.update(original, validUpdateTitle, validUpdateMemo);
 
     /* Then: actual
      *        id: 1
@@ -52,7 +51,7 @@ public class UpdateTest {
   @DisplayName("valid original Plan 객체와 invalid update title, valid update memo 주어질 때 update 실패한다.")
   public void updateFailTest1() {
     // Given: valid plan 객체를 저장한다.
-    Plan original = planController.create("original title 1", "original memo 1");
+    Plan original = planService.create("original title 1", "original memo 1");
 
     // And: invalid update title, valid update memo 주어진다.
     String invalidUpdateTitle = "";
@@ -60,7 +59,7 @@ public class UpdateTest {
 
     // When: update 메서드를 호출한다.
     // Then: IllegalArgumentException 발생한다.
-    assertThatThrownBy(() -> planController.update(original, invalidUpdateTitle, validUpdateMemo))
+    assertThatThrownBy(() -> planService.update(original, invalidUpdateTitle, validUpdateMemo))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("invalid update title");
   }

@@ -1,4 +1,4 @@
-package com.kh.plan.view.constant;
+package com.kh.database;
 
 public interface DbConfig {
 

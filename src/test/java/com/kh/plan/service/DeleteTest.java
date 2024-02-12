@@ -1,9 +1,8 @@
-package com.kh.controller.plan;
+package com.kh.plan.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kh.helper.DdlHelper;
-import com.kh.plan.controller.PlanController;
 import com.kh.plan.model.vo.Plan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,11 +10,11 @@ import org.junit.jupiter.api.Test;
 
 public class DeleteTest {
 
-  private PlanController planController;
+  private PlanService planService;
 
   @BeforeEach
   public void setUp() {
-    planController = new PlanController();
+    planService = new PlanService();
     DdlHelper.dropTable();
     DdlHelper.createTable();
   }
@@ -24,10 +23,10 @@ public class DeleteTest {
   @DisplayName("valid Plan 객체가 주어질 때 delete 성공한다.")
   public void deleteSuccessTest() {
     // Given: valid plan 객체를 저장한다.
-    Plan target = planController.create("valid title", "valid memo");
+    Plan target = planService.create("valid title", "valid memo");
 
     // When: delete 메서드를 호출한다.
-    boolean actual = planController.delete(target);
+    boolean actual = planService.delete(target);
 
     // Then: actual은 true이다.
     assertThat(actual).isTrue();

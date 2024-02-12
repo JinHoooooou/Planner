@@ -1,10 +1,9 @@
-package com.kh.controller.plan;
+package com.kh.plan.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.helper.DdlHelper;
-import com.kh.plan.controller.PlanController;
 import com.kh.plan.model.vo.Plan;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 public class ReadTest {
 
-  private PlanController planController;
+  private PlanService planService;
 
   @BeforeEach
   public void setUp() {
-    planController = new PlanController();
+    planService = new PlanService();
     DdlHelper.dropTable();
     DdlHelper.createTable();
   }
@@ -30,7 +29,7 @@ public class ReadTest {
     int validPlanId = 1;
 
     // When: select 메서드를 호출한다.
-    Plan actual = planController.select(validPlanId);
+    Plan actual = planService.findById(validPlanId);
 
     /* Then: actual
      *        title: "valid title 1"
@@ -53,7 +52,7 @@ public class ReadTest {
 
     // When: select 메서드를 호출한다.
     // Then: IllegalArgumentException이 발생한다.
-    assertThatThrownBy(() -> planController.select(invalidPlanId))
+    assertThatThrownBy(() -> planService.findById(invalidPlanId))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("invalid plan id");
   }
@@ -65,7 +64,7 @@ public class ReadTest {
     insertSampleData(5);
 
     // When: listAll 메서드를 호출한다.
-    List<Plan> actual = planController.listAll();
+    List<Plan> actual = planService.findAll();
 
     // Then: actual의 size는 10이다.
     assertThat(actual.size()).isNotZero();
@@ -77,7 +76,7 @@ public class ReadTest {
     // Given: 저장된 Plan 객체가 없다.
 
     // When: listAll 메서드를 호출한다.
-    List<Plan> actual = planController.listAll();
+    List<Plan> actual = planService.findAll();
 
     // Then: actual의 size는 0이다.
     assertThat(actual.size()).isZero();
@@ -85,7 +84,7 @@ public class ReadTest {
 
   private void insertSampleData(int count) {
     for (int i = 0; i < count; i++) {
-      planController.create("valid title " + (i + 1), "valid memo " + (i + 1));
+      planService.create("valid title " + (i + 1), "valid memo " + (i + 1));
     }
   }
 

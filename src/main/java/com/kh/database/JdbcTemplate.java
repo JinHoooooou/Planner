@@ -1,6 +1,5 @@
 package com.kh.database;
 
-import com.kh.plan.view.constant.DbConfig;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
