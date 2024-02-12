@@ -2,9 +2,9 @@ package com.kh.controller.plan;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.DdlHelper;
-import com.kh.model.vo.Plan;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.model.vo.Plan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.kh.helper;
 
-import com.kh.common.JdbcTemplate;
+import com.kh.database.JdbcTemplate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

@@ -1,18 +1,19 @@
 package com.kh.view.plan;
 
-import static com.kh.view.plan.constant.Constant.INPUT_MENU;
-import static com.kh.view.plan.constant.Constant.LINE;
-import static com.kh.view.plan.constant.Constant.MAIN_CREATE_PLAN;
-import static com.kh.view.plan.constant.Constant.MAIN_EXIT;
-import static com.kh.view.plan.constant.Constant.MAIN_HEAD;
-import static com.kh.view.plan.constant.Constant.MAIN_LIST_PLAN;
-import static com.kh.view.plan.constant.Constant.MAIN_MODIFY_TIMER;
-import static com.kh.view.plan.constant.Constant.MAIN_SELECT_PLAN;
+import static com.kh.plan.view.constant.Constant.INPUT_MENU;
+import static com.kh.plan.view.constant.Constant.LINE;
+import static com.kh.plan.view.constant.Constant.MAIN_CREATE_PLAN;
+import static com.kh.plan.view.constant.Constant.MAIN_EXIT;
+import static com.kh.plan.view.constant.Constant.MAIN_HEAD;
+import static com.kh.plan.view.constant.Constant.MAIN_LIST_PLAN;
+import static com.kh.plan.view.constant.Constant.MAIN_MODIFY_TIMER;
+import static com.kh.plan.view.constant.Constant.MAIN_SELECT_PLAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kh.controller.PlanController;
 import com.kh.helper.CommandLineTester;
-import com.kh.model.vo.Plan;
+import com.kh.plan.controller.PlanController;
+import com.kh.plan.model.vo.Plan;
+import com.kh.plan.view.MainView;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;

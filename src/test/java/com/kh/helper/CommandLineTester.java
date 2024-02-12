@@ -1,6 +1,6 @@
 package com.kh.helper;
 
-import com.kh.model.vo.Plan;
+import com.kh.plan.model.vo.Plan;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
