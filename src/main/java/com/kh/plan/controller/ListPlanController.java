@@ -6,7 +6,7 @@ import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 import java.util.List;
 
-public class ListPlanController implements Controller {
+public class ListPlanController extends AbstractController {
 
   @Override
   public void service(HttpRequest request, HttpResponse response) {

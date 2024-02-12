@@ -5,7 +5,7 @@ import com.kh.plan.service.PlanService;
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 
-public class UpdatePlanController implements Controller {
+public class UpdatePlanController extends AbstractController {
 
   @Override
   public void service(HttpRequest request, HttpResponse response) {

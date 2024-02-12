@@ -5,7 +5,7 @@ import com.kh.plan.service.PlanService;
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 
-public class SelectPlanController implements Controller {
+public class SelectPlanController extends AbstractController {
 
   @Override
   public void service(HttpRequest request, HttpResponse response) {
@@ -13,15 +13,9 @@ public class SelectPlanController implements Controller {
     Plan target = new PlanService().findById(planId);
 
     StringBuilder stringBuilder = new StringBuilder();
+    detail(stringBuilder, target);
 
-    stringBuilder.append("<div>");
-    stringBuilder.append("선택한 Plan").append("<br>");
-    stringBuilder.append("Title: ").append(target.getTitle()).append("<br>");
-    stringBuilder.append("Memo: ").append(target.getMemo()).append("<br>");
-    stringBuilder.append("Timer Count: ").append(target.getTimerCount()).append("<br>");
-    stringBuilder.append("Status: ").append(target.isClear() ? "완료" : "미완료").append("<br>");
-    stringBuilder.append("</div>");
-
+    stringBuilder.append("<br><br>");
     stringBuilder.append("<div>");
     stringBuilder.append("<form action=\"/timer.html\" method=\"get\">");
     stringBuilder.append("<input type=\"submit\" value=\"집중 시작\" />");
