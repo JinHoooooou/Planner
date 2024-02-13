@@ -10,13 +10,10 @@ class HttpRequestTest {
 
   @Test
   public void httpGetMethodTest() {
-    String request = """
-        GET /index.html HTTP/1.1
-        Host: localhost:8080
-        Connection: keep-alive
-        Accept: */*
-                
-        """;
+    String request = "GET /index.html HTTP/1.1\r\n"
+        + "Host: localhost:8080\r\n"
+        + "Connection: keep-alive\r\n"
+        + "Accept: */*\r\n\r\n";
     InputStream in = new ByteArrayInputStream(request.getBytes());
 
     HttpRequest httpRequest = new HttpRequest(in);
@@ -29,13 +26,10 @@ class HttpRequestTest {
 
   @Test
   public void httpGetMethodWithQueryStringTest() {
-    String request = """
-        GET /index.html?title=test_title&memo=test_memo HTTP/1.1
-        Host: localhost:8080
-        Connection: keep-alive
-        Accept: */*
-                
-        """;
+    String request = "GET /index.html?title=test_title&memo=test_memo HTTP/1.1\r\n"
+        + "Host: localhost:8080\r\n"
+        + "Connection: keep-alive\r\n"
+        + "Accept: */*\r\n\r\n";
     InputStream in = new ByteArrayInputStream(request.getBytes());
 
     HttpRequest httpRequest = new HttpRequest(in);
@@ -50,15 +44,14 @@ class HttpRequestTest {
 
   @Test
   public void httpPostMethodWithRequestBodyTest() {
-    String request = """
-        POST /plan/create HTTP/1.1
-        Host: localhost:8080
-        Connection: keep-alive
-        Content-Length: %d
-        Accept: */*
-                
-        %s
-        """;
+    String request = "POST /plan/create HTTP/1.1\r\n"
+        + "Host: localhost:8080\r\n"
+        + "Connection: keep-alive\r\n"
+        + "Content-Length: %d\r\n"
+        + "Accept: */*\r\n\r\n"
+        + "%s";
+
+
     String body = "title=test title&memo=test memo";
 
     InputStream in = new ByteArrayInputStream(
