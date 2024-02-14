@@ -1,6 +1,6 @@
 /build/
 /.gradle/
-
+/tomcat.8080
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
