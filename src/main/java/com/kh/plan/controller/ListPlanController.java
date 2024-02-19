@@ -19,9 +19,6 @@ public class ListPlanController extends AbstractController {
 
       stringBuilder.append("<td>").append(plan.getId()).append("</td>");
       stringBuilder.append("<td>").append(plan.getTitle()).append("</td>");
-      stringBuilder.append("<td>").append(plan.getMemo()).append("</td>");
-      stringBuilder.append("<td>").append(plan.getTimerCount()).append("</td>");
-      stringBuilder.append("<td>").append(plan.isClear() ? "완료" : "미완료").append("</td>");
 
       stringBuilder.append("<td>");
       stringBuilder.append("<a href='/plan/select?id=").append(plan.getId()).append("'>");

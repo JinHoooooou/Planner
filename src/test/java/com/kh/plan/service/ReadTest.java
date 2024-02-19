@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.helper.DdlHelper;
 import com.kh.plan.model.vo.Plan;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,9 +39,6 @@ public class ReadTest {
      *        timerCount: 0
      * */
     assertThat(actual.getTitle()).isEqualTo("valid title 1");
-    assertThat(actual.getMemo()).isEqualTo("valid memo 1");
-    assertThat(actual.isClear()).isFalse();
-    assertThat(actual.getTimerCount()).isZero();
   }
 
   @Test
@@ -84,7 +82,7 @@ public class ReadTest {
 
   private void insertSampleData(int count) {
     for (int i = 0; i < count; i++) {
-      planService.create("valid title " + (i + 1), "valid memo " + (i + 1));
+      planService.create("valid title " + (i + 1), LocalDate.now(), LocalDate.now());
     }
   }
 

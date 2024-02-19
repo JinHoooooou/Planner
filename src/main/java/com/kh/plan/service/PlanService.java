@@ -3,44 +3,42 @@ package com.kh.plan.service;
 import com.kh.database.JdbcTemplate;
 import com.kh.plan.model.vo.Plan;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlanService {
 
-  public Plan create(String title, String memo) {
+  private static final Logger LOGGER = LoggerFactory.getLogger(PlanService.class);
+
+  public void create(String title, LocalDate startDate, LocalDate endDate) {
     if (title.isEmpty()) {
       throw new IllegalArgumentException("invalid title");
     }
-    String sql = "insert into plan(title, memo) values (?, ?)";
-
+    String sql = "insert into plan(id, title, start_date, end_date) values (plan_seq.nextval, ?, ?, ?)";
     try (Connection connection = JdbcTemplate.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql,
-          Statement.RETURN_GENERATED_KEYS);
+      PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1, title);
-      statement.setString(2, memo);
+      statement.setDate(2, Date.valueOf(startDate));
+      statement.setDate(3, Date.valueOf(endDate));
 
       int result = statement.executeUpdate();
-      ResultSet id = statement.getGeneratedKeys();
-
-      if (result > 0 && id.next()) {
+      if (result > 0) {
         connection.commit();
-        return Plan.builder()
-            .id(id.getInt(1))
-            .title(title)
-            .memo(memo).build();
       } else {
         connection.rollback();
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      LOGGER.error(e.getMessage());
     }
 
-    throw new IllegalArgumentException("something wrong");
+    return;
   }
 
   public Plan findById(int planId) {
@@ -54,9 +52,7 @@ public class PlanService {
         return Plan.builder()
             .id(resultSet.getInt("id"))
             .title(resultSet.getString("title"))
-            .memo(resultSet.getString("memo"))
-            .timerCount(resultSet.getInt("timercount"))
-            .clear(resultSet.getBoolean("clear")).build();
+            .build();
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -76,13 +72,13 @@ public class PlanService {
         result.add(Plan.builder()
             .id(resultSet.getInt("id"))
             .title(resultSet.getString("title"))
-            .memo(resultSet.getString("memo"))
-            .timerCount(resultSet.getInt("timercount"))
-            .clear(resultSet.getBoolean("clear")).build()
-        );
+            .startDate(resultSet.getDate("start_date").toLocalDate())
+            .endDate(resultSet.getDate("end_date").toLocalDate())
+            .createDate(resultSet.getDate("create_date").toLocalDate())
+            .build());
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      LOGGER.error(e.getMessage());
     }
 
     return result;
@@ -104,10 +100,7 @@ public class PlanService {
       if (statement.executeUpdate() > 0) {
         connection.commit();
         return Plan.builder().id(original.getId())
-            .timerCount(original.getTimerCount())
-            .clear(original.isClear())
             .title(updateTitle)
-            .memo(updateMemo)
             .build();
       } else {
         connection.rollback();

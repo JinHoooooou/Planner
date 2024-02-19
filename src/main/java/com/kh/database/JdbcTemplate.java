@@ -9,9 +9,9 @@ public class JdbcTemplate {
   public static Connection getConnection() {
     Connection connection = null;
     try {
-      Class.forName(DbConfig.driver);
-      connection = DriverManager.getConnection(DbConfig.url, DbConfig.id,
-          DbConfig.password);
+      Class.forName(DbConfig.DRIVER);
+      connection = DriverManager.getConnection(DbConfig.MYSQL_URL + DbConfig.CONFIG, DbConfig.ID,
+          DbConfig.PASSWORD);
       connection.setAutoCommit(false);
 
     } catch (ClassNotFoundException | SQLException e) {

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.helper.DdlHelper;
 import com.kh.plan.model.vo.Plan;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,32 +17,33 @@ public class CreateTest {
   @BeforeEach
   public void setUp() {
     planService = new PlanService();
+    DdlHelper.resetSequence();
     DdlHelper.dropTable();
     DdlHelper.createTable();
   }
 
   @Test
-  @DisplayName("Valid title, memo 주어질 때 create 성공한다.")
+  @DisplayName("Valid title, startDate, endDate 주어질 때 create 성공한다.")
   public void createSuccessTest() {
     // Given: valid title, valid memo 주어진다.
     String validTitle = "valid title 0";
-    String validMemo = "valid memo content";
+    LocalDate startDate = LocalDate.now();
+    LocalDate endDate = LocalDate.now();
 
     // When: create 메서드를 호출한다.
-    Plan actual = planService.create(validTitle, validMemo);
+    planService.create(validTitle, startDate, endDate);
 
-
+    Plan actual = planService.findAll().get(0);
     /* Then: actual
      *        id: 1
      *        title: "valid title 0"
-     *        timerCount: 0
-     *        memo: "valid memo content"
-     *        clear: false
+     *        startDate: LocalDate.now()
+     *        endDate: LocalDate.now()
      * */
+    assertThat(actual.getId()).isEqualTo(1);
     assertThat(actual.getTitle()).isEqualTo(validTitle);
-    assertThat(actual.getTimerCount()).isZero();
-    assertThat(actual.getMemo()).isEqualTo(validMemo);
-    assertThat(actual.isClear()).isFalse();
+    assertThat(actual.getStartDate()).isEqualTo(startDate);
+    assertThat(actual.getEndDate()).isEqualTo(endDate);
   }
 
   @Test
@@ -49,11 +51,12 @@ public class CreateTest {
   public void createFailTest() {
     // Given: invalid title (Empty String), valid memo 주어진다.
     String invalidTitle = "";
-    String validMemo = "valid memo content";
+    LocalDate startDate = LocalDate.now();
+    LocalDate endDate = LocalDate.now();
 
     // When: create 메서드를 호출한다.
     // Then: IllegalArgumentException 발생한다.
-    assertThatThrownBy(() -> planService.create(invalidTitle, validMemo))
+    assertThatThrownBy(() -> planService.create(invalidTitle, startDate, endDate))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("invalid title");
   }
