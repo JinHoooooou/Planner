@@ -23,7 +23,7 @@ public class ListPlanServlet extends HttpServlet {
     super.init();
     FileTemplateResolver resolver = new FileTemplateResolver();
     resolver.setTemplateMode("HTML");
-    resolver.setPrefix("src/main/webapp"); // Set the path to your templates
+    resolver.setPrefix("src/main/resources/plan"); // Set the path to your templates
     resolver.setSuffix(".html");
     resolver.setCacheable(false); // Disable caching for development
 

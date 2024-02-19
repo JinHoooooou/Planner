@@ -10,9 +10,9 @@ import org.apache.catalina.webresources.StandardRoot;
 
 public class Main {
 
-  private static final String WEB_APP_DIR_LOCATION = "src/main/webapp";
-  private static final String CLASS_LOCATION = "out/production/classes";
-  private static final String WEB_APP_MOUNT = "/WEB-INF/classes";
+  private static final String WEB_APP_DIR_LOCATION = "src/main/resources";
+  private static final String CLASS_LOCATION = "build/classes";
+  private static final String WEB_APP_VIRTUAL_PATH = "/WEB-INF/classes";
 
   public static void main(String[] args) throws Exception {
     Tomcat tomcat = new Tomcat();
@@ -22,7 +22,8 @@ public class Main {
     File additionWebInfClasses = new File(CLASS_LOCATION);
     WebResourceRoot resources = new StandardRoot(context);
     resources.addPreResources(
-        new DirResourceSet(resources, WEB_APP_MOUNT, additionWebInfClasses.getAbsolutePath(), "/"));
+        new DirResourceSet(resources, WEB_APP_VIRTUAL_PATH, additionWebInfClasses.getAbsolutePath(),
+            "/"));
     context.setResources(resources);
 
     tomcat.getConnector();
