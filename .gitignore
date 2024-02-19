@@ -1,3 +1,4 @@
+src/main/java/com/kh/database/DbConfig.java
 /build/
 /.gradle/
 /tomcat.8080
