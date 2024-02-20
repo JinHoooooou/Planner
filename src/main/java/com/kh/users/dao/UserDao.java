@@ -1,7 +1,7 @@
 package com.kh.users.dao;
 
 import com.kh.database.JdbcTemplate;
-import com.kh.users.model.Users;
+import com.kh.users.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,15 +9,15 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UsersDao {
+public class UserDao {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UsersDao.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
-  public void insert(Users users) {
+  public void insert(User user) {
     try (Connection connection = JdbcTemplate.getConnection()) {
       String sql = createInsertQuery();
       PreparedStatement statement = connection.prepareStatement(sql);
-      setValuesForInsert(users, statement);
+      setValuesForInsert(user, statement);
 
       int result = statement.executeUpdate();
       if (result > 0) {
@@ -30,7 +30,7 @@ public class UsersDao {
     }
   }
 
-  public Users findByUserNo(int userNo) {
+  public User findByUserNo(int userNo) {
     try (Connection connection = JdbcTemplate.getConnection()) {
       String sql = "select * from users where userno = ?";
       PreparedStatement statement = connection.prepareStatement(sql);
@@ -38,23 +38,23 @@ public class UsersDao {
       ResultSet resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
-        return Users.from(resultSet);
+        return User.from(resultSet);
       }
     } catch (SQLException e) {
       LOGGER.error(e.getMessage());
     }
-    return Users.builder().build();
+    return User.builder().build();
   }
 
-  private void setValuesForInsert(Users users, PreparedStatement statement) throws SQLException {
-    statement.setString(1, users.getUserId());
-    statement.setString(2, users.getUserPw());
-    statement.setString(3, users.getUserName());
-    statement.setString(4, users.getNickName());
-    statement.setString(5, users.getEmail());
-    statement.setString(6, users.getPhone());
-    statement.setString(7, users.getSsn());
-    statement.setString(8, users.getAddress());
+  private void setValuesForInsert(User user, PreparedStatement statement) throws SQLException {
+    statement.setString(1, user.getUserId());
+    statement.setString(2, user.getUserPw());
+    statement.setString(3, user.getUserName());
+    statement.setString(4, user.getNickname());
+    statement.setString(5, user.getEmail());
+    statement.setString(6, user.getPhone());
+    statement.setString(7, user.getSsn());
+    statement.setString(8, user.getAddress());
   }
 
   private String createInsertQuery() {
