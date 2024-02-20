@@ -10,7 +10,7 @@ public class JdbcTemplate {
     Connection connection = null;
     try {
       Class.forName(DbConfig.DRIVER);
-      connection = DriverManager.getConnection(DbConfig.MYSQL_URL + DbConfig.CONFIG, DbConfig.ID,
+      connection = DriverManager.getConnection(DbConfig.URL, DbConfig.ID,
           DbConfig.PASSWORD);
       connection.setAutoCommit(false);
 

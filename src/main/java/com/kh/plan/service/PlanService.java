@@ -37,8 +37,6 @@ public class PlanService {
     } catch (SQLException e) {
       LOGGER.error(e.getMessage());
     }
-
-    return;
   }
 
   public Plan findById(int planId) {
@@ -55,7 +53,7 @@ public class PlanService {
             .build();
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      LOGGER.error(e.getMessage());
     }
 
     throw new IllegalArgumentException("invalid plan id");
