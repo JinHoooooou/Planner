@@ -17,7 +17,7 @@ public class SelectPlanController extends AbstractController {
 
     stringBuilder.append("<br><br>");
     stringBuilder.append("<div>");
-    stringBuilder.append("<form action=\"/timer.html\" method=\"get\">");
+    stringBuilder.append("<form action=\"/main.html\" method=\"get\">");
     stringBuilder.append("<input type=\"submit\" value=\"집중 시작\" />");
     stringBuilder.append("</form>");
     stringBuilder.append("</div>");
