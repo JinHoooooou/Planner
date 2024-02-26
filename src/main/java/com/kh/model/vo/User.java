@@ -15,29 +15,23 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User {
 
-  private int userNo;
   private String userId;
   private String userPw;
   private String userName;
   private String nickname;
   private String email;
   private String phone;
-  private String ssn;
-  private String address;
   private LocalDate enrollDate;
 
   public static User from(ResultSet resultSet) throws SQLException {
     return User.builder()
-        .userNo(resultSet.getInt("userno"))
-        .userId(resultSet.getString("userid"))
-        .userPw(resultSet.getString("userpw"))
-        .userName(resultSet.getString("username"))
+        .userId(resultSet.getString("user_id"))
+        .userPw(resultSet.getString("user_pw"))
+        .userName(resultSet.getString("user_name"))
         .nickname(resultSet.getString("nickname"))
         .email(resultSet.getString("email"))
         .phone(resultSet.getString("phone"))
-        .ssn(resultSet.getString("ssn"))
-        .address(resultSet.getString("address"))
-        .enrollDate(resultSet.getDate("enrolldate").toLocalDate())
+        .enrollDate(resultSet.getDate("enroll_date").toLocalDate())
         .build();
   }
 
@@ -46,11 +40,9 @@ public class User {
         .userId(req.getParameter("userId"))
         .userPw(req.getParameter("userPw"))
         .userName(req.getParameter("userName"))
-        .ssn(req.getParameter("ssn"))
         .nickname(req.getParameter("nickname"))
         .email(req.getParameter("email"))
         .phone(req.getParameter("phone"))
-        .address(req.getParameter("address"))
         .build();
   }
 }

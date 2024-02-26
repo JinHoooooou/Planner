@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +32,28 @@ public class UserDao {
     }
   }
 
-  public User findByUserNo(int userNo) {
+  public List<User> findAll() {
+    List<User> list = new ArrayList<>();
     try (Connection connection = JdbcTemplate.getConnection()) {
-      String sql = "select * from users where userno = ?";
+      String sql = "SELECT * FROM USERS";
       PreparedStatement statement = connection.prepareStatement(sql);
-      statement.setInt(1, userNo);
+      ResultSet resultSet = statement.executeQuery();
+
+      if (resultSet.next()) {
+        list.add(User.from(resultSet));
+      }
+      return list;
+    } catch (SQLException e) {
+      LOGGER.error(e.getMessage());
+    }
+    return new ArrayList<>();
+  }
+
+  public User findByUserId(String userId) {
+    try (Connection connection = JdbcTemplate.getConnection()) {
+      String sql = "SELECT * FROM USERS WHERE USER_ID=?";
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1, userId);
       ResultSet resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
@@ -53,13 +72,11 @@ public class UserDao {
     statement.setString(4, user.getNickname());
     statement.setString(5, user.getEmail());
     statement.setString(6, user.getPhone());
-    statement.setString(7, user.getSsn());
-    statement.setString(8, user.getAddress());
   }
 
   private String createInsertQuery() {
-    return "insert into "
-        + "users(userno, userid, userpw, username, nickname, email, phone, ssn, address) "
-        + "values(seq_user.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+    return "INSERT INTO "
+        + "USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE) "
+        + "VALUES(?, ?, ?, ?, ?, ?)";
   }
 }
