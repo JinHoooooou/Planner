@@ -35,7 +35,7 @@ public class UserDao {
   public List<User> findAll() {
     List<User> list = new ArrayList<>();
     try (Connection connection = JdbcTemplate.getConnection()) {
-      String sql = "SELECT * FROM USERS";
+      String sql = createSelectAllQuery();
       PreparedStatement statement = connection.prepareStatement(sql);
       ResultSet resultSet = statement.executeQuery();
 
@@ -51,7 +51,7 @@ public class UserDao {
 
   public User findByUserId(String userId) {
     try (Connection connection = JdbcTemplate.getConnection()) {
-      String sql = "SELECT * FROM USERS WHERE USER_ID=?";
+      String sql = createSelectByUserIdQuery();
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1, userId);
       ResultSet resultSet = statement.executeQuery();
@@ -63,6 +63,20 @@ public class UserDao {
       LOGGER.error(e.getMessage());
     }
     return User.builder().build();
+  }
+
+  private String createInsertQuery() {
+    return "INSERT INTO "
+        + "USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE) "
+        + "VALUES(?, ?, ?, ?, ?, ?)";
+  }
+
+  private String createSelectAllQuery() {
+    return "SELECT * FROM USERS";
+  }
+
+  private String createSelectByUserIdQuery() {
+    return "SELECT * FROM USERS WHERE USER_ID = ?";
   }
 
   private void setValuesForInsert(User user, PreparedStatement statement) throws SQLException {

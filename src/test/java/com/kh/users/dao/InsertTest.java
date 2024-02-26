@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.kh.helper.DdlHelper;
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.User;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ class InsertTest {
   @Test
   public void insertOneUserTest() {
     // Given: valid Users 객체가 주어진다.
-    User validUser = buildValidUsers(1).get(0);
+    User validUser = DaoTestUtils.buildValidUsers(1).get(0);
 
     // When: UserDao.insert() 메서드를 호출한다.
     userDao.insert(validUser);
@@ -37,7 +36,7 @@ class InsertTest {
   @Test
   public void insertTenUserTest() {
     // Given: valid Users 객체가 10개 주어진다.
-    List<User> validUserList = buildValidUsers(10);
+    List<User> validUserList = DaoTestUtils.buildValidUsers(10);
 
     // When: UserDao.insert() 메서드를 10번 호출한다.
     for (User validUser : validUserList) {
@@ -51,7 +50,6 @@ class InsertTest {
     }
   }
 
-
   private void assertUser(User actual, User expected) {
     assertThat(actual.getUserId()).isEqualTo(expected.getUserId());
     assertThat(actual.getUserPw()).isEqualTo(expected.getUserPw());
@@ -59,21 +57,5 @@ class InsertTest {
     assertThat(actual.getNickname()).isEqualTo(expected.getNickname());
     assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
     assertThat(actual.getPhone()).isEqualTo(expected.getPhone());
-  }
-
-  private List<User> buildValidUsers(int count) {
-    List<User> users = new ArrayList<>();
-    for (int i = 0; i < count; i++) {
-      users.add(User.builder()
-          .userId("validUserId" + i)
-          .userPw("password")
-          .userName("validUserName" + i)
-          .nickname("nickname" + i)
-          .email("valid" + i + "@kh.kr")
-          .phone("010-1234-5678")
-          .build());
-
-    }
-    return users;
   }
 }
