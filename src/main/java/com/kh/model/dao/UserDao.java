@@ -1,7 +1,7 @@
-package com.kh.users.dao;
+package com.kh.model.dao;
 
 import com.kh.database.JdbcTemplate;
-import com.kh.users.model.User;
+import com.kh.model.vo.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,7 +1,7 @@
-package com.kh.users.servlet;
+package com.kh.servlet.user;
 
-import com.kh.users.dao.UserDao;
-import com.kh.users.model.User;
+import com.kh.model.dao.UserDao;
+import com.kh.model.vo.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

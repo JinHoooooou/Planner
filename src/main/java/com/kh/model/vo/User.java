@@ -1,4 +1,4 @@
-package com.kh.users.model;
+package com.kh.model.vo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
