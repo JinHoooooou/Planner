@@ -1,6 +1,5 @@
 package com.kh.model.vo;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import lombok.AllArgsConstructor;
@@ -30,13 +29,5 @@ public class User {
         .build();
   }
 
-  public static User from(HttpServletRequest req) {
-    return User.builder()
-        .userPw(req.getParameter("userPw"))
-        .userName(req.getParameter("userName"))
-        .nickname(req.getParameter("nickname"))
-        .email(req.getParameter("email"))
-        .phone(req.getParameter("phone"))
-        .build();
-  }
+
 }

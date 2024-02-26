@@ -11,9 +11,8 @@ public class JdbcTemplate {
   public static Connection getConnection() {
     Connection connection = null;
     try {
-      Class.forName(DbConfig.DRIVER);
-      connection = DriverManager.getConnection(DbConfig.URL, DbConfig.ID,
-          DbConfig.PASSWORD);
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SEMI", "semi");
       connection.setAutoCommit(false);
 
     } catch (ClassNotFoundException | SQLException e) {
