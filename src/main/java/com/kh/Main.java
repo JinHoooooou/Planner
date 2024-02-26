@@ -1,9 +1,23 @@
 package com.kh;
 
+import com.kh.model.dao.UserDao;
+import com.kh.model.vo.User;
+
 public class Main {
 
   public static void main(String[] args) {
-    System.out.println("Hello world!");
-    //test for commit and push
+    UserDao userDao = new UserDao();
+
+    userDao.insert(User.builder()
+        .userId("jinho")
+        .userPw("123465")
+        .userName("이진호")
+        .nickname("binary")
+        .email("jinho@kh.kr")
+        .phone("01012345678")
+        .build());
+
+    User jinho = userDao.findByUserId("jinho");
+    System.out.println(jinho);
   }
 }
