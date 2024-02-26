@@ -11,11 +11,11 @@ import com.kh.model.vo.Plan;
 
 public class PlanDao {
 
-	public int insertPlan(Plan plan, Connection conn) {
-		
+	public int insertPlan(Plan plan) {
+		Connection conn = JdbcTemplate.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String sql = "INSERT INTO PLAN VALUES(SEQ_PLAN, ?, ?, ?, ?, SYSDATE, ?, ?)";
+		String sql = "INSERT INTO PLAN VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, plan.getWriter());
@@ -30,12 +30,13 @@ public class PlanDao {
 			e.printStackTrace();
 		} finally {
 			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(conn);
 		}
 		return result;
 	}
 	
-	public int updatePlan(Plan plan, Connection conn) {
-		
+	public int updatePlan(Plan plan) {
+		Connection conn = JdbcTemplate.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "UPDATE PLAN SET TITLE = ?, END_DATE = ?, REMIND_ALARM_DATE =?, COMPLETE =? WHERE WRITER =?";
@@ -51,12 +52,13 @@ public class PlanDao {
 			e.printStackTrace();
 		} finally {
 			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(conn);
 		}
 		return result;
 	}
 	
-	public int deletePlan(Plan plan, Connection conn) {
-		
+	public int deletePlan(Plan plan) {
+		Connection conn = JdbcTemplate.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "DELETE FROM PLAN WHERE WRITER = ?";
@@ -68,12 +70,14 @@ public class PlanDao {
 			e.printStackTrace();
 		} finally {
 			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(conn);
 		}
 		return result;
 		
 	}
 	
-	public ArrayList<Plan> searchPlan(Connection conn, String writer) {
+	public ArrayList<Plan> searchPlan(String writer) {
+		Connection conn = JdbcTemplate.getConnection();
 		ArrayList<Plan> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -93,12 +97,14 @@ public class PlanDao {
 		} finally {
 			JdbcTemplate.close(rset);
 			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(conn);		
 		}
 		return list;
 		
 	}
 	
-	public ArrayList<Plan> searchPlanByKeyWord(Connection conn, String keyWord) {
+	public ArrayList<Plan> searchPlanByKeyWord(String keyWord) {
+		Connection conn = JdbcTemplate.getConnection();
 		ArrayList<Plan> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -118,6 +124,7 @@ public class PlanDao {
 		} finally {
 			JdbcTemplate.close(rset);
 			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(conn);
 		}
 		return list;
 	}
