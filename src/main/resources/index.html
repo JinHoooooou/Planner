@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link href="data:," rel="icon">
+  <link href="planner_favicon.png" rel="icon" type="image/x-icon">
   <meta charset="UTF-8">
-  <title>MINI PLANNER</title>
+  <title>Planner Login Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
 </head>
 <body>
-<div>MINI PLANNER APP</div>
-<div>
-  <button onclick="location.href='user/createForm.html'" type="button">회원 가입</button>
-</div>
-<div>
-  <button onclick="location.href='user/loginForm.html'" type="button">로그인</button>
-</div>
+<form>
+  <div class="container"></div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 </body>
 </html>
