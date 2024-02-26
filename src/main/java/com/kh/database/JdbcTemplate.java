@@ -15,7 +15,7 @@ public class JdbcTemplate {
     Connection connection = null;
     try {
       Class.forName("oracle.jdbc.driver.OracleDriver");
-      connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SEMI", "semi");
+      connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SEMI", "SEMI");
           
       connection.setAutoCommit(false);
 

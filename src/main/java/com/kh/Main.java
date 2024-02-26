@@ -31,7 +31,7 @@ public class Main {
 	  java.sql.Date d=  java.sql.Date .valueOf("2024-02-26");
 	  
     PlanDao pd = new PlanDao();
-    pd.insertPlan(Plan.builder().writer("sim").title("운동").startDate(d).endDate(d).remindAlarmDate(d).complete("Y").build());
+    pd.insertPlan(Plan.builder().writer("validUserId0").title("운동").startDate(d).endDate(d).remindAlarmDate(d).complete("Y").build());
     ArrayList<Plan> list = pd.searchPlan("sim");
     System.out.println(list);
   }
