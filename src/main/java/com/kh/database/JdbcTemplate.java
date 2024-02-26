@@ -3,8 +3,12 @@ package com.kh.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JdbcTemplate {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTemplate.class);
 
   public static Connection getConnection() {
     Connection connection = null;
@@ -15,7 +19,7 @@ public class JdbcTemplate {
       connection.setAutoCommit(false);
 
     } catch (ClassNotFoundException | SQLException e) {
-      e.printStackTrace();
+      LOGGER.error(e.getMessage());
     }
     return connection;
   }
