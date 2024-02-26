@@ -1,8 +1,14 @@
+src/main/java/com/kh/database/DbConfig.java
+/build/
+/.gradle/
+/tomcat.8080
+
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+.idea
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
