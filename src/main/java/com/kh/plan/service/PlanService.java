@@ -1,6 +1,6 @@
 package com.kh.plan.service;
 
-import com.kh.database.JdbcTemplate;
+import com.kh.database.ConnectionManager;
 import com.kh.plan.model.vo.Plan;
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,8 +21,9 @@ public class PlanService {
     if (title.isEmpty()) {
       throw new IllegalArgumentException("invalid title");
     }
-    String sql = "insert into plan(id, title, start_date, end_date) values (plan_seq.nextval, ?, ?, ?)";
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    String sql = "insert into plan(id, title, start_date, end_date) "
+        + "values (plan_seq.nextval, ?, ?, ?)";
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1, title);
       statement.setDate(2, Date.valueOf(startDate));
@@ -41,7 +42,7 @@ public class PlanService {
 
   public Plan findById(int planId) {
     String sql = "select * from plan where id = ?";
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setInt(1, planId);
       ResultSet resultSet = statement.executeQuery();
@@ -62,7 +63,7 @@ public class PlanService {
   public List<Plan> findAll() {
     String sql = "select * from plan";
     List<Plan> result = new ArrayList<>();
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       ResultSet resultSet = statement.executeQuery();
 
@@ -89,7 +90,7 @@ public class PlanService {
     }
     String sql = "update plan set title=?, memo=? where id=?";
 
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1, updateTitle);
       statement.setString(2, updateMemo);
@@ -112,7 +113,7 @@ public class PlanService {
   public boolean delete(Plan target) {
     String sql = "delete from plan where id=?";
 
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setInt(1, target.getId());
 

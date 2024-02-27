@@ -10,7 +10,8 @@ public class DaoTestUtils {
   public static void addUserData(UserDao userDao) {
     userDao.insert(User.builder()
         .userId("validUserId")
-        .userPw("123456")
+        .userPw("password")
+        .userPwConfirm("password")
         .userName("validUserName")
         .nickname("validNickname")
         .email("valid@kh.kr")
@@ -24,6 +25,7 @@ public class DaoTestUtils {
       users.add(User.builder()
           .userId("validUserId" + i)
           .userPw("password")
+          .userPwConfirm("password")
           .userName("validUserName" + i)
           .nickname("nickname" + i)
           .email("valid" + i + "@kh.kr")
