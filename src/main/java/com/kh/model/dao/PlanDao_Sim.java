@@ -18,7 +18,7 @@ public class PlanDao_Sim {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "INSERT INTO PLAN VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
-		System.out.println(sql);
+		
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
@@ -34,15 +34,11 @@ public class PlanDao_Sim {
 			pstmt.setDate(5, p.getRemindAlarmDate());
 			
 			pstmt.setString(6, p.getComplete());
-			System.out.println(pstmt);
+			
 			
 			result = pstmt.executeUpdate();
-			System.out.println(result);
-//			if(result>0) {
-//				conn.commit();
-//			} else {
-//				conn.rollback();
-//			}
+			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -51,7 +47,7 @@ public class PlanDao_Sim {
 			JdbcTemplate_Sim.close(pstmt);
 			JdbcTemplate_Sim.close(conn);
 		}
-		System.out.println(result);
+		
 		return result;
 	}
 	
