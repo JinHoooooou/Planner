@@ -16,6 +16,10 @@ public class UserDao {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
   public void insert(User user) {
+    if (!user.equalsPassword()) {
+      throw new IllegalArgumentException("비밀번호와 비밀번호확인이 일치하지 않습니다.");
+    }
+
     try (Connection connection = JdbcTemplate.getConnection()) {
       String sql = createInsertQuery();
       PreparedStatement statement = connection.prepareStatement(sql);

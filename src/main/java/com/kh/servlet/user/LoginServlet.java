@@ -19,9 +19,9 @@ public class LoginServlet extends HttpServlet {
 
     try {
       new UserDao().login(userId, userPw);
+      resp.setStatus(HttpServletResponse.SC_OK);
     } catch (IllegalArgumentException e) {
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
-    resp.setStatus(HttpServletResponse.SC_OK);
   }
 }
