@@ -17,7 +17,12 @@ public class CreateUserServlet extends HttpServlet {
       throws ServletException, IOException {
     req.setCharacterEncoding("UTF-8");
     User newUser = User.from(req);
-    new UserDao().insert(newUser);
-    resp.sendRedirect("/index.html");
+
+    try {
+      new UserDao().insert(newUser);
+      resp.setStatus(HttpServletResponse.SC_CREATED);
+    } catch (IllegalArgumentException e) {
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    }
   }
 }

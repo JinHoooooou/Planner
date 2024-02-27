@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User {
 
+  // DB에 사용될 필드
   private String userId;
   private String userPw;
   private String userName;
@@ -22,6 +23,9 @@ public class User {
   private String email;
   private String phone;
   private LocalDate enrollDate;
+
+
+  private String userPwConfirm;
 
   public static User from(ResultSet resultSet) throws SQLException {
     return User.builder()
@@ -43,6 +47,11 @@ public class User {
         .nickname(req.getParameter("nickname"))
         .email(req.getParameter("email"))
         .phone(req.getParameter("phone"))
+        .userPwConfirm(req.getParameter("userPwConfirm"))
         .build();
+  }
+
+  public boolean equalsPassword() {
+    return this.getUserPw().equals(this.getUserPwConfirm());
   }
 }
