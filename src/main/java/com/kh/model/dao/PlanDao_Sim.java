@@ -6,37 +6,57 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.kh.database.JdbcTemplate;
-import com.kh.model.vo.Plan;
+import com.kh.database.JdbcTemplate_Sim;
+import com.kh.model.vo.Plan_Sim;
 
-public class PlanDao {
 
-	public int insertPlan(Plan plan) {
-		Connection conn = JdbcTemplate.getConnection();
+public class PlanDao_Sim {
+	
+	public int insertPlan(Plan_Sim p) {
+		
+		Connection conn = JdbcTemplate_Sim.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "INSERT INTO PLAN VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
+		System.out.println(sql);
 		try {
+			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, plan.getWriter());
-			pstmt.setString(2, plan.getTitle());
-			pstmt.setDate(3, plan.getStartDate());
-			pstmt.setDate(4, plan.getEndDate());
-			pstmt.setDate(5, plan.getRemindAlarmDate());
-			pstmt.setString(6, String.valueOf(plan.getComplete()));
-		
+			
+			pstmt.setString(1, p.getWriter());
+			
+			pstmt.setString(2, p.getTitle());
+			
+			pstmt.setDate(3, p.getStartDate());
+			
+			pstmt.setDate(4, p.getEndDate());
+			
+			pstmt.setDate(5, p.getRemindAlarmDate());
+			
+			pstmt.setString(6, p.getComplete());
+			System.out.println(pstmt);
+			
 			result = pstmt.executeUpdate();
+			System.out.println(result);
+//			if(result>0) {
+//				conn.commit();
+//			} else {
+//				conn.rollback();
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
-			JdbcTemplate.close(pstmt);
-			JdbcTemplate.close(conn);
+			JdbcTemplate_Sim.close(pstmt);
+			JdbcTemplate_Sim.close(conn);
 		}
+		System.out.println(result);
 		return result;
 	}
 	
-	public int updatePlan(Plan plan) {
-		Connection conn = JdbcTemplate.getConnection();
+	public int updatePlan(Plan_Sim plan) {
+		Connection conn = JdbcTemplate_Sim.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "UPDATE PLAN SET TITLE = ?, END_DATE = ?, REMIND_ALARM_DATE =?, COMPLETE =? WHERE WRITER =?";
@@ -51,14 +71,14 @@ public class PlanDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcTemplate.close(pstmt);
-			JdbcTemplate.close(conn);
+			JdbcTemplate_Sim.close(pstmt);
+			JdbcTemplate_Sim.close(conn);
 		}
 		return result;
 	}
 	
-	public int deletePlan(Plan plan) {
-		Connection conn = JdbcTemplate.getConnection();
+	public int deletePlan(Plan_Sim plan) {
+		Connection conn = JdbcTemplate_Sim.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "DELETE FROM PLAN WHERE WRITER = ?";
@@ -69,16 +89,16 @@ public class PlanDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcTemplate.close(pstmt);
-			JdbcTemplate.close(conn);
+			JdbcTemplate_Sim.close(pstmt);
+			JdbcTemplate_Sim.close(conn);
 		}
 		return result;
 		
 	}
 	
-	public ArrayList<Plan> searchPlan(String writer) {
-		Connection conn = JdbcTemplate.getConnection();
-		ArrayList<Plan> list = new ArrayList<>();
+	public ArrayList<Plan_Sim> searchPlan(String writer) {
+		Connection conn = JdbcTemplate_Sim.getConnection();
+		ArrayList<Plan_Sim> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		// 마감일이 빠른 순으로 조회하도록 함!
@@ -89,23 +109,23 @@ public class PlanDao {
 			pstmt.setString(1, writer);
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
-				Plan p = new Plan(rset.getInt("PLAN_ID"), rset.getString("WRITER"), rset.getString("TITLE"), rset.getDate("START_DATE"), rset.getDate("END_DATE"), rset.getDate("CREATE_DATE"), rset.getDate("REMIND_ALARM_DATE"), rset.getString("COMPLETE"));
+				Plan_Sim p = new Plan_Sim(rset.getInt("PLAN_ID"), rset.getString("WRITER"), rset.getString("TITLE"), rset.getDate("START_DATE"), rset.getDate("END_DATE"), rset.getDate("CREATE_DATE"), rset.getDate("REMIND_ALARM_DATE"), rset.getString("COMPLETE"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcTemplate.close(rset);
-			JdbcTemplate.close(pstmt);
-			JdbcTemplate.close(conn);		
+			JdbcTemplate_Sim.close(rset);
+			JdbcTemplate_Sim.close(pstmt);
+			JdbcTemplate_Sim.close(conn);		
 		}
 		return list;
 		
 	}
 	
-	public ArrayList<Plan> searchPlanByKeyWord(String keyWord) {
-		Connection conn = JdbcTemplate.getConnection();
-		ArrayList<Plan> list = new ArrayList<>();
+	public ArrayList<Plan_Sim> searchPlanByKeyWord(String keyWord) {
+		Connection conn = JdbcTemplate_Sim.getConnection();
+		ArrayList<Plan_Sim> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		// 제목을 키워드 검색하여 조회할 수 있도록 함.
@@ -116,15 +136,15 @@ public class PlanDao {
 			pstmt.setString(1, "%"+keyWord+"%");
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
-				Plan p = new Plan(rset.getInt("PLAN_ID"), rset.getString("WRITER"), rset.getString("TITLE"), rset.getDate("START_DATE"), rset.getDate("END_DATE"), rset.getDate("CREATE_DATE"), rset.getDate("REMIND_ALARM_DATE"), rset.getString("COMPLETE"));
+				Plan_Sim p = new Plan_Sim(rset.getInt("PLAN_ID"), rset.getString("WRITER"), rset.getString("TITLE"), rset.getDate("START_DATE"), rset.getDate("END_DATE"), rset.getDate("CREATE_DATE"), rset.getDate("REMIND_ALARM_DATE"), rset.getString("COMPLETE"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcTemplate.close(rset);
-			JdbcTemplate.close(pstmt);
-			JdbcTemplate.close(conn);
+			JdbcTemplate_Sim.close(rset);
+			JdbcTemplate_Sim.close(pstmt);
+			JdbcTemplate_Sim.close(conn);
 		}
 		return list;
 	}

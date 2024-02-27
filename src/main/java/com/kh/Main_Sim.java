@@ -4,12 +4,12 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.kh.model.dao.PlanDao;
+import com.kh.model.dao.PlanDao_Sim;
 import com.kh.model.dao.UserDao;
-import com.kh.model.vo.Plan;
+import com.kh.model.vo.Plan_Sim;
 import com.kh.model.vo.User;
 
-public class Main {
+public class Main_Sim {
 
   public static void main(String[] args) {
 //    UserDao userDao = new UserDao();
@@ -26,13 +26,15 @@ public class Main {
 //    User jinho = userDao.findByUserId("jinho");
 //    System.out.println(jinho);
     
-	  
+	 
 	    
-	  java.sql.Date d=  java.sql.Date .valueOf("2024-02-26");
+	  java.sql.Date d=  java.sql.Date.valueOf("2024-02-26");
 	  
-    PlanDao pd = new PlanDao();
-    pd.insertPlan(Plan.builder().writer("validUserId0").title("운동").startDate(d).endDate(d).remindAlarmDate(d).complete("Y").build());
-    ArrayList<Plan> list = pd.searchPlan("sim");
+    PlanDao_Sim pd = new PlanDao_Sim();
+    Plan_Sim p = new Plan_Sim("validUserId0", "운동", d, d, d, "Y");
+    pd.insertPlan(p);
+//    pd.insertPlan(Plan.builder().writer("validUserId0").title("운동").startDate(d).endDate(d).remindAlarmDate(d).complete("Y").build());
+    ArrayList<Plan_Sim> list = pd.searchPlan("validUserId0");
     System.out.println(list);
   }
 }

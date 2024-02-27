@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Plan {
+public class Plan_Sim {
 
 	private int planId;
 	private String writer;
@@ -27,9 +27,18 @@ public class Plan {
 	private Date createDate;
 	private Date remindAlarmDate;
 	private String complete;
+	
+	public Plan_Sim(String writer, String title, Date startDate, Date endDate, Date remindAlarmDate, String complete) {
+		this.writer = writer;
+		this.title = title;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.remindAlarmDate = remindAlarmDate;
+		this.complete = complete;
+	}
 	 
-	public static Plan from(ResultSet resultSet) throws SQLException {
-		    return Plan.builder()
+	public static Plan_Sim from(ResultSet resultSet) throws SQLException {
+		    return Plan_Sim.builder()
 		        .planId(resultSet.getInt("PLAN_ID"))
 		        .writer(resultSet.getString("WRITER"))
 		        .title(resultSet.getString("TITLE"))

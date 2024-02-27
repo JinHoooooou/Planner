@@ -1,6 +1,6 @@
 package com.kh.model.dao;
 
-import com.kh.database.JdbcTemplate;
+import com.kh.database.JdbcTemplate_Sim;
 import com.kh.model.vo.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ public class UserDao {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
   public void insert(User user) {
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = JdbcTemplate_Sim.getConnection()) {
       String sql = createInsertQuery();
       PreparedStatement statement = connection.prepareStatement(sql);
       setValuesForInsert(user, statement);
@@ -34,7 +34,7 @@ public class UserDao {
 
   public List<User> findAll() {
     List<User> list = new ArrayList<>();
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = JdbcTemplate_Sim.getConnection()) {
       String sql = "select * from users";
       PreparedStatement statement = connection.prepareStatement(sql);
       ResultSet resultSet = statement.executeQuery();
@@ -50,7 +50,7 @@ public class UserDao {
   }
 
   public User findByUserId(String userId) {
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = JdbcTemplate_Sim.getConnection()) {
       String sql = "SELECT * FROM USERS WHERE USER_ID = ?";
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1, userId);

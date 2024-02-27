@@ -9,7 +9,7 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JdbcTemplate {
+public class JdbcTemplate_Sim {
   
   public static Connection getConnection() {
     Connection connection = null;
@@ -17,7 +17,7 @@ public class JdbcTemplate {
       Class.forName("oracle.jdbc.driver.OracleDriver");
       connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SEMI", "SEMI");
           
-      connection.setAutoCommit(false);
+      connection.setAutoCommit(true);
 
     } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();
