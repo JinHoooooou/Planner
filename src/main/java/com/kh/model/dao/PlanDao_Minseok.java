@@ -55,7 +55,7 @@ public class PlanDao_Minseok {
 		  }
 	public void update(Plan_Minseok p) {
 		try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
-			String sql = "UPDATE SET TITLE = ?, START_DATE = ?, END_DATE = ?, REMIND_ALARM_DATE = ?, COMPLETE = ? WHERE WRITER = ?";
+			String sql = "UPDATE PLAN SET TITLE = ?, START_DATE = ?, END_DATE = ?, REMIND_ALARM_DATE = ?, COMPLETE = ? WHERE WRITER = ?";
 			  PreparedStatement pstmt = connection.prepareStatement(sql);
 		      pstmt.setString(1, p.getTitle());
 		      pstmt.setDate(2, p.getStartDate());
@@ -76,9 +76,9 @@ public class PlanDao_Minseok {
 	}
 	public void delete(Plan_Minseok p) {
 		try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
-			String sql = "DELETE FROM PLAN WHERE = ?";
+			String sql = "DELETE FROM PLAN WHERE TITLE = ?";
 			  PreparedStatement pstmt = connection.prepareStatement(sql);
-			  pstmt.setInt(1, p.getPlanId());
+			  pstmt.setString(1, p.getTitle());
 			  
 			  int result = pstmt.executeUpdate();
 		      if (result > 0) {
