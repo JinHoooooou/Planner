@@ -1,7 +1,7 @@
-package com.kh.users.servlet;
+package com.kh.servlet.user;
 
-import com.kh.users.dao.UserDao;
-import com.kh.users.model.User;
+import com.kh.model.dao.UserDao;
+import com.kh.model.vo.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +17,12 @@ public class CreateUserServlet extends HttpServlet {
       throws ServletException, IOException {
     req.setCharacterEncoding("UTF-8");
     User newUser = User.from(req);
-    new UserDao().insert(newUser);
-    resp.sendRedirect("/index.html");
+
+    try {
+      new UserDao().insert(newUser);
+      resp.setStatus(HttpServletResponse.SC_CREATED);
+    } catch (IllegalArgumentException e) {
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    }
   }
 }

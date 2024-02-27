@@ -24,21 +24,8 @@ public class DdlHelper {
     }
   }
 
-  public static void resetUsersSequence() {
-    String sql = "DROP SEQUENCE SEQ_USER";
-    try (Connection connection = JdbcTemplate.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.execute();
-      sql = "CREATE SEQUENCE SEQ_USER NOCACHE";
-      statement = connection.prepareStatement(sql);
-      statement.execute();
-    } catch (SQLException e) {
-      LOGGER.debug(e.getMessage());
-    }
-  }
-
   public static void dropUsersTable() {
-    String sql = "drop table users";
+    String sql = "DROP TABLE USERS";
     try (Connection connection = JdbcTemplate.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -60,18 +47,17 @@ public class DdlHelper {
   }
 
   public static void createUsersTable() {
-    String sql = "CREATE TABLE USERS ("
-        + "USERNO     NUMBER PRIMARY KEY,"
-        + "USERID     VARCHAR2(20) UNIQUE NOT NULL,"
-        + "USERPW     VARCHAR2(20) NOT NULL,"
-        + "USERNAME   VARCHAR2(20) NOT NULL,"
-        + "NICKNAME   VARCHAR2(20) NOT NULL UNIQUE,"
-        + "EMAIL      VARCHAR2(30) NOT NULL,"
-        + "PHONE      VARCHAR2(15),"
-        + "SSN        VARCHAR2(30) UNIQUE NOT NULL,"
-        + "ADDRESS    VARCHAR2(100) NOT NULL,"
-        + "INTEREST   VARCHAR2(500),"
-        + "ENROLLDATE DATE default sysdate)";
+    String sql = """
+        CREATE TABLE USERS (
+            USER_ID     VARCHAR2(30) PRIMARY KEY,
+            USER_PW     VARCHAR2(30) NOT NULL,
+            USER_NAME   VARCHAR2(30) NOT NULL,
+            NICKNAME    VARCHAR2(50) NOT NULL UNIQUE,
+            EMAIL       VARCHAR2(50) NOT NULL,
+            PHONE       VARCHAR2(20),
+            ENROLL_DATE DATE DEFAULT SYSDATE
+        )
+        """;
 
     try (Connection connection = JdbcTemplate.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
