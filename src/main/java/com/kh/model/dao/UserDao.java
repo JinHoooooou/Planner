@@ -43,7 +43,7 @@ public class UserDao {
       PreparedStatement statement = connection.prepareStatement(sql);
       ResultSet resultSet = statement.executeQuery();
 
-      if (resultSet.next()) {
+      while (resultSet.next()) {
         list.add(User.from(resultSet));
       }
       return list;
