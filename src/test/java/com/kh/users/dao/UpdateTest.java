@@ -31,12 +31,12 @@ public class UpdateTest {
     String updatePhone = "0104567890";
 
     // When: UserDao.update() 메서드를 호출한다.
-    userDao.updateUserInfo(validUserId,
-        User.builder()
-            .nickname(updateNickname)
-            .email(updateEmail)
-            .phone(updatePhone)
-            .build());
+    userDao.updateUserInfo(User.builder()
+        .userId(validUserId)
+        .nickname(updateNickname)
+        .email(updateEmail)
+        .phone(updatePhone)
+        .build());
 
     // Then: DB에 저장된 User 객체의 정보가 수정된다.
     User actual = userDao.findByUserId("validUserId");
@@ -55,7 +55,11 @@ public class UpdateTest {
     String updatePassword2 = "updatePassword";
 
     // When: UserDao.updatePassword() 메서드를 호출한다.
-    userDao.updatePassword(validUserId, updatePassword1, updatePassword2);
+    userDao.updatePassword(User.builder()
+        .userId(validUserId)
+        .userPw(updatePassword1)
+        .userPwConfirm(updatePassword2)
+        .build());
 
     // Then: DB에 저장된 User 객체의 정보가 수정된다.
     User actual = userDao.findByUserId(validUserId);

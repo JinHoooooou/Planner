@@ -1,6 +1,6 @@
 package com.kh.helper;
 
-import com.kh.database.JdbcTemplate;
+import com.kh.database.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ public class DdlHelper {
 
   public static void resetSequence() {
     String sql = "DROP SEQUENCE PLAN_SEQ";
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.execute();
       sql = "CREATE SEQUENCE PLAN_SEQ INCREMENT BY 1 START WITH 1 MINVALUE 1 NOCACHE";
@@ -26,7 +26,7 @@ public class DdlHelper {
 
   public static void dropUsersTable() {
     String sql = "DROP TABLE USERS";
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
 
       statement.execute();
@@ -37,7 +37,7 @@ public class DdlHelper {
 
   public static void dropTable() {
     String sql = "drop table plan";
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
 
       statement.execute();
@@ -59,7 +59,7 @@ public class DdlHelper {
         )
         """;
 
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
 
       statement.execute();
@@ -74,7 +74,7 @@ public class DdlHelper {
         + "END_DATE    DATE DEFAULT SYSDATE NOT NULL," + "CREATE_DATE DATE DEFAULT SYSDATE NOT NULL"
         + ")";
 
-    try (Connection connection = JdbcTemplate.getConnection()) {
+    try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
 
       statement.execute();
