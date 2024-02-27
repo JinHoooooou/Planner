@@ -1,7 +1,9 @@
 package com.kh.model.dao;
 
-import com.kh.database.JdbcTemplate;
-import com.kh.model.vo.Plan;
+import com.kh.database.JdbcTemplate_Minseok;
+import com.kh.model.vo.Plan_Minseok;
+import com.kh.model.vo.User;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,13 +13,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PlanDao {
+public class PlanDao_Minseok {
 	
-	  private static final Logger LOGGER = LoggerFactory.getLogger(PlanDao.class);
+	  private static final Logger LOGGER = LoggerFactory.getLogger(PlanDao_Minseok.class);
 
-	  public void insert(Plan p) {
-		  try (Connection connection = JdbcTemplate.getConnection()) {
-		      String sql = "INSERT INTO PLAN VALUES (SEQ_PLAN_NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
+	  public void insert(Plan_Minseok p) {
+		  try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
+		      String sql = "INSERT INTO PLAN VALUES (SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
 		      PreparedStatement pstmt = connection.prepareStatement(sql);
 		      pstmt.setString(1, p.getWriter());
 		      pstmt.setString(2, p.getTitle());
@@ -36,8 +38,23 @@ public class PlanDao {
 		      LOGGER.error(e.getMessage());
 		    }
 		  } 
-	public void update(Plan p) {
-		try (Connection connection = JdbcTemplate.getConnection()) {
+	  public Plan_Minseok findByWriter(String writer) {
+		    try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
+		      String sql = "SELECT * FROM PLAN WHERE WRITER = ?";
+		      PreparedStatement pstmt = connection.prepareStatement(sql);
+		      pstmt.setString(1, writer);
+		      ResultSet resultSet = pstmt.executeQuery();
+
+		      if (resultSet.next()) {
+		        return Plan_Minseok.from(resultSet);
+		      }
+		    } catch (SQLException e) {
+		      LOGGER.error(e.getMessage());
+		    }
+		    return Plan_Minseok.builder().build();
+		  }
+	public void update(Plan_Minseok p) {
+		try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
 			String sql = "UPDATE SET TITLE = ?, START_DATE = ?, END_DATE = ?, REMIND_ALARM_DATE = ?, COMPLETE = ? WHERE WRITER = ?";
 			  PreparedStatement pstmt = connection.prepareStatement(sql);
 		      pstmt.setString(1, p.getTitle());
@@ -57,8 +74,8 @@ public class PlanDao {
 			LOGGER.error(e.getMessage());
 		}
 	}
-	public void delete(Plan p) {
-		try (Connection connection = JdbcTemplate.getConnection()) {
+	public void delete(Plan_Minseok p) {
+		try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
 			String sql = "DELETE FROM PLAN WHERE = ?";
 			  PreparedStatement pstmt = connection.prepareStatement(sql);
 			  pstmt.setInt(1, p.getPlanId());

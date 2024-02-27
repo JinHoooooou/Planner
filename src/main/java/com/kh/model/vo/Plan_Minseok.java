@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @Builder
-public class Plan {
+public class Plan_Minseok {
 	private int planId;
 	private String writer;
 	private String title;
@@ -21,8 +21,8 @@ public class Plan {
 	private String complete;
 	private LocalDate createDate;
 
-	public static Plan from(ResultSet resultSet) throws SQLException {
-		return Plan.builder()
+	public static Plan_Minseok from(ResultSet resultSet) throws SQLException {
+		return Plan_Minseok.builder()
 				.planId(resultSet.getInt("plan_id"))
 				.writer(resultSet.getString("writer"))
 				.title(resultSet.getString("title"))
