@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="../planner_favicon.png" rel="icon" type="image/x-icon"/>
+  <meta charset="UTF-8"/>
+  <title>Planner SignUp Page</title>
+  <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      rel="stylesheet"
+  />
+  <script
+      crossorigin="anonymous"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+  <script
+      crossorigin="anonymous"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      src="https://code.jquery.com/jquery-3.7.1.js"
+  ></script>
+</head>
+<body>
+<form accept-charset="utf-8" id="userCreateForm">
+  <fieldset>
+    <legend>회원 가입</legend>
+    <label> 아이디: <input name="userId" type="text" id="userId"/><br/> </label>
+    <label> 비밀 번호: <input name="userPw" type="password" id="userPw"/> <br/> </label>
+    <label> 비밀 번호 확인: <input name="userPwConfirm" type="password" id="userPwConfirm"/> <br/>
+    </label>
+    <label> 이름: <input name="userName" type="text" id="userName"/> <br/> </label>
+    <label> 닉네임: <input name="nickname" type="text" id="nickname"/> <br/> </label>
+    <label> 이메일: <input name="email" type="email" id="email"/> <br/> </label>
+    <label> 연락처: <input name="phone" type="text" id="phone"/> <br/> </label>
+    <input type="submit" value="회원 가입"/>
+    <button type="button" onclick="location.href='/index.html'">취소</button>
+  </fieldset>
+</form>
+</body>
+<script>
+  $(document).ready(function () {
+    $("#userCreateForm").submit(function (event) {
+      event.preventDefault();
+      let formData = $(this).serialize();
+
+      $.ajax({
+        url: "/user/create",
+        type: "POST",
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function (response, textStatus, xhr) {
+          window.location.href = "/index.html";
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          $("#userCreateForm").append("<p>잘못 입력했습니다.</p>");
+        },
+      });
+    });
+  });
+</script>
+</html>
