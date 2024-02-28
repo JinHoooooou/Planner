@@ -1,12 +1,15 @@
 package com.kh;
 
+import com.kh.model.dao.PlanDao_Minseok;
 import com.kh.model.dao.UserDao;
+import com.kh.model.vo.Plan_Minseok;
 import com.kh.model.vo.User;
+
 
 public class Main {
 
   public static void main(String[] args) {
-    UserDao userDao = new UserDao();
+ /*   UserDao userDao = new UserDao();
 
     userDao.insert(User.builder()
         .userId("jinho")
@@ -19,5 +22,6 @@ public class Main {
 
     User jinho = userDao.findByUserId("jinho");
     System.out.println(jinho);
+*/    
   }
 }
