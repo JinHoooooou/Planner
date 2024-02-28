@@ -55,13 +55,14 @@ public class PlanDao_Sim {
 		Connection conn = JdbcTemplate_Sim.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String sql = "UPDATE PLAN SET TITLE = ?, END_DATE = ?, REMIND_ALARM_DATE =?, COMPLETE =? WHERE WRITER =?";
+		String sql = "UPDATE PLAN SET TITLE = ?, END_DATE = ?, REMIND_ALARM_DATE =?, COMPLETE =? WHERE PLAN_ID =? AND WRITER =?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, plan.getTitle());
 			pstmt.setDate(2, plan.getEndDate());
 			pstmt.setDate(3, plan.getRemindAlarmDate());
 			pstmt.setString(4, plan.getComplete());
+			pstmt.setInt(5, plan.getPlanId());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -77,10 +78,10 @@ public class PlanDao_Sim {
 		Connection conn = JdbcTemplate_Sim.getConnection();
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String sql = "DELETE FROM PLAN WHERE WRITER = ?";
+		String sql = "DELETE FROM PLAN WHERE PLAN_ID = ? AND WRITER = ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, plan.getWriter());
+			pstmt.setInt(1, plan.getPlanId());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
