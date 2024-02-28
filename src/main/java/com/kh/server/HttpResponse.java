@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class HttpResponse {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HttpResponse.class);
-  private static final String HTML_PATH = "src/main/resources/html";
+  private static final String HTML_PATH = "src/main/resources";
 
   private DataOutputStream dataOutputStream;
 
