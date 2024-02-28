@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PlanDao_Minseok {
-	
+
 	  private static final Logger LOGGER = LoggerFactory.getLogger(PlanDao_Minseok.class);
 
 	  public void insert(Plan_Minseok p) {
@@ -37,7 +37,7 @@ public class PlanDao_Minseok {
 		    } catch (SQLException e) {
 		      LOGGER.error(e.getMessage());
 		    }
-		  } 
+		  }
 	  public Plan_Minseok findByWriter(String writer) {
 		    try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
 		      String sql = "SELECT * FROM PLAN WHERE WRITER = ?";
@@ -55,7 +55,7 @@ public class PlanDao_Minseok {
 		  }
 	public void update(Plan_Minseok p) {
 		try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
-			String sql = "UPDATE PLAN SET TITLE = ?, START_DATE = ?, END_DATE = ?, REMIND_ALARM_DATE = ?, COMPLETE = ? WHERE WRITER = ?";
+			String sql = "UPDATE SET TITLE = ?, START_DATE = ?, END_DATE = ?, REMIND_ALARM_DATE = ?, COMPLETE = ? WHERE WRITER = ?";
 			  PreparedStatement pstmt = connection.prepareStatement(sql);
 		      pstmt.setString(1, p.getTitle());
 		      pstmt.setDate(2, p.getStartDate());
@@ -63,7 +63,7 @@ public class PlanDao_Minseok {
 		      pstmt.setDate(4, p.getRemindAlarmDate());
 		      pstmt.setString(5, p.getComplete());
 		      pstmt.setString(6, p.getWriter());
-		      
+
 		      int result = pstmt.executeUpdate();
 		      if (result > 0) {
 		        connection.commit();
@@ -76,10 +76,10 @@ public class PlanDao_Minseok {
 	}
 	public void delete(Plan_Minseok p) {
 		try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
-			String sql = "DELETE FROM PLAN WHERE TITLE = ?";
+			String sql = "DELETE FROM PLAN WHERE = ?";
 			  PreparedStatement pstmt = connection.prepareStatement(sql);
-			  pstmt.setString(1, p.getTitle());
-			  
+			  pstmt.setInt(1, p.getPlanId());
+
 			  int result = pstmt.executeUpdate();
 		      if (result > 0) {
 		        connection.commit();

@@ -1,25 +1,56 @@
 package com.kh.database;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcTemplate {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTemplate.class);
+  public void executeUpdate(String query, Object... parameters) {
+    try (Connection connection = ConnectionManager.getConnection()) {
+      PreparedStatement statement = connection.prepareStatement(query);
+      for (int i = 0; i < parameters.length; i++) {
+        statement.setObject(i + 1, parameters[i]);
+      }
 
-  public static Connection getConnection() {
-    Connection connection = null;
-    try {
-      Class.forName("oracle.jdbc.driver.OracleDriver");
-      connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SEMI", "semi");
-      connection.setAutoCommit(false);
-
-    } catch (ClassNotFoundException | SQLException e) {
-      LOGGER.error(e.getMessage());
+      int result = statement.executeUpdate();
+      if (result > 0) {
+        connection.commit();
+      } else {
+        connection.rollback();
+      }
+    } catch (SQLException e) {
+      throw new DataAccessException(e);
     }
-    return connection;
+  }
+
+  public <T> List<T> executeQuery(String query, RowMapper<T> mapper, Object... parameters) {
+    try (Connection connection = ConnectionManager.getConnection()) {
+      PreparedStatement statement = connection.prepareStatement(query);
+      for (int i = 0; i < parameters.length; i++) {
+        statement.setObject(i + 1, parameters[i]);
+      }
+
+      ResultSet resultSet = statement.executeQuery();
+
+      List<T> result = new ArrayList<>();
+      while (resultSet.next()) {
+        result.add(mapper.mapRow(resultSet));
+      }
+      return result;
+    } catch (SQLException e) {
+      throw new DataAccessException(e);
+    }
+  }
+
+  public <T> T executeQueryForOne(String query, RowMapper<T> mapper, Object... parameters) {
+    List<T> result = this.executeQuery(query, mapper, parameters);
+    if (result.isEmpty()) {
+      return null;
+    }
+    return result.get(0);
   }
 }
