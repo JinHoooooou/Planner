@@ -20,6 +20,8 @@ public class User {
   private String phone;
   private LocalDate enrollDate;
 
+  private String userPwConfirm;
+
   public static User from(ResultSet resultSet) throws SQLException {
     return User.builder()
         .userId(resultSet.getString("user_id"))
@@ -30,5 +32,9 @@ public class User {
         .phone(resultSet.getString("phone"))
         .enrollDate(resultSet.getDate("enroll_date").toLocalDate())
         .build();
+  }
+
+  public boolean equalsPassword() {
+    return getUserPw().equals(getUserPwConfirm());
   }
 }
