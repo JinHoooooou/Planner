@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>회원 가입 페이지</title>
+</head>
+<body>
+<form accept-charset="utf-8" action="/user/update" method="post" name="createPlan">
+  <fieldset>
+    <legend>회원 가입</legend>
+    <label>
+      아이디(ID): <input name="userId" type="text" id="userId" readonly/><br>
+    </label>
+    <label>
+      패스워드(PW): <input name="userPw" type="password" id="userPw"/> <br>
+    </label>
+    <label>
+      이름: <input name="userName" type="text" id="userName"/> <br>
+    </label>
+    <label>
+      주민등록번호: <input name="ssn" type="text" id="userSsn"/> <br>
+    </label>
+    <label>
+      닉네임: <input name="nickname" type="text" id="nickname"/> <br>
+    </label>
+    <label>
+      이메일: <input name="email" type="email" id="email"/> <br>
+    </label>
+    <label>
+      연락처: <input name="phone" type="text" id="phone"/> <br>
+    </label>
+    <label>
+      주소: <input name="address" type="text" id="address"/> <br>
+    </label>
+    <label>
+      관심사: <input name="interest" type="text" id="interest"/> <br>
+    </label>
+    <input type="submit" value="등록"/>
+  </fieldset>
+</form>
+</body>
+</html>

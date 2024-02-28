@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="data:," rel="icon">
+  <meta charset="UTF-8">
+  <title>Create Form</title>
+</head>
+<body>
+
+<form accept-charset="utf-8" action="/plan/create" method="post" name="createPlan">
+  <fieldset>
+    <legend>Plan 생성</legend>
+    <label>
+      Title: <input name="title" type="text" id="title"/><br>
+    </label>
+    <label>
+      Start Date: <input name="startDate" type="date" id="startDate"/> <br>
+    </label>
+    <label>
+      End Date: <input name="endDate" type="date" id="endDate"/> <br>
+    </label>
+    <input type="submit" value="등록"/>
+  </fieldset>
+</form>
+
+<script>
+  document.getElementById('startDate').valueAsDate = new Date();
+  document.getElementById('endDate').value= new Date().toISOString().substring(0, 10);
+</script>
+</body>
+</html>
