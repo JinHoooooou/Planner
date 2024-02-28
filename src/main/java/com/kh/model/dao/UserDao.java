@@ -34,8 +34,9 @@ public class UserDao {
 
   public List<User> findAll() {
     List<User> list = new ArrayList<>();
-    try (Connection connection = JdbcTemplate_Minseok.getConnection()) {
-      String sql = "select * from users";
+
+    try (Connection connection = JdbcTemplate.getConnection()) {
+      String sql = createSelectAllQuery();
       PreparedStatement statement = connection.prepareStatement(sql);
       ResultSet resultSet = statement.executeQuery();
 
@@ -65,6 +66,74 @@ public class UserDao {
     return User.builder().build();
   }
 
+  public void updateUserInfo(String userId, User update) {
+    try (Connection connection = JdbcTemplate.getConnection()) {
+      String sql = createAllUpdateQuery();
+      update.setUserId(userId);
+      PreparedStatement statement = connection.prepareStatement(sql);
+      setValuesForUpdate(update, statement);
+
+      int result = statement.executeUpdate();
+      if (result > 0) {
+        connection.commit();
+      } else {
+        connection.rollback();
+      }
+    } catch (SQLException e) {
+      LOGGER.error(e.getMessage());
+    }
+  }
+
+  public void updatePassword(String validUserId, String password1, String password2) {
+    if (!password1.equals(password2)) {
+      throw new IllegalArgumentException("패스워드 불일치");
+    }
+    try (Connection connection = JdbcTemplate.getConnection()) {
+      String sql = createPasswordUpdateQuery();
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1, password1);
+      statement.setString(2, validUserId);
+
+      int result = statement.executeUpdate();
+      if (result > 0) {
+        connection.commit();
+      } else {
+        connection.rollback();
+      }
+    } catch (SQLException e) {
+      LOGGER.error(e.getMessage());
+    }
+  }
+
+  private String createInsertQuery() {
+    return "INSERT INTO "
+        + "USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE) "
+        + "VALUES(?, ?, ?, ?, ?, ?)";
+  }
+
+  private String createSelectAllQuery() {
+    return "SELECT * FROM USERS";
+  }
+
+  private String createSelectByUserIdQuery() {
+    return "SELECT * FROM USERS WHERE USER_ID = ?";
+  }
+
+  private String createAllUpdateQuery() {
+    return "UPDATE USERS SET NICKNAME=?, EMAIL=?, PHONE=? WHERE USER_ID=?";
+  }
+
+  private String createPasswordUpdateQuery() {
+    return "UPDATE USERS SET USER_PW=? WHERE USER_ID=?";
+  }
+
+  private void setValuesForUpdate(User update, PreparedStatement statement) throws SQLException {
+    statement.setString(1, update.getNickname());
+    statement.setString(2, update.getEmail());
+    statement.setString(3, update.getPhone());
+    statement.setString(4, update.getUserId());
+  }
+
   private void setValuesForInsert(User user, PreparedStatement statement) throws SQLException {
     statement.setString(1, user.getUserId());
     statement.setString(2, user.getUserPw());
@@ -74,9 +143,14 @@ public class UserDao {
     statement.setString(6, user.getPhone());
   }
 
-  private String createInsertQuery() {
-    return "INSERT INTO "
-        + "USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE) "
-        + "VALUES(?, ?, ?, ?, ?, ?)";
+
+  public void login(String userId, String userPw) {
+    User target = this.findByUserId(userId);
+    if (target.getUserId() == null) {
+      throw new IllegalArgumentException("없는 아이디");
+    }
+    if (!userPw.equals(target.getUserPw())) {
+      throw new IllegalArgumentException("패스워드 불일치");
+    }
   }
 }

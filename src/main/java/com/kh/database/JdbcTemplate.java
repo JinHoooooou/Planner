@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JdbcTemplate {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTemplate.class);
+
   public static Connection getConnection() {
     Connection connection = null;
     try {

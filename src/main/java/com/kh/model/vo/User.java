@@ -2,14 +2,16 @@ package com.kh.model.vo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @Builder
 public class User {
+
   private String userId;
   private String userPw;
   private String userName;
@@ -17,6 +19,7 @@ public class User {
   private String email;
   private String phone;
   private LocalDate enrollDate;
+
   public static User from(ResultSet resultSet) throws SQLException {
     return User.builder()
         .userId(resultSet.getString("user_id"))
@@ -28,6 +31,4 @@ public class User {
         .enrollDate(resultSet.getDate("enroll_date").toLocalDate())
         .build();
   }
-
-
 }
