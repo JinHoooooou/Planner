@@ -1,27 +1,34 @@
 package com.kh;
 
-import com.kh.model.dao.PlanDao_Minseok;
-import com.kh.model.dao.UserDao;
-import com.kh.model.vo.Plan_Minseok;
-import com.kh.model.vo.User;
+import java.io.File;
+import org.apache.catalina.Context;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.DirResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
 
 
 public class Main {
 
-  public static void main(String[] args) {
- /*   UserDao userDao = new UserDao();
+  private static final String WEB_APP_DIR_LOCATION = "src/main/resources";
+  private static final String CLASS_LOCATION = "build/classes";
+  private static final String WEB_APP_VIRTUAL_PATH = "/WEB-INF/classes";
 
-    userDao.insert(User.builder()
-        .userId("jinho")
-        .userPw("123465")
-        .userName("이진호")
-        .nickname("binary")
-        .email("jinho@kh.kr")
-        .phone("01012345678")
-        .build());
+  public static void main(String[] args) throws Exception {
+    Tomcat tomcat = new Tomcat();
+    tomcat.setPort(8080);
 
-    User jinho = userDao.findByUserId("jinho");
-    System.out.println(jinho);
-*/    
+    Context context = tomcat.addWebapp("/", new File(WEB_APP_DIR_LOCATION).getAbsolutePath());
+    File additionWebInfClasses = new File(CLASS_LOCATION);
+    WebResourceRoot resources = new StandardRoot(context);
+    resources.addPreResources(
+        new DirResourceSet(resources, WEB_APP_VIRTUAL_PATH, additionWebInfClasses.getAbsolutePath(),
+            "/"));
+    context.setResources(resources);
+
+    tomcat.getConnector();
+
+    tomcat.start();
+    tomcat.getServer().await();
   }
 }
