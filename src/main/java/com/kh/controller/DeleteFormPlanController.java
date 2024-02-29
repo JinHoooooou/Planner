@@ -1,7 +1,7 @@
-package com.kh.plan.controller;
+package com.kh.controller;
 
-import com.kh.plan.model.vo.Plan;
-import com.kh.plan.service.PlanService;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 
@@ -10,7 +10,7 @@ public class DeleteFormPlanController extends AbstractController {
   @Override
   public void service(HttpRequest request, HttpResponse response) {
     int planId = Integer.parseInt(request.getParameter("id"));
-    Plan target = new PlanService().findById(planId);
+    Plan target = new PlanDao().findById(planId);
 
     StringBuilder stringBuilder = new StringBuilder();
     detail(stringBuilder, target);

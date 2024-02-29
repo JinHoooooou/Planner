@@ -1,6 +1,6 @@
-package com.kh.plan.controller;
+package com.kh.controller;
 
-import com.kh.plan.model.vo.Plan;
+import com.kh.model.vo.Plan;
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 

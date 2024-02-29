@@ -1,7 +1,7 @@
 package com.kh.server;
 
-import com.kh.plan.controller.Controller;
-import com.kh.plan.controller.RequestMapping;
+import com.kh.controller.Controller;
+import com.kh.controller.RequestMapping;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

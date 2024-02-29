@@ -1,7 +1,7 @@
-package com.kh.plan.service;
+package com.kh.model.dao;
 
 import com.kh.database.ConnectionManager;
-import com.kh.plan.model.vo.Plan;
+import com.kh.model.vo.Plan;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,9 +13,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PlanService {
+public class PlanDao {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PlanService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PlanDao.class);
 
   public void create(String title, LocalDate startDate, LocalDate endDate) {
     if (title.isEmpty()) {

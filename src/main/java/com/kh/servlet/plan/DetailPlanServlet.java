@@ -1,7 +1,7 @@
-package com.kh.plan.servlet;
+package com.kh.servlet.plan;
 
-import com.kh.plan.model.vo.Plan;
-import com.kh.plan.service.PlanService;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -34,7 +34,7 @@ public class DetailPlanServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     String id = req.getParameter("id");
-    Plan plan = new PlanService().findById(Integer.parseInt(id));
+    Plan plan = new PlanDao().findById(Integer.parseInt(id));
     Context context = new Context();
     context.setVariable("plan", plan);
     resp.setContentType("text/html;charset=UTF-8");

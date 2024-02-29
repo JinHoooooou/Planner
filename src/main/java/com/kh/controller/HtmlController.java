@@ -1,4 +1,4 @@
-package com.kh.plan.controller;
+package com.kh.controller;
 
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;

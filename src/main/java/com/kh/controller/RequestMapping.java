@@ -1,4 +1,4 @@
-package com.kh.plan.controller;
+package com.kh.controller;
 
 import java.util.HashMap;
 import java.util.Map;

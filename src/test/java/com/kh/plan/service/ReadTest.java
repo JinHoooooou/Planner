@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.helper.DdlHelper;
-import com.kh.plan.model.vo.Plan;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +14,11 @@ import org.junit.jupiter.api.Test;
 
 public class ReadTest {
 
-  private PlanService planService;
+  private PlanDao planDao;
 
   @BeforeEach
   public void setUp() {
-    planService = new PlanService();
+    planDao = new PlanDao();
     DdlHelper.dropTable();
     DdlHelper.createTable();
   }
@@ -30,7 +31,7 @@ public class ReadTest {
     int validPlanId = 1;
 
     // When: select 메서드를 호출한다.
-    Plan actual = planService.findById(validPlanId);
+    Plan actual = planDao.findById(validPlanId);
 
     /* Then: actual
      *        title: "valid title 1"
@@ -50,7 +51,7 @@ public class ReadTest {
 
     // When: select 메서드를 호출한다.
     // Then: IllegalArgumentException이 발생한다.
-    assertThatThrownBy(() -> planService.findById(invalidPlanId))
+    assertThatThrownBy(() -> planDao.findById(invalidPlanId))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("invalid plan id");
   }
@@ -62,7 +63,7 @@ public class ReadTest {
     insertSampleData(5);
 
     // When: listAll 메서드를 호출한다.
-    List<Plan> actual = planService.findAll();
+    List<Plan> actual = planDao.findAll();
 
     // Then: actual의 size는 10이다.
     assertThat(actual.size()).isNotZero();
@@ -74,7 +75,7 @@ public class ReadTest {
     // Given: 저장된 Plan 객체가 없다.
 
     // When: listAll 메서드를 호출한다.
-    List<Plan> actual = planService.findAll();
+    List<Plan> actual = planDao.findAll();
 
     // Then: actual의 size는 0이다.
     assertThat(actual.size()).isZero();
@@ -82,7 +83,7 @@ public class ReadTest {
 
   private void insertSampleData(int count) {
     for (int i = 0; i < count; i++) {
-      planService.create("valid title " + (i + 1), LocalDate.now(), LocalDate.now());
+      planDao.create("valid title " + (i + 1), LocalDate.now(), LocalDate.now());
     }
   }
 

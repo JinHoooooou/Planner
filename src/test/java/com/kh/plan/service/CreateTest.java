@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.kh.helper.DdlHelper;
-import com.kh.plan.model.vo.Plan;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class CreateTest {
 
-  private PlanService planService;
+  private PlanDao planDao;
 
   @BeforeEach
   public void setUp() {
-    planService = new PlanService();
+    planDao = new PlanDao();
     DdlHelper.resetSequence();
     DdlHelper.dropTable();
     DdlHelper.createTable();
@@ -31,9 +32,9 @@ public class CreateTest {
     LocalDate endDate = LocalDate.now();
 
     // When: create 메서드를 호출한다.
-    planService.create(validTitle, startDate, endDate);
+    planDao.create(validTitle, startDate, endDate);
 
-    Plan actual = planService.findAll().get(0);
+    Plan actual = planDao.findAll().get(0);
     /* Then: actual
      *        id: 1
      *        title: "valid title 0"
@@ -56,7 +57,7 @@ public class CreateTest {
 
     // When: create 메서드를 호출한다.
     // Then: IllegalArgumentException 발생한다.
-    assertThatThrownBy(() -> planService.create(invalidTitle, startDate, endDate))
+    assertThatThrownBy(() -> planDao.create(invalidTitle, startDate, endDate))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("invalid title");
   }

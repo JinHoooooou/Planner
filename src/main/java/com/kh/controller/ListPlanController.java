@@ -1,7 +1,7 @@
-package com.kh.plan.controller;
+package com.kh.controller;
 
-import com.kh.plan.model.vo.Plan;
-import com.kh.plan.service.PlanService;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 import java.util.List;
@@ -11,7 +11,7 @@ public class ListPlanController extends AbstractController {
   @Override
   public void service(HttpRequest request, HttpResponse response) {
     StringBuilder stringBuilder = new StringBuilder();
-    List<Plan> plans = new PlanService().findAll();
+    List<Plan> plans = new PlanDao().findAll();
 
     stringBuilder.append("<table border='1'>");
     for (Plan plan : plans) {

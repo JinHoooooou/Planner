@@ -1,7 +1,7 @@
-package com.kh.plan.controller;
+package com.kh.controller;
 
-import com.kh.plan.model.vo.Plan;
-import com.kh.plan.service.PlanService;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import com.kh.server.HttpRequest;
 import com.kh.server.HttpResponse;
 
@@ -10,10 +10,10 @@ public class DeletePlanController extends AbstractController {
   @Override
   public void service(HttpRequest request, HttpResponse response) {
     int id = Integer.parseInt(request.getParameter("id"));
-    PlanService planService = new PlanService();
-    Plan target = planService.findById(id);
+    PlanDao planDao = new PlanDao();
+    Plan target = planDao.findById(id);
 
-    planService.delete(target);
+    planDao.delete(target);
     response.redirect("/index.html");
   }
 }

@@ -1,6 +1,6 @@
-package com.kh.plan.servlet;
+package com.kh.servlet.plan;
 
-import com.kh.plan.service.PlanService;
+import com.kh.model.dao.PlanDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ public class CreatePlanServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.setCharacterEncoding("UTF-8");
-    new PlanService().create(
+    new PlanDao().create(
         req.getParameter("title"),
         LocalDate.parse(req.getParameter("startDate")),
         LocalDate.parse(req.getParameter("endDate")));

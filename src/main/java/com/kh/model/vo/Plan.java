@@ -1,4 +1,4 @@
-package com.kh.plan.model.vo;
+package com.kh.model.vo;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
