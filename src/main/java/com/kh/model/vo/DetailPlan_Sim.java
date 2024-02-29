@@ -20,6 +20,7 @@ public class DetailPlan_Sim {
 	private Date startTime;
 	private Date endTime;
 	private Date remindAlarmTime;
+	private Date createDate;
 	private String complete;
 	
 	  public static DetailPlan_Sim from(ResultSet resultSet) throws SQLException {
@@ -31,6 +32,7 @@ public class DetailPlan_Sim {
 		        .startTime(resultSet.getDate("start_time"))
 		        .endTime(resultSet.getDate("end_time"))
 		        .remindAlarmTime(resultSet.getDate("remind_alarm_time"))
+		        .createDate(resultSet.getDate("create_date"))
 		        .build();
 		  }
 }
