@@ -1,5 +1,6 @@
 package com.kh.model.vo;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,4 +39,15 @@ public class Plan {
         .build();
   }
 
+  public static Plan from(HttpServletRequest req) {
+    return Plan.builder()
+        .writer(String.valueOf(req.getSession().getAttribute("userId")))
+        .title(req.getParameter("title"))
+        .startDate(Date.valueOf(req.getParameter("startDate")))
+        .endDate(Date.valueOf(req.getParameter("endDate")))
+        .remindAlarmDate(Date.valueOf(req.getParameter("remindAlarmDate")))
+        .complete(Boolean.parseBoolean(req.getParameter("complete")))
+        .createDate(Date.valueOf("create_date"))
+        .build();
+  }
 }

@@ -1,5 +1,6 @@
 package com.kh.model.vo;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -31,6 +32,18 @@ public class User {
         .email(resultSet.getString("email"))
         .phone(resultSet.getString("phone"))
         .enrollDate(resultSet.getDate("enroll_date").toLocalDate())
+        .build();
+  }
+
+  public static User from(HttpServletRequest req) {
+    return User.builder()
+        .userId(req.getParameter("userId"))
+        .userPw(req.getParameter("userPw"))
+        .userName(req.getParameter("userName"))
+        .nickname(req.getParameter("nickname"))
+        .email(req.getParameter("email"))
+        .phone(req.getParameter("phone"))
+        .userPwConfirm(req.getParameter("userPwConfirm"))
         .build();
   }
 
