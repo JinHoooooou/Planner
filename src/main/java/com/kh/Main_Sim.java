@@ -31,10 +31,10 @@ public class Main_Sim {
 	  java.sql.Date d=  java.sql.Date.valueOf("2024-02-26");
 	  
     PlanDao_Sim pd = new PlanDao_Sim();
-    Plan_Sim p = new Plan_Sim("validUserId0", "운동", d, d, d, "Y");
-    pd.insertPlan(p);
-//    pd.insertPlan(Plan.builder().writer("validUserId0").title("운동").startDate(d).endDate(d).remindAlarmDate(d).complete("Y").build());
-    ArrayList<Plan_Sim> list = pd.searchPlan("validUserId0");
+//    Plan_Sim p = new Plan_Sim("validUserId0", "운동", d, d, d, "Y");
+//    pd.insertPlan(p);
+    pd.insertPlan(Plan_Sim.builder().writer("validUserId1").title("게임").startDate(d).endDate(d).remindAlarmDate(d).complete("Y").build());
+    ArrayList<Plan_Sim> list = pd.searchPlan("validUserId1");
     System.out.println(list);
   }
 }
