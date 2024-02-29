@@ -1,7 +1,5 @@
 package com.kh.server;
 
-import com.kh.controller.Controller;
-import com.kh.controller.RequestMapping;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,8 +23,6 @@ public class RequestHandler extends Thread {
       HttpRequest request = new HttpRequest(in);
       HttpResponse response = new HttpResponse(out);
 
-      Controller controller = RequestMapping.getController(request.getPath());
-      controller.service(request, response);
     } catch (IOException e) {
       LOGGER.warn(e.getMessage());
     }
