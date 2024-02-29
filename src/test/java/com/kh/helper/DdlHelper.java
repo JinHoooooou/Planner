@@ -11,12 +11,12 @@ public class DdlHelper {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DdlHelper.class);
 
-  public static void resetSequence() {
-    String sql = "DROP SEQUENCE PLAN_SEQ";
+  public static void resetPlanSequence() {
+    String sql = "DROP SEQUENCE SEQ_PLAN";
     try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.execute();
-      sql = "CREATE SEQUENCE PLAN_SEQ INCREMENT BY 1 START WITH 1 MINVALUE 1 NOCACHE";
+      sql = "CREATE SEQUENCE SEQ_PLAN INCREMENT BY 1 START WITH 1 MINVALUE 1 NOCACHE";
       statement = connection.prepareStatement(sql);
       statement.execute();
     } catch (SQLException e) {
@@ -35,8 +35,8 @@ public class DdlHelper {
     }
   }
 
-  public static void dropTable() {
-    String sql = "drop table plan";
+  public static void dropPlanTable() {
+    String sql = "DROP TABLE PLAN";
     try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -68,11 +68,19 @@ public class DdlHelper {
     }
   }
 
-  public static void createTable() {
-    String sql = "CREATE TABLE PLAN (" + "ID          NUMBER PRIMARY KEY,"
-        + "TITLE       VARCHAR2(30) NOT NULL," + "START_DATE  DATE DEFAULT SYSDATE NOT NULL,"
-        + "END_DATE    DATE DEFAULT SYSDATE NOT NULL," + "CREATE_DATE DATE DEFAULT SYSDATE NOT NULL"
-        + ")";
+  public static void createPlanTable() {
+    String sql = """
+        CREATE TABLE PLAN (
+          PLAN_ID           NUMBER PRIMARY KEY,
+          WRITER            VARCHAR2(30) REFERENCES USERS ON DELETE CASCADE,
+          TITLE             VARCHAR2(50) NOT NULL,
+          START_DATE        DATE DEFAULT SYSDATE,
+          END_DATE          DATE DEFAULT SYSDATE,
+          CREATE_DATE       DATE DEFAULT SYSDATE,
+          REMIND_ALARM_DATE DATE,
+          COMPLETE          CHAR(1) DEFAULT 'N' CHECK ( COMPLETE IN ( 'Y', 'N' ) )
+        )
+        """;
 
     try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(sql);

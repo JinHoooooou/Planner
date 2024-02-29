@@ -1,7 +1,8 @@
-package com.kh.users.dao;
+package com.kh.dao.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.kh.dao.DaoTestUtils;
 import com.kh.helper.DdlHelper;
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.User;
@@ -18,7 +19,7 @@ public class UpdateTest {
     DdlHelper.dropUsersTable();
     DdlHelper.createUsersTable();
 
-    DaoTestUtils.addUserData(userDao);
+    DaoTestUtils.addUserData("validUserId");
   }
 
   @Test
