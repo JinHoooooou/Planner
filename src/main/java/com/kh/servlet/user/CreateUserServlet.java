@@ -19,7 +19,7 @@ public class CreateUserServlet extends HttpServlet {
     User newUser = User.from(req);
 
     try {
-      new UserDao().insert(newUser);
+      new UserDao().save(newUser);
       resp.setStatus(HttpServletResponse.SC_CREATED);
     } catch (IllegalArgumentException e) {
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

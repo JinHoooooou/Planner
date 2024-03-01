@@ -1,45 +1,44 @@
 package com.kh.model.dao;
 
-import com.kh.database.ConnectionManager;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
 import com.kh.model.vo.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UserDao {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
-
-  public void insert(User user) {
+  public int save(User user) {
     if (!user.equalsPassword()) {
-      throw new IllegalArgumentException("비밀번호와 비밀번호확인이 일치하지 않습니다.");
+      throw new IllegalArgumentException("Not Equal Password with Password Confirm");
     }
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "INSERT INTO USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE)"
         + " VALUES(?, ?, ?, ?, ?, ?)";
-    jdbcTemplate.executeUpdate(query, user.getUserId(), user.getUserPw(), user.getUserName(),
+    return jdbcTemplate.executeUpdate(query, user.getUserId(), user.getUserPw(), user.getUserName(),
         user.getNickname(), user.getEmail(), user.getPhone());
   }
 
-  public void updateUserInfo(User update) {
+  public int updateUserInfo(User update) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "UPDATE USERS SET NICKNAME=?, EMAIL=?, PHONE=? WHERE USER_ID=?";
-    jdbcTemplate.executeUpdate(query, update.getNickname(), update.getEmail(), update.getPhone(),
+    return jdbcTemplate.executeUpdate(query, update.getNickname(), update.getEmail(),
+        update.getPhone(),
         update.getUserId());
   }
 
-  public void updatePassword(User update) {
+  public int updatePassword(User update) {
     if (!update.equalsPassword()) {
-      throw new IllegalArgumentException("패스워드 불일치");
+      throw new IllegalArgumentException("Not Equal Password with Password Confirm");
     }
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "UPDATE USERS SET USER_PW=? WHERE USER_ID=?";
-    jdbcTemplate.executeUpdate(query, update.getUserPw(), update.getUserId());
+    return jdbcTemplate.executeUpdate(query, update.getUserPw(), update.getUserId());
+  }
+
+  public int deleteByUserId(String userId) {
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    String query = "DELETE FROM USERS WHERE USER_ID=?";
+    return jdbcTemplate.executeUpdate(query, userId);
   }
 
   public List<User> findAll() {
@@ -54,27 +53,6 @@ public class UserDao {
     RowMapper<User> mapper = User::from;
     String query = "SELECT * FROM USERS WHERE USER_ID=?";
     return jdbcTemplate.executeQueryForOne(query, mapper, userId);
-  }
-
-  public void deleteUser(String userId) {
-    try (Connection connection = ConnectionManager.getConnection()) {
-      String sql = createDeleteUserQuery();
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.setString(1, userId);
-
-      int result = statement.executeUpdate();
-      if (result > 0) {
-        connection.commit();
-      } else {
-        connection.rollback();
-      }
-    } catch (SQLException e) {
-      LOGGER.error(e.getMessage());
-    }
-  }
-
-  private String createDeleteUserQuery() {
-    return "DELETE FROM USERS WHERE USER_ID=?";
   }
 
 

@@ -14,7 +14,7 @@ public class DaoTestUtils {
   public static UserDao userDao = new UserDao();
 
   public static void addUserData(String userId) {
-    userDao.insert(User.builder()
+    userDao.save(User.builder()
         .userId(userId)
         .userPw("password")
         .userPwConfirm("password")
@@ -37,7 +37,6 @@ public class DaoTestUtils {
           .email("valid" + i + "@kh.kr")
           .phone("010-1234-5678")
           .build());
-
     }
     return users;
   }
