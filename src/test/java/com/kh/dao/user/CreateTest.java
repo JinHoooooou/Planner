@@ -45,7 +45,7 @@ class CreateTest {
   }
 
   @Test
-  @DisplayName("save 성공: Nullable 컬럼이 주어지지 않을 때")
+  @DisplayName("save 성공: Nullable 컬럼 데이터가 주어지지 않을 때")
   public void saveSuccessTest2() {
     // Given: valid User 객체가 주어진다.
     // phone이 주어지지 않음

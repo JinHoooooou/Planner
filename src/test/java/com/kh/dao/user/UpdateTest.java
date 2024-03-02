@@ -51,7 +51,7 @@ public class UpdateTest {
   }
 
   @Test
-  @DisplayName("updateUserInfo 성공: Nullable인 컬럼의 값이 null일 때")
+  @DisplayName("updateUserInfo 성공: Nullable 컬럼 데이터가 주어지지 않을 때")
   public void updateUserInfoSuccessTest2() {
     // Given: DB에 User 객체를 저장한다.
     String validUserId = "validUserId";
@@ -62,7 +62,6 @@ public class UpdateTest {
         .userId(validUserId)
         .nickname("updateNickname")
         .email("update@kh.kr")
-        .phone(null)
         .build();
 
     // When: UserDao.updateUserInfo() 메서드를 호출한다.
