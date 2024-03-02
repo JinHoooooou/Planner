@@ -19,7 +19,7 @@ public class CreatePlanServlet extends HttpServlet {
     Plan newPlan = Plan.from(req);
 
     try {
-      new PlanDao().insert(newPlan);
+      new PlanDao().save(newPlan);
       resp.setStatus(HttpServletResponse.SC_CREATED);
     } catch (IllegalArgumentException e) {
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

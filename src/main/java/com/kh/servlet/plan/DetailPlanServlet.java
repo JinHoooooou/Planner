@@ -34,7 +34,7 @@ public class DetailPlanServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     String id = req.getParameter("id");
-    Plan plan = new PlanDao().findById(Integer.parseInt(id));
+    Plan plan = new PlanDao().findByPlanId(Integer.parseInt(id));
     Context context = new Context();
     context.setVariable("plan", plan);
     resp.setContentType("text/html;charset=UTF-8");
