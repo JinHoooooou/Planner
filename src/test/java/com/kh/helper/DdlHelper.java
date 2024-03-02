@@ -11,43 +11,34 @@ public class DdlHelper {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DdlHelper.class);
 
-  public static void resetPlanSequence() {
-    String sql = "DROP SEQUENCE SEQ_PLAN";
+  public static void execute(String query) {
     try (Connection connection = ConnectionManager.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.execute();
-      sql = "CREATE SEQUENCE SEQ_PLAN INCREMENT BY 1 START WITH 1 MINVALUE 1 NOCACHE";
-      statement = connection.prepareStatement(sql);
+      PreparedStatement statement = connection.prepareStatement(query);
       statement.execute();
     } catch (SQLException e) {
       LOGGER.debug(e.getMessage());
     }
   }
 
-  public static void dropUsersTable() {
-    String sql = "DROP TABLE USERS";
-    try (Connection connection = ConnectionManager.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql);
 
-      statement.execute();
-    } catch (SQLException e) {
-      LOGGER.debug(e.getMessage());
-    }
+  public static void dropSequence(String sequenceName) {
+    String query = String.format("DROP SEQUENCE SEQ_%s", sequenceName);
+    DdlHelper.execute(query);
   }
 
-  public static void dropPlanTable() {
-    String sql = "DROP TABLE PLAN";
-    try (Connection connection = ConnectionManager.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql);
+  public static void createSequence(String sequenceName) {
+    String query = String.format(
+        "CREATE SEQUENCE SEQ_%s INCREMENT BY 1 START WITH 1 MINVALUE 1 NOCACHE", sequenceName);
+    DdlHelper.execute(query);
+  }
 
-      statement.execute();
-    } catch (SQLException e) {
-      LOGGER.debug(e.getMessage());
-    }
+  public static void dropTable(String tableName) {
+    String query = String.format("DROP TABLE %s", tableName);
+    DdlHelper.execute(query);
   }
 
   public static void createUsersTable() {
-    String sql = """
+    String query = """
         CREATE TABLE USERS (
             USER_ID     VARCHAR2(30) PRIMARY KEY,
             USER_PW     VARCHAR2(30) NOT NULL,
@@ -58,18 +49,11 @@ public class DdlHelper {
             ENROLL_DATE DATE DEFAULT SYSDATE
         )
         """;
-
-    try (Connection connection = ConnectionManager.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql);
-
-      statement.execute();
-    } catch (SQLException e) {
-      LOGGER.debug(e.getMessage());
-    }
+    DdlHelper.execute(query);
   }
 
   public static void createPlanTable() {
-    String sql = """
+    String query = """
         CREATE TABLE PLAN (
           PLAN_ID           NUMBER PRIMARY KEY,
           WRITER            VARCHAR2(30) REFERENCES USERS ON DELETE CASCADE,
@@ -81,13 +65,23 @@ public class DdlHelper {
           COMPLETE          CHAR(1) DEFAULT 'N' CHECK ( COMPLETE IN ( 'Y', 'N' ) )
         )
         """;
+    DdlHelper.execute(query);
+  }
 
-    try (Connection connection = ConnectionManager.getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(sql);
-
-      statement.execute();
-    } catch (SQLException e) {
-      LOGGER.debug(e.getMessage());
-    }
+  public static void createDetailPlanTable() {
+    String query = """
+        CREATE TABLE DETAIL_PLAN (
+          DETAIL_PLAN_ID    NUMBER PRIMARY KEY,
+          PLAN_ID           NUMBER REFERENCES PLAN ON DELETE CASCADE,
+          WRITER            VARCHAR2(30) REFERENCES USERS ON DELETE CASCADE,
+          CONTENTS          VARCHAR2(50),
+          START_TIME        DATE DEFAULT SYSDATE,
+          END_TIME          DATE DEFAULT SYSDATE,
+          REMIND_ALARM_TIME DATE DEFAULT SYSDATE,
+          COMPLETE          CHAR(1) DEFAULT 'N' CHECK ( COMPLETE IN ( 'Y', 'N' ) ),
+          CREATE_DATE       DATE DEFAULT SYSDATE
+        )
+        """;
+    DdlHelper.execute(query);
   }
 }

@@ -2,10 +2,11 @@ package com.kh.dao.plan;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kh.dao.DaoTestUtils;
+import com.kh.helper.DaoTestUtils;
 import com.kh.helper.DdlHelper;
 import com.kh.model.dao.PlanDao;
 import com.kh.model.vo.Plan;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,18 @@ public class DeleteTest {
   private PlanDao planDao;
   private String validUserId1 = "validUserId1";
 
+  @BeforeAll
+  public static void setUpAll() {
+    DdlHelper.dropTable("DETAIL_PLAN");
+  }
+
   @BeforeEach
   public void setUp() {
     planDao = new PlanDao();
-    DdlHelper.resetPlanSequence();
-    DdlHelper.dropPlanTable();
-    DdlHelper.dropUsersTable();
+    DdlHelper.dropSequence("PLAN");
+    DdlHelper.createSequence("PLAN");
+    DdlHelper.dropTable("PLAN");
+    DdlHelper.dropTable("USERS");
     DdlHelper.createUsersTable();
     DdlHelper.createPlanTable();
 
@@ -28,15 +35,15 @@ public class DeleteTest {
   }
 
   @Test
-  @DisplayName("deleteByPlanId 성공: valid 데이터와 DB에 해당 데이터가 있을 때")
-  public void deleteByPlanIdSuccessTest1() {
+  @DisplayName("deleteByPlanIdAndWriter 성공: valid 데이터와 DB에 해당 데이터가 있을 때")
+  public void deleteByPlanIdAndWriterSuccessTest1() {
     // Given: DB에 Plan 객체를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
     // And: valid 데이터가 주어진다.
     int validPlanId = 1;
     String validWriter = validUserId1;
 
-    // When: PlanDao.deleteByPlanId()가 주어진다.
+    // When: PlanDao.deleteByPlanIdAndWriter()가 주어진다.
     int result = planDao.deleteByPlanIdAndWriter(validPlanId, validWriter);
 
     // Then: result는 1이다.
@@ -47,8 +54,8 @@ public class DeleteTest {
   }
 
   @Test
-  @DisplayName("deleteByPlanId 실패1: invalid planId가 주어질 때")
-  public void deleteByPlanIdFailTest1() {
+  @DisplayName("deleteByPlanIdAndWriter 실패1: invalid planId가 주어질 때")
+  public void deleteByPlanIdAndWriterFailTest1() {
     // Given: DB에 Plan 객체를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
     // And: invalid planId가 주어진다.
@@ -66,8 +73,8 @@ public class DeleteTest {
   }
 
   @Test
-  @DisplayName("deleteByPlanId 실패2: invalid writer가 주어질 때")
-  public void deleteByPlanIdFailTest2() {
+  @DisplayName("deleteByPlanIdAndWriter 실패2: invalid writer가 주어질 때")
+  public void deleteByPlanIdAndWriterFailTest2() {
     // Given: DB에 Plan 객체를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
     // And: invalid writer가 주어진다.

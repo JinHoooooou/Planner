@@ -2,10 +2,11 @@ package com.kh.dao.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kh.dao.DaoTestUtils;
+import com.kh.helper.DaoTestUtils;
 import com.kh.helper.DdlHelper;
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.User;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,16 @@ public class DeleteTest {
 
   private UserDao userDao;
 
+  @BeforeAll
+  public static void setUpAll() {
+    DdlHelper.dropTable("DETAIL_PLAN");
+    DdlHelper.dropTable("PLAN");
+  }
+
   @BeforeEach
   public void setUp() {
     userDao = new UserDao();
-    DdlHelper.dropUsersTable();
+    DdlHelper.dropTable("USERS");
     DdlHelper.createUsersTable();
   }
 

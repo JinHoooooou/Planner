@@ -1,4 +1,4 @@
-package com.kh.dao;
+package com.kh.helper;
 
 import com.kh.model.dao.PlanDao;
 import com.kh.model.dao.UserDao;

@@ -3,14 +3,15 @@ package com.kh.dao.plan;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.kh.dao.DaoTestUtils;
 import com.kh.database.DataAccessException;
+import com.kh.helper.DaoTestUtils;
 import com.kh.helper.DdlHelper;
 import com.kh.model.dao.PlanDao;
 import com.kh.model.vo.Plan;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,12 +21,18 @@ public class CreateTest {
   private PlanDao planDao;
   private String validUserId1 = "validUserId1";
 
+  @BeforeAll
+  public static void setUpAll() {
+    DdlHelper.dropTable("DETAIL_PLAN");
+  }
+
   @BeforeEach
   public void setUp() {
     planDao = new PlanDao();
-    DdlHelper.resetPlanSequence();
-    DdlHelper.dropPlanTable();
-    DdlHelper.dropUsersTable();
+    DdlHelper.dropSequence("PLAN");
+    DdlHelper.createSequence("PLAN");
+    DdlHelper.dropTable("PLAN");
+    DdlHelper.dropTable("USERS");
     DdlHelper.createUsersTable();
     DdlHelper.createPlanTable();
 
