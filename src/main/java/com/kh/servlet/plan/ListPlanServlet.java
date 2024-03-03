@@ -34,7 +34,7 @@ public class ListPlanServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    List<Plan> plans = new PlanDao().findByUsersIdOrderByEndDate(req.getParameter("userId"));
+    List<Plan> plans = new PlanDao().findByWriterOrderByEndDate(req.getParameter("userId"));
     Context context = new Context();
     context.setVariable("plans", plans);
     resp.setContentType("text/html;charset=UTF-8");

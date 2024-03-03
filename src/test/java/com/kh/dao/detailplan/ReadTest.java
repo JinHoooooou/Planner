@@ -38,9 +38,9 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findAll 성공1: DB에 데이터가 있을 때")
+  @DisplayName("findAll 성공1: DB에 레코드가 있을 때")
   public void findAllSuccessTest1() {
-    // Given: planId와 writer가 다른 valid DetailPlan 객체를 DB에 저장한다.
+    // Given: DB에 planId와 writer가 다른 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
     DaoTestUtils.addDetailPlan(validUserId2, 3, 5);
 
@@ -52,9 +52,9 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findAll 성공2: DB에 데이터가 없을 때")
-  public void findAllSuccessTest2() {
-    // Given: DB에 저장된 DetailPlan 객체가 없다.
+  @DisplayName("findAll 실패1: DB에 레코드가 없을 때")
+  public void findAllFailTest1() {
+    // Given: DB에 저장된 DetailPlan 레코드가 없다.
 
     // When: DetailPlanDao.findAll() 메서드를 호출한다.
     List<DetailPlan> actualList = detailPlanDao.findAll();
@@ -64,45 +64,30 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findByWriter 성공1: valid writer가 주어지고 DB에 데이터가 있을 때")
+  @DisplayName("findByWriter 성공1: valid writer가 주어질 때")
   public void findByWriterSuccessTest1() {
-    // Given: planId가 다른 valid DetailPlan 객체를 DB에 저장한다.
+    // Given: DB에 writer가 다른 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
-    DaoTestUtils.addDetailPlan(validUserId1, 2, 5);
-
-    // When: DetailPlanDao.findByWriter() 메서드를 호출한다.
-    List<DetailPlan> actualList = detailPlanDao.findByWriter(validUserId1);
-
-    // Then: actaulList의 size는 0이다.
-    assertThat(actualList.size()).isEqualTo(10);
-    for (int i = 0; i < actualList.size(); i++) {
-      DetailPlan actual = actualList.get(i);
-      assertThat(actual.getWriter()).isEqualTo(validUserId1);
-      assertThat(actual.getPlanId()).isIn(1, 2);
-    }
-  }
-
-  @Test
-  @DisplayName("findByWriter 실패1: DB에 데이터가 없을 때")
-  public void findByWriterFailTest1() {
-    // Given: DB에 저장된 DetailPlan 객체가 없다.
-    // And: valid wrtier가 주어진다.
+    DaoTestUtils.addDetailPlan(validUserId2, 3, 5);
+    // And: valid writer가 주어진다.
     String validWriter = validUserId1;
 
     // When: DetailPlanDao.findByWriter() 메서드를 호출한다.
     List<DetailPlan> actualList = detailPlanDao.findByWriter(validWriter);
 
-    // Then: actaulList의 size는 0이다.
-    assertThat(actualList.size()).isEqualTo(0);
+    // Then: actaulList의 size는 5이다.
+    assertThat(actualList.size()).isEqualTo(5);
+    for (DetailPlan actual : actualList) {
+      assertThat(actual.getWriter()).isEqualTo(validUserId1);
+      assertThat(actual.getPlanId()).isIn(1, 3);
+    }
   }
 
   @Test
-  @DisplayName("findByWriter 실패2: invalid writer가 주어질 때")
-  public void findByWriterFailTest2() {
-    // Given: writer와 planId가 다른 valid DetailPlan 객체를 DB에 저장한다.
+  @DisplayName("findByWriter 실패1: invalid writer가 주어질 때")
+  public void findByWriterFailTest1() {
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
-    DaoTestUtils.addDetailPlan(validUserId1, 2, 5);
-    DaoTestUtils.addDetailPlan(validUserId2, 3, 5);
     // And: invalid wrtier가 주어진다.
     String invalidWriter = "invalidUserId";
 
@@ -114,12 +99,12 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findByWriterAndPlanId 성공1: valid 데이터와 DB에 해당 데이터가 있을 때")
+  @DisplayName("findByWriterAndPlanId 성공1: valid 데이터가 주어질 때")
   public void findByWriterAndPlanIdSuccessTest1() {
-    // Given: planId가 다른 valid DetailPlan 객체를 DB에 저장한다.
+    // Given: DB에 planId와 writer가 다른 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
-    DaoTestUtils.addDetailPlan(validUserId1, 2, 5);
-    // And: valid 데이터가 주어진다.
+    DaoTestUtils.addDetailPlan(validUserId2, 3, 5);
+    // And: valid writer, planId가 주어진다.
     String validWriter = validUserId1;
     int validPlanId = 1;
 
@@ -135,26 +120,10 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findByWriterAndPlanId 실패1: DB에 해당 데이터가 없을 때")
+  @DisplayName("findByWriterAndPlanId 실패1: invalid writer가 주어질 때")
   public void findByWriterAndPlanIdFailTest1() {
-    // Given: DB에 저장된 DetailPlan 객체가 없다.
-    // And: valid 데이터가 주어진다.
-    String validWriter = validUserId1;
-    int validPlanId = 1;
-
-    // When: DetailPlanDao.findByWriterAndPlanId() 메서드를 호출한다.
-    List<DetailPlan> actualList = detailPlanDao.findByWriterAndPlanId(validWriter, validPlanId);
-
-    // Then: actaulList의 size는 0이다.
-    assertThat(actualList.size()).isEqualTo(0);
-  }
-
-  @Test
-  @DisplayName("findByWriterAndPlanId 실패2: invalid writer가 주어질 때")
-  public void findByWriterAndPlanIdFailTest2() {
-    // Given: writer와 planId가 다른 valid DetailPlan 객체를 DB에 저장한다.
+    // Given: DB에 writer와 planId가 다른 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
-    DaoTestUtils.addDetailPlan(validUserId1, 2, 5);
     DaoTestUtils.addDetailPlan(validUserId2, 3, 5);
     // And: invalid writer가 주어진다.
     String invalidWriter = "invalidUserId";
@@ -168,11 +137,10 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findByWriterAndPlanId 실패3: invalid planId가 주어질 때")
-  public void findByWriterAndPlanIdFailTest3() {
-    // Given: writer와 planId가 다른 valid DetailPlan 객체를 DB에 저장한다.
+  @DisplayName("findByWriterAndPlanId 실패2: invalid planId가 주어질 때")
+  public void findByWriterAndPlanIdFailTest2() {
+    // Given: DB에 writer와 planId가 다른 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
-    DaoTestUtils.addDetailPlan(validUserId1, 2, 5);
     DaoTestUtils.addDetailPlan(validUserId2, 3, 5);
     // And: invalid planId가 주어진다.
     String validWriter = validUserId1;
@@ -188,7 +156,7 @@ public class ReadTest {
   @Test
   @DisplayName("findByDetailPlanId 성공1: valid detailPlanId가 주어질 때")
   public void findByDetailPlanIdSuccessTest1() {
-    // Given: DetailPlan 객체를 DB에 저장한다.
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
     // And: valid detailPlanId가 주어진다.
     int validDetailPlanId = 3;
@@ -205,7 +173,7 @@ public class ReadTest {
   @Test
   @DisplayName("findByDetailPlanId 실패1: invalid detailPlanId가 주어질 때")
   public void findByDetailPlanIdFailTest1() {
-    // Given: DetailPlan 객체를 DB에 저장한다.
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
     // And: valid detailPlanId가 주어진다.
     int validDetailPlanId = 13;

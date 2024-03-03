@@ -43,9 +43,9 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findAll 성공1: DB에 데이터가 있을 때")
+  @DisplayName("findAll 성공1: DB에 레코드가 있을 때")
   public void findAllSuccessTest1() {
-    // Given: writer가 다른 valid Plan 객체를 DB에 저장한다.
+    // Given: DB에 writer가 다른 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
     DaoTestUtils.addPlanData(validUserId2, "validTitle", 5);
 
@@ -57,9 +57,9 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findAll 성공2: DB에 데이터가 없을 때")
-  public void findAllSuccessTest2() {
-    // Given: DB에 저장된 Plan 객체가 없다.
+  @DisplayName("findAll 실패1: DB에 레코드가 없을 때")
+  public void findAllFailTest1() {
+    // Given: DB에 저장된 Plan 레코드가 없다.
 
     // When: PlanDao.findAll() 메서드를 호출한다.
     List<Plan> actualList = planDao.findAll();
@@ -69,63 +69,50 @@ public class ReadTest {
   }
 
   @Test
-  @DisplayName("findByUserId 성공1: valid writer와 DB에 해당 데이터가 있을 때")
-  public void findByUserIdSuccessTest1() {
-    // Given: writer가 다른 valid Plan 객체를 DB에 저장한다.
+  @DisplayName("findByWriter 성공1: valid writer가 주어질 때")
+  public void findByWriterSuccessTest1() {
+    // Given: DB에 writer가 다른 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
     DaoTestUtils.addPlanData(validUserId2, "validTitle", 5);
-    // And: valid writer 정보가 주어진다.
+    // And: valid writer가 주어진다.
     String validWriter = validUserId1;
 
-    // When: PlanDao.findByUsersId() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUsersId(validWriter);
+    // When: PlanDao.findByWriter() 메서드를 호출한다.
+    List<Plan> actualList = planDao.findByWriter(validWriter);
 
     // Then: actualList의 size는 5이다.
     assertThat(actualList.size()).isEqualTo(5);
-    for (int i = 0; i < actualList.size(); i++) {
-      Plan actual = actualList.get(i);
-      assertThat(actual.getTitle()).isEqualTo("validTitle" + (i + 1));
+    for (Plan actual : actualList) {
       assertThat(actual.getWriter()).isEqualTo(validUserId1);
     }
   }
 
-  @Test
-  @DisplayName("findByUserId 성공2: valid writer와 DB에 해당 데이터가 없을 때")
-  public void findByUserIdSuccessTest2() {
-    // Given: DB에 저장된 Plan 객체는 없다.
-    // And: valid writer 정보가 주어진다.
-    String validWriter = validUserId1;
-
-    // When: PlanDao.findByUsersId() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUsersId(validWriter);
-
-    // Then: actualList의 size는 0이다.
-    assertThat(actualList.size()).isEqualTo(0);
-  }
 
   @Test
-  @DisplayName("findByUserId 성공3: invalid writer일 때")
-  public void findByUserIdSuccessTest3() {
-    // Given: invalid Writer 정보가 주어진다.
+  @DisplayName("findByWriter 실패1: invalid writer가 주어질 때")
+  public void findByWriterFailTest1() {
+    // Given: DB에 Plan 레코드를 저장한다.
+    DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
+    // Given: invalid writer가 주어진다.
     String invalidWriter = "invalidUserId";
 
-    // When: PlanDao.findByUsersId() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUsersId(invalidWriter);
+    // When: PlanDao.findByWriter() 메서드를 호출한다.
+    List<Plan> actualList = planDao.findByWriter(invalidWriter);
 
     // Then: actualList의 size는 0이다.
     assertThat(actualList.size()).isEqualTo(0);
   }
 
   @Test
-  @DisplayName("findByUserIdOrderByEndDate 성공: valid writer일 때")
-  public void findByUserIdOrderByEndDateSuccessTest() {
-    // Given: DB에 EndDate가 다른 Plan 객체를 저장한다.
+  @DisplayName("findByWriterOrderByEndDate 성공1: valid writer가 주어질 때")
+  public void findByWriterOrderByEndDateSuccessTest() {
+    // Given: DB에 endDate가 다른 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanDataDifferentEndDate(validUserId1, "validTitle", 10);
-    // And: valid Writer 정보가 주어진다.
+    // And: valid writer가 주어진다.
     String validWriter = validUserId1;
 
-    // When: PlanDao.findByUsersIdOrderByEndDate() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUsersIdOrderByEndDate(validWriter);
+    // When: PlanDao.findByWriterOrderByEndDate() 메서드를 호출한다.
+    List<Plan> actualList = planDao.findByWriterOrderByEndDate(validWriter);
 
     // Then: actualList의 size는 10이다.
     assertThat(actualList.size()).isEqualTo(10);
@@ -137,61 +124,43 @@ public class ReadTest {
 
 
   @Test
-  @DisplayName("findByUserIdAndTitleContaining 성공1: valid 데이터가 주어지고 DB에 해당 데이터가 있을 때")
-  public void findByUserIdAndTitleContainingSuccessTest1() {
-    // Given: title이 다른 valid Plan 객체를 DB에 저장한다.
+  @DisplayName("findByWriterAndTitleContaining 성공1: valid writer가 주어질 때")
+  public void findByWriterAndTitleContainingSuccessTest1() {
+    // Given: DB에 title이 다른 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
     DaoTestUtils.addPlanData(validUserId1, "content", 5);
-    // And: valid 데이터가 주어진다.
-    // {writer:validUserId1, titleKeyword:Title}
-    String writer = validUserId1;
+    // And: valid writer와 title이 주어진다.
+    String validWriter = validUserId1;
     String titleKeyword = "Title";
 
-    // When: PlanDao.findByUserIdAndTitleContaining() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUserIdAndTitleContaining(writer, titleKeyword);
+    // When: PlanDao.findByWriterAndTitleContaining() 메서드를 호출한다.
+    List<Plan> actualList = planDao.findByWriterAndTitleContaining(validWriter, titleKeyword);
 
     // Then: actualList의 size는 5이다.
     assertThat(actualList.size()).isEqualTo(5);
   }
 
   @Test
-  @DisplayName("findByUserIdAndTitleContaining 성공2: valid 데이터가 주어지고 DB에 해당 데이터가 없을 때")
-  public void findByUserIdAndTitleContainingSuccessTest2() {
-    // Given: DB에 Plan 객체 데이터가 없다.
-    // And: valid 데이터가 주어진다.
-    // {writer:validUserId1, titleKeyword:Title}
-    String writer = validUserId1;
-    String titleKeyword = "Title";
-
-    // When: PlanDao.findByUserIdAndTitleContaining() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUserIdAndTitleContaining(writer, titleKeyword);
-
-    // Then: actualList의 size는 0이다.
-    assertThat(actualList.size()).isEqualTo(0);
-  }
-
-  @Test
-  @DisplayName("findByUserIdAndTitleContaining 성공3: invalid 데이터가 주어졌을 때")
-  public void findByUserIdAndTitleContainingSuccessTest3() {
-    // Given: title이 다른 valid Plan 객체를 DB에 저장한다.
+  @DisplayName("findByWriterAndTitleContaining 실패1: invalid writer가 주어질 때")
+  public void findByWriterAndTitleContainingFailTest1() {
+    // Given: DB에 title이 다른 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
     DaoTestUtils.addPlanData(validUserId1, "content", 5);
-    // And: invalid 데이터가 주어진다.
-    // {writer: invalidUserId}
-    String writer = "invalidUserId";
+    // And: invalid writer가 주어진다.
+    String invalidWriter = "invalidUserId";
     String titleKeyword = "Title";
 
-    // When: PlanDao.findByUserIdAndTitleContaining() 메서드를 호출한다.
-    List<Plan> actualList = planDao.findByUserIdAndTitleContaining(writer, titleKeyword);
+    // When: PlanDao.findByWriterAndTitleContaining() 메서드를 호출한다.
+    List<Plan> actualList = planDao.findByWriterAndTitleContaining(invalidWriter, titleKeyword);
 
     // Then: actualList의 size는 0이다.
     assertThat(actualList.size()).isEqualTo(0);
   }
 
   @Test
-  @DisplayName("findByPlanId 성공: valid planId가 주어지고 DB에 해당 데이터가 있을 때")
+  @DisplayName("findByPlanId 성공1: valid planId가 주어질 때")
   public void findByPlanIdSuccessTest() {
-    // Given: valid Plan 객체를 DB에 저장한다.
+    // Given: DB에 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
     // And: valid planId가 주어진다.
     int validPlanId = 1;
@@ -199,15 +168,17 @@ public class ReadTest {
     // When: PlanDao.findByUserIdAndTitleContaining() 메서드를 호출한다.
     Plan actual = planDao.findByPlanId(validPlanId);
 
-    // Then: actual의 writer는 validUserId1이고, title은 validTitle1이다.
+    // Then: actual의 id는 1, writer는 validUserId1, title은 validTitle1이다.
     assertThat(actual.getPlanId()).isEqualTo(1);
     assertThat(actual.getWriter()).isEqualTo(validUserId1);
     assertThat(actual.getTitle()).isEqualTo("validTitle1");
   }
 
   @Test
-  @DisplayName("findByPlanId 실패: invalid planId가 주어질 때")
+  @DisplayName("findByPlanId 실패1: invalid planId가 주어질 때")
   public void findByPlanIdFailTest() {
+    // Given: DB에 Plan 레코드를 저장한다.
+    DaoTestUtils.addPlanData(validUserId1, "validTitle", 5);
     // And: invalid planId가 주어진다.
     int validPlanId = -2;
 

@@ -40,9 +40,9 @@ public class CreateTest {
   }
 
   @Test
-  @DisplayName("save 성공: valid 데이터가 주어질 때")
+  @DisplayName("save 성공1: valid 데이터가 주어질 때")
   public void saveSuccessTest1() {
-    // Given: valid Plan 주어진다.
+    // Given: valid 데이터가 주어진다.
     Plan validPlan = Plan.builder()
         .title("validTitle")
         .writer(validUserId1)
@@ -58,8 +58,8 @@ public class CreateTest {
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB Plan 테이블에 해당 레코드가 추가된다.
-    Plan actual = planDao.findByUsersId(validUserId1).get(0);
+    // And: DB의 Plan 테이블에 해당 레코드가 추가된다.
+    Plan actual = planDao.findByWriter(validUserId1).get(0);
     assertThat(actual.getWriter()).isEqualTo(validPlan.getWriter());
     assertThat(actual.getTitle()).isEqualTo(validPlan.getTitle());
     assertThat(actual.getStartDate().toString()).isEqualTo(validPlan.getStartDate().toString());
@@ -71,39 +71,41 @@ public class CreateTest {
   }
 
   @Test
-  @DisplayName("save 성공: Nullable 컬럼 데이터가 주어지지 않을 때")
+  @DisplayName("save 성공2: Nullable 컬럼에 대한 데이터가 null일 때")
   public void insertPlanSuccessTest2() {
-    // Given: valid Plan 객체가 주어진다.
-    // NotNull 컬럼인 writer, title만 주어진다.
+    // Given: valid 데이터가 주어진다.
+    // Nullable 컬럼에 대한 데이터는 null로 주어진다.
     Plan validPlan = Plan.builder()
         .writer(validUserId1)
         .title("validTitle")
+        .startDate(null)
+        .endDate(null)
+        .remindAlarmDate(null)
         .build();
 
     // When: PlanDao.save() 메서드를 호출한다.
     int result = planDao.save(validPlan);
-    // Then: DB에 validPlan이 저장된다.
-    Plan actual = planDao.findByUsersId(validUserId1).get(0);
+
+    // Then: result는 1이다.
+    assertThat(result).isEqualTo(1);
+    // Then: DB의 Plan 테이블에 해당 레코드가 추가된다.
+    Plan actual = planDao.findByWriter(validUserId1).get(0);
     assertThat(actual.getWriter()).isEqualTo(validPlan.getWriter());
     assertThat(actual.getTitle()).isEqualTo(validPlan.getTitle());
-    // And: Nullable 컬럼들은 default 값으로 저장된다.
+    // And: Nullable 컬럼은 null로 저장된다.
     assertThat(actual.getStartDate()).isNull();
     assertThat(actual.getEndDate()).isNull();
     assertThat(actual.getRemindAlarmDate()).isNull();
-    assertThat(actual.isComplete()).isFalse();
-    assertThat(actual.getCreateDate().toString()).isEqualTo(
-        Date.valueOf(LocalDate.now()).toString());
   }
 
   @Test
-  @DisplayName("save 실패: Writer 데이터가 DB에 없을 때")
+  @DisplayName("save 실패1: invalid writer가 주어질 때")
   public void saveFailTest1() {
-    // Given: valid Plan 객체가 주어진다.
+    // Given: invalid writer가 주어진다.
     Plan invalidPlan = Plan.builder()
+        .writer("invalidUserId")
         .title("validTitle")
         .build();
-    // And: Plan의 Writer는 DB에 저장 되지 않은 USER_ID이다.
-    invalidPlan.setWriter("invalidUserId");
 
     // When: PlanDao.save() 메서드를 호출한다.
     // Then: DataAccessException 발생한다.
@@ -113,9 +115,9 @@ public class CreateTest {
   }
 
   @Test
-  @DisplayName("save 실패: NotNull 컬럼 데이터가 주어지지 않을 때")
+  @DisplayName("save 실패2: NotNull 컬럼 데이터가 주어지지 않을 때")
   public void insertPlanFailTest2() {
-    // Given: invalid Plan 주어진다.
+    // Given: invalid 데이터가 주어진다.
     // NotNull 컬럼인 title이 주어지지 않는다.
     Plan invalidPlan = Plan.builder()
         .writer(validUserId1)

@@ -35,11 +35,13 @@ public class DetailPlanDao {
         detailPlan.getDetailPlanId(), detailPlan.getWriter(), detailPlan.getPlanId());
   }
 
-  public int deleteByDetailPlanIdAndWriterAndPlanId(int detailPlanId, int planId, String writer) {
+  public int deleteByDetailPlanIdAndPlanIdAndWriter(int detailPlanId, int planId, String writer) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
 
-    String query = "DELETE FROM DETAIL_PLAN "
-        + "WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID =?";
+    String query = """
+        DELETE FROM DETAIL_PLAN
+        WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID =?
+        """;
     return jdbctemplate.executeUpdate(query, detailPlanId, writer, planId);
   }
 

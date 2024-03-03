@@ -32,7 +32,7 @@ class CreateTest {
   @Test
   @DisplayName("save 성공1: valid 데이터가 주어질 때")
   public void saveSuccessTest1() {
-    // Given: valid User 객체가 주어진다.
+    // Given: valid 데이터가 주어진다.
     User validUser = User.builder()
         .userId("validUserId")
         .userPw("password")
@@ -46,16 +46,16 @@ class CreateTest {
     // When: UserDao.save() 메서드를 호출한다.
     userDao.save(validUser);
 
-    // Then: DB User 테이블에 레코드가 추가된다.
+    // Then: DB의 Users 테이블에 해당 레코드가 추가된다.
     User actual = userDao.findByUserId("validUserId");
     assertUser(actual, validUser);
   }
 
   @Test
-  @DisplayName("save 성공: Nullable 컬럼 데이터가 주어지지 않을 때")
+  @DisplayName("save 성공2: Nullable 컬럼 데이터가 주어지지 않을 때")
   public void saveSuccessTest2() {
-    // Given: valid User 객체가 주어진다.
-    // phone이 주어지지 않음
+    // Given: valid 데이터가 주어진다.
+    // Nullable 컬럼에 대한 데이터는 null로 주어진다.
     User validUser = User.builder()
         .userId("validUserId")
         .userPw("password")
@@ -63,6 +63,7 @@ class CreateTest {
         .userName("validName")
         .nickname("validNickname")
         .email("valid@kh.kr")
+        .phone(null)
         .build();
 
     // When: UserDao.save() 메서드를 호출한다.
@@ -70,16 +71,16 @@ class CreateTest {
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB Users 테이블에 레코드가 추가된다.
+    // And: DB의 Users 테이블에 해당 레코드가 추가된다.
     User actual = userDao.findByUserId("validUserId");
     assertUser(actual, validUser);
   }
 
   @Test
-  @DisplayName("save 실패: userPw와 userPwConfirm이 다를 때")
+  @DisplayName("save 실패1: userPw와 userPwConfirm이 다를 때")
   public void saveFailTest1() {
-    // Given: invalid User 객체가 주어진다.
-    // userPw와 userPwConfirm이 다름
+    // Given: invalid 데이터가 주어진다.
+    // userPw와 userPwConfirm이 다르다.
     User invalidUser = User.builder()
         .userId("validUserId")
         .userPw("password1")
@@ -97,10 +98,10 @@ class CreateTest {
   }
 
   @Test
-  @DisplayName("save 실패: NotNull인 컬럼의 값이 주어지지 않을 때")
+  @DisplayName("save 실패2: NotNull인 컬럼의 값이 주어지지 않을 때")
   public void saveFailTest2() {
-    // Given: invalid User 객체가 주어진다.
-    // userId가 주어지지 않음
+    // Given: invalid 데이터가 주어진다.
+    // NotNull 컬럼인 userId가 주어지지 않는다.
     User invalidUser = User.builder()
         .userPw("password")
         .userPwConfirm("password")
@@ -117,9 +118,9 @@ class CreateTest {
   }
 
   @Test
-  @DisplayName("save 실패: userId가 이미 있을 때")
+  @DisplayName("save 실패3: userId가 이미 있을 때")
   public void createFailTest3() {
-    // Given: userId가 "validUserId"인 User 객체를 DB에 저장한다.
+    // Given: DB에 userId가 "validUserId"인 User 레코드를 저장한다.
     User validUser = User.builder()
         .userId("validUserId")
         .userPw("password")
@@ -130,7 +131,7 @@ class CreateTest {
         .phone("010-1235-5678")
         .build();
     userDao.save(validUser);
-    // And: 같은 userId를 가진 User 객체가 주어진다.
+    // And: 같은 userId를 가진 데이터가 주어진다.
     User invalidUser = User.builder()
         .userId("validUserId")
         .userPw("password")
@@ -150,7 +151,7 @@ class CreateTest {
   @Test
   @DisplayName("save 실패: nickname이 이미 있을 때")
   public void createFailTest4() {
-    // Given: nickname이 "validNickname"인 User 객체를 DB에 저장한다.
+    // Given: DB에 nickname이 "validNickname"인 레코드를 저장한다.
     User validUser = User.builder()
         .userId("validUserId0")
         .userPw("password")
@@ -161,7 +162,7 @@ class CreateTest {
         .phone("010-1235-5678")
         .build();
     userDao.save(validUser);
-    // And: 같은 nickname을 가진 User 객체가 주어진다.
+    // And: 같은 nickname을 가진 데이터가 주어진다.
     User invalidUser = User.builder()
         .userId("validUserId1")
         .userPw("password")

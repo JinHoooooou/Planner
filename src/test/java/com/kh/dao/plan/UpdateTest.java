@@ -39,9 +39,9 @@ public class UpdateTest {
   }
 
   @Test
-  @DisplayName("update 성공1: valid 데이터가 주어지고 DB에 해당 데이터가 있을 때")
+  @DisplayName("update 성공1: valid 데이터가 주어질 때")
   public void updateSuccessTest1() {
-    // Given: DB에 Plan 객체를 저장한다.
+    // Given: DB에 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
     // And: 수정할 데이터가 주어진다.
     Plan updatePlan = Plan.builder()
@@ -59,7 +59,7 @@ public class UpdateTest {
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB에 있던 데이터는 수정할 데이터로 수정된다.
+    // And: DB에 있던 레코드는 수정할 데이터로 수정된다.
     Plan actual = planDao.findByPlanId(1);
     assertThat(actual.getTitle()).isEqualTo(updatePlan.getTitle());
     assertThat(actual.getStartDate().toLocalDate())
@@ -74,14 +74,17 @@ public class UpdateTest {
   @Test
   @DisplayName("update 성공2: Nullable 컬럼에 대한 데이터가 null일 때")
   public void updateSuccessTest2() {
-    // Given: DB에 Plan 객체를 저장한다.
+    // Given: DB에 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
     // And: 수정할 데이터가 주어진다.
-    // NotNull 컬럼에 대한 데이터만 주어진다.
+    // Nullable 컬럼에 대한 데이터는 null로 주어진다.
     Plan updatePlan = Plan.builder()
         .planId(1)
         .title("updateTitle")
         .writer(validUserId1)
+        .startDate(null)
+        .endDate(null)
+        .remindAlarmDate(null)
         .build();
 
     // When: PlanDao.update() 메서드를 호출한다.
@@ -89,10 +92,10 @@ public class UpdateTest {
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB에 있던 데이터는 수정할 데이터로 수정된다.
+    // And: DB에 있던 레코드는 수정할 데이터로 수정된다.
     Plan actual = planDao.findByPlanId(1);
     assertThat(actual.getTitle()).isEqualTo(updatePlan.getTitle());
-    // And: Nullable 데이터는 null이나 기본값으로 수정된다.
+    // And: Nullable 컬럼은 null로 수정된다.
     assertThat(actual.getStartDate()).isNull();
     assertThat(actual.getEndDate()).isNull();
     assertThat(actual.getRemindAlarmDate()).isNull();
@@ -102,9 +105,9 @@ public class UpdateTest {
   @Test
   @DisplayName("update 실패1: invalid planId가 주어질 때")
   public void updateFailTest1() {
-    // Given: DB에 Plan 객체를 저장한다.
+    // Given: DB에 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
-    // And: invalid PlanId와 수정할 데이터가 주어진다.
+    // And: invalid PlanId가 주어진다.
     Plan updatePlan = Plan.builder()
         .planId(-1)
         .title("updateTitle")
@@ -116,7 +119,7 @@ public class UpdateTest {
 
     // Then: result는 0이다.
     assertThat(result).isEqualTo(0);
-    // And: DB에 있던 데이터는 수정되지 않는다..
+    // And: DB에 있던 해당 레코드는 수정되지 않는다.
     Plan actual = planDao.findByPlanId(1);
     assertThat(actual.getTitle()).isNotEqualTo(updatePlan.getTitle());
   }
@@ -124,9 +127,9 @@ public class UpdateTest {
   @Test
   @DisplayName("update 실패2: invalid writer가 주어질 때")
   public void updateFailTest2() {
-    // Given: DB에 Plan 객체를 저장한다.
+    // Given: DB에 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
-    // And: invalid writer와 수정할 데이터가 주어진다.
+    // And: invalid writer가 주어진다.
     Plan updatePlan = Plan.builder()
         .planId(1)
         .title("updateTitle")
@@ -138,15 +141,15 @@ public class UpdateTest {
 
     // Then: result는 0이다.
     assertThat(result).isEqualTo(0);
-    // And: DB에 있던 데이터는 수정되지 않는다..
+    // And: DB에 있던 레코드는 수정되지 않는다.
     Plan actual = planDao.findByPlanId(1);
     assertThat(actual.getTitle()).isNotEqualTo(updatePlan.getTitle());
   }
 
   @Test
-  @DisplayName("update 실패3: NotNull에 컬럼에 대한 데이터가 null일 때")
+  @DisplayName("update 실패3: NotNull 컬럼에 대한 데이터가 null일 때")
   public void updateFailTest3() {
-    // Given: DB에 Plan 객체를 저장한다.
+    // Given: DB에 Plan 레코드를 저장한다.
     DaoTestUtils.addPlanData(validUserId1, "validTitle", 1);
     // And: invalid 데이터가 주어진다.
     // title이 null이다.

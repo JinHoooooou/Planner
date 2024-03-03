@@ -34,23 +34,22 @@ public class DeleteTest {
   }
 
   @Test
-  @DisplayName("deleteByDetailPlanIdAndPlanIdAndWriter 성공1: valid 데이터가 주어지고 DB에 해당 데이터가 있을 때")
+  @DisplayName("deleteByDetailPlanIdAndPlanIdAndWriter 성공1: valid 레코드가 주어지고 DB에 해당 데이터가 있을 때")
   public void deleteByDetailPlanIdAndPlanIdAndWriterSuccessTest1() {
-    // Given: DB에 DetailPlan 객체를 저장한다.
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 1);
     // And: valid 데이터가 주어진다.
     int validDetailPlanId = 1;
     String validWriter = validUserId1;
     int validPlanId = 1;
 
-    // When: DetailPlanDao.deleteByDetailPlanIdAndWrtier() 메서드를 호출한다.
-    int result = detailPlanDao.deleteByDetailPlanIdAndWriterAndPlanId(validDetailPlanId,
-        validPlanId,
-        validWriter);
+    // When: DetailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter() 메서드를 호출한다.
+    int result = detailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter(validDetailPlanId,
+        validPlanId, validWriter);
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB에 해당 데이터가 삭제된다.
+    // And: DB에 해당 레코드가 삭제된다.
     DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
     assertThat(actual).isNull();
   }
@@ -58,7 +57,7 @@ public class DeleteTest {
   @Test
   @DisplayName("deleteByDetailPlanIdAndPlanIdAndWriter 실패1: invalid detailPlanId가 주어질 때")
   public void deleteByDetailPlanIdAndPlanIdAndWriterFailTest1() {
-    // Given: DB에 DetailPlan 객체를 저장한다.
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 1);
     // And: invalid detailPlanId가 주어진다.
     int invalidDetailPlanId = 6;
@@ -66,12 +65,12 @@ public class DeleteTest {
     int validPlanId = 1;
 
     // When: DetailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter() 메서드를 호출한다.
-    int result = detailPlanDao.deleteByDetailPlanIdAndWriterAndPlanId(invalidDetailPlanId,
+    int result = detailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter(invalidDetailPlanId,
         validPlanId, validWriter);
 
     // Then: result는 0이다.
     assertThat(result).isEqualTo(0);
-    // And: DB에 해당 데이터가 삭제되지 않는다.
+    // And: DB에 해당 레코드가 삭제되지 않는다.
     DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
     assertThat(actual).isNotNull();
   }
@@ -79,7 +78,7 @@ public class DeleteTest {
   @Test
   @DisplayName("deleteByDetailPlanIdAndPlanIdAndWriter 실패2: invalid planId가 주어질 때")
   public void deleteByDetailPlanIdAndPlanIdAndWriterFailTest2() {
-    // Given: DB에 DetailPlan 객체를 저장한다.
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 1);
     // And: invalid planId가 주어진다.
     int validDetailPlanId = 1;
@@ -87,12 +86,12 @@ public class DeleteTest {
     int invalidPlanId = -12;
 
     // When: DetailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter() 메서드를 호출한다.
-    int result = detailPlanDao.deleteByDetailPlanIdAndWriterAndPlanId(validDetailPlanId,
+    int result = detailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter(validDetailPlanId,
         invalidPlanId, validWriter);
 
     // Then: result는 0이다.
     assertThat(result).isEqualTo(0);
-    // And: DB에 해당 데이터가 삭제되지 않는다.
+    // And: DB에 해당 레코드가 삭제되지 않는다.
     DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
     assertThat(actual).isNotNull();
   }
@@ -100,7 +99,7 @@ public class DeleteTest {
   @Test
   @DisplayName("deleteByDetailPlanIdAndPlanIdAndWriter 실패3: invalid writer가 주어질 때")
   public void deleteByDetailPlanIdAndPlanIdAndWriterFailTest3() {
-    // Given: DB에 DetailPlan 객체를 저장한다.
+    // Given: DB에 DetailPlan 레코드를 저장한다.
     DaoTestUtils.addDetailPlan(validUserId1, 1, 1);
     // And: invalid writer가 주어진다.
     int validDetailPlanId = 1;
@@ -108,12 +107,12 @@ public class DeleteTest {
     int validPlanId = 1;
 
     // When: DetailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter() 메서드를 호출한다.
-    int result = detailPlanDao.deleteByDetailPlanIdAndWriterAndPlanId(validDetailPlanId,
+    int result = detailPlanDao.deleteByDetailPlanIdAndPlanIdAndWriter(validDetailPlanId,
         validPlanId, invalidWriter);
 
     // Then: result는 0이다.
     assertThat(result).isEqualTo(0);
-    // And: DB에 해당 데이터가 삭제되지 않는다.
+    // And: DB에 해당 레코드가 삭제되지 않는다.
     DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
     assertThat(actual).isNotNull();
   }

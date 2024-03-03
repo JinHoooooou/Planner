@@ -55,7 +55,7 @@ public class CreateTest {
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB Detail_Plan 테이블에 데이터가 추가된다.
+    // And: DB의 Detail_Plan 테이블에 해당 레코드가 추가된다.
     DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
     assertThat(actual.getDetailPlanId()).isEqualTo(1);
     assertThat(actual.getPlanId()).isEqualTo(validDetailPlan.getPlanId());
@@ -68,13 +68,17 @@ public class CreateTest {
   }
 
   @Test
-  @DisplayName("save 성공2: Nullable 컬럼 데이터가 주어지지 않을 때")
+  @DisplayName("save 성공2: Nullable 컬럼에 대한 데이터가 null일 때")
   public void saveSuccessTest2() {
     // Given: valid 데이터가 주어진다.
-    // NotNull 컬럼인 planId, writer만 주어진다.
+    // Nullable 컬럼에 대한 데이터는 null로 주어진다.
     DetailPlan validDetailPlan = DetailPlan.builder()
         .planId(1)
         .writer(validUserId1)
+        .contents(null)
+        .startTime(null)
+        .endTime(null)
+        .remindAlarmTime(null)
         .build();
 
     // When: DetailPlanDao.save() 메서드를 호출한다.
@@ -82,9 +86,14 @@ public class CreateTest {
 
     // Then: result는 1이다.
     assertThat(result).isEqualTo(1);
-    // And: DB Detail_Plan 테이블에 데이터가 추가된다.
+    // And: DB의 Detail_Plan 테이블에 해당 데이터가 추가된다.
     DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
     assertThat(actual.getDetailPlanId()).isEqualTo(1);
+    // And: Nullable 컬럼은 null로 저장된다.
+    assertThat(actual.getContents()).isNull();
+    assertThat(actual.getStartTime()).isNull();
+    assertThat(actual.getEndTime()).isNull();
+    assertThat(actual.getRemindAlarmTime()).isNull();
   }
 
   @Test
@@ -107,9 +116,8 @@ public class CreateTest {
   @DisplayName("save 실패2: invalid planId가 주어질 때")
   public void saveFailTest2() {
     // Given: invalid planId가 주어진다.
-    int invalidPlanId = -23;
     DetailPlan invalidDetailPlan = DetailPlan.builder()
-        .planId(invalidPlanId)
+        .planId(-23)
         .writer(validUserId1)
         .build();
 

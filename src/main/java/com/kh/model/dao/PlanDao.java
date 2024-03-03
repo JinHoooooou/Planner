@@ -48,21 +48,21 @@ public class PlanDao {
     return jdbcTemplate.executeQueryForOne(query, mapper, planId);
   }
 
-  public List<Plan> findByUsersId(String writer) {
+  public List<Plan> findByWriter(String writer) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "SELECT * FROM PLAN WHERE WRITER = ?";
     RowMapper<Plan> mapper = Plan::from;
     return jdbcTemplate.executeQuery(query, mapper, writer);
   }
 
-  public List<Plan> findByUserIdAndTitleContaining(String writer, String titleKeyword) {
+  public List<Plan> findByWriterAndTitleContaining(String writer, String titleKeyword) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "SELECT * FROM PLAN WHERE WRITER=? AND TITLE LIKE ?";
     RowMapper<Plan> mapper = Plan::from;
     return jdbcTemplate.executeQuery(query, mapper, writer, "%" + titleKeyword + "%");
   }
 
-  public List<Plan> findByUsersIdOrderByEndDate(String writer) {
+  public List<Plan> findByWriterOrderByEndDate(String writer) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "SELECT * FROM PLAN WHERE WRITER = ? ORDER BY END_DATE";
     RowMapper<Plan> mapper = Plan::from;
