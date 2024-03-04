@@ -29,7 +29,7 @@ public class DetailPlan_Sim {
 	
 	  public static DetailPlan_Sim from(ResultSet resultSet) throws SQLException {
 		    return DetailPlan_Sim.builder()
-		        .detailPlanId(resultSet.getInt("detaiil_plan_id"))
+		        .detailPlanId(resultSet.getInt("detail_plan_id"))
 		        .planId(resultSet.getInt("plan_id"))
 		        .writer(resultSet.getString("writer"))
 		        .contents(resultSet.getString("contents"))
