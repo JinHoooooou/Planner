@@ -9,7 +9,7 @@ public class UserDao {
 
   public int save(User user) {
     if (!user.equalsPassword()) {
-      throw new IllegalArgumentException("Not Equal Password with Password Confirm");
+      throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
     }
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "INSERT INTO USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE)"

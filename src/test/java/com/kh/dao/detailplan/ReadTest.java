@@ -87,7 +87,7 @@ public class ReadTest {
   @DisplayName("findByWriter 실패1: invalid writer가 주어질 때")
   public void findByWriterFailTest1() {
     // Given: DB에 DetailPlan 레코드를 저장한다.
-    DaoTestUtils.addDetailPlan(validUserId1, 1, 5);
+    DaoTestUtils.addDetailPlan(validUserId1, 1, 10);
     // And: invalid wrtier가 주어진다.
     String invalidWriter = "invalidUserId";
 
