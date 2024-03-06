@@ -1,0 +1,8 @@
+.form-check-input:checked + .form-checked-content {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.clickable-item[data-status="active"] {
+    background-color: var(--bs-tertiary-color);
+}
