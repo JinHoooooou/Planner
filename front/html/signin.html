@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #4caf50;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #4caf50;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .link-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #4caf50;
+            text-decoration: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <form>
+        <h2>로그인</h2>
+
+        <label for="username">아이디</label>
+        <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
+
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+
+        <div class="checkbox-container">
+            <label for="remember">아이디 저장</label>
+            <input type="checkbox" id="remember" name="remember">
+        </div>
+
+        <div class="checkbox-container">
+            <label for="autoLogin">자동 로그인</label>
+            <input type="checkbox" id="autoLogin" name="autoLogin">
+        </div>
+
+        <input type="submit" value="로그인">
+
+        <div class="link-container">
+            <a href="#" class="link">아이디 찾기</a>
+            <a href="#" class="link">비밀번호 찾기</a>
+        </div>
+    </form>
+</body>
+</html>
