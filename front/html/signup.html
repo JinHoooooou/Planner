@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 양식</title>
+    <style>
+        body {
+            background-color: rgb(233, 236, 251);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input{
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 16px; /* 수정된 부분 */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 16px;
+            color: #333;
+        }
+
+        /* 추가된 스타일 */
+        #checkDuplicateBtn {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 8px;
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #checkDuplicateBtn:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+<form id="signupForm">
+    <label for="userID">ID 입력:</label>
+    <input type="text" id="userID" required>
+    <button type="button" id="checkDuplicateBtn" onclick="checkDuplicate()">중복확인</button> 
+
+    <label for="password">비밀번호 입력:</label>
+    <input type="password" id="password" required>
+
+    <label for="confirmPassword">비밀번호 확인:</label>
+    <input type="password" id="confirmPassword" required>
+
+    <label for="phoneNumber">휴대폰번호 입력:</label>
+    <input type="text" id="phoneNumber" required>
+
+    <label for="email">Email 입력:</label>
+    <input type="email" id="email" required>
+
+    <label for="name">이름:</label>
+    <input type="text" id="name" required>
+
+    <label for="nickname">사용할 닉네임 입력:</label>
+    <input type="text" id="nickname" required>
+
+    <label for="address">주소 입력:</label>
+    <input type="text" id="address" required>
+
+    <button type="button" onclick="submitForm() ">회원가입</button>
+</form>
+
+<script>
+    function checkDuplicate() {
+        if(document.getElementById('userID').value == ""){
+            alert("아이디를 입력해주세요");
+        } else {
+            alert("사용 가능한 아이디입니다.");
+        }
+    }
+
+    function submitForm() {
+        if(document.getElementById('userID').value == "" ||
+            document.getElementById('password').value == "" ||
+            document.getElementById('confirmPassword').value == "" ||
+            document.getElementById('phoneNumber').value == "" ||
+            document.getElementById('email').value == "" ||
+            document.getElementById('name').value == "" ||
+            document.getElementById('nickname').value == "" ||
+            document.getElementById('address').value == ""){
+            alert("입력하지 않은 내용이 있습니다.");
+        } else if(document.getElementById('password').value != document.getElementById('confirmPassword').value){
+            alert("비밀번호가 일치하지 않습니다")
+        } else{
+            alert("회원가입이 완료되었습니다.");
+            location.href='./main.html';
+        }
+    }
+</script>
+
+</body>
+</html>
