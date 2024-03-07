@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+    <title>아이디 찾기</title>
     <style>
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: rgb(233, 236, 251);
             margin: 0;
             padding: 0;
@@ -93,60 +94,63 @@
             margin-top: 20px;
         }
 
-        .checkbox-container label {
-            color: #777;
-            font-size: 14px;
+        .result,
+        .error {
+            margin-top: 20px;
+            font-weight: bold;
         }
 
-        .checkbox-container input {
-            width: 16px;
-            height: 16px;
-            margin-left: 8px;
+        .result {
+            color: #4caf50;
+        }
+
+        .error {
+            color: #f44336;
         }
     </style>
 </head>
 
 <body>
     <form>
-        <h2>로그인</h2>
+        <h2>아이디 찾기</h2>
 
-        <label for="userID">아이디</label>
-        <input type="text" id="userID" name="userID" placeholder="아이디를 입력하세요">
+        <label for="phone">휴대폰번호</label>
+        <input type="text" id="phone" name="phone" placeholder="휴대폰번호를 입력하세요" required>
 
-        <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
 
-        <div class="checkbox-container">
-            <label for="remember">아이디 저장</label>
-            <input type="checkbox" id="remember" name="remember">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Email을 입력하세요" required>
 
-            <label for="autoLogin">자동 로그인</label>
-            <input type="checkbox" id="autoLogin" name="autoLogin">
-        </div>
-
-        <input type="submit" onclick="login()" value="로그인">
+        <input type="submit" value="완료">
 
         <div class="link-container">
-            <a href="#" class="link">아이디 찾기</a>
+            <a href="#" class="link" id="loginLink">로그인하기</a>
             <span>|</span>
-            <a href="#" class="link">비밀번호 찾기</a>
-            <span>|</span>
-            <a href="./signup.html" class="link">회원가입</a>
+            <a href="#" class="link" id="passwordLink">비밀번호 찾기</a>
         </div>
     </form>
+
     <script>
-        function login(){
-            if (document.getElementById('userID').value == "") {
-                alert("아이디를 입력하세요");
-                return false;
-            } else if (document.getElementById('password').value == "") {
-                alert("비밀번호를 입력하세요");
-                return false;
+        // 스크립트를 이용하여 결과 및 오류 메시지 동적 표시
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // 여기서 실제로 서버에 휴대폰번호, 이름, 이메일을 전송하고 결과를 받아오는 로직이 들어가야 합니다.
+            // 이 예제에서는 간단히 결과를 하드코딩하여 보여주겠습니다.
+            const isValidData = true; // 서버로부터의 결과에 따라 변경되어야 합니다.
+            
+            const resultElement = document.getElementById('result');
+            const errorElement = document.getElementById('error');
+
+            if (isValidData) {
+                return confirm('당신의 아이디는 user1입니다. 로그인하러 가시겠습니까?');
+                location.href='./signin.html';
             } else {
-                document.id.action="../plan3.html";
-                document.id.submit();
+                alert('입력된 값이 올바르지 않거나 존재하지 않는 아이디입니다.');
             }
-        }
+        });
     </script>
 </body>
 
