@@ -8,8 +8,12 @@ import java.sql.SQLException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class DetailPlan_Sim {
@@ -25,7 +29,7 @@ public class DetailPlan_Sim {
 	
 	  public static DetailPlan_Sim from(ResultSet resultSet) throws SQLException {
 		    return DetailPlan_Sim.builder()
-		        .detailPlanId(resultSet.getInt("detaiil_plan_id"))
+		        .detailPlanId(resultSet.getInt("detail_plan_id"))
 		        .planId(resultSet.getInt("plan_id"))
 		        .writer(resultSet.getString("writer"))
 		        .contents(resultSet.getString("contents"))
@@ -33,6 +37,7 @@ public class DetailPlan_Sim {
 		        .endTime(resultSet.getDate("end_time"))
 		        .remindAlarmTime(resultSet.getDate("remind_alarm_time"))
 		        .createDate(resultSet.getDate("create_date"))
+		        .complete(resultSet.getString("complete"))
 		        .build();
 		  }
 }
