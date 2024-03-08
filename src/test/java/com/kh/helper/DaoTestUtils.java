@@ -9,6 +9,7 @@ import com.kh.model.vo.User;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Random;
 
 public class DaoTestUtils {
@@ -43,18 +44,13 @@ public class DaoTestUtils {
     }
   }
 
-  public static void addPlanDataDifferentEndDate(String userId, String title, int count) {
+  public static void addPlanDataDifferentDates(String userId, String title, int count) {
     for (int i = 0; i < count; i++) {
-      int month = new Random().nextInt(1, 13);
-      int days = new Random().nextInt(1, 30);
-      if (month == 2 && days == 30) {
-        days = 29;
-      }
       planDao.save(Plan.builder()
           .writer(userId)
           .title(title + (i + 1))
           .startDate(Date.valueOf(LocalDate.now()))
-          .endDate(Date.valueOf(LocalDate.parse(String.format("2024-%02d-%02d", month, days))))
+          .endDate(Date.valueOf(LocalDate.parse("2024-03-19")))
           .remindAlarmDate(Date.valueOf(LocalDate.now()))
           .complete(false)
           .createDate(Date.valueOf(LocalDate.now()))
@@ -63,6 +59,22 @@ public class DaoTestUtils {
   }
 
   public static void addDetailPlan(String writer, int planId, int count) {
+    for (int i = 0; i < count; i++) {
+      int hours = new Random().nextInt(0, 11);
+      int minutes = new Random().nextInt(0, 60);
+      detailPlanDao.save(DetailPlan.builder()
+          .planId(planId)
+          .writer(writer)
+          .contents("validContents" + (i + 1))
+          .startTime(LocalDateTime.of(LocalDate.now().plusDays(i), LocalTime.of(hours, minutes)))
+          .endTime(LocalDateTime.of(LocalDate.now().plusDays(i), LocalTime.of(hours + i, minutes)))
+          .remindAlarmTime(LocalDateTime.now())
+          .complete(false)
+          .build());
+    }
+  }
+
+  public static void addDetailPlanDifferentTime(String writer, int planId, int count) {
     for (int i = 0; i < count; i++) {
       detailPlanDao.save(DetailPlan.builder()
           .planId(planId)

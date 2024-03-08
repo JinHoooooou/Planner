@@ -33,8 +33,8 @@ public class ReadTest {
 
     DaoTestUtils.addUserData(validUserId1);
     DaoTestUtils.addUserData(validUserId2);
-    DaoTestUtils.addPlanData(validUserId1, "validTitle", 2);
-    DaoTestUtils.addPlanData(validUserId2, "validTitle", 2);
+    DaoTestUtils.addPlanDataDifferentDates(validUserId1, "validTitle", 2);
+    DaoTestUtils.addPlanDataDifferentDates(validUserId2, "validTitle", 2);
   }
 
   @Test
@@ -87,7 +87,7 @@ public class ReadTest {
   @DisplayName("findByWriter 실패1: invalid writer가 주어질 때")
   public void findByWriterFailTest1() {
     // Given: DB에 DetailPlan 레코드를 저장한다.
-    DaoTestUtils.addDetailPlan(validUserId1, 1, 10);
+    DaoTestUtils.addDetailPlan(validUserId1, 1, 15);
     // And: invalid wrtier가 주어진다.
     String invalidWriter = "invalidUserId";
 

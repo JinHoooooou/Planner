@@ -107,7 +107,7 @@ public class ReadTest {
   @DisplayName("findByWriterOrderByEndDate 성공1: valid writer가 주어질 때")
   public void findByWriterOrderByEndDateSuccessTest() {
     // Given: DB에 endDate가 다른 Plan 레코드를 저장한다.
-    DaoTestUtils.addPlanDataDifferentEndDate(validUserId1, "validTitle", 10);
+    DaoTestUtils.addPlanDataDifferentDates(validUserId1, "validTitle", 10);
     // And: valid writer가 주어진다.
     String validWriter = validUserId1;
 

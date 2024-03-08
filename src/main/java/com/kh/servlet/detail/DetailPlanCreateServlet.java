@@ -1,0 +1,43 @@
+package com.kh.servlet.detail;
+
+import com.kh.model.dao.DetailPlanDao;
+import com.kh.model.vo.DetailPlan;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@WebServlet("/detail/create")
+public class DetailPlanCreateServlet extends HttpServlet {
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    req.setCharacterEncoding("UTF-8");
+
+    String planId = req.getParameter("planId");
+    String writer = req.getParameter("writer");
+    String content = req.getParameter("content");
+    String startDate = req.getParameter("startDate");
+    String startTime = req.getParameter("startTime");
+    String endTime = req.getParameter("endTime");
+    String remindAlarmTime = req.getParameter("remindAlarmTime");
+
+    DetailPlan newDetail = DetailPlan.builder()
+        .planId(Integer.parseInt(planId))
+        .writer(writer)
+        .contents(content)
+        .startTime(LocalDateTime.parse(startDate + startTime, DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm")))
+        .endTime(LocalDateTime.parse(startDate + endTime, DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm")))
+        .remindAlarmTime(LocalDateTime.parse(remindAlarmTime))
+        .build();
+
+    new DetailPlanDao().save(newDetail);
+
+    resp.setStatus(HttpServletResponse.SC_CREATED);
+  }
+}
