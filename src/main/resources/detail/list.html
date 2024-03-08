@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html data-bs-theme="light" lang="en">
 
 <head>
   <meta charset="UTF-8"/>
@@ -16,79 +16,94 @@
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script crossorigin="anonymous" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
           src="https://code.jquery.com/jquery-3.7.1.js"></script>
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
-  <link rel="stylesheet" href="../css/detailPlanList.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"/>
+  <link href="../css/detailPlanList.css" rel="stylesheet"/>
   <script src="../js/detailPlan.js"></script>
 </head>
 
 <body>
-  <nav class="container navbar navbar-expand bg-body-secondary">
-    <div class="container">
-      <a class="navbar-brand" href="#">Home</a>
-      <div class="navbar">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown">
-              <i class="bi bi-person-circle"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <i class="bi bi-person-circle dropdown-item disabled"><br/><span>회원명</span></i>
-              </li>
-              <li>
-                <hr class="dropdown-divider"/>
-              </li>
-              <li><a class="dropdown-item" href="#">로그아웃</a></li>
-              <li><a class="dropdown-item" href="#">개인정보 조회</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#"><i class="bi bi-bar-chart-fill"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#"><i class="bi bi-gear-fill"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <hr/>
-  <div
-      class="container mx-auto my-5 py-5 rounded text-body-emphasis bg-body-secondary justify-content-center">
-    <div class="col px-0 text-center">
-      <h1 class="display-4" id="planTitle"></h1>
-      <p class="lead mb-0" id="planDate"></p>
-      <p class="lead mb-0" id="planRemindAlarm"></p>
-      <p class="lead mb-0" id="planComplete"></p>
-      <button>디테일 플랜 추가</button>
-    </div>
-  </div>
-  <hr/>
+<nav class="container navbar navbar-expand bg-body-secondary">
   <div class="container">
-    <br/>
-    전체?
-    <div class="progress my-3" role="progressbar" aria-label="Animated striped example"
-         aria-valuenow="75"
-         aria-valuemin="0" aria-valuemax="100">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
-    </div>
-    오늘?
-    <div class="progress my-3" role="progressbar" aria-label="Animated striped example"
-         aria-valuenow="75"
-         aria-valuemin="0" aria-valuemax="100">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
-    </div>
-    중요도?
-    <div class="progress my-3" role="progressbar" aria-label="Animated striped example"
-         aria-valuenow="75"
-         aria-valuemin="0" aria-valuemax="100">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
-    </div>
-    <div class="accordion" id="detailPlanList">
-
+    <a class="navbar-brand" href="#">Home</a>
+    <div class="navbar">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link active" data-bs-toggle="dropdown" href="#" role="button">
+            <i class="bi bi-person-circle"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <i class="bi bi-person-circle dropdown-item disabled"><br/><span>회원명</span></i>
+            </li>
+            <li>
+              <hr class="dropdown-divider"/>
+            </li>
+            <li><a class="dropdown-item" href="#">로그아웃</a></li>
+            <li><a class="dropdown-item" href="#">개인정보 조회</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="bi bi-bar-chart-fill"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="bi bi-gear-fill"></i></a>
+        </li>
+      </ul>
     </div>
   </div>
+</nav>
+<hr/>
+<div
+    class="container mx-auto my-5 py-5 rounded text-body-emphasis bg-body-secondary justify-content-center">
+  <div class="col px-0 text-center">
+    <h1 class="display-4" id="planTitle"></h1>
+    <p class="lead mb-0" id="planDate"></p>
+    <p class="lead mb-0" id="planRemindAlarm"></p>
+    <p class="lead mb-0" id="planComplete"></p>
+    <button aria-controls="addDetailPlan" aria-expanded="false" class="btn btn-light"
+            data-bs-target="#addDetailPlan"
+            data-bs-toggle="collapse">디테일 플랜 추가
+    </button>
+  </div>
+  <div class="collapse" id="addDetailPlan">
+    <form id="detailForm">
+      <label>내용 입력: </label><input id="content" name="content" type="text"/> <br>
+      <label>날짜 선택: </label><input id="startDate" name="startDate" type="date"/> <br>
+      <label>시간 선택: </label><input id="startTime" name="startTime" type="time"/> ~ <input
+        id="endTime" name="endTime"
+        type="time"/> <br>
+      <label>알람 설정: </label><input type="checkbox"/><br/>
+      <input id="remindAlarmTime" name="remindAlarmTime" type="datetime-local"/>
+      <input id="createDetailPlan" type="submit"/>
+    </form>
+  </div>
+</div>
+<hr/>
+<div class="container">
+  <br/>
+  전체?
+  <div aria-label="Animated striped example" aria-valuemax="100" aria-valuemin="0"
+       aria-valuenow="75"
+       class="progress my-3" role="progressbar">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+  </div>
+  오늘?
+  <div aria-label="Animated striped example" aria-valuemax="100" aria-valuemin="0"
+       aria-valuenow="75"
+       class="progress my-3" role="progressbar">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+  </div>
+  중요도?
+  <div aria-label="Animated striped example" aria-valuemax="100" aria-valuemin="0"
+       aria-valuenow="75"
+       class="progress my-3" role="progressbar">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+  </div>
+  <div class="accordion" id="detailPlanList">
+
+  </div>
+</div>
 </body>
 
 </html>

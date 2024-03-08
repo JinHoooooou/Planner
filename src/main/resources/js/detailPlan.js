@@ -13,7 +13,46 @@ $(window).on("load", function () {
     },
     error: function () { },
   });
+  let today = getDateTimeInfo();
+
+  $("#startDate").val(today.startDate);
+  $("#startTime").val(today.startTime);
+  $("#endTime").val(today.endTime);
+  $("#remindAlarmTime").val(today.remindAlarmTime);
+
+  $("#detailForm").submit(function (event) {
+    event.preventDefault();
+    let formData = $(this).serialize();
+    console.log(formData);
+    $.ajax({
+      url: "/detail/create",
+      type: "POST",
+      contentType: "application/x-www-form-urlencoded",
+      data: formData,
+      success: function (response, textStatus, xhr) {
+        window.location.href = "/index.html";
+      },
+      error: function () {
+        alert("Error");
+      }
+    })
+  })
 });
+
+function getDateTimeInfo() {
+  let date = new Date();
+  let startTime = date.toTimeString().split(' ')[0].split(':');
+  date.setHours(date.getHours() + 1);
+  let endTime = date.toTimeString().split(' ')[0].split(':');
+  let result = {
+    "startDate": `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+    "startTime": `${startTime[0]}:${startTime[1]}`,
+    "endTime": `${endTime[0]}:${endTime[1]}`,
+  }
+  result.remindAlarmTime = `${result.startDate}T${result.startTime}`
+
+  return result
+}
 
 function printPlan(element) {
   $("#planTitle").html(element.title);
