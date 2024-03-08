@@ -114,39 +114,31 @@
     <form>
         <h2>아이디 찾기</h2>
 
-        <label for="phone">휴대폰번호</label>
-        <input type="text" id="phone" name="phone" placeholder="휴대폰번호를 입력하세요" required>
-
         <label for="name">이름</label>
         <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
 
         <label for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="Email을 입력하세요" required>
+        <input type="email" id="email" name="email" placeholder="Email을 입력하세요" required>
 
+        <label for="phone">휴대폰번호</label>
+        <input type="text" id="phone" name="phone" placeholder="휴대폰번호를 입력하세요" required>
+        
         <input type="submit" value="완료">
 
         <div class="link-container">
-            <a href="#" class="link" id="loginLink">로그인하기</a>
+            <a href="./signin.html" class="link" id="loginLink">로그인하기</a>
             <span>|</span>
-            <a href="#" class="link" id="passwordLink">비밀번호 찾기</a>
+            <a href="./findpw.html" class="link" id="passwordLink">비밀번호 찾기</a>
         </div>
     </form>
 
     <script>
-        // 스크립트를 이용하여 결과 및 오류 메시지 동적 표시
         document.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault();
-
-            // 여기서 실제로 서버에 휴대폰번호, 이름, 이메일을 전송하고 결과를 받아오는 로직이 들어가야 합니다.
-            // 이 예제에서는 간단히 결과를 하드코딩하여 보여주겠습니다.
-            const isValidData = true; // 서버로부터의 결과에 따라 변경되어야 합니다.
-            
-            const resultElement = document.getElementById('result');
-            const errorElement = document.getElementById('error');
-
-            if (isValidData) {
-                return confirm('당신의 아이디는 user1입니다. 로그인하러 가시겠습니까?');
-                location.href='./signin.html';
+            if(true){    
+                if (confirm('당신의 아이디는 user1입니다. 로그인하시겠습니까?')) {
+                    location.href='./signin.html';
+                } else {}
             } else {
                 alert('입력된 값이 올바르지 않거나 존재하지 않는 아이디입니다.');
             }
