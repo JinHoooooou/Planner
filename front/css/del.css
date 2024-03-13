@@ -1,0 +1,44 @@
+body{
+    justify-content: center;
+    background-color: rgb(255, 247, 255);
+    margin: 0;
+            padding: 0;
+            display: flex;
+}
+table{
+    border-radius: 3px;
+    border-color: rgb(128, 119, 119);
+    border-collapse: collapse;
+    background-color: white;
+    border-left:none;
+    border-right:none;
+   
+}
+h2{
+    text-align: center;
+    padding:50px;
+    margin-top: 70px;
+}
+form{
+    padding: 0px;
+    width:500px;
+    margin-top: 180px;
+    background-color: white;
+    border-radius: 15px;
+ }
+#remove-member { 
+    border-radius: 3px;
+    border:0px;
+    width: 70px;
+    height: 40px;
+    margin-top: 30px;
+    margin-left: 360px;
+    margin-bottom: 140px;
+}
+input {
+    background-color:  white;
+    font-size: 20px;
+    border:0px;
+   
+   
+}
