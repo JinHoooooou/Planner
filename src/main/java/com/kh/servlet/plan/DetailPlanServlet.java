@@ -45,6 +45,7 @@ public class DetailPlanServlet extends HttpServlet {
     for (DetailPlan detailPlan : detailPlanList) {
       JSONObject jsonObject = new JSONObject();
       jsonObject.put("contents", detailPlan.getContents());
+      jsonObject.put("detailPlanId", detailPlan.getDetailPlanId());
       jsonObject.put("startTime", detailPlan.getStartTime());
       jsonObject.put("endTime", detailPlan.getEndTime());
       jsonObject.put("remindAlarmTime", detailPlan.getRemindAlarmTime());

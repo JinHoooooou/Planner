@@ -1,23 +1,30 @@
 package com.kh.model.dao;
 
 import com.kh.database.JdbcTemplate;
+import com.kh.database.KeyHolder;
 import com.kh.database.RowMapper;
 import com.kh.model.vo.DetailPlan;
 import java.util.List;
 
 public class DetailPlanDao {
 
-  public int save(DetailPlan detailPlan) {
+  public DetailPlan save(DetailPlan detailPlan) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
     String query = """
         INSERT INTO DETAIL_PLAN(DETAIL_PLAN_ID, PLAN_ID, WRITER, CONTENTS,
          START_TIME, END_TIME, REMIND_ALARM_TIME, COMPLETE)
-        VALUES(SEQ_DETAIL.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
         """;
-    return jdbctemplate.executeUpdate(query,
-        detailPlan.getPlanId(), detailPlan.getWriter(), detailPlan.getContents(),
+
+    KeyHolder keyHolder = new KeyHolder();
+    keyHolder.setId(jdbctemplate.getNextVal());
+
+    jdbctemplate.executeUpdate(query,
+        keyHolder.getId(), detailPlan.getPlanId(), detailPlan.getWriter(), detailPlan.getContents(),
         detailPlan.getStartTime(), detailPlan.getEndTime(), detailPlan.getRemindAlarmTime(),
         detailPlan.isComplete() ? "Y" : "N");
+
+    return findByDetailPlanId(keyHolder.getId());
   }
 
   public int update(DetailPlan detailPlan) {

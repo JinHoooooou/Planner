@@ -7,9 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import org.json.JSONObject;
 
 @WebServlet("/detail/create")
 public class DetailPlanCreateServlet extends HttpServlet {
@@ -18,9 +20,16 @@ public class DetailPlanCreateServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.setCharacterEncoding("UTF-8");
+    HttpSession session = req.getSession();
+    session.setAttribute("userId", "validUserId1");
+
+    if (session == null || session.getAttribute("userId") == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
 
     String planId = req.getParameter("planId");
-    String writer = req.getParameter("writer");
+    String writer = String.valueOf(session.getAttribute("userId"));
     String content = req.getParameter("content");
     String startDate = req.getParameter("startDate");
     String startTime = req.getParameter("startTime");
@@ -36,7 +45,9 @@ public class DetailPlanCreateServlet extends HttpServlet {
         .remindAlarmTime(LocalDateTime.parse(remindAlarmTime))
         .build();
 
-    new DetailPlanDao().save(newDetail);
+    DetailPlan savedPlan = new DetailPlanDao().save(newDetail);
+
+    JSONObject responseBody = new JSONObject();
 
     resp.setStatus(HttpServletResponse.SC_CREATED);
   }

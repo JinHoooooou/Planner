@@ -7,38 +7,49 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @WebServlet("/plan/list")
 public class ListPlanServlet extends HttpServlet {
 
-  private TemplateEngine templateEngine;
-
-  @Override
-  public void init() throws ServletException {
-    super.init();
-    FileTemplateResolver resolver = new FileTemplateResolver();
-    resolver.setTemplateMode("HTML");
-    resolver.setPrefix("src/main/resources/plan"); // Set the path to your templates
-    resolver.setSuffix(".html");
-    resolver.setCacheable(false); // Disable caching for development
-
-    templateEngine = new TemplateEngine();
-    templateEngine.setTemplateResolver(resolver);
-  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    List<Plan> plans = new PlanDao().findByWriterOrderByEndDate(req.getParameter("userId"));
-    Context context = new Context();
-    context.setVariable("plans", plans);
-    resp.setContentType("text/html;charset=UTF-8");
-    templateEngine.process("/list", context, resp.getWriter());
+    req.setCharacterEncoding("UTF-8");
+    resp.setCharacterEncoding("UTF-8");
+    resp.setContentType("application/json");
+    HttpSession session = req.getSession();
+    session.setAttribute("userId", "validUserId1");
+
+    if (session == null || session.getAttribute("userId") == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+
+    List<Plan> plans = new PlanDao().findByWriterOrderByEndDate("validUserId1");
+    JSONObject responseBody = new JSONObject();
+    JSONArray jsonArrayPlan = new JSONArray();
+    for (Plan plan : plans) {
+      JSONObject jsonPlan = new JSONObject();
+      jsonPlan.put("planId", plan.getPlanId());
+      jsonPlan.put("title", plan.getTitle());
+      jsonPlan.put("startDate", plan.getStartDate());
+      jsonPlan.put("endDate", plan.getEndDate());
+      jsonPlan.put("remindAlarmDate", plan.getRemindAlarmDate());
+      jsonPlan.put("complete", plan.isComplete());
+      jsonArrayPlan.put(jsonPlan);
+    }
+    responseBody.put("planList", jsonArrayPlan);
+    resp.getWriter().write(responseBody.toString());
+
+    resp.getWriter().flush();
+    resp.getWriter().close();
+
   }
 
 }
