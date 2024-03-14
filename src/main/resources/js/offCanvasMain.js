@@ -2,6 +2,7 @@ function getPlanAndDetails(planId) {
   $.ajax({
     url: `${GET_DETAILS}?planId=${planId}`,
     type: "GET",
+    dataType: "json",
     async: false,
     success: renderOffCanvas,
     error: redirectErrorPage
@@ -15,6 +16,11 @@ function renderOffCanvas(response) {
   $(".form-check-input").change(function () {
     updateProgress();
   })
+
+  $("#detailCreateFormButton").click(function () {
+    renderDetailCreateForm(response.plan.planId);
+  })
+
   $("#detailForm").submit(function (event) {
     event.preventDefault();
     createNewDetail();
@@ -22,7 +28,7 @@ function renderOffCanvas(response) {
 }
 
 function renderPlan(element) {
-  writer = element.writer;
+  $("#planIdForDetail").html(element.planId);
   $("#planTitle").html(element.title);
   $("#planWriter").html(element.writer);
   $("#planDate").html(`${element.startDate} ~ ${element.endDate}`);
@@ -35,11 +41,11 @@ function renderDetails(list) {
   let detailPlanListDiv = $("#detailPlanList");
   detailPlanListDiv.empty();
   $.each(list, function (index, element) {
-    detailPlanListDiv.append(renderOneDetail(index, element));
+    detailPlanListDiv.append(renderOneDetail(element));
   });
 }
 
-function renderOneDetail(index, element) {
+function renderOneDetail(element) {
   return `<div class="accordion-item">
     <h1 class="accordion-header container"">
       <div class="detail-item collapsed row" data-bs-toggle="collapse" data-bs-target="#collapse${element.detailPlanId}">

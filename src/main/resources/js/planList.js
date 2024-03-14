@@ -1,6 +1,6 @@
 $(window).on("load", function () {
   getPlanList()
-  addOffCanvasEventToButton();
+  addOpenOffCanvasEventToButton();
 });
 
 function getPlanList() {
@@ -42,10 +42,9 @@ function renderOnePlan(index, element) {
   `
 }
 
-function addOffCanvasEventToButton() {
+function addOpenOffCanvasEventToButton() {
   $("[id^=detailsButton]").click(function () {
     let planId = $(this).attr("id").split("-")[1];
     getPlanAndDetails(planId);
-    renderDetailCreateForm();
   })
 }

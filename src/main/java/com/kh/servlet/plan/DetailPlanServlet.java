@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import org.json.JSONArray;
@@ -21,11 +22,16 @@ public class DetailPlanServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    resp.setCharacterEncoding("UTF-8");
-    resp.setContentType("application/json");
+    HttpSession session = req.getSession();
+    session.setAttribute("userId", "validUserId1");
+    if (session == null || session.getAttribute("userId") == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
 
     String planId = req.getParameter("planId");
     Plan target = new PlanDao().findByPlanId(Integer.parseInt(planId));
+
     JSONObject responseBody = new JSONObject();
     JSONObject plan = new JSONObject();
     plan.put("planId", target.getPlanId());
@@ -56,5 +62,16 @@ public class DetailPlanServlet extends HttpServlet {
 
     resp.getWriter().write(responseBody.toString());
     resp.getWriter().flush();
+  }
+
+  private Object parseToJson(Plan target) {
+    JSONObject result = new JSONObject();
+    result.put("planId", target.getPlanId());
+    result.put("title", target.getTitle());
+    result.put("startDate", target.getStartDate());
+    result.put("endDate", target.getEndDate());
+    result.put("remindAlarmDate", target.getRemindAlarmDate());
+    result.put("complete", target.isComplete());
+    return result;
   }
 }

@@ -19,7 +19,6 @@ public class DetailPlanCreateServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    req.setCharacterEncoding("UTF-8");
     HttpSession session = req.getSession();
     session.setAttribute("userId", "validUserId1");
 
@@ -30,7 +29,7 @@ public class DetailPlanCreateServlet extends HttpServlet {
 
     String planId = req.getParameter("planId");
     String writer = String.valueOf(session.getAttribute("userId"));
-    String content = req.getParameter("content");
+    String content = req.getParameter("contents");
     String startDate = req.getParameter("startDate");
     String startTime = req.getParameter("startTime");
     String endTime = req.getParameter("endTime");
@@ -48,7 +47,16 @@ public class DetailPlanCreateServlet extends HttpServlet {
     DetailPlan savedPlan = new DetailPlanDao().save(newDetail);
 
     JSONObject responseBody = new JSONObject();
+    responseBody.put("detailPlanId", savedPlan.getDetailPlanId());
+    responseBody.put("planId", savedPlan.getPlanId());
+    responseBody.put("contents", savedPlan.getContents());
+    responseBody.put("startTime", savedPlan.getStartTime());
+    responseBody.put("endTime", savedPlan.getEndTime());
+    responseBody.put("remindAlarmTime", savedPlan.getRemindAlarmTime());
 
     resp.setStatus(HttpServletResponse.SC_CREATED);
+    resp.getWriter().write(responseBody.toString());
+    resp.getWriter().flush();
+    resp.getWriter().close();
   }
 }

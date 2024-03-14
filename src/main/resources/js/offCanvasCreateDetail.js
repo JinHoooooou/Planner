@@ -1,21 +1,18 @@
 function createNewDetail() {
-  let formData = {};
-  $("#detailForm").serializeArray().forEach(function (element) {
-    formData[element.name] = element.value;
-  })
-  formData["planId"] = planId;
-
+  let planId = $("#planIdForDetail").val();
+  let formData = $("#detailForm").serialize();
+  formData += `&planId=${planId}`
+  console.log(formData)
   $.ajax({
     url: POST_CREATE_DETAIL,
     type: "POST",
     contentType: "application/x-www-form-urlencoded",
     data: formData,
+    dataType: "json",
     success: function (response) {
       let detailPlanListDiv = $("#detailPlanList");
-      detailPlanListDiv.append(renderOneDetail())
-      $.each(list, function (index, element) {
-        detailPlanListDiv.append(renderOneDetail(index, element));
-      });
+      detailPlanListDiv.append(renderOneDetail(response))
+      $("#detailCreateForm").removeClass("show");
     },
     error: function () {
       alert("Error");

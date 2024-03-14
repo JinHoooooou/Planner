@@ -51,13 +51,40 @@ public class CreateTest {
         .build();
 
     // When: DetailPlanDao.save() 메서드를 호출한다.
-    int result = detailPlanDao.save(validDetailPlan);
+    DetailPlan actual = detailPlanDao.save(validDetailPlan);
 
-    // Then: result는 1이다.
-    assertThat(result).isEqualTo(1);
-    // And: DB의 Detail_Plan 테이블에 해당 레코드가 추가된다.
-    DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
+    // Then: DB의 Detail_Plan 테이블에 해당 레코드가 추가된다.
     assertThat(actual.getDetailPlanId()).isEqualTo(1);
+    assertThat(actual.getPlanId()).isEqualTo(validDetailPlan.getPlanId());
+    assertThat(actual.getContents()).isEqualTo(validDetailPlan.getContents());
+    assertThat(actual.getStartTime()).isEqualToIgnoringNanos(validDetailPlan.getStartTime());
+    assertThat(actual.getEndTime()).isEqualToIgnoringNanos(validDetailPlan.getEndTime());
+    assertThat(actual.getRemindAlarmTime())
+        .isEqualToIgnoringNanos(validDetailPlan.getRemindAlarmTime());
+    assertThat(actual.isComplete()).isEqualTo(validDetailPlan.isComplete());
+  }
+
+  @Test
+  @DisplayName("save 성공2: id check 관련")
+  public void saveSuccessTest3() {
+    // Given: 10개의 DetailPlan을 추가한다.
+    DaoTestUtils.addDetailPlan(validUserId1, 1, 10);
+    // Given: valid 데이터가 주어진다.
+    DetailPlan validDetailPlan = DetailPlan.builder()
+        .planId(1)
+        .writer(validUserId1)
+        .contents("validContents")
+        .startTime(LocalDateTime.now())
+        .endTime(LocalDateTime.now())
+        .remindAlarmTime(LocalDateTime.now())
+        .complete(false)
+        .build();
+
+    // When: DetailPlanDao.save() 메서드를 호출한다.
+    DetailPlan actual = detailPlanDao.save(validDetailPlan);
+
+    // Then: DB의 Detail_Plan 테이블에 해당 레코드가 추가된다.
+    assertThat(actual.getDetailPlanId()).isEqualTo(11);
     assertThat(actual.getPlanId()).isEqualTo(validDetailPlan.getPlanId());
     assertThat(actual.getContents()).isEqualTo(validDetailPlan.getContents());
     assertThat(actual.getStartTime()).isEqualToIgnoringNanos(validDetailPlan.getStartTime());
@@ -82,12 +109,9 @@ public class CreateTest {
         .build();
 
     // When: DetailPlanDao.save() 메서드를 호출한다.
-    int result = detailPlanDao.save(validDetailPlan);
+    DetailPlan actual = detailPlanDao.save(validDetailPlan);
 
-    // Then: result는 1이다.
-    assertThat(result).isEqualTo(1);
-    // And: DB의 Detail_Plan 테이블에 해당 데이터가 추가된다.
-    DetailPlan actual = detailPlanDao.findByDetailPlanId(1);
+    // Then: DB의 Detail_Plan 테이블에 해당 데이터가 추가된다.
     assertThat(actual.getDetailPlanId()).isEqualTo(1);
     // And: Nullable 컬럼은 null로 저장된다.
     assertThat(actual.getContents()).isNull();
