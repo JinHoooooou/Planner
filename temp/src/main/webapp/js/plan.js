@@ -1,6 +1,16 @@
+window.onload = function () {
+    initializeDateInput();
+    planners = [];
+};
 
 
-
+function initPlanners(list) {
+    if (list !== null) {
+        list.forEach((item)=>{
+            planners.push(item);
+        })
+    }
+}
 
 
 // function showInfo() {
@@ -86,13 +96,15 @@ function togglePlannerDetails(index) {
     plannerDetails[index].classList.toggle('showDetails');
 }
 
-function deletePlanner(index) {
-    planners.splice(index, 1);
-    updatePlannerList();
-}
+// function deletePlanner(index) {
+
+//     location.href = ''
+//     planners.splice(index, 1);
+//     updatePlannerList();
+// }
 
 function updatePlannerList() {
-    const plannersList = document.getElementById('planners');
+    const plannersList = document.getElementById('plannersEle');
     plannersList.innerHTML = '';
 
     planners.forEach((planner, index) => {
@@ -131,10 +143,6 @@ function getCurrentDate() {
     const day = today.getDate().toString().padStart(2, '0');
     return `${today.getFullYear()}-${month}-${day}`;
 }
-
-window.onload = function () {
-    initializeDateInput();
-};
 
 function initializeDateInput() {
     // 날짜 입력 필드 찾기

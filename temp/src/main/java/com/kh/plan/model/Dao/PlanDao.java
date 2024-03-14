@@ -75,6 +75,43 @@ public class PlanDao {
 		return result;
 	}
 	
+	public int completePlan(Connection conn, String userId, int planId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "update plan set complete = 'Y' where WRITER = ? and plan_ID = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setInt(2, planId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate2.close(pstmt);
+		}
+		return result;
+	}
+	
+	public int deletePlan(Connection conn, String userId, int planId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "DELETE FROM PLAN WHERE WRITER = ? AND PLAN_ID = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setInt(2, planId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate2.close(pstmt);
+		}
+		return result;
+		
+	}
+	
 	public int deletePlan(Plan plan) {
 		Connection conn = JDBCTemplate2.getConnection();
 		PreparedStatement pstmt = null;

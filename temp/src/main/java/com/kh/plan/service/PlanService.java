@@ -42,4 +42,40 @@ public class PlanService {
 		close(conn);
 		return list;
 	}
+	
+	public ArrayList<Plan> deletePlan(String userId, int planId) {
+		Connection conn = JDBCTemplate2.getConnection();
+		
+		int result = new PlanDao().deletePlan(conn, userId, planId);
+		
+		ArrayList<Plan> list = null;
+		if(result > 0) {
+			JDBCTemplate2.commit(conn);
+			list = new PlanDao().selectPlan(conn, userId);
+		} else {
+			JDBCTemplate2.rollback(conn);
+		}
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	public ArrayList<Plan> completePlan(String userId, int planId) {
+		Connection conn = JDBCTemplate2.getConnection();
+		
+		int result = new PlanDao().completePlan(conn, userId, planId);
+		
+		ArrayList<Plan> list = null;
+		
+		if(result > 0) {
+			JDBCTemplate2.commit(conn);
+			list = new PlanDao().selectPlan(conn, userId);
+		} else {
+			JDBCTemplate2.rollback(conn);
+		}
+		close(conn);
+		
+		return list;
+	}
 }
