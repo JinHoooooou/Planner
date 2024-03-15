@@ -5,16 +5,24 @@
 <%
 ArrayList<Plan> list = (ArrayList<Plan>) session.getAttribute("planList");
 ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKeyWord");
-	String contextPath = request.getContextPath();
-	int count = 0;
-	int nCount = 0;
+String contextPath = request.getContextPath();
+int count = 0;
+int nCount = 0;
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://kit.fontawesome.com/eee69deb72.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" href="css/plan.css">
 <script src="js/plan.js"></script>
 <style>
@@ -107,7 +115,7 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 		</form>
 		<form action="/SemiProjectPractice/insert.pl" method="POST">
 			<br> <br>
-			<div class="complete_box">
+						<div class="complete_box">
 				<div>
 					<div>
 						<div class="not-yet-complete">
@@ -150,7 +158,7 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 			<br> <label for="title"></label> <input type="hidden"
 				name="userId" value="validUserId0"> <input type="text"
 				id="title" name="title" required
-				placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.'>
+				placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.' readonly>
 			<br>
 			<div style="width: 100%;">
 				<div class="time-box">
@@ -185,7 +193,8 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 				</div>
 			</div>
 			<br>
-			<button type="submit" value="저장" id="save">저장</button>
+			<button type="submit" value="저장" id="save"
+				onclick="return submitPlanner2();" disabled>저장</button>
 		</form>
 		<div id="plannerList">
 			<div id="planLists">
@@ -206,28 +215,28 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 				</ul>
 			</div>
 			<ul id="plannersEle">
-				<%
-				if (list != null) {
-					for (int i = 0; i < list.size(); i++) {
+			<%
+				if (listKeyWord != null) {
+					for (int i = 0; i < listKeyWord.size(); i++) {
 				%>
 
 				<li>
 					<div class="plannerItem">
 						<div style="display: flex;">
 							<input type="checkbox" name="complete" value="complete"
-								class="com_radio" onchange="completePlanner(<%= list.get(i).getPlanId() %>)"
-								<% if(list.get(i).getComplete().equals("Y")) {
+								class="com_radio" onchange="completePlanner(<%= listKeyWord.get(i).getPlanId() %>)"
+								<% if(listKeyWord.get(i).getComplete().equals("Y")) {
 									
 								%> checked <%} %>
 								> <strong 
-								<% if(list.get(i).getComplete().equals("Y")) {
+								<% if(listKeyWord.get(i).getComplete().equals("Y")) {
 									
-								%> class='plan-complete'<%} %>><%= list.get(i).getTitle() %></strong>
+								%> class='plan-complete'<%} %>><%= listKeyWord.get(i).getTitle() %></strong>
 						</div>
 						<div class="plannerDate">
-							<span><%= list.get(i).getEndDate() %></span>
+							<span><%= listKeyWord.get(i).getEndDate() %></span>
 						</div>
-						<span class="deleteButton" onclick="deletePlanner(<%=list.get(i).getPlanId() %>)"><b>X</b></span>
+						<span class="deleteButton" onclick="deletePlanner(<%=listKeyWord.get(i).getPlanId() %>)"><b>X</b></span>
 					</div>
 				</li>
 
@@ -235,11 +244,48 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 				  }
 				}
 				%>
+				<%-- 
+				<%
+				if (listKeyWord != null) {
+					for (int i = 0; i < listKeyWord.size(); i++) {
+				%>
+
+				<li>
+					<div class="plannerItem">
+						<div style="display: flex;">
+							<input type="radio" name="complete" value="complete"
+								id="com_radio" onchange="deletePlanner(<%=i %>)"> <strong><%= listKeyWord.get(i).getTitle() %></strong>
+						</div>
+						<div class="plannerDate">
+							<span><%= listKeyWord.get(i).getEndDate() %></span>
+						</div>
+						<span class="deleteButton" onclick="deletePlanner(<%= listKeyWord.get(i).getPlanId() %>)"><b>X</b></span>
+					</div>
+				</li>
+
+				<%
+				  }
+				}
+				%>--%>
 			</ul>
+			
 		</div>
 	</main>
 
 	<script>
+	function deletePlanner(index) {
+
+		location.href = '<%= contextPath %>/delete.pl?userId=validUserId0&planId='+index;
+		
+
+	}
+	
+	function completePlanner(index) {
+		
+		location.href = '<%= contextPath %>/complete.pl?userId=validUserId0&planId='+index;
+		
+	}
+		// const planners = [];
 		var now_utc = Date.now()
 		var timeOff = new Date().getTimezoneOffset() * 60000;
 		var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
@@ -247,23 +293,9 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 		document.getElementById("startDate").setAttribute("min", today);
 		document.getElementById("endDate").setAttribute("min", today);
 		document.getElementById("endAlarmDate").setAttribute("min", today);
-
 	</script>
 
 	<script>
-
-		function deletePlanner(index) {
-
-			location.href = '<%= contextPath %>/delete.pl?userId=validUserId0&planId='+index;
-			
-
-		}
-		
-		function completePlanner(index) {
-			
-			location.href = '<%= contextPath %>/complete.pl?userId=validUserId0&planId='+index;
-			
-		}
 		function submitPlanner2() {
 			const title = document.getElementById('title').value;
 			let startDate = document.getElementById('startDate').value;
@@ -322,35 +354,6 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 
 			// initializeDateInput()
 		}
-		/***
-		window.onload = function() {
-			const plannersList = document.getElementById('planners');
-		    plannersList.innerHTML = '<%
-				if (list != null) {
-					for (int i = 0; i < list.size(); i++) {
-				%>
-
-				<li>
-					<div class="plannerItem">
-						<div style="display: flex;">
-							<input type="radio" name="complete" value="complete"
-								id="com_radio" onchange="deletePlanner(<%=i %>)"> <strong><%= list.get(i).getTitle() %></strong>
-						</div>
-						<div class="plannerDate">
-							<span><%= list.get(i).getEndDate() %></span>
-						</div>
-						<span class="deleteButton" onclick="deletePlanner(<%=i %>)"><b>X</b></span>
-					</div>
-				</li>
-
-				<%
-				  }
-				}
-				%>';
-			
-		}
-	
-		***/
 	</script>
 
 </body>

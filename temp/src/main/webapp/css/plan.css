@@ -295,7 +295,7 @@ strong {
     height: 30px;
 }
 
-#com_radio {
+.com_radio {
     width: 30px;
     margin-right: 10px;
     margin-left: -10px;
