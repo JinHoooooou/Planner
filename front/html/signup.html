@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 양식</title>
+    <title>회원가입</title>
     <style>
         body {
             background-color: rgb(233, 236, 251);
@@ -29,7 +29,9 @@
             margin-bottom: 8px;
         }
 
-        input{
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
@@ -39,6 +41,15 @@
         }
 
         button {
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        input[type="submit"] {
             background-color: #4caf50;
             color: #fff;
             padding: 10px;
@@ -46,10 +57,9 @@
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 16px; /* 수정된 부분 */
+            margin-bottom: 16px;
         }
-
-        button:hover {
+        input[type="submit"]:hover {
             background-color: #45a049;
         }
 
@@ -58,7 +68,6 @@
             color: #333;
         }
 
-        /* 추가된 스타일 */
         #checkDuplicateBtn {
             display: inline-block;
             margin-left: 8px;
@@ -76,33 +85,33 @@
     </style>
 </head>
 <body>
-<form id="signupForm">
+<form>
     <label for="userID">ID 입력:</label>
-    <input type="text" id="userID" required>
+    <input type="text" id="userID" name="userID" placeholder="ID를 입력해주세요." required>
     <button type="button" id="checkDuplicateBtn" onclick="checkDuplicate()">중복확인</button> 
 
     <label for="password">비밀번호 입력:</label>
-    <input type="password" id="password" required>
+    <input type="password" id="password" name="password" placeholder="비빌번호를 입력해주세요." required>
 
     <label for="confirmPassword">비밀번호 확인:</label>
-    <input type="password" id="confirmPassword" required>
-
-    <label for="phoneNumber">휴대폰번호 입력:</label>
-    <input type="text" id="phoneNumber" required>
-
-    <label for="email">Email 입력:</label>
-    <input type="email" id="email" required>
+    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 한 번 더 입력해주세요." required>
 
     <label for="name">이름:</label>
-    <input type="text" id="name" required>
+    <input type="text" id="name" name="name" placeholder="본인의 성함을 입력해주세요." required>
 
-    <label for="nickname">사용할 닉네임 입력:</label>
-    <input type="text" id="nickname" required>
+    <label for="nickname">닉네임:</label>
+    <input type="text" id="nickname" name="nickname" placeholder="사용하실 닉네임을 입력해주새요." required>
 
-    <label for="address">주소 입력:</label>
-    <input type="text" id="address" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="본인의 Email을 입력해주세요." required>
 
-    <button type="button" onclick="submitForm() ">회원가입</button>
+    <label for="phone">휴대폰번호:</label>
+    <input type="text" id="phone" name="phone" placeholder="본인의 휴대폰번호를 입력해주세요." required>
+
+    <label for="address">주소:</label>
+    <input type="text" id="address" name="address" placeholder="주소를 입력해주세요." required>
+
+    <input type="submit" value="회원가입">
 </form>
 
 <script>
@@ -110,27 +119,22 @@
         if(document.getElementById('userID').value == ""){
             alert("아이디를 입력해주세요");
         } else {
-            alert("사용 가능한 아이디입니다.");
+            if(false){ // DB에서 가지고 있는 userID가 있다면 
+                alert("이미 사용중인 아이디입니다");
+            } else {
+                alert("사용 가능한 아이디입니다.");
+            }
         }
     }
-
-    function submitForm() {
-        if(document.getElementById('userID').value == "" ||
-            document.getElementById('password').value == "" ||
-            document.getElementById('confirmPassword').value == "" ||
-            document.getElementById('phoneNumber').value == "" ||
-            document.getElementById('email').value == "" ||
-            document.getElementById('name').value == "" ||
-            document.getElementById('nickname').value == "" ||
-            document.getElementById('address').value == ""){
-            alert("입력하지 않은 내용이 있습니다.");
-        } else if(document.getElementById('password').value != document.getElementById('confirmPassword').value){
-            alert("비밀번호가 일치하지 않습니다")
-        } else{
+    document.querySelector('form').addEventListener("submit", function (event) {
+        event.preventDefault();
+        if(document.getElementById('password').value != document.getElementById('confirmPassword').value){
+            alert("비밀번호가 일치하지 않습니다");
+        } else {
             alert("회원가입이 완료되었습니다.");
-            location.href='./main.html';
+            document.location.href='./signin.html';
         }
-    }
+    });
 </script>
 
 </body>
