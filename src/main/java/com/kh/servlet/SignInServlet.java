@@ -1,28 +1,30 @@
-package com.kh.user;
+package com.kh.servlet;
 
 import com.kh.model.dao.UserDao;
-import com.kh.model.vo.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/user/create")
-public class CreateUserServlet extends HttpServlet {
+@WebServlet("/user/signIn")
+public class SignInServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    req.setCharacterEncoding("UTF-8");
-    User newUser = User.from(req);
+    String userId = req.getParameter("userId");
+    String userPw = req.getParameter("userPw");
 
     try {
-      new UserDao().insert(newUser);
-      resp.setStatus(HttpServletResponse.SC_CREATED);
+      new UserDao().login(userId, userPw);
+      HttpSession session = req.getSession();
+      session.setAttribute("userId", userId);
+      resp.setStatus(HttpServletResponse.SC_OK);
     } catch (IllegalArgumentException e) {
-      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
   }
 }

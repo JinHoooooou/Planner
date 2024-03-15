@@ -9,7 +9,7 @@ import java.util.List;
 
 public class JdbcTemplate {
 
-  public void executeUpdate(String query, Object... parameters) {
+  public int executeUpdate(String query, Object... parameters) {
     try (Connection connection = ConnectionManager.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(query);
       for (int i = 0; i < parameters.length; i++) {
@@ -22,6 +22,7 @@ public class JdbcTemplate {
       } else {
         connection.rollback();
       }
+      return result;
     } catch (SQLException e) {
       throw new DataAccessException(e);
     }
@@ -52,5 +53,11 @@ public class JdbcTemplate {
       return null;
     }
     return result.get(0);
+  }
+
+  public int getNextVal() {
+    String query = "SELECT SEQ_DETAIL.NEXTVAL FROM DUAL";
+    RowMapper<KeyHolder> mapper = resultSet -> new KeyHolder(resultSet.getInt(1));
+    return executeQueryForOne(query, mapper).getId();
   }
 }

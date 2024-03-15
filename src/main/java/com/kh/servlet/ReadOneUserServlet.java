@@ -1,4 +1,4 @@
-package com.kh.user;
+package com.kh.servlet;
 
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.User;
