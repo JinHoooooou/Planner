@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../img/planner_favicon.png" rel="icon" type="image/x-icon" />
+  <link href="../css/signUp.css" rel="stylesheet" />
+  <script crossorigin="anonymous" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="../js/signUp.js"></script>
+  <title>회원가입</title>
+</head>
+
+<body>
+  <form id="signUpForm" autocomplete="off">
+    <label for="userId">ID 입력:</label>
+    <input type="text" id="userId" name="userId" placeholder="ID를 입력해주세요." required>
+    <button class="check-duplicate-btn" type="button" id="userIdDuplicateBtn" onclick="checkUserIdDuplicate()">
+      중복확인
+    </button>
+
+    <label for="password">비밀번호 입력:</label>
+    <input type="password" id="password" name="userPw" placeholder="비빌번호를 입력해주세요." required>
+
+    <label for="confirmPassword">비밀번호 확인:</label>
+    <input type="password" id="confirmPassword" name="userPwConfirm" placeholder="비밀번호를 한 번 더 입력해주세요." required>
+
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="userName" placeholder="본인의 성함을 입력해주세요." required>
+
+    <label for="nickname">닉네임:</label>
+    <input type="text" id="nickname" name="nickname" placeholder="사용하실 닉네임을 입력해주새요." required>
+    <button class="check-duplicate-btn" type="button" id="nicknameDuplicateBtn" onclick="checkNicknameDuplicate()">
+      중복확인
+    </button>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="본인의 Email을 입력해주세요." required>
+
+    <label for="phone">휴대전화번호:</label>
+    <input type="text" id="phone" name="phone" placeholder="본인의 휴대폰번호를 입력해주세요." required>
+
+    <label for="address">주소:</label>
+    <input type="text" id="address" name="address" placeholder="주소를 입력해주세요." required>
+
+    <input type="submit" value="회원가입">
+  </form>
+</body>
+
+</html>
