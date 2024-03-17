@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <title>Input Date readOnly Property in HTML</title>
+    <style>
+        h1 {
+            color: green;
+        }
+ 
+        h2 {
+            font-family: Impact;
+        }
+ 
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+ 
+<body>
+    <h1>GeeksforGeeks</h1>
+    <h2>Input Date readOnly Property</h2>
+    <br> 
+     
+    Date Of Birth:
+    <input type="date" id="Test_Date" name="DOB" readonly>
+    <p>To set the date to read-only,
+        double-click the "Set Read-Only" button.</p>
+    <button ondblclick="My_Date()">Set Read-Only</button>
+    <p id="test"></p>
+ 
+    <script>
+        function My_Date() {
+            document.getElementById("Test_Date").readOnly = false;
+        }
+    </script>
+</body>
+ 
+</html>

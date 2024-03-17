@@ -42,14 +42,17 @@ public class InsertPlanController extends HttpServlet {
 		
 		Date startDate2 = Date.valueOf(startDate);
 		Date endDate2 = Date.valueOf(endDate);
-		Date remindAlarmDate2 = Date.valueOf(remindAlarmDate);
-		
+		Date remindAlarmDate2 = null;
+		if(remindAlarmDate != null || remindAlarmDate.equals("")) {
+		remindAlarmDate2 = Date.valueOf(remindAlarmDate);
+		}
 		ArrayList<Plan> p = new PlanService().insertPlan(userId, title, startDate2, endDate2, remindAlarmDate2);
 //		for(int i=0; i<p.size(); i++) {
 //			System.out.println(p.get(i).getTitle());
 //		}
 		HttpSession session = request.getSession();
 		session.setAttribute("planList", p);
+		session.setAttribute("userId", userId);
 		response.sendRedirect(request.getContextPath());
 		
 		

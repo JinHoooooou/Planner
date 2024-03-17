@@ -202,14 +202,14 @@ li {
 
 .not-completed,
 .completed {
-    color: rgb(240, 174, 53);
+    color: black;
     font-size: 30px;
 }
 
 #title {
     padding-left: 20px;
     font-size: 15px;
-    border-color: rgb(240, 174, 53);
+    border : 3px solid black;
 }
 
 /* input[type="date"]:not(.has-value):before {
@@ -238,7 +238,7 @@ input[type="date"] {
 
 #save {
     width: 80px;
-    background-color: rgb(240, 174, 53);
+    background-color: black;
     color: #fff;
     border-radius: 4px;
 
@@ -279,13 +279,13 @@ strong {
     width: 80px;
     font-size: 15px;
     text-align: center;
-    background-color: rgb(240, 174, 53);
+    background-color: black;
 }
 
 #planLists {
     display: flex;
     justify-content: space-between;
-    color: rgb(240, 174, 53);
+    color: black;
     font-size: larger;
 }
 

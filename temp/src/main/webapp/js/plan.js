@@ -148,7 +148,7 @@ function initializeDateInput() {
     // 날짜 입력 필드 찾기
     var dateInput = document.getElementById('startDate');
     var dateInput2 = document.getElementById('endDate');
-    var dateInput3 = document.getElementById('endAlarmDate');
+   // var dateInput3 = document.getElementById('endAlarmDate');
 
     // 현재 날짜를 포함한 임의의 날짜로 설정 (형식을 강제로 바꾸기 위함)
     var currentDate = new Date();
@@ -160,7 +160,7 @@ function initializeDateInput() {
     // 날짜 입력 필드의 값을 현재 날짜로 설정
     dateInput.value = today;
     dateInput2.value = today;
-    dateInput3.value = today;
+   // dateInput3.value = today;
 
     
 }

@@ -5,6 +5,7 @@
 <%
 ArrayList<Plan> list = (ArrayList<Plan>) session.getAttribute("planList");
 ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKeyWord");
+String userId = (String) session.getAttribute("userId");
 	String contextPath = request.getContextPath();
 	int count = 0;
 	int nCount = 0;
@@ -20,6 +21,10 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 <style>
 	.plan-complete {
 		text-decoration: line-through;
+		text-decoration-thickness: 3px; 
+	}
+	a {
+		text-decoration: none;
 	}
 </style>
 </head>
@@ -55,16 +60,16 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 				<li
 					style="border: 0px solid black; text-align: center; height: 55px;">
 					<i class="fas fa-user" style="color: black; font-size: 30px;"></i>
-					<div>XXX 님</div>
+					<div><%=userId %> 님</div>
 				</li>
 				<div style="display: flex; text-align: center;">
 					<li
 						style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px">
-						<b>로그아웃</b>
+						<b><a href="/views/plan/signin.html" style="color:black;">로그아웃</a></b>
 					</li>
 					<li
-						style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-right: 0px; background-color: rgb(240, 174, 53); color: #fff;">
-						<b>마이페이지</b>
+						style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-right: 0px; background-color: black; color: #fff;">
+						<b><a href="/views/plan/mypage.html" style="color:white;">마이페이지</a></b>
 					</li>
 				</div>
 			</ul>
@@ -174,11 +179,10 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 							</div>
 							<div style="display: flex;">
 								<input type="checkbox" id="endAlarmDateBoolean"
-									name="checkAlarmDate" class="endAlarm" name="endAlarmBoolean">
+									name="checkAlarmDate" class="endAlarm" name="endAlarmBoolean" onchange="is_checked()">
 								<input type="date"
-									onchange="this.className=(this.value!=''?'has-value':'')"
 									class="endAlarm" name="remindAlarmDate" id="endAlarmDate"
-									style="width: 133px;">
+									style="width: 133px;" readonly>
 							</div>
 						</div>
 					</div>
@@ -251,6 +255,14 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 	</script>
 
 	<script>
+	
+		function is_checked() {
+			if(document.getElementById("endAlarmDateBoolean").checked == true) {
+				document.getElementById("endAlarmDate").readOnly = false;
+			} else if(document.getElementById("endAlarmDateBoolean").checked == false) {
+				document.getElementById("endAlarmDate").readOnly = true;
+			}
+		}
 
 		function deletePlanner(index) {
 
@@ -268,8 +280,7 @@ ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKe
 			const title = document.getElementById('title').value;
 			let startDate = document.getElementById('startDate').value;
 			let endDate = document.getElementById('endDate').value;
-			let endAlarmDateBoolean = document
-					.getElementById('endAlarmDateBoolean')
+			let endAlarmDateBoolean = document.getElementById('endAlarmDateBoolean')
 			let endAlarmDate = document.getElementById('endAlarmDate').value;
 
 			if (!title) {
