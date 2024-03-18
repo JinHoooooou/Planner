@@ -7,8 +7,7 @@
     <title>로그인</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fb;
+            background-color: rgb(233, 236, 251);
             margin: 0;
             padding: 0;
             display: flex;
@@ -69,7 +68,7 @@
         }
 
         .link-container {
-            text-align: left;
+            text-align: center;
             margin-top: 20px;
         }
 
@@ -79,15 +78,31 @@
             justify-content: center;
             align-items: center;
             font-size: 14px;
+            margin: 0 8px;
+        }
+
+        .link-container span {
+            color: #555;
+            font-size: 14px;
         }
 
         .checkbox-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
+            margin-top: 0px;
         }
 
+        .checkbox-container label {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .checkbox-container input {
+            width: 16px;
+            height: 16px;
+            margin-left: -50px;
+        }
     </style>
 </head>
 
@@ -95,18 +110,16 @@
     <form>
         <h2>로그인</h2>
 
-        <label for="username">아이디</label>
-        <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
+        <label for="userID">아이디</label>
+        <input type="text" id="userID" name="userID" placeholder="아이디를 입력하세요" required>
 
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
 
         <div class="checkbox-container">
             <label for="remember">아이디 저장</label>
             <input type="checkbox" id="remember" name="remember">
-        </div>
 
-        <div class="checkbox-container">
             <label for="autoLogin">자동 로그인</label>
             <input type="checkbox" id="autoLogin" name="autoLogin">
         </div>
@@ -114,9 +127,23 @@
         <input type="submit" value="로그인">
 
         <div class="link-container">
-            <a href="#" class="link">아이디 찾기</a>
-            <a href="#" class="link">비밀번호 찾기</a>
+            <a href="./findid.html" class="link">아이디 찾기</a>
+            <span>|</span>
+            <a href="./findpw.html" class="link">비밀번호 찾기</a>
+            <span>|</span>
+            <a href="./signup.html" class="link">회원가입</a>
         </div>
     </form>
+    <script>
+        document.querySelector('form').addEventListener("submit", function (event) {
+            event.preventDefault();
+            if(true){ // 사용자가 사용하는 아이디와 비밀번호가 맞다면
+                document.location.href="../plan3.html";
+            } else {
+                alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
+            }
+        });
+    </script>
 </body>
+
 </html>
