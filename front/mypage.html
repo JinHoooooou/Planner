@@ -17,65 +17,80 @@
         <tr>
             <td>ID</td>
             <td colspan="3">
-            <input type="text" id="id"  class="info" value="userID" onclick="this.value=''"/>
+            <input type="text" id="id"  class="info" value="userID" />
             </td>   
         </tr>
         <tr>
             <td>PW</td>
             <td colspan="3">
-            <input type="password" id="pw" class="info" value="userPW" onclick="this.value=''"/>
+            <input type="password" id="pw" class="info" value="userPW" />
             </td>   
         </tr>
         <tr>
             <td>비밀번호 확인</td>
             <td  colspan="3">
-            <input type="password" id="checkedPW" class="info" value="userPW" onclick="this.value=''"/>
+            <input type="password" id="checkedPW" class="info" value="userPW" />
             </td>   
         </tr>
         <tr>
             <td>연락처</td>
             <td colspan="3">
-            <input type="text" id="phone" class="info" value="01012341234" onclick="this.value=''"/>
+            <input type="text" id="phone" class="info" value="01012341234" />
             </td>   
         </tr>
         <tr>
             <td>이메일</td>
             <td colspan="3">
-            <input type="text" id="email" class="info" value="example2@example.com" onclick="this.value=''"/>
+            <input type="text" id="email" class="info" value="example2@example.com" />
             </td>   
         </tr>
         <tr>
             <td>이름</td>
             <td colspan="3">
-            <input type="text" id="name" class="info" value="홍길동" onclick="this.value=''"/>
+            <input type="text" id="name" class="info" value="홍길동" />
             </td>   
         </tr>
         <tr>
             <td>닉네임</td>
             <td colspan="3">
-            <input type="text" id="nickname" class="info" value="nickName" onclick="this.value=''"/>
+            <input type="text" id="nickname" class="info" value="nickName" />
             </td>   
         </tr>
         <tr>
             <td>주소</td>
             <td colspan="3">
-            <input type="text" id="address" class="info" value="시/도" onclick="this.value=''"/>
+            <input type="text" id="address" class="info" value="시/도" />
             </td>   
         </tr>
     </table>
-    <br>
-    <!-- <button id="complete" onclick="alert('수정되었습니다.'); location.href='http://google.com/'">EDIT</button> -->
-    <button id="complete" onclick="alert('수정되었습니다.');"><a href="http://google.com/">EDIT</a></button>
-
-    <!-- <button id="quit" onclick="alert('탈퇴 페이지로 이동합니다.');"><a href="deletemember.html">회원탈퇴</a></button> -->
-
+    <br> 
+    <button id="complete"><a href="html/signin.html">EDIT</a></button>
     <button id="quit" type="button" onclick="deleteUser()">회원 탈퇴</button>
 </div>
 </form>
 <script>
+    window.addEventListener("load", function() {
+        let completeBtn = document.getElementById("complete");
+        completeBtn.addEventListener("click", function() {
+            alert("수정되었습니다");           
+        })
+    })
+
+    window.addEventListener("load", function() {
+        let infoList = document.getElementsByClassName("info");
+
+        for(let infoEle of infoList) {
+            infoEle.addEventListener("click", function() {
+                this.value = "";
+            });
+        }
+
+
+    })
+
     function deleteUser(){
        
-        if(confirm('탈퇴?')){
+        if(confirm('탈퇴하시겠습니까?')){
             window.open("deletemember.html", "_self");
         } 
         return false;
