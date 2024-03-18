@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebInitParam;
 import java.io.IOException;
 
-@WebFilter(value = {"*.html"}, initParams = @WebInitParam(name = "encoding", value = "UTF-8"))
+@WebFilter(value = {"/*"}, initParams = @WebInitParam(name = "encoding", value = "UTF-8"))
 public class EncodingFilter implements Filter {
 
   @Override
@@ -17,7 +17,6 @@ public class EncodingFilter implements Filter {
       throws IOException, ServletException {
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
-    response.setContentType("text/html;charset=utf-8");
 
     chain.doFilter(request, response);
   }
