@@ -38,7 +38,7 @@ function renderCreateForm() {
 
 function renderMainPage(response) {
     let planList = $("#planList");
-    renderMyInfo(response.nickname);
+    renderMyInfo(response.writer);
     renderCompletePlan(response.planList);
     renderCreateForm();
 

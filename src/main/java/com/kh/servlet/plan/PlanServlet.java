@@ -33,7 +33,7 @@ public class PlanServlet extends HttpServlet {
       return;
     }
     JSONObject responseBody = new JSONObject();
-    responseBody.put("nickname", loginUser.getNickname());
+    responseBody.put("writer", loginUser.getNickname());
 
     List<Plan> planList = new PlanDao().findByWriter(loginUser.getUserId());
     JSONArray jsonArray = new JSONArray();
