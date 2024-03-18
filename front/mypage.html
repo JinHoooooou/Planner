@@ -65,7 +65,7 @@
     </table>
     <br> 
     <button id="complete"><a href="html/signin.html">EDIT</a></button>
-    <button id="quit" type="button" onclick="deleteUser()">회원 탈퇴</button>
+    <button id="quit" type="button">회원 탈퇴</button>
 </div>
 </form>
 <script>
@@ -76,6 +76,16 @@
         })
     })
 
+    window.addEventListener("load", function(){
+        let quitBtn = document.getElementById("quit");
+        quitBtn.addEventListener("click", function() {
+            deleteUser();
+
+        })
+    })
+
+
+
     window.addEventListener("load", function() {
         let infoList = document.getElementsByClassName("info");
 
@@ -85,7 +95,14 @@
             });
         }
 
-
+        // 참고
+        // if (infoList !== null && infoList !== undefined) {
+        //     infoList.foreach((element, index)=>{
+        //         element.addEventListener("click", function(){
+        //             this.value='';
+        //         })
+        //     })
+        // }
     })
 
     function deleteUser(){
