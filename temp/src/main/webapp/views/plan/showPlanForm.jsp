@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.util.ArrayList, com.kh.plan.model.vo.Plan"%>
+	import="java.util.ArrayList, com.kh.plan.model.vo.Plan, java.util.Collections, java.util.Comparator, java.sql.Date"%>
 
 <%
 ArrayList<Plan> list = (ArrayList<Plan>) session.getAttribute("planList");
+
 ArrayList<Plan> listKeyWord = (ArrayList<Plan>) session.getAttribute("planListKeyWord");
-String contextPath = request.getContextPath();
 String userId = (String) session.getAttribute("userId");
-int count = 0;
-int nCount = 0;
+	String contextPath = request.getContextPath();
+	int count = 0;
+	int nCount = 0;
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://kit.fontawesome.com/eee69deb72.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,7 +26,7 @@ int nCount = 0;
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<link rel="stylesheet" href="css/plan.css">
+    <link rel="stylesheet" href="css/plan.css">
 <script src="js/plan.js"></script>
 <style>
 	.plan-complete {
@@ -43,6 +45,10 @@ int nCount = 0;
 			<b>Plan 작성하기</b>
 		</h1>
 		
+    	<form action="/SemiProjectPractice/show.pl" method="GET">
+    	<input type="hidden" name="userId" value="validUserId0">
+    	<input type="submit" value="로그인" style="width: 80px;">
+    	</form>
 		<div id="icons" style="max-width: 800px; margin: 20px auto;">
 			<button class="btn btn-secondary btn-sm" type="button"
 				data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,16 +68,16 @@ int nCount = 0;
 				<li
 					style="border: 0px solid black; text-align: center; height: 55px;">
 					<i class="fas fa-user" style="color: black; font-size: 30px;"></i>
-					<div><%= userId %> 님</div>
+					<div><%=userId %> 님</div>
 				</li>
 				<div style="display: flex; text-align: center;">
 					<li
 						style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px">
-						<b><a href="/views/plan/signin.html">로그아웃</a></b>
+						<b><a href="/views/plan/signin.html" style="color:black;">로그아웃</a></b>
 					</li>
 					<li
 						style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-right: 0px; background-color: black; color: #fff;">
-						<b><a href="/views/plan/mypage.html">마이페이지</a></b>
+						<b><a href="/views/plan/mypage.html" style="color:white;">마이페이지</a></b>
 					</li>
 				</div>
 			</ul>
@@ -105,7 +111,7 @@ int nCount = 0;
 		</form>
 		<form action="/SemiProjectPractice/insert.pl" method="POST">
 			<br> <br>
-						<div class="complete_box">
+			<div class="complete_box">
 				<div>
 					<div>
 						<div class="not-yet-complete">
@@ -146,9 +152,9 @@ int nCount = 0;
 				</div>
 			</div>
 			<br> <label for="title"></label> <input type="hidden"
-				name="userId" value="validUserId0"> <input type="text"
+				name="userId" value="<%= userId%>"> <input type="text"
 				id="title" name="title" required
-				placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.' readonly>
+				placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.'>
 			<br>
 			<div style="width: 100%;">
 				<div class="time-box">
@@ -175,15 +181,14 @@ int nCount = 0;
 									name="checkAlarmDate" class="endAlarm" name="endAlarmBoolean" onchange="is_checked()">
 								<input type="date"
 									class="endAlarm" name="remindAlarmDate" id="endAlarmDate"
-									style="width: 133px;" readonly>
+									style="width: 133px;" value= "" readonly>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<br>
-			<button type="submit" value="저장" id="save"
-				onclick="return submitPlanner2();" disabled>저장</button>
+			<button type="submit" value="저장" id="save" onclick= "return submitPlanner2()">저장</button>
 		</form>
 		<div id="plannerList">
 			<div id="planLists">
@@ -197,35 +202,35 @@ int nCount = 0;
 						class="visually-hidden">Toggle Dropdown</span>
 				</button>
 				<ul class="dropdown-menu">
-					<li style="border: 0px;" onclick="">&nbsp;마감일 오름차순</li>
-					<li style="border: 0px;" onclick="">&nbsp;마감일 내림차순</li>
-					<li style="border: 0px;" onclick="">&nbsp;시작일 오름차순</li>
-					<li style="border: 0px;" onclick="">&nbsp;시작일 내림차순</li>
+					<li style="border: 0px;" onclick="endDateASC()">&nbsp;마감일 오름차순</li>
+					<li style="border: 0px;" onclick="endDateDESC()">&nbsp;마감일 내림차순</li>
+					<li style="border: 0px;" onclick="startDateASC()">&nbsp;시작일 오름차순</li>
+					<li style="border: 0px;" onclick="startDateDESC()">&nbsp;시작일 내림차순</li>
 				</ul>
 			</div>
 			<ul id="plannersEle">
-			<%
-				if (listKeyWord != null) {
-					for (int i = 0; i < listKeyWord.size(); i++) {
+				<%
+				if (list != null) {
+					for (int i = 0; i < list.size(); i++) {
 				%>
 
 				<li>
 					<div class="plannerItem">
 						<div style="display: flex;">
 							<input type="checkbox" name="complete" value="complete"
-								class="com_radio" onchange="completePlanner(<%= listKeyWord.get(i).getPlanId() %>)"
-								<% if(listKeyWord.get(i).getComplete().equals("Y")) {
+								class="com_radio" onchange="completePlanner(<%= list.get(i).getPlanId() %>)"
+								<% if(list.get(i).getComplete().equals("Y")) {
 									
 								%> checked <%} %>
 								> <strong 
-								<% if(listKeyWord.get(i).getComplete().equals("Y")) {
+								<% if(list.get(i).getComplete().equals("Y")) {
 									
-								%> class='plan-complete'<%} %>><%= listKeyWord.get(i).getTitle() %></strong>
+								%> class='plan-complete'<%} %>><%= list.get(i).getTitle() %></strong>
 						</div>
 						<div class="plannerDate">
-							<span><%= listKeyWord.get(i).getEndDate() %></span>
+							<span><%= list.get(i).getEndDate() %></span>
 						</div>
-						<span class="deleteButton" onclick="deletePlanner(<%=listKeyWord.get(i).getPlanId() %>)"><b>X</b></span>
+						<span class="deleteButton" onclick="deletePlanner(<%=list.get(i).getPlanId() %>)"><b>X</b></span>
 					</div>
 				</li>
 
@@ -233,57 +238,11 @@ int nCount = 0;
 				  }
 				}
 				%>
-				<%-- 
-				<%
-				if (listKeyWord != null) {
-					for (int i = 0; i < listKeyWord.size(); i++) {
-				%>
-
-				<li>
-					<div class="plannerItem">
-						<div style="display: flex;">
-							<input type="radio" name="complete" value="complete"
-								id="com_radio" onchange="deletePlanner(<%=i %>)"> <strong><%= listKeyWord.get(i).getTitle() %></strong>
-						</div>
-						<div class="plannerDate">
-							<span><%= listKeyWord.get(i).getEndDate() %></span>
-						</div>
-						<span class="deleteButton" onclick="deletePlanner(<%= listKeyWord.get(i).getPlanId() %>)"><b>X</b></span>
-					</div>
-				</li>
-
-				<%
-				  }
-				}
-				%>--%>
 			</ul>
-			
 		</div>
 	</main>
 
 	<script>
-	
-	function is_checked() {
-		if(document.getElementById("endAlarmDateBoolean").checked == true) {
-			document.getElementById("endAlarmDate").readOnly = false;
-		} else if(document.getElementById("endAlarmDateBoolean").checked == false) {
-			document.getElementById("endAlarmDate").readOnly = true;
-			document.getElementById("endAlarmDate").value = "";
-		}
-	}
-	function deletePlanner(index) {
-
-		location.href = '<%= contextPath %>/delete.pl?userId=validUserId0&planId='+index;
-		
-
-	}
-	
-	function completePlanner(index) {
-		
-		location.href = '<%= contextPath %>/complete.pl?userId=validUserId0&planId='+index;
-		
-	}
-		
 		var now_utc = Date.now()
 		var timeOff = new Date().getTimezoneOffset() * 60000;
 		var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
@@ -291,15 +250,77 @@ int nCount = 0;
 		document.getElementById("startDate").setAttribute("min", today);
 		document.getElementById("endDate").setAttribute("min", today);
 		document.getElementById("endAlarmDate").setAttribute("min", today);
+
 	</script>
 
 	<script>
+		function endDateASC() {
+			<% if(list != null) {
+				Collections.sort(list, new Comparator<Plan>() {
+					@Override
+					public int compare(Plan p1, Plan p2) {
+						return (int)(p1.getEndDate().getTime() - p2.getEndDate().getTime());
+					}
+				});} %>
+		}
+		function endDateDESC() {
+			<% if(list != null) {
+				Collections.sort(list, new Comparator<Plan>() {
+					@Override
+					public int compare(Plan p1, Plan p2) {
+						return (int)(p2.getEndDate().getTime() - p1.getEndDate().getTime());
+					}
+				});} %>
+		}
+		
+		function startDateASC() {
+			<% if(list != null) {
+				Collections.sort(list, new Comparator<Plan>() {
+					@Override
+					public int compare(Plan p1, Plan p2) {
+						return (int)(p1.getStartDate().getTime() - p2.getStartDate().getTime());
+					}
+				});} %>
+		}
+		
+		function startDateDESC() {
+			<% if(list != null) {
+				Collections.sort(list, new Comparator<Plan>() {
+					@Override
+					public int compare(Plan p1, Plan p2) {
+						return (int)(p2.getStartDate().getTime() - p1.getStartDate().getTime());
+					}
+				});} %>
+		}
+		
+		
+	
+		function is_checked() {
+			if(document.getElementById("endAlarmDateBoolean").checked == true) {
+				document.getElementById("endAlarmDate").readOnly = false;
+			} else if(document.getElementById("endAlarmDateBoolean").checked == false) {
+				document.getElementById("endAlarmDate").readOnly = true;
+				document.getElementById("endAlarmDate").value = "";
+			}
+		}
+
+		function deletePlanner(index) {
+
+			location.href = '<%= contextPath %>/delete.pl?userId=validUserId0&planId='+index;
+			
+
+		}
+		
+		function completePlanner(index) {
+			
+			location.href = '<%= contextPath %>/complete.pl?userId=validUserId0&planId='+index;
+			
+		}
 		function submitPlanner2() {
 			const title = document.getElementById('title').value;
 			let startDate = document.getElementById('startDate').value;
 			let endDate = document.getElementById('endDate').value;
-			let endAlarmDateBoolean = document
-					.getElementById('endAlarmDateBoolean')
+			let endAlarmDateBoolean = document.getElementById('endAlarmDateBoolean')
 			let endAlarmDate = document.getElementById('endAlarmDate').value;
 
 			if (!title) {
@@ -324,20 +345,24 @@ int nCount = 0;
 				alert('마감 날짜를 다시 설정해주세요!');
 				return false;
 			}
+			
+			if (endAlarmDate > endDate) {
+				alert('마감 알람 날짜를 다시 설정해주세요!');
+				return false;
+			} else if (endAlarmDate == '') {
+				return true;
+			}
 
 			if (startDate > endAlarmDate) {
 
 				alert('마감 알람 날짜를 다시 설정해주세요!');
 				return false;
+			} else if (endAlarmDate == '') {
+				return true;
 			}
-
-			if (endAlarmDateBoolean.checked && !endAlarmDate) {
-
-				endAlarmDate = getCurrentDate();
-			}
-
 
 		}
+
 	</script>
 
 </body>

@@ -1,7 +1,6 @@
 package com.kh.plan.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -15,16 +14,16 @@ import com.kh.plan.model.vo.Plan;
 import com.kh.plan.service.PlanService;
 
 /**
- * Servlet implementation class InsertPlanController
+ * Servlet implementation class ShowPlanController
  */
-@WebServlet("/insert.pl")
-public class InsertPlanController extends HttpServlet {
+@WebServlet("/show.pl")
+public class ShowPlanController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertPlanController() {
+    public ShowPlanController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,38 +31,13 @@ public class InsertPlanController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("null")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
-		response.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("userId");
-		String title = request.getParameter("title");
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
-		String remindAlarmDate = request.getParameter("remindAlarmDate");
-		Date startDate2 = Date.valueOf(startDate);
-		Date endDate2 = Date.valueOf(endDate);
-		Date remindAlarmDate2 = null;
-		if(userId.equals("null")) {
-			response.getWriter().print("유저 아이디 오류!");
-			response.getWriter().close();
-			return;
-		}
-		if(!(remindAlarmDate.equals(""))) {
-		remindAlarmDate2 = Date.valueOf(remindAlarmDate);
-		} else {
-			remindAlarmDate2 = null;
-		}
-		System.out.println(remindAlarmDate2);
-		
-		ArrayList<Plan> p = new PlanService().insertPlan(userId, title, startDate2, endDate2, remindAlarmDate2);
-		
-
+		ArrayList<Plan> p = new PlanService().showPlan(userId);
+		HttpSession session = request.getSession();
+		session.setAttribute("planList", p);
+		session.setAttribute("userId", userId);
 		response.sendRedirect(request.getContextPath());
-		
-		
-
 	}
 
 	/**

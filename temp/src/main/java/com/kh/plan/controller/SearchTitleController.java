@@ -38,7 +38,7 @@ public class SearchTitleController extends HttpServlet {
 		ArrayList<Plan> list = new PlanService().searchPlanByKeyWord(keyWord);
 		HttpSession session = request.getSession();
 		session.setAttribute("planListKeyWord", list);
-//		response.sendRedirect(request.getContextPath());
+
 		RequestDispatcher view = request.getRequestDispatcher("views/plan/planSearchKeywordForm.jsp");
 		view.forward(request, response);
 		

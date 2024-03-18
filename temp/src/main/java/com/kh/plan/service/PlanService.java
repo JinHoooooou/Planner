@@ -34,6 +34,7 @@ public class PlanService {
 		return list;
 	}
 	
+	
 	public ArrayList<Plan> searchPlanByKeyWord(String keyWord) {
 		Connection conn = JDBCTemplate2.getConnection();
 		
@@ -77,5 +78,15 @@ public class PlanService {
 		close(conn);
 		
 		return list;
+	}
+	
+	public ArrayList<Plan> showPlan(String userId) {
+		Connection conn = JDBCTemplate2.getConnection();
+		
+		ArrayList<Plan> p = new PlanDao().selectPlan(conn, userId);
+		
+		close(conn);
+		
+		return p;
 	}
 }

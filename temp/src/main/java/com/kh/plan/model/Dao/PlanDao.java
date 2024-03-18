@@ -131,12 +131,13 @@ public class PlanDao {
 		
 	}
 	
+	// 마감일 순 
 	public ArrayList<Plan> selectPlan(Connection conn, String userId) {
 		ArrayList<Plan> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		// 마감일이 빠른 순으로 조회하도록 함!
-		String sql = "SELECT * FROM PLAN WHERE WRITER = ? ORDER BY END_DATE";
+		String sql = "SELECT * FROM PLAN WHERE WRITER = ? ORDER BY END_DATE ASC";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -156,6 +157,7 @@ public class PlanDao {
 		return list;
 		
 	}
+
 	
 	public ArrayList<Plan> searchPlanByKeyWord(String keyWord) {
 		Connection conn = JDBCTemplate2.getConnection();

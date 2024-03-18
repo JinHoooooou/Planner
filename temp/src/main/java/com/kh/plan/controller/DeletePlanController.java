@@ -32,7 +32,7 @@ public class DeletePlanController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		request.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("userId");
 		String planIdS = request.getParameter("planId");
