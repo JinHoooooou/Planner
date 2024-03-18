@@ -6,7 +6,6 @@ import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +37,8 @@ public class User {
   @Pattern(regexp = "^[가-힣a-zA-Z0-9]{3,20}$"
       , message = "닉네임: 3~20자의 한글, 영문, 숫자를 사용해야합니다.")
   private String nickname;
-  @Email(message = "이메일: 유효하지 않은 이메일입니다.")
+  @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      , message = "이메일: 유효하지 않은 이메일입니다.")
   private String email;
   @Pattern(regexp = "^01[0-9][0-9]{3,4}[0-9]{4}$"
       , message = "휴대전화번호: 유효하지 않은 휴대전화번호입니다.")
@@ -77,7 +77,7 @@ public class User {
   }
 
   public void validate() {
-    try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();) {
+    try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
       Validator validator = validatorFactory.getValidator();
       Set<ConstraintViolation<User>> violations = validator.validate(this);
 
