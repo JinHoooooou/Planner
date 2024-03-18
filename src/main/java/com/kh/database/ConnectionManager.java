@@ -11,7 +11,7 @@ public class ConnectionManager {
   private static final String DB_DRIVER = "oracle.jdbc.driver.OracleDriver";
   private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
   private static final String DB_ID = "SEMI";
-  private static final String DB_PW = "SEMI";
+  private static final String DB_PW = "semi";
   private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
   public static Connection getConnection() {
