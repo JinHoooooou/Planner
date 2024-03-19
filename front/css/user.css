@@ -1,0 +1,44 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(233, 236, 251);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 300px;
+    text-align: center;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+h2 {
+    color: #4caf50;
+    margin-bottom: 30px;
+}
+.checkbox-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.checkbox-container label {
+    color: #777;
+    font-size: 14px;
+}
+
+.checkbox-container input {
+    width: 16px;
+    height: 16px;
+    margin-left: -50px;
+}

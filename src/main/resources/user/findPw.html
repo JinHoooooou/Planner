@@ -4,9 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../planner_favicon.png" rel="icon" type="image/x-icon"/>
     <title>비밀번호 찾기</title>
-    <link rel="stylesheet" href="../css/user.css">
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(233, 236, 251);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #4caf50;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
         input {
             width: calc(100% - 20px);
             padding: 12px;
@@ -57,6 +88,13 @@
             font-size: 14px;
         }
 
+        .checkbox-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
         .result,
         .error {
             margin-top: 20px;
@@ -92,9 +130,9 @@
         <input type="submit" value="완료">
 
         <div class="link-container">
-            <a href="./signin.html" id="loginLink">로그인하기</a>
+            <a href="signIn.html" id="loginLink">로그인하기</a>
             <span>|</span>
-            <a href="./findid.html" id="idFindLink">아이디 찾기</a>
+            <a href="findId.html" id="idFindLink">아이디 찾기</a>
         </div>
     </form>
 
@@ -103,7 +141,7 @@
             event.preventDefault();
             if(true){ // 만약에 아이디가 존재하는지 + 입력된 값을 올바르게 적었는지
                 if (confirm("당신의 비밀번호는 pass1입니다. 로그인하시겠습니까?")){
-                    location.href='./signin.html';
+                    location.href='signIn.html';
                 } else {}
             } else {
                 alert("입력된 값이 올바르지 않습니다.");

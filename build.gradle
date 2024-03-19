@@ -22,6 +22,8 @@ dependencies {
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '10.1.18'
     implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.1.2.RELEASE'
     implementation 'org.json:json:20231013'
+    implementation'org.hibernate.validator:hibernate-validator:6.1.2.Final'
+    implementation'org.glassfish:jakarta.el:3.0.3'
 }
 
 test {
