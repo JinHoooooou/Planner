@@ -13,6 +13,17 @@ $(window).ready(function () {
     }
   })
 })
+
+function renderMainPage(response) {
+  let planList = $("#planList");
+  renderMyInfo(response.writer);
+  renderCompletePlan(response.planList);
+  renderCreateForm();
+  renderPlanList(response.planList);
+
+  planList.on("click", ".detailPlan", getDetailList)
+}
+
 function renderMyInfo(nickname) {
   $("#nickname").text(nickname);
 }
@@ -37,33 +48,37 @@ function renderCreateForm() {
   $("#remindAlarmDate").val(todayDate);
 }
 
-function renderMainPage(response) {
-    let planList = $("#planList");
-    renderMyInfo(response.writer);
-    renderCompletePlan(response.planList);
-    renderCreateForm();
-
-    planList.empty();
-    $.each(response.planList, function (index, plan) {
-        planList.append(`
-            <li>
-                <div class="plannerItem">
-                    <div style="display: flex;">
-                        <input type="checkbox" name="complete" class="com_radio"
-                            ${plan.complete ? "checked" : ""} 
-                            onchange="completePlanner(${plan.planId})" />
-                        <strong> ${plan.title} </strong>
-                    </div>
-                    <div class="plannerDate">
-                        <span>
-                        ${plan.endDate}
-                        </span>
-                    </div>
-                    <span class="deleteButton" onclick="deletePlanner(${plan.planId})"><b>X</b></span>
-                </div>
-            </li>
-            `)
-    })
+function renderPlanList(planList) {
+  let target = $("#planList");
+  target.empty();
+  $.each(planList, function (index, plan) {
+    target.append(
+      $("<li>").append(
+        $("<div>").addClass("plannerItem").append(
+          $("<div style='display: flex'>").append(
+            $("<input>").prop({
+              "type": "checkbox",
+              "name": "complete",
+              "class": "com_radio",
+              "onchange": `completePlanner(${plan.planId})`
+            }).attr(`${plan.complete === 'Y' ? "checked" : "notChecked"}`, "true")
+          ).append(
+            $("<strong>").addClass("detailPlan")
+              .attr({
+                "data-bs-toggle": "offcanvas",
+                "data-bs-target": "#detailPlan"
+              })
+              .text(plan.title)
+              .data("plan", plan)
+          )
+        ).append(
+          $("<div class='plannerDate'>").append($("<span>").text(plan.endDate))
+        ).append(
+          $("<span class='deleteButton'>").on("click", deletePlanner(plan.planId)).append("<b>X</b>")
+        )
+      )
+    )
+  })
 }
 
 function completePlanner(planId) {
