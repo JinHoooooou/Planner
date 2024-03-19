@@ -22,7 +22,7 @@ public class DetailPlan {
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private LocalDateTime remindAlarmTime;
-  private boolean complete;
+  private String complete;
   private LocalDateTime createDate;
 
   public static DetailPlan from(ResultSet resultSet) throws SQLException {
@@ -35,7 +35,7 @@ public class DetailPlan {
         .endTime(parse(resultSet.getString("END_TIME")))
         .remindAlarmTime(parse(resultSet.getString("REMIND_ALARM_TIME")))
         .createDate(parse(resultSet.getString("CREATE_DATE")))
-        .complete(resultSet.getBoolean("COMPLETE"))
+        .complete(resultSet.getString("COMPLETE"))
         .build();
   }
 

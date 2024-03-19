@@ -14,7 +14,7 @@ public class PlanDao {
         VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, ?, ?)
         """;
     return jdbcTemplate.executeUpdate(query, plan.getWriter(), plan.getTitle(), plan.getStartDate(),
-        plan.getEndDate(), plan.getRemindAlarmDate(), plan.isComplete() ? "Y" : "N");
+        plan.getEndDate(), plan.getRemindAlarmDate(), plan.getComplete());
   }
 
   public int update(Plan update) {
@@ -24,7 +24,7 @@ public class PlanDao {
         WHERE (WRITER=? AND PLAN_ID=?)""";
     return jdbcTemplate.executeUpdate(query,
         update.getTitle(), update.getStartDate(), update.getEndDate(),
-        update.getRemindAlarmDate(), update.isComplete() ? "Y" : "N", update.getWriter(),
+        update.getRemindAlarmDate(), update.getComplete(), update.getWriter(),
         update.getPlanId());
   }
 

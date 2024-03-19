@@ -44,7 +44,7 @@ public class PlanServlet extends HttpServlet {
       planJson.put("startDate", plan.getStartDate());
       planJson.put("endDate", plan.getEndDate());
       planJson.put("remindAlarmDate", plan.getRemindAlarmDate());
-      planJson.put("complete", plan.isComplete());
+      planJson.put("complete", plan.getComplete());
       jsonArray.put(planJson);
     }
     responseBody.put("planList", jsonArray);

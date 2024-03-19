@@ -17,7 +17,7 @@ public class DetailPlanDao {
     return jdbctemplate.executeUpdate(query,
         detailPlan.getPlanId(), detailPlan.getWriter(), detailPlan.getContents(),
         detailPlan.getStartTime(), detailPlan.getEndTime(), detailPlan.getRemindAlarmTime(),
-        detailPlan.isComplete() ? "Y" : "N");
+        detailPlan.getComplete());
   }
 
   public int update(DetailPlan detailPlan) {
@@ -31,7 +31,7 @@ public class DetailPlanDao {
 
     return jdbctemplate.executeUpdate(query,
         detailPlan.getContents(), detailPlan.getStartTime(), detailPlan.getEndTime(),
-        detailPlan.getRemindAlarmTime(), detailPlan.isComplete() ? "Y" : "N",
+        detailPlan.getRemindAlarmTime(), detailPlan.getComplete(),
         detailPlan.getDetailPlanId(), detailPlan.getWriter(), detailPlan.getPlanId());
   }
 
