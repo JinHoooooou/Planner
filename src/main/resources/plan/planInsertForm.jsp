@@ -18,8 +18,8 @@ String userId = (String) session.getAttribute("userId");
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="css/plan.css">
-<script src="js/plan.js"></script>
+<link rel="stylesheet" href="../css/plan.css">
+<script src="../js/plan.js"></script>
 <style>
 	.plan-complete {
 		text-decoration: line-through;

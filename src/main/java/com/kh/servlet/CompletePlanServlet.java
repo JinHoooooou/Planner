@@ -18,27 +18,14 @@ import jakarta.servlet.http.HttpSession;
  * Servlet implementation class CompletePlanController
  */
 @WebServlet("/complete.pl")
-public class CompletePlanController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CompletePlanController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+public class CompletePlanServlet extends HttpServlet {
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("userId");
 		String planIdS = request.getParameter("planId");
 		int planId = Integer.parseInt(planIdS);
-		
 		Plan p = new Plan();
 		p.setWriter(userId);
 		p.setPlanId(planId);
@@ -46,7 +33,6 @@ public class CompletePlanController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		if(result != 0) {
 		List<Plan> list = new PlanDao().findByWriter(userId);
-//		ArrayList<Plan> list = new PlanService().completePlan(userId, planId);
 		HttpSession session = request.getSession();
 		session.setAttribute("planList", list);
 		response.sendRedirect("/plan/showPlanForm.jsp");
@@ -58,12 +44,6 @@ public class CompletePlanController extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }

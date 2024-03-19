@@ -17,29 +17,15 @@ import jakarta.servlet.http.HttpSession;
  * Servlet implementation class DeletePlanController
  */
 @WebServlet("/delete.pl")
-public class DeletePlanController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeletePlanController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public class DeletePlanServlet extends HttpServlet {
+	
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("userId");
 		String planIdS = request.getParameter("planId");
 		int planId = Integer.parseInt(planIdS);
-//		Plan p = new Plan();
-//		p.setWriter(userId);
-//		p.setPlanId(planId);
 		int result = new PlanDao().deleteByPlanIdAndWriter(planId, userId);
 		if(result != 0) {
 		List<Plan> list = new PlanDao().findByWriter(userId);
@@ -52,12 +38,6 @@ public class DeletePlanController extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }

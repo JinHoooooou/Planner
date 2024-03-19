@@ -24,8 +24,8 @@ int nCount = 0;
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<link rel="stylesheet" href="css/plan.css">
-<script src="js/plan.js"></script>
+<link rel="stylesheet" href="../css/plan.css">
+<script src="../js/plan.js"></script>
 <style>
 	.plan-complete {
 		text-decoration: line-through;
@@ -185,7 +185,7 @@ int nCount = 0;
 			</div>
 			<br>
 			<button type="submit" value="저장" id="save"
-				onclick="return submitPlanner2();" disabled>저장</button>
+				onclick="return submitPlanner();" disabled>저장</button>
 		</form>
 		<div id="plannerList">
 			<div id="planLists">
@@ -235,29 +235,6 @@ int nCount = 0;
 				  }
 				}
 				%>
-				<%-- 
-				<%
-				if (listKeyWord != null) {
-					for (int i = 0; i < listKeyWord.size(); i++) {
-				%>
-
-				<li>
-					<div class="plannerItem">
-						<div style="display: flex;">
-							<input type="radio" name="complete" value="complete"
-								id="com_radio" onchange="deletePlanner(<%=i %>)"> <strong><%= listKeyWord.get(i).getTitle() %></strong>
-						</div>
-						<div class="plannerDate">
-							<span><%= listKeyWord.get(i).getEndDate() %></span>
-						</div>
-						<span class="deleteButton" onclick="deletePlanner(<%= listKeyWord.get(i).getPlanId() %>)"><b>X</b></span>
-					</div>
-				</li>
-
-				<%
-				  }
-				}
-				%>--%>
 			</ul>
 			
 		</div>
@@ -265,14 +242,8 @@ int nCount = 0;
 
 	<script>
 	
-	function is_checked() {
-		if(document.getElementById("endAlarmDateBoolean").checked == true) {
-			document.getElementById("endAlarmDate").readOnly = false;
-		} else if(document.getElementById("endAlarmDateBoolean").checked == false) {
-			document.getElementById("endAlarmDate").readOnly = true;
-			document.getElementById("endAlarmDate").value = "";
-		}
-	}
+	
+
 	function deletePlanner(index) {
 
 		location.href = '<%= contextPath %>/delete.pl?userId=validUserId0&planId='+index;
@@ -286,61 +257,10 @@ int nCount = 0;
 		
 	}
 		
-		var now_utc = Date.now()
-		var timeOff = new Date().getTimezoneOffset() * 60000;
-		var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-
-		document.getElementById("startDate").setAttribute("min", today);
-		document.getElementById("endDate").setAttribute("min", today);
-		document.getElementById("endAlarmDate").setAttribute("min", today);
+		
 	</script>
+	
 
-	<script>
-		function submitPlanner2() {
-			const title = document.getElementById('title').value;
-			let startDate = document.getElementById('startDate').value;
-			let endDate = document.getElementById('endDate').value;
-			let endAlarmDateBoolean = document
-					.getElementById('endAlarmDateBoolean')
-			let endAlarmDate = document.getElementById('endAlarmDate').value;
-
-			if (!title) {
-				alert('제목을 입력해주세요!');
-
-				document.getElementById('title').focus();
-				return false;
-			}
-
-			if (!startDate) {
-				startDate = getCurrentDate();
-
-			}
-
-			if (!endDate) {
-
-				endDate = getCurrentDate();
-			}
-
-			if (startDate > endDate) {
-
-				alert('마감 날짜를 다시 설정해주세요!');
-				return false;
-			}
-
-			if (startDate > endAlarmDate) {
-
-				alert('마감 알람 날짜를 다시 설정해주세요!');
-				return false;
-			}
-
-			if (endAlarmDateBoolean.checked && !endAlarmDate) {
-
-				endAlarmDate = getCurrentDate();
-			}
-
-
-		}
-	</script>
 
 </body>
 </html>

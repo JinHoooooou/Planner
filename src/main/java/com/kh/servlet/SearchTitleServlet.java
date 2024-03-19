@@ -18,28 +18,13 @@ import jakarta.servlet.http.HttpSession;
  * Servlet implementation class SearchTitleController
  */
 @WebServlet("/search.pl")
-public class SearchTitleController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SearchTitleController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public class SearchTitleServlet extends HttpServlet {
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String keyWord = request.getParameter("search");
 		String userId = request.getParameter("userId");
-		System.out.println(keyWord);
-		System.out.println(userId);
 		List<Plan> list = new PlanDao().findByWriterAndTitleContaining(userId, keyWord);
-		System.out.println(list);
 		HttpSession session = request.getSession();
 		session.setAttribute("planListKeyWord", list);
 
@@ -48,12 +33,6 @@ public class SearchTitleController extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }
