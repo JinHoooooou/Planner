@@ -17,20 +17,8 @@ import jakarta.servlet.http.HttpSession;
  * Servlet implementation class ShowPlanController
  */
 @WebServlet("/plan/list")
-public class ShowPlanController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ShowPlanController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public class ShowPlanServlet extends HttpServlet {
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
 		List<Plan> p = new PlanDao().findByWriter(userId);
@@ -40,12 +28,6 @@ public class ShowPlanController extends HttpServlet {
 		response.sendRedirect("/plan/showPlanForm.jsp");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }
