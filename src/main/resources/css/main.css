@@ -250,7 +250,7 @@ strong {
     border-radius: 1px;
 }
 
-.btn {
+.btn:not(.btn-submit, #detailCreateFormButton, .btn-outline-primary) {
     background-color: #f0f3f6;
     border: 0px solid black;
 }
