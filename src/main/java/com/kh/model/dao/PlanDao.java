@@ -16,20 +16,14 @@ public class PlanDao {
 
   public int save(Plan plan) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    String query = """
-    		INSERT INTO PLAN VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)
-
-        """;
-
+    String query = "INSERT INTO PLAN(PLAN_ID, WRITER, TITLE, START_DATE, END_DATE, REMIND_ALARM_DATE, COMPLETE) VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, ?, ?)";
     return jdbcTemplate.executeUpdate(query, plan.getWriter(), plan.getTitle(), plan.getStartDate(),
         plan.getEndDate(), plan.getRemindAlarmDate(), "N");
   }
 
   public int update(Plan update) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    String query = """
-        UPDATE PLAN SET TITLE=?, START_DATE=?, END_DATE=?, REMIND_ALARM_DATE=?, COMPLETE=?
-        WHERE (WRITER=? AND PLAN_ID=?)""";
+    String query = "UPDATE PLAN SET TITLE=?, START_DATE=?, END_DATE=?, REMIND_ALARM_DATE=?, COMPLETE=? WHERE (WRITER=? AND PLAN_ID=?)";
     return jdbcTemplate.executeUpdate(query,
         update.getTitle(), update.getStartDate(), update.getEndDate(),
         update.getRemindAlarmDate(), update.getComplete(), update.getWriter(),

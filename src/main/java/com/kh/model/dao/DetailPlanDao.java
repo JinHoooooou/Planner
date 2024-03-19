@@ -10,11 +10,7 @@ public class DetailPlanDao {
 
   public DetailPlan save(DetailPlan detailPlan) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
-    String query = """
-        INSERT INTO DETAIL_PLAN(DETAIL_PLAN_ID, PLAN_ID, WRITER, CONTENTS,
-         START_TIME, END_TIME, REMIND_ALARM_TIME, COMPLETE)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-        """;
+    String query = "INSERT INTO DETAIL_PLAN(DETAIL_PLAN_ID, PLAN_ID, WRITER, CONTENTS, START_TIME, END_TIME, REMIND_ALARM_TIME, COMPLETE) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
     KeyHolder keyHolder = new KeyHolder();
     keyHolder.setId(jdbctemplate.getNextVal());
@@ -30,11 +26,7 @@ public class DetailPlanDao {
   public int update(DetailPlan detailPlan) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
 
-    String query = """
-        UPDATE DETAIL_PLAN SET
-        CONTENTS = ?, START_TIME = ?, END_TIME = ?, REMIND_ALARM_TIME = ?, COMPLETE = ?
-        WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID=?
-        """;
+    String query = "UPDATE DETAIL_PLAN SET CONTENTS = ?, START_TIME = ?, END_TIME = ?, REMIND_ALARM_TIME = ?, COMPLETE = ? WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID=?";
 
     return jdbctemplate.executeUpdate(query,
         detailPlan.getContents(), detailPlan.getStartTime(), detailPlan.getEndTime(),
@@ -45,10 +37,7 @@ public class DetailPlanDao {
   public int deleteByDetailPlanIdAndPlanIdAndWriter(int detailPlanId, int planId, String writer) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
 
-    String query = """
-        DELETE FROM DETAIL_PLAN
-        WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID =?
-        """;
+    String query = "DELETE FROM DETAIL_PLAN WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID =?";
     return jdbctemplate.executeUpdate(query, detailPlanId, writer, planId);
   }
 
