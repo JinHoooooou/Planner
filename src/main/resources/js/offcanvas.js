@@ -2,9 +2,13 @@ function getDetailList() {
   let plan = $(this).data("plan");
   $("#planIdForDetail").val(plan.planId);
   $("#planTitle").text(plan.title);
-  $("#planDate").text(`${plan.startDate} ~ ${plan.endDate}`);
-  $("#planRemindAlarm").text(plan.remindAlarmDate === null ? '' : plan.remindAlarmDate);
-  $("#planComplete").text(plan.complete);
+  $("#planDate").html(`<i class="bi bi-calendar-week"></i> | ${plan.startDate} ~ ${plan.endDate}`);
+  $("#planRemindAlarm").html(
+    `${plan.remindAlarmDate === null ? ''
+      : '<i class="bi bi-alarm"></i> | ' + plan.remindAlarmDate}`);
+  if (plan.complete === 'Y') {
+    $("#planComplete").prop("checked", true);
+  }
 
   $.ajax({
     url: `/detail/list?planId=${plan.planId}`,
@@ -26,21 +30,14 @@ function renderDetails(response) {
   renderProgress(detailList);
 
   // 이벤트
+  $(".form-check-input:not(#planComplete)").on("change", updateProgress);
+  $("#planComplete").on("change", toggleComplete)
 }
 
-function renderProgress(list) {
-  let progress = $("#planProgress");
-  if (list.length === 0) {
-    progress.css("width", '0%').text('0%');
-  }
-
-  let checkedCount = 0;
-  $.each(list, function (index, element) {
-    checkedCount += element.complete ? 1 : 0;
-  });
-
-  progress.css("width", (checkedCount / list.length) * 100 + '%')
-    .text(Math.round((checkedCount / list.length) * 100).toFixed(1) + '%');
+function toggleComplete(event) {
+  let toggle = $(this).prop("checked");
+  $(".form-check-input").prop("checked", toggle ? true : false)
+  updateProgress();
 }
 
 function renderList(list) {
@@ -50,7 +47,6 @@ function renderList(list) {
     detailPlanListDiv.append(renderOneDetail(element));
   });
 }
-
 function renderOneDetail(element) {
   return `<div class="accordion-item">
     <div class="accordion-header container h1">
@@ -74,4 +70,27 @@ function renderOneDetail(element) {
       </div>
     </div>
   </div>`
+}
+
+function renderProgress(list) {
+  let progress = $("#planProgress");
+  if (list.length === 0) {
+    progress.css("width", '0%').text('0%');
+  }
+
+  let checkedCount = 0;
+  $.each(list, function (index, element) {
+    checkedCount += element.complete === 'Y' ? 1 : 0;
+  });
+
+  progress.css("width", (checkedCount / list.length) * 100 + '%')
+    .text(Math.round((checkedCount / list.length) * 100).toFixed(1) + '%');
+}
+
+function updateProgress() {
+  let checkedCount = $(".form-check-input:checked:not(#planComplete)").length;
+  let totalCheckBoxCount = $(".form-check-input:not(#planComplete)").length;
+  let progressPercent = (checkedCount / totalCheckBoxCount) * 100;
+  $("#planProgress").css("width", progressPercent + '%')
+    .text(Math.round(progressPercent).toFixed(1) + '%')
 }
