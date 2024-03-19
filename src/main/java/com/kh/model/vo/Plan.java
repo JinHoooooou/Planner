@@ -23,7 +23,7 @@ public class Plan {
   private Date startDate;
   private Date endDate;
   private Date remindAlarmDate;
-  private boolean complete;
+  private String complete;	// 임시로 Boolean 타입 대신 String으로 변경함!
   private Date createDate;
 
   public static Plan from(ResultSet resultSet) throws SQLException {
@@ -35,7 +35,7 @@ public class Plan {
         .endDate(resultSet.getDate("END_DATE"))
         .createDate(resultSet.getDate("CREATE_DATE"))
         .remindAlarmDate(resultSet.getDate("REMIND_ALARM_DATE"))
-        .complete(resultSet.getBoolean("COMPLETE"))
+        .complete(resultSet.getString("COMPLETE"))
         .build();
   }
 
@@ -46,7 +46,7 @@ public class Plan {
         .startDate(Date.valueOf(req.getParameter("startDate")))
         .endDate(Date.valueOf(req.getParameter("endDate")))
         .remindAlarmDate(Date.valueOf(req.getParameter("remindAlarmDate")))
-        .complete(Boolean.parseBoolean(req.getParameter("complete")))
+        .complete(String.valueOf(req.getParameter("complete")))
         .createDate(Date.valueOf("create_date"))
         .build();
   }

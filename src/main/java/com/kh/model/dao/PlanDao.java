@@ -3,6 +3,13 @@ package com.kh.model.dao;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
 import com.kh.model.vo.Plan;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlanDao {
@@ -10,11 +17,12 @@ public class PlanDao {
   public int save(Plan plan) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = """
-        INSERT INTO PLAN(PLAN_ID, WRITER, TITLE, START_DATE, END_DATE, REMIND_ALARM_DATE, COMPLETE)
-        VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, ?, ?)
+    		INSERT INTO PLAN VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)
+
         """;
+
     return jdbcTemplate.executeUpdate(query, plan.getWriter(), plan.getTitle(), plan.getStartDate(),
-        plan.getEndDate(), plan.getRemindAlarmDate(), plan.isComplete() ? "Y" : "N");
+        plan.getEndDate(), plan.getRemindAlarmDate(), "N");
   }
 
   public int update(Plan update) {
@@ -24,9 +32,18 @@ public class PlanDao {
         WHERE (WRITER=? AND PLAN_ID=?)""";
     return jdbcTemplate.executeUpdate(query,
         update.getTitle(), update.getStartDate(), update.getEndDate(),
-        update.getRemindAlarmDate(), update.isComplete() ? "Y" : "N", update.getWriter(),
+        update.getRemindAlarmDate(), update.getComplete(), update.getWriter(),
         update.getPlanId());
   }
+  
+	public int completePlan(Plan complete) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+
+		String query = """ 
+				update plan set complete = 'Y' where WRITER = ? and plan_ID = ?""";
+		return jdbcTemplate.executeUpdate(query, complete.getWriter(), complete.getPlanId());
+
+	}
 
   public int deleteByPlanIdAndWriter(int planId, String writer) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
@@ -68,6 +85,9 @@ public class PlanDao {
     RowMapper<Plan> mapper = Plan::from;
     return jdbcTemplate.executeQuery(query, mapper, writer);
   }
+  
+  
+  
 
 
 }
