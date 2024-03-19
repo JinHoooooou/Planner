@@ -161,22 +161,22 @@
       <button type="button" class="col-2 me-3 my-auto btn-close" data-bs-dismiss="offcanvas"></button>
       <hr class="border border-danger border-1" style="width: 98%" />
     </div>
-    <div class="container">
-      <div class="progress my-3" role="progressbar">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" id="planProgress">
-        </div>
-      </div>
-    </div>
 
     <div class="offcanvas-body">
-      <div class="offcanvas-title bg-body-secondary rounded p-4">
-        <div class="col text-center">
+      <div class="offcanvas-title bg-body-secondary rounded w-75 mx-auto p-2">
+        <div class="row justify-content-center text-center">
           <input type="hidden" id="planIdForDetail">
-          <p class="display-4 px-3" id="planTitle"></p>
-          <p class="lead mb-2 px-3" id="planDate"></p>
-          <p class="lead mb-2 px-3" id="planRemindAlarm"></p>
-          <p class="lead mb-2 px-3" id="planComplete"></p>
-          <button id="detailCreateFormButton" class="btn btn-light" data-bs-target="#detailCreateForm"
+          <div class="col-8 display-4 mb-2" id="planTitle"></div>
+        </div>
+        <div class="row justify-content-center text-center">
+          <div class="col-7 mb-2" id="planDate"></div>
+        </div>
+        <div class="row g-0 justify-content-center text-center">
+          <div class="col-4 mb-2" id="planRemindAlarm"></div>
+        </div>
+        <div class="row justify-content-center text-center">
+          <button class="col-5 btn btn-light" data-bs-target="#detailCreateForm"
+                  id="detailCreateFormButton"
             data-bs-toggle="collapse">
             디테일 플랜 추가
           </button>
@@ -190,6 +190,17 @@
             <label>알람 설정: </label><input id="remindAlarmTime" name="remindAlarmTime" type="datetime-local" /><br>
             <input id="createDetailPlan" type="submit" />
           </form>
+        </div>
+      </div>
+      <div class="container w-75 g-0">
+        <div class="row g-0">
+          <div class="col progress my-3" role="progressbar">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="planProgress">
+            </div>
+          </div>
+          <div class="col-1 ms-4 my-auto form-check form-switch">
+            <input class="form-check-input" id="planComplete" role="switch" type="checkbox">
+          </div>
         </div>
       </div>
       <hr class="border border-danger border-1" />
