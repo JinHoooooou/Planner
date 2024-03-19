@@ -1,12 +1,9 @@
 body {
-
     margin: 50px;
     background-color: #f0f3f6;
 }
 
-
 h1 {
-
     text-align: center;
     font-weight: 900;
 }
@@ -14,7 +11,6 @@ h1 {
 #icons {
     text-align: right;
     gap: 10px;
-
 }
 
 #headerIcons button {
@@ -31,19 +27,17 @@ main {
     border-radius: 10px;
 }
 
-form {
+form:not(#detailForm) {
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 label {
     margin-top: 10px;
-
 }
 
-input,
+input:not(#contents, #createDetailPlan, #detailStartDate, #startTime, #endTime, #remindAlarmTime, .form-check-input),
 textarea {
     margin-top: 5px;
     width: 100%;
@@ -63,7 +57,6 @@ button {
 }
 
 button:hover {
-
     color: gray;
 }
 
@@ -144,7 +137,6 @@ li {
     justify-content: space-evenly;
     padding-top: 10px;
     padding-bottom: 10px;
-
 }
 
 .not-completed-plan,
@@ -167,7 +159,6 @@ input[type="date"]:not(.has-value):before {
 .time-box {
     display: flex;
     justify-content: flex-start;
-
 }
 
 input[type="date"] {
@@ -262,5 +253,4 @@ strong {
 .btn {
     background-color: #f0f3f6;
     border: 0px solid black;
-
 }
