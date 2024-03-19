@@ -1,4 +1,4 @@
-package com.kh.plan.controller;
+package com.kh.servlet.plan.controller;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.kh.plan.model.vo.Plan;
-import com.kh.plan.service.PlanService;
+import com.kh.servlet.plan.model.vo.Plan;
+import com.kh.servlet.plan.service.PlanService;
 
 /**
  * Servlet implementation class InsertPlanController

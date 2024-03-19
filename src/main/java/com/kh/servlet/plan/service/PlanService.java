@@ -1,15 +1,15 @@
-package com.kh.plan.service;
+package com.kh.servlet.plan.service;
 
 
-import static com.kh.common.JDBCTemplate2.close;
+import static com.kh.servlet.common.JDBCTemplate2.close;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import com.kh.common.JDBCTemplate2;
-import com.kh.plan.model.Dao.PlanDao;
-import com.kh.plan.model.vo.Plan;
+import com.kh.servlet.common.JDBCTemplate2;
+import com.kh.servlet.plan.model.Dao.PlanDao;
+import com.kh.servlet.plan.model.vo.Plan;
 
 public class PlanService {
 

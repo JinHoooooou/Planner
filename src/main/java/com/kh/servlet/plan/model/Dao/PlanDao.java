@@ -1,4 +1,4 @@
-package com.kh.plan.model.Dao;
+package com.kh.servlet.plan.model.Dao;
 
 
 import java.sql.Connection;
@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.kh.common.JDBCTemplate2;
-import com.kh.plan.model.vo.Plan;
+import com.kh.servlet.common.JDBCTemplate2;
+import com.kh.servlet.plan.model.vo.Plan;
 
 
 public class PlanDao {

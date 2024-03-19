@@ -1,4 +1,4 @@
-package com.kh.plan.model.vo;
+package com.kh.servlet.plan.model.vo;
 
 import java.sql.Date;
 import java.sql.ResultSet;
