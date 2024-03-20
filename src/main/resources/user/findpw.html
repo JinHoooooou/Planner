@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,6 @@
       src="https://code.jquery.com/jquery-3.7.1.js"
   ></script>
 </head>
-
 <body>
     <form id="passwordResetForm">
         <h2>비밀번호 찾기</h2>
@@ -37,19 +35,6 @@
             <a href="./findid.html" id="idFindLink">아이디 찾기</a>
         </div>
     </form>
-
-    <script>
-        $("#passwordResetForm").submit(function(event) {
-            event.preventDefault();
-            if (true) { // 만약에 아이디가 존재하는지 + 입력된 값을 올바르게 적었는지
-                if (confirm("당신의 비밀번호는 pass1입니다. 로그인하시겠습니까?")) {
-                location.href = './signin.html';
-                } else {}
-            } else {
-                alert("입력된 값이 올바르지 않습니다.");
-            }
-        });
-    </script>
 </body>
-
 </html>
+<script src="../js/user/findpw.js"></script>

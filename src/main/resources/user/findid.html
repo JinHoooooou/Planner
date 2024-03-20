@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +10,7 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       src="https://code.jquery.com/jquery-3.7.1.js"
   ></script>
-</head>
-
-<body>
+</head><body>
     <form>
         <h2>아이디 찾기</h2>
 
@@ -34,19 +31,6 @@
             <a href="./findpw.html" class="link" id="passwordLink">비밀번호 찾기</a>
         </div>
     </form>
-
-    <script>
-        $('form').submit(function(event) {
-            event.preventDefault();
-            if (true) { // 사용자가 입력한 값이 맞다면
-                if (confirm('당신의 아이디는 user1입니다. 로그인하시겠습니까?')) {
-                    location.href = './signin.html';
-                } else {}
-            } else {
-            alert('입력된 값이 올바르지 않거나 존재하지 않는 아이디입니다.');
-            }
-        });
-    </script>
 </body>
-
 </html>
+<script src="../js/user/findid.js"></script>
