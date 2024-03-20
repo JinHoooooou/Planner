@@ -1,5 +1,52 @@
 
 window.onload = function() {
+	$.ajax({
+		url : "/plan/list",
+		type : "get",
+		dataType : "json",
+		success : function(response) {
+			let planList = response.planList; 
+			let count = 0;
+			for(let i=0; i<planList.length; i++) {
+				if(planList[i].complete === 'N') {
+					count++;
+				}
+			}
+			
+			document.getElementById("not-completed").innerHTML = count;
+			document.getElementById("completed").innerHTML = planList.length - count;
+			
+			let planTitle = null;
+			let planEndDate = null;
+			let childNodes = '';
+			for(let i=0; i<planList.length; i++) {
+				planTitle = planList[i].title;
+				planEndDate = planList[i].endDate;
+				
+				childNodes +=
+			`<li>
+				<div class="plannerItem">
+				<div style="display: flex;">
+					<input type="checkbox" name="complete" value="complete"
+						class="com_radio" onchange="completePlanner(1)"><strong id="listTitle">
+							${planTitle}
+						</strong>
+				</div>
+				<div class="plannerDate">
+					<span id="listEndDate">${planEndDate}</span>
+				</div>
+				<span class="deleteButton" onclick="deletePlanner(1)"><b>X</b></span>
+			</div>
+		</li>`;
+	}
+	document.getElementById("plannersEle").innerHTML = childNodes;
+	
+	document.getElementById("userIdInfo").innerHTML = response.nickname;
+	},
+	error : function() {
+		alert("연결실패!")
+	},
+	})
     initializeDateInput();
     planners = [];
     var now_utc = Date.now()
@@ -9,6 +56,11 @@ window.onload = function() {
 	document.getElementById("startDate").setAttribute("min", today);
 	document.getElementById("endDate").setAttribute("min", today);
 	document.getElementById("endAlarmDate").setAttribute("min", today);
+
+	// html 인라인으로 선언한 함수 부분 수정하기
+	document.getElementById("endAlarmDateBoolean").onchange = is_checked;
+	document.getElementById("save").onclick = submitPlanner;
+
 };
 
 function is_checked() {
@@ -83,7 +135,21 @@ function submitPlanner() {
 
 		endAlarmDate = getCurrentDate();
 	}
-
+	let formData = { "title" : title, "startDate" : startDate, "endDate" : endDate, "remindAlarmDate" : endAlarmDate}
+	console.log(formData);
+	$.ajax({
+		url : "/plan/create",
+		type : "post",
+		data : formData,
+		success : function() {
+			alert("추가 성공!")
+			location.reload();
+		},
+		error : function() {
+			alert("추가 실패!")
+		}
+		
+	})
 }
 
 
