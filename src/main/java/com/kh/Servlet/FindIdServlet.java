@@ -19,8 +19,6 @@ public class FindIdServlet extends HttpServlet {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         try {
-            new UserDao().findId(userName, email, phone);
-            
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (IllegalArgumentException e) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
