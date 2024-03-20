@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/user/findid")
 public class FindPwServlet extends HttpServlet {
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     
     }

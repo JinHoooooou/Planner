@@ -9,7 +9,7 @@ $(document).ready(function () {
             contentType: "application/x-www-form-urlencoded",
             data: formData,
             success: function (response, textStatus, xhr) {
-                document.location.href="../plan/planSearchKeywordForm.jsp";
+                document.location.href="../plan/index copy.jsp";
             },
             error: function (xhr, textStatus, errorThrown) {
                 alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
