@@ -1,4 +1,4 @@
-package com.kh.servlet;
+package com.kh.Servlet;
 
 public class printWriter {
 
