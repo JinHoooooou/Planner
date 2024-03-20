@@ -1,10 +1,20 @@
-$("#passwordResetForm").submit(function(event) {
-    event.preventDefault();
-    if (true) { // 만약에 아이디가 존재하는지 + 입력된 값을 올바르게 적었는지
-        if (confirm("당신의 비밀번호는 pass1입니다. 로그인하시겠습니까?")) {
-        location.href = './signin.html';
-        } else {}
-    } else {
-        alert("입력된 값이 올바르지 않습니다.");
-    }
-});
+$(document).ready(function () {
+    $("#findPw").submit(function(event) {
+        event.preventDefault();
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: "/user/findpw",
+            type: "POST",
+            contentType: "application/x-www-form-urlencoded",
+            data: formData,
+            success: function (response, textStatus, xhr) {
+                alert("비밀번호는"+result+"입니다.")
+                document.location.href = './signin.html';
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("존재하지 않는 아이디 입니다.");
+            }, 
+        })
+    });
+})
