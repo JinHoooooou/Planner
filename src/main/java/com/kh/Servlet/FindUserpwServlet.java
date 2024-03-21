@@ -19,15 +19,17 @@ public class FindUserpwServlet extends HttpServlet {
         throws ServletException, IOException {
             req.setCharacterEncoding("UTF-8");
             resp.setCharacterEncoding("UTF-8");
+            PrintWriter out = resp.getWriter();
             String userId = req.getParameter("userId");
 
             User user = new UserDao().findByUserId(userId);
             
             if (user != null) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                user.getUserPw();
+                out.println("비밀번호는"+user.getUserPw()+"입니다.");
             } else {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                out.println("존재하지 않는 아이디입니다.");
             }
         }
     
