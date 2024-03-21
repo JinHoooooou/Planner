@@ -41,7 +41,7 @@ input[type="password"]:focus {
     border-color: #4caf50;
 }
 
-input[type="submit"] {
+input[type="button"] {
     background-color: #4caf50;
     color: #fff;
     padding: 12px;
