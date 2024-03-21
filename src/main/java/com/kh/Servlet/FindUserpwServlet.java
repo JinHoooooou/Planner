@@ -16,10 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class FindUserpwServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
-            req.setCharacterEncoding("UTF-8");
-            resp.setCharacterEncoding("UTF-8");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
             PrintWriter out = resp.getWriter();
             String userId = req.getParameter("userId");
 
