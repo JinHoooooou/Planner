@@ -1,23 +1,20 @@
-$(document).ready(function () {
-    $("#findPw").click(function(event) {
-        event.preventDefault();
-        let formData = $(this).serialize();
+$("#youpw").click(function(event) {
+    let userId = $('#userId').val();
 
-        $.ajax({
-            url: "/user/findpw",
-            type: "POST",
-            contentType: "application/x-www-form-urlencoded",
-            dataType:"html",
-            data: formData,
-            success: function (data) {
-                var $div = $('<div></div>');
-                var text = document.createTextNode(data);
-                $div.append(data);
-                $div.appendTo($('#youpw'))
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert("존재하지 않는 아이디 입니다.");
-            }, 
-        })
-    });
-})
+    $.ajax({
+        url: `/user/findpw?userId=${userId}`,
+        type: "GET",
+        dataType:"html",
+        data:{
+            userId : $('#userId').val()
+        },
+        success: function (data) {
+            if(confirm(userId+"님의 비밀번호는"+data+"입니다. 로그인하시겠습니까?")) {
+                document.location.href = "./signin.html"
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert("존재하지 않는 아이디 입니다.");
+        }, 
+    })
+});

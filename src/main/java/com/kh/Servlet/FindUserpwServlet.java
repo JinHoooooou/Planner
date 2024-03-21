@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class FindUserpwServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             req.setCharacterEncoding("UTF-8");
             resp.setCharacterEncoding("UTF-8");
@@ -27,10 +27,9 @@ public class FindUserpwServlet extends HttpServlet {
             
             if (user != null) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                out.println("비밀번호는"+user.getUserPw()+"입니다.");
+                out.println(user.getUserPw());
             } else {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                out.println("존재하지 않는 아이디입니다.");
             }
         }
     
