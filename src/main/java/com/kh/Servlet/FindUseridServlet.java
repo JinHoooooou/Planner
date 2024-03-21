@@ -24,9 +24,9 @@ public class FindUseridServlet extends HttpServlet {
 
             User user = new UserDao().findByNickname(nickname);
             
-            if (user != null||user.getUserName().equals(userName)) {
+            if (user != null&&user.getUserName().equals(userName)) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                out.println(user.getUserPw());
+                out.println(user.getUserId());
             } else {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
