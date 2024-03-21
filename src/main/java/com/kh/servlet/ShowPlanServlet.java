@@ -28,10 +28,12 @@ public class ShowPlanServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		String userId = "validUserId0";
+		String titleKeyword = request.getParameter("search");
 		List<Plan> planList = new PlanDao().findByWriter(userId);
 		User user = new UserDao().findByUserId(userId);
 		JSONObject responseBody = new JSONObject();
 		JSONArray planJsonList = new JSONArray(); 
+
 		for(Plan plan : planList) {
 			JSONObject planJson = new JSONObject();
 			
@@ -45,6 +47,9 @@ public class ShowPlanServlet extends HttpServlet {
 		}
 		responseBody.put("planList", planJsonList);
 		responseBody.put("nickname", user.getNickname());
+		
+		
+		
 		response.setStatus(200);
 		response.getWriter().print(responseBody.toString());
 		response.getWriter().close();
