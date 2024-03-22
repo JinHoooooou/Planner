@@ -3,6 +3,7 @@ package com.kh.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.Map;
 
 import com.kh.model.dao.PlanDao;
 import com.kh.model.vo.Plan;
@@ -19,12 +20,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/plan/create")
 public class InsertPlanServlet extends HttpServlet {
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("userId");
+		String userId = "validUserId0";
 		String title = request.getParameter("title");
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
@@ -32,13 +33,13 @@ public class InsertPlanServlet extends HttpServlet {
 		Date startDate2 = Date.valueOf(startDate);
 		Date endDate2 = Date.valueOf(endDate);
 		Date remindAlarmDate2 = null;
-		if(userId.equals("null")) {
+		if (userId.equals("null")) {
 			response.getWriter().print("유저 아이디 오류!");
 			response.getWriter().close();
 			return;
 		}
-		if(!(remindAlarmDate.equals(""))) {
-		remindAlarmDate2 = Date.valueOf(remindAlarmDate);
+		if (!(remindAlarmDate.equals(""))) {
+			remindAlarmDate2 = Date.valueOf(remindAlarmDate);
 		} else {
 			remindAlarmDate2 = null;
 		}
@@ -48,15 +49,14 @@ public class InsertPlanServlet extends HttpServlet {
 		plan.setStartDate(startDate2);
 		plan.setEndDate(endDate2);
 		plan.setRemindAlarmDate(remindAlarmDate2);
-		
+
 		int result = new PlanDao().save(plan);
-		
+
 		PrintWriter out = response.getWriter();
-		if(result != 0) {
-		response.sendRedirect("/plan/planInsertForm.jsp");
+		if (result != 0) {
+			response.setStatus(200);
 		} else {
-			
-			out.print("플랜 추가 실패!");
+			response.setStatus(400);
 		}
 		out.close();
 	}
