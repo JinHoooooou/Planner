@@ -51,6 +51,8 @@ $(document).ready(function () {
 $('form').submit(function(event) {
     event.preventDefault();
     const reg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+    const nreg = /^[가-힣a-zA-Z0-9]{3,20}$/;
+    const ireg = /^[A-Za-z][A-Za-z0-9_]{7,16}$/;
     if (!reg.test($('#userPw').val()) && $('#userPw').val() != $('#userPwConfirm').val()) {
         alert("비밀번호가 올바르지 않습니다");
         $('#pwarea').html("영문, 숫자 조합 8~25자리 이상 입력하시오.");
@@ -60,6 +62,8 @@ $('form').submit(function(event) {
     } else if ($('#userPw').val() != $('#userPwConfirm').val()) {
         alert("비밀번호가 일치하지 않습니다"); 
         $('#pwarea').html("");
+    } else if(!nreg.test($('#nickname').val()) || !ireg.test($('#userId').val())) {
+        alert("회원가입에 실패하셨습니다"); 
     } else {
         let formData = $(this).serialize();
         $.ajax({
