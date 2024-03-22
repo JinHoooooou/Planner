@@ -1,17 +1,13 @@
 let planList = [];
 
-
 window.onload = function () {
 	$.ajax({
 		url: "/plan/list",
 		type: "get",
-		// data: formData,
 		dataType: "json",
 		success: function (response) {
 			planList = response.planList;
 			drawPlanList(response);
-			// document.getElementById("userIdInfo").innerHTML = response.nickname;
-
 		},
 		error: function () {
 			alert("연결실패!")
@@ -33,14 +29,11 @@ window.onload = function () {
 
 	// 검색 기능
 	document.getElementById("searchButton").onclick = searchFunction;
-	document.getElementById("search").onkeyup = function(e) {enterkey(e);}
-	
-
-
+	document.getElementById("search").onkeyup = function (e) { enterkey(e); }
 };
 
 function enterkey(e) {
-	if(e.keyCode == 13 ) {
+	if (e.keyCode == 13) {
 		searchFunction();
 	}
 
@@ -48,97 +41,71 @@ function enterkey(e) {
 // 메인페이지 & 검색 시 페이지
 function drawPlanList(response) {
 	let count = 0;
-			for (let i = 0; i < planList.length; i++) {
-				if (planList[i].complete === 'N') {
-					count++;
+	for (let i = 0; i < planList.length; i++) {
+		if (planList[i].complete === 'N') {
+			count++;
+		}
+	}
+	function sortEndDateASC() {
+		const endDateAsc = planList.sort(function (a, b) {
+			if (new Date(a["endDate"]).getTime() < new Date(b["endDate"]).getTime())
+				return -1;
+			if (new Date(a["endDate"]).getTime() > new Date(b["endDate"]).getTime())
+				return 1;
+			return 0;
+		});
 
-				}
-			}
-			
-			
-			
-			function sortEndDateASC() {
-				
-				const endDateAsc = planList.sort(function (a, b) {
-					
-					if (new Date(a["endDate"]).getTime() < new Date(b["endDate"]).getTime())
-						return -1;
+		showTodoList();
+		return endDateAsc;
+	}
 
-					if (new Date(a["endDate"]).getTime() > new Date(b["endDate"]).getTime())
-						return 1;
+	function sortEndDateDESC(planList) {
+		const endDateDesc = planList.sort(function (a, b) {
+			if (new Date(a["endDate"]).getTime() < new Date(b["endDate"]).getTime())
+				return 1;
+			if (new Date(a["endDate"]).getTime() > new Date(b["endDate"]).getTime())
+				return -1;
+			return 0;
+		});
 
-					return 0;
-				});
-				
+		showTodoList();
+		return endDateDesc;
+	}
 
-				showTodoList();
-				return endDateAsc;
-			}
+	function sortStartDateASC(planList) {
+		const startDateAsc = planList.sort(function (a, b) {
+			if (new Date(a["startDate"]).getTime() < new Date(b["startDate"]).getTime())
+				return -1;
+			if (new Date(a["startDate"]).getTime() > new Date(b["startDate"]).getTime())
+				return 1;
+			return 0;
+		});
+		showTodoList();
+		return startDateAsc;
+	}
 
-			function sortEndDateDESC(planList) {
-				const endDateDesc = planList.sort(function (a, b) {
-					if (new Date(a["endDate"]).getTime() < new Date(b["endDate"]).getTime())
-						return 1;
+	function sortStartDateDESC(planList) {
+		const startDateDesc = planList.sort(function (a, b) {
+			if (new Date(a["startDate"]).getTime() < new Date(b["startDate"]).getTime())
+				return 1;
+			if (new Date(a["startDate"]).getTime() > new Date(b["startDate"]).getTime())
+				return -1;
+			return 0;
+		});
+		showTodoList();
+		return startDateDesc;
+	}
 
-					if (new Date(a["endDate"]).getTime() > new Date(b["endDate"]).getTime())
-						return -1;
+	sortEndDateASC();
 
-					return 0;
-				});
-				
-				showTodoList();
-				return endDateDesc;
-			}
-
-			function sortStartDateASC(planList) {
-				
-				const startDateAsc = planList.sort(function (a, b) {
-					
-					if (new Date(a["startDate"]).getTime() < new Date(b["startDate"]).getTime())
-						return -1;
-
-					if (new Date(a["startDate"]).getTime() > new Date(b["startDate"]).getTime())
-						return 1;
-
-					return 0;
-				});
-				showTodoList();
-				return startDateAsc;
-			}
-
-			function sortStartDateDESC(planList) {
-				
-				const startDateDesc = planList.sort(function (a, b) {
-					if (new Date(a["startDate"]).getTime() < new Date(b["startDate"]).getTime())
-						return 1;
-
-					if (new Date(a["startDate"]).getTime() > new Date(b["startDate"]).getTime())
-						return -1;
-
-					return 0;
-				});
-				showTodoList();
-				return startDateDesc;
-			}
-
-			sortEndDateASC();
-			
-
-			document.getElementById("not-completed").innerHTML = count;
-			document.getElementById("completed").innerHTML = planList.length - count;
-
-			document.getElementById("endDateASC").onclick = function () { sortEndDateASC(planList); }
-			document.getElementById("endDateDESC").onclick = function () { sortEndDateDESC(planList); }
-			document.getElementById("startDateASC").onclick = function () { sortStartDateASC(planList); }
-			document.getElementById("startDateDESC").onclick = function () { sortStartDateDESC(planList); }
-
-			
-
-			document.getElementById("userIdInfo").innerHTML = response.nickname;
-
+	document.getElementById("notCompleted").innerHTML = count;
+	document.getElementById("completed").innerHTML = planList.length - count;
+	document.getElementById("endDateASC").onclick = function () { sortEndDateASC(planList); }
+	document.getElementById("endDateDESC").onclick = function () { sortEndDateDESC(planList); }
+	document.getElementById("startDateASC").onclick = function () { sortStartDateASC(planList); }
+	document.getElementById("startDateDESC").onclick = function () { sortStartDateDESC(planList); }
+	document.getElementById("userIdInfo").innerHTML = response.nickname;
 }
-
-
 
 function searchFunction() {
 	const searchTitle = document.getElementById("search").value
@@ -152,20 +119,15 @@ function searchFunction() {
 		success: function (response) {
 			planList = response.planList;
 			drawPlanList(response);
-			
 		},
 		error: function (error) {
-			alert("삭제 실패!")
 			console.log(error)
 		}
-
 	})
-	
 }
 
 
 function showTodoList() {
-	
 	let planTitle = null;
 	let planEndDate = null;
 	let childNodes = '';
@@ -181,7 +143,7 @@ function showTodoList() {
 		<div class="plannerItem">
 		<div style="display: flex;">
 			<input type="checkbox" name="complete" value="complete"
-				class="com_radio" onchange="completePlanner(${planListComp})"
+				class="comRadio" onchange="completePlanner(${planListComp})"
 				${planComplete === 'Y' ? 'checked' : ''}
 				><strong id="listTitle" ${planComplete === 'Y' ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "' : ''}>
 					${planTitle}
@@ -193,15 +155,12 @@ function showTodoList() {
 		<span class="deleteButton" onclick="deletePlanner(${planListDel})"><b>X</b></span>
 	</div>
 </li>`;
-
 	}
-
 	document.getElementById("plannersEle").innerHTML = childNodes;
 }
 
 function deletePlanner(index) {
 	let formData = { "planId": index };
-
 	$.ajax({
 		url: "/delete.pl",
 		type: "get",
@@ -214,32 +173,24 @@ function deletePlanner(index) {
 			alert("삭제 실패!")
 			console.log(error)
 		}
-
 	})
-
 }
 
 function completePlanner(index) {
-
 	let formData = { "planId": index };
-
 	$.ajax({
 		url: "/complete.pl",
 		type: "get",
 		data: formData,
 		success: function () {
 			alert("완료 성공!")
-
 			location.reload();
-
 		},
 		error: function (error) {
 			alert("완료 실패!")
 			console.log(error)
 		}
-
 	})
-
 }
 
 function is_checked() {
@@ -251,9 +202,6 @@ function is_checked() {
 	}
 }
 
-
-
-
 function submitPlanner() {
 	const title = document.getElementById('title').value;
 	let startDate = document.getElementById('startDate').value;
@@ -262,37 +210,29 @@ function submitPlanner() {
 		.getElementById('endAlarmDateBoolean')
 	let endAlarmDate = document.getElementById('endAlarmDate').value;
 
-
 	if (!title) {
 		alert('제목을 입력해주세요!');
-
 		document.getElementById('title').focus();
 		return false;
 	}
 
 	if (!startDate) {
 		startDate = getCurrentDate();
-
 	}
 
 	if (!endDate) {
-
 		endDate = getCurrentDate();
 	}
 
 	if (startDate > endDate) {
-
 		alert('마감 날짜를 다시 설정해주세요!');
 		return false;
 	}
 	if (endAlarmDateBoolean.checked) {
 		if (startDate > endAlarmDate) {
-
 			alert('마감 알람 날짜를 다시 설정해주세요!');
 			return false;
 		}
-
-
 	}
 	if (endAlarmDateBoolean.checked) {
 		if (endDate < endAlarmDate) {
@@ -300,15 +240,10 @@ function submitPlanner() {
 			return false;
 		}
 	}
-
-
-
 	if (endAlarmDateBoolean.checked && !endAlarmDate) {
-
 		endAlarmDate = getCurrentDate();
 	}
 	let formData = { "title": title, "startDate": startDate, "endDate": endDate, "remindAlarmDate": endAlarmDate }
-	
 	$.ajax({
 		url: "/plan/create",
 		type: "post",
@@ -320,10 +255,8 @@ function submitPlanner() {
 		error: function () {
 			alert("추가 실패!")
 		}
-
 	})
 }
-
 
 function formatDate(dateString) {
 	const date = new Date(dateString);
@@ -354,8 +287,6 @@ function initializeDateInput() {
 	// 날짜 입력 필드의 값을 현재 날짜로 설정
 	dateInput.value = today;
 	dateInput2.value = today;
-
-
 }
 
 

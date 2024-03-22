@@ -1,4 +1,4 @@
-package com.kh.servlet;
+package com.kh.servlet.plan;
 
 import java.io.IOException;
 
@@ -40,10 +40,10 @@ public class CompletePlanServlet extends HttpServlet {
 //		response.sendRedirect("/plan/showPlanForm.jsp");
 //		} else {
 //			out.print("플랜 완료 체크 실패");
-//		} 
+//		}
 //		out.close();
-		
-		
+
+
 	}
 
 
