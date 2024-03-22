@@ -22,25 +22,6 @@ import java.io.PrintWriter;
 @WebServlet("/delete.pl")
 public class DeletePlanServlet extends HttpServlet {
 
-<<<<<<< HEAD:src/main/java/com/kh/servlet/DeletePlanServlet.java
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("userId");
-		String planIdS = request.getParameter("planId");
-		int planId = Integer.parseInt(planIdS);
-		int result = new PlanDao().deleteByPlanIdAndWriter(planId, userId);
-		if(result != 0) {
-		List<Plan> list = new PlanDao().findByWriter(userId);
-		HttpSession session = request.getSession();
-		session.setAttribute("planList", list);
-		response.sendRedirect("/plan/showPlanForm.jsp");
-		} else {
-			response.getWriter().print("삭제 실패했어요 ㅠㅠ");
-		}
-		
-	}
-=======
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
@@ -68,7 +49,7 @@ public class DeletePlanServlet extends HttpServlet {
 //		} else {
 //			response.getWriter().print("삭제 실패했어요 ㅠㅠ");
 //		}
->>>>>>> ab3f356bc423c7620c2e10c7dc3a766c08bbcd29:src/main/java/com/kh/servlet/plan/DeletePlanServlet.java
+
 
   }
 

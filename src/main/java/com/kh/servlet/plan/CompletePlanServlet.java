@@ -34,13 +34,6 @@ public class CompletePlanServlet extends HttpServlet {
 		session.setAttribute("planList", list);
 		response.sendRedirect("/plan/showPlanForm.jsp");
 		} else {
-<<<<<<< HEAD:src/main/java/com/kh/servlet/CompletePlanServlet.java
-			out.print("플랜 완료 체크 실패");
-		} 
-		out.close();
-		
-		
-=======
 			response.setStatus(400);
 		}
 //		if(result != 0) {
@@ -53,8 +46,6 @@ public class CompletePlanServlet extends HttpServlet {
 //		}
 //		out.close();
 
-
->>>>>>> ab3f356bc423c7620c2e10c7dc3a766c08bbcd29:src/main/java/com/kh/servlet/plan/CompletePlanServlet.java
 	}
 
 
