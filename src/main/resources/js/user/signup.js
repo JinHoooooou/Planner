@@ -62,8 +62,6 @@ $('form').submit(function(event) {
     } else if ($('#userPw').val() != $('#userPwConfirm').val()) {
         alert("비밀번호가 일치하지 않습니다"); 
         $('#pwarea').html("");
-    } else if(!nreg.test($('#nickname').val()) || !ireg.test($('#userId').val())) {
-        alert("회원가입에 실패하셨습니다");
     } else {
         let formData = $(this).serialize();
         $.ajax({
