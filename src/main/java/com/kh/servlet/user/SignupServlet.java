@@ -1,4 +1,4 @@
-package com.kh.Servlet;
+package com.kh.servlet.user;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
