@@ -1,4 +1,4 @@
-package com.kh.Servlet;
+package com.kh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,9 +1,8 @@
-package com.kh.Servlet;
+package com.kh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.util.Map;
 
 import com.kh.model.dao.PlanDao;
 import com.kh.model.vo.Plan;
