@@ -1,4 +1,4 @@
-package com.kh.servlet;
+package com.kh.Servlet;
 
 import com.kh.model.dao.UserDao;
 import jakarta.servlet.ServletException;

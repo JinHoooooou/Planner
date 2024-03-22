@@ -1,4 +1,4 @@
-package com.kh.servlet;
+package com.kh.Servlet;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
