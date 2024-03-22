@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,22 +10,22 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       src="https://code.jquery.com/jquery-3.7.1.js"
   ></script>
-</head>
-
-<body>
+</head><body>
     <form>
         <h2>아이디 찾기</h2>
 
-        <label for="name">이름</label>
-        <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+        <label for="userName">이름</label>
+        <input type="text" id="userName" name="userName" placeholder="이름을 입력하세요" required>
 
-        <label for="email">Email</label>
+        <label for="nickname">닉네임</label>
+        <input type="text" id="nickname" name="nickname" placeholder="이름을 입력하세요" required>
+        <!-- <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Email을 입력하세요" required>
 
         <label for="phone">휴대폰번호</label>
-        <input type="text" id="phone" name="phone" placeholder="휴대폰번호를 입력하세요" required>
+        <input type="text" id="phone" name="phone" placeholder="휴대폰번호를 입력하세요" required> -->
         
-        <input type="submit" value="완료">
+        <input type="button" id="youid" name="youid" value="완료">
 
         <div class="link-container">
             <a href="./signin.html" class="link" id="loginLink">로그인하기</a>
@@ -34,19 +33,6 @@
             <a href="./findpw.html" class="link" id="passwordLink">비밀번호 찾기</a>
         </div>
     </form>
-
-    <script>
-        $('form').submit(function(event) {
-            event.preventDefault();
-            if (true) { // 사용자가 입력한 값이 맞다면
-                if (confirm('당신의 아이디는 user1입니다. 로그인하시겠습니까?')) {
-                    location.href = './signin.html';
-                } else {}
-            } else {
-            alert('입력된 값이 올바르지 않거나 존재하지 않는 아이디입니다.');
-            }
-        });
-    </script>
 </body>
-
 </html>
+<script src="../js/user/findid.js"></script>

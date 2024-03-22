@@ -33,8 +33,7 @@ public class PlanDao {
 	public int completePlan(Plan complete) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-		String query = """ 
-				update plan set complete = 'Y' where WRITER = ? and plan_ID = ?""";
+		String query = "update plan set complete = 'Y' where WRITER = ? and plan_ID = ?";
 		return jdbcTemplate.executeUpdate(query, complete.getWriter(), complete.getPlanId());
 
 	}
@@ -79,9 +78,4 @@ public class PlanDao {
     RowMapper<Plan> mapper = Plan::from;
     return jdbcTemplate.executeQuery(query, mapper, writer);
   }
-  
-  
-  
-
-
 }
