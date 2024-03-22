@@ -3,13 +3,6 @@ package com.kh.model.dao;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
 import com.kh.model.vo.Plan;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlanDao {
