@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
-
 <body>
-    <form id="loginForm" action="/login" method="post">
+    <form id="loginForm" action="/user/login" method="post">
         <h2>로그인</h2>
 
         <label for="userID">아이디</label>
@@ -38,28 +36,6 @@
             <a href="./signup.html" class="link">회원가입</a>
         </div>
     </form>
-    <script>
-        
-        $(document).ready(function () {
-            $("#loginForm").submit(function (event) {
-                event.preventDefault();
-                let formData = $(this).serialize();
-
-                $.ajax({
-                    url: "/user/login",
-                    type: "POST",
-                    contentType: "application/x-www-form-urlencoded",
-                    data: formData,
-                    success: function (response, textStatus, xhr) {
-                        document.location.href="../plan3.html";
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
-                    },
-                });
-            });
-        });
-    </script>
 </body>
-
 </html>
+<script src="../js/user/signin.js"></script>

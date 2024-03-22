@@ -71,9 +71,4 @@ public class PlanDao {
     RowMapper<Plan> mapper = Plan::from;
     return jdbcTemplate.executeQuery(query, mapper, writer);
   }
-  
-  
-  
-
-
 }
