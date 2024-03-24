@@ -1,72 +1,109 @@
 function getDetailList() {
   let plan = $(this).data("plan");
-  $("#planIdForDetail").val(plan.planId);
-  $("#planTitle").text(plan.title);
-  $("#planDate").html(`<i class="bi bi-calendar-week"></i> | ${plan.startDate} ~ ${plan.endDate}`);
-  $("#planRemindAlarm").html(
-    `${plan.remindAlarmDate === null ? ''
-      : '<i class="bi bi-alarm"></i> | ' + plan.remindAlarmDate}`);
-  if (plan.complete === 'Y') {
-    $("#planComplete").prop("checked", true);
-  }
-
   $.ajax({
-    url: `/detail/list?planId=${plan.planId}`,
+    url: "/detail/list",
     type: "GET",
+    data: { planId: plan.planId },
     dataType: "json",
     async: false,
-    success: renderDetails,
+    success: function (response) { renderOffcanvas(response, plan) },
     error: function (xhr) {
       if (xhr.status === 401) {
-        alert("로그인 부터 해")
+        alert("로그인이 필요한 페이지 입니다.")
       }
     }
   });
 }
 
-function renderDetails(response) {
-  let detailList = response.detailList;
-  renderList(detailList);
-  renderProgress(detailList);
+function renderOffcanvas(response, plan) {
+  renderPlanSection(plan);
+  renderList(response.detailList);
+  renderProgress(response.detailList);
 
   // 이벤트
-  $(".form-check-input:not(#planComplete)").on("change", updateProgress);
-  $("#planComplete").on("change", toggleComplete)
+  $("#detailCreateCollapse").on({
+    "show.bs.collapse": renderCreateDetailForm,
+    "hide.bs.collapse": () => { $("#detailCreateCollapseButton").text("디테일 추가"); }
+  })
 }
 
-function toggleComplete(event) {
-  let toggle = $(this).prop("checked");
-  $(".form-check-input").prop("checked", toggle ? true : false)
-  updateProgress();
+function renderPlanSection(plan) {
+  $("#planIdForDetail").val(plan.planId);
+  $("#planTitle").val(plan.title);
+  $("#planStartDate").val(plan.startDate);
+  $("#planEndDate").val(plan.endDate);
+  $("#planRemindAlarm").val(`${plan.remindAlarmDate === null ? '' : plan.remindAlarmDate}`);
+  $("#detailCreateCollapse").removeClass("show")
+  $("#detailCreateCollapseButton").text("디테일 추가");
 }
 
 function renderList(list) {
-  let detailPlanListDiv = $("#detailList");
-  detailPlanListDiv.empty();
+  $("#detailList").empty();
   $.each(list, function (index, element) {
-    detailPlanListDiv.append(renderOneDetail(element));
+    appendOneToList(element);
   });
 }
-function renderOneDetail(element) {
-  return `<div class="accordion-item">
-    <div class="accordion-header container h1">
-      <div class="detail-item collapsed row" data-bs-toggle="collapse" data-bs-target="#collapse${element.detailPlanId}">
-        <input class="col-1 my-auto mx-4 form-check-input" data-bs-toggle="collapse" type="checkbox" 
-          ${element.complete === 'Y' ? "checked" : ""}/>
-        <div class="col-6 p-4 text-truncate form-checked-content">
-          ${element.contents}
-        </div>
-        <div class="col p-4 text-end" >
-          <i class="bi bi-trash3"></i>
-        </div>
+
+function appendOneToList(detail) {
+  let accordionItem = $(`<div class="accordion-item" id="detail-${detail.detailPlanId}">`);
+  accordionItem.append(accordionHeader(detail))
+  accordionItem.append(accordionBody(detail))
+  $("#detailList").append(accordionItem);
+
+  // 이벤트 추가
+  $(`#detail-${detail.detailPlanId}`).on("change", ".form-check-input", updateProgress);
+}
+
+function accordionHeader(detail) {
+  return `
+  <div class="accordion-header container h1">
+    <div class="detailItem collapsed row" data-bs-toggle="collapse" data-bs-target="#collapse-${detail.detailPlanId}">
+      <input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
+        ${detail.complete === 'Y' ? "checked" : ""}/>
+      <div class="col-5 py-3 px-0 text-truncate form-checked-content">
+      ${detail.contents}
       </div>
-    </h1>
-    <div id="collapse${element.detailPlanId}" class="accordion-collapse collapse" data-bs-parent="#detailPlanList">
-      <div class="accordion-body">
-        ${element.detailPlanId} <br>
-        ${element.contents} <br>
-        ${element.startTime} ~ ${element.endTime} <br>
-        ${element.remindAlarmTime}
+      <div class="col py-3">
+        <p class="h6">${detail.startDate}</p>
+        <p class="h6">${detail.startTime}~${detail.endTime}</p>
+      </div>
+      <div class="col py-3 px-0 me-3 text-end" data-bs-toggle="collapse">
+        <i class="bi bi-alarm"></i>
+        <i class="bi bi-trash3" id="$detailDeleteButton-${detail.detailPlanId}"></i>
+      </div>
+    </div>
+  </div>`
+}
+
+function accordionBody(detail) {
+  return `
+  <div id="collapse-${detail.detailPlanId}" class="accordion-collapse collapse" data-bs-parent="#detailList">
+    <div class="accordion-body p-2">
+      <div class="container">
+        <div class="row">
+          <textarea class="form-control-plaintext col ps-2 updateContents">${detail.contents}</textarea>
+          <div class="col-5">
+            <div class="row justify-content-center">
+              <div class="col-8">
+                <input class="form-control-plaintext updateInput" type="date" value=${detail.startDate} />
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-6 p-0">
+                <input class="form-control-plaintext updateInput" type="time" value=${detail.startTime} />
+              </div>
+              <div class="col-6 p-0">
+                <input class="form-control-plaintext updateInput" type="time" value=${detail.endTime} />
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-9">
+                <input class="form-control-plaintext updateInput" type="datetime-local" 
+                  value="${detail.remindAlarmTime}"/>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>`
@@ -87,9 +124,27 @@ function renderProgress(list) {
     .text(Math.round((checkedCount / list.length) * 100).toFixed(1) + '%');
 }
 
-function updateProgress() {
-  let checkedCount = $(".form-check-input:checked:not(#planComplete)").length;
-  let totalCheckBoxCount = $(".form-check-input:not(#planComplete)").length;
+function renderCreateDetailForm() {
+  let today = new Date();
+  $("#detailCreateCollapseButton").text("접기");
+  $("#detailContents").val("");
+  $("#detailStartDate").val(
+    today.getFullYear() + "-"
+    + String(today.getMonth() + 1).padStart(2, '0') + "-"
+    + String(today.getDate()).padStart(2, '0')
+  );
+  $("#detailStartTime").val(
+    String(today.getHours()).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
+  );
+  $("#detailEndTime").val(
+    String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
+  );
+}
+
+function updateProgress(event) {
+  event.preventDefault();
+  let checkedCount = $(".form-check-input:checked").length;
+  let totalCheckBoxCount = $(".form-check-input").length;
   let progressPercent = (checkedCount / totalCheckBoxCount) * 100;
   $("#planProgress").css("width", progressPercent + '%')
     .text(Math.round(progressPercent).toFixed(1) + '%')

@@ -14,6 +14,8 @@ import lombok.Data;
 public class DetailPlan {
 
   private static String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+  private static String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
+  private static String LOCAL_TIME_FORMAT = "HH:mm";
 
   private int detailPlanId;
   private int planId;
@@ -42,5 +44,17 @@ public class DetailPlan {
   private static LocalDateTime parse(String sqlDate) {
     return sqlDate == null ? null :
         LocalDateTime.parse(sqlDate, DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_FORMAT));
+  }
+
+  public String getStartDateString() {
+    return this.getStartTime().format(DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT));
+  }
+
+  public String getStartTimeString() {
+    return this.getStartTime().format(DateTimeFormatter.ofPattern(LOCAL_TIME_FORMAT));
+  }
+
+  public String getEndTimeString() {
+    return this.getEndTime().format(DateTimeFormatter.ofPattern(LOCAL_TIME_FORMAT));
   }
 }

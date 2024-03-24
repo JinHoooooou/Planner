@@ -14,17 +14,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 @WebServlet("/detail/list")
-public class DetailListServlet extends HttpServlet {
+public class ListDetailServlet extends HttpServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     String planId = req.getParameter("planId");
     HttpSession session = req.getSession();
     Object writer = session.getAttribute("userId");
 
     try {
       List<DetailPlan> details =
-          new DetailPlanDao().findByWriterAndPlanId(String.valueOf(writer), Integer.parseInt(planId));
+          new DetailPlanDao().findByWriterAndPlanId(String.valueOf(writer),
+              Integer.parseInt(planId));
 
       JSONObject responseBody = new JSONObject();
       JSONArray jsonArray = new JSONArray();
@@ -32,8 +34,9 @@ public class DetailListServlet extends HttpServlet {
         JSONObject detailJson = new JSONObject();
         detailJson.put("detailPlanId", detail.getDetailPlanId());
         detailJson.put("contents", detail.getContents());
-        detailJson.put("startTime", detail.getStartTime());
-        detailJson.put("endTime", detail.getEndTime());
+        detailJson.put("startDate", detail.getStartDateString());
+        detailJson.put("startTime", detail.getStartTimeString());
+        detailJson.put("endTime", detail.getEndTimeString());
         detailJson.put("remindAlarmTime", detail.getRemindAlarmTime());
         detailJson.put("complete", detail.getComplete());
         jsonArray.put(detailJson);

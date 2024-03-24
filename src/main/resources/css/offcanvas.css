@@ -3,10 +3,29 @@
     text-decoration: line-through;
 }
 
-.detail-item:hover {
+.detailItem:hover {
     background-color: var(--bs-secondary-bg);
 }
 
-.detail-item:not(.collapsed) {
+.detailItem:not(.collapsed) {
     background-color: var(--bs-primary-bg-subtle);
+}
+
+
+#detailContents,
+.updateContents {
+    resize: none;
+}
+
+.updateContents::-webkit-scrollbar {
+    display: none;
+}
+
+.updateInput {
+    font-size: 12px;
+    text-align: right;
+}
+
+.offcanvas {
+    --bs-offcanvas-width: 600px;
 }
