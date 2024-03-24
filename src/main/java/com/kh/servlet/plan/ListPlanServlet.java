@@ -16,13 +16,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 @WebServlet("/plan/list")
-public class PlanServlet extends HttpServlet {
+public class ListPlanServlet extends HttpServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     HttpSession session = req.getSession();
     Object writer = session.getAttribute("userId");
-
     if (writer == null) {
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       return;
@@ -33,7 +33,7 @@ public class PlanServlet extends HttpServlet {
       return;
     }
     JSONObject responseBody = new JSONObject();
-    responseBody.put("writer", loginUser.getNickname());
+    responseBody.put("nickname", loginUser.getNickname());
 
     List<Plan> planList = new PlanDao().findByWriter(loginUser.getUserId());
     JSONArray jsonArray = new JSONArray();

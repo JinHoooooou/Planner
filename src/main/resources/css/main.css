@@ -3,20 +3,41 @@ body {
     background-color: #f0f3f6;
 }
 
-h1 {
+/* Header */
+.mainTitle {
     text-align: center;
     font-weight: 900;
 }
 
-#icons {
+#headerIcons {
     text-align: right;
+    align-items: right;
     gap: 10px;
 }
 
-#headerIcons button {
-    padding: 5px;
+header a {
+    text-decoration: none;
+    color: black;
+}
+
+header .btn {
+    background-color: #f0f3f6;
+    border: 0px solid black;
+}
+
+header ul {
+    list-style: none;
+    padding: 0;
+}
+
+header li {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
+
+/* main */
 
 main {
     max-width: 800px;
@@ -27,17 +48,7 @@ main {
     border-radius: 10px;
 }
 
-form:not(#detailForm) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-label {
-    margin-top: 10px;
-}
-
-input:not(#contents, #createDetailPlan, #detailStartDate, #startTime, #endTime, #remindAlarmTime, .form-check-input),
+main input,
 textarea {
     margin-top: 5px;
     width: 100%;
@@ -48,7 +59,7 @@ textarea {
     resize: vertical;
 }
 
-button {
+main button {
     background-color: #f0f3f6;
     color: black;
     border: none;
@@ -56,78 +67,57 @@ button {
     font-size: 30px;
 }
 
-button:hover {
+main button:hover {
     color: gray;
 }
 
-#planListSection {
-    margin-top: 20px;
-    align-items: center;
-    text-align: center;
+main a {
+    text-decoration: none;
+    color: black;
 }
 
-ul {
+main ul {
     list-style: none;
     padding: 0;
 }
 
-li {
+main li {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 10px;
     cursor: pointer;
 }
 
-.plannerItem {
+main input[type="date"] {
+    width: 35%;
+}
+
+main .btn {
+    background-color: #f0f3f6;
+    border: 0px solid black;
+}
+
+/* main .forming */
+
+.forming {
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #ccc;
+    flex-direction: column;
+    align-items: center;
 }
 
-.plan-complete {
-    text-decoration: line-through;
+#save {
+    width: 80px;
+    background-color: black;
+    color: #fff;
+    border-radius: 4px;
 }
 
-.plannerDate {
-    color: #777;
-    margin-left: 643px;
+main strong {
+    display: flex;
 }
 
-.deleteButton {
-    color: #e91e63;
-    cursor: pointer;
-}
-
-.plannerDetails {
-    display: none;
-    padding: 10px;
-    background-color: #f0f0f0;
-}
-
-.showDetails {
-    display: block;
-}
-
-.dark-mode {
-    background-color: #1a1a1a;
-    color: #ffffff;
-}
-
-.toggleSwitch {
-    width: 100px;
-    height: 50px;
-    display: block;
-    position: relative;
-    border-radius: 30px;
-    background-color: #fff;
-    box-shadow: 0 0 16px 3px rgba(0 0 0 / 15%);
-    cursor: pointer;
-    margin: 30px;
-}
-
-.complete_box {
+/* main .completeBox */
+.completeBox {
     display: flex;
     border: 1px solid lightgray;
     width: 100%;
@@ -139,30 +129,21 @@ li {
     padding-bottom: 10px;
 }
 
-.not-completed-plan,
-.completed-plan {
-    color: rgb(240, 174, 53);
+.completeBox span {
+    color: black;
     font-size: 30px;
 }
 
 #title {
     padding-left: 20px;
     font-size: 15px;
-    border-color: rgb(240, 174, 53);
+    border: 3px solid black;
 }
 
-input[type="date"]:not(.has-value):before {
-    color: lightgray;
-    content: attr(placeholder);
-}
-
+/* main .time-box */
 .time-box {
     display: flex;
     justify-content: flex-start;
-}
-
-input[type="date"] {
-    width: 35%;
 }
 
 .endAlarm {
@@ -174,83 +155,47 @@ input[type="date"] {
     margin-right: 5px;
 }
 
-#save {
-    width: 80px;
-    background-color: rgb(240, 174, 53);
-    color: #fff;
-    border-radius: 4px;
-
+/* main #planSection */
+#planSection {
+    margin-top: 20px;
+    align-items: center;
+    text-align: center;
 }
 
+#planSectionHeader {
+    display: flex;
+    justify-content: space-between;
+    color: black;
+    font-size: larger;
+}
+
+/* main -> main.js */
 .plannerItem {
     padding-left: 20px;
     font-size: 15px;
     border: 1px solid lightgray;
     background-color: #fff;
     height: 40.5px;
-}
-
-strong {
     display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
 }
 
 .plannerDate {
+    color: #777;
+    text-align: end;
     flex: 1;
-    margin-left: 640px;
-    position: fixed
 }
 
-.plannerDetails {
-    background-color: #f0f3f6;
-}
-
-#toDetailDiv {
-    display: flex;
-    justify-content: end;
-}
-
-#toDetailButton {
-    text-align: center;
-    bottom: 5px;
-    right: 5px;
-    padding: 5px;
+.deleteButton {
+    color: #e91e63;
     cursor: pointer;
-    border: 1px solid white;
-    color: white;
-    border-radius: 4px;
-    width: 80px;
-    font-size: 15px;
-    text-align: center;
-    background-color: rgb(240, 174, 53);
 }
 
-#planListHeader {
-    display: flex;
-    justify-content: space-between;
-    color: rgb(240, 174, 53);
-    font-size: larger;
-}
-
-.btn3 {
-    background-color: #fff;
-    margin-bottom: 15px;
-    height: 30px;
-}
-
-#com_radio {
+.comRadio {
     width: 30px;
     margin-right: 10px;
     margin-left: -10px;
-}
-
-.dropdown-menu-profile {
-    position: absolute;
-    right: 10px;
-    height: 170px;
-    border-radius: 1px;
-}
-
-.btn:not(.btn-submit, #detailCreateFormButton, .btn-outline-primary) {
-    background-color: #f0f3f6;
-    border: 0px solid black;
 }

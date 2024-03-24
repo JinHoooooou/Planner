@@ -10,7 +10,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="css/main.css" rel="stylesheet" />
-  <link href="css/offcanvas.css" rel="stylesheet"/>
+  <link href="css/offcanvas.css" rel="stylesheet" />
   <link href="img/planner_favicon.png" rel="icon" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -20,91 +20,80 @@
     integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="></script>
   <script src="js/main.js"></script>
   <script src="js/offcanvas.js"></script>
-
 </head>
 
 <body>
+  <!-- Header Section Start -->
   <header>
-    <h1>
-      <b>Plan 작성하기</b>
+    <h1 class="mainTitle">
+      <b id="confession"><a href="/main.html">Plan 작성하기</a></b>
     </h1>
-    <div id="icons" style="max-width: 800px; margin: 20px auto;">
-      <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="dropdown">
-        <i class="fas fa-cog" style="color: black; font-size: 30px;"></i> <span class="visually-hidden">Toggle
-          Dropdown</span>
+    <div id="headerIcons" style="max-width: 800px; margin: 20px auto;">
+      <button class="btn btn-secondary" type="button">
+        <i class="fas fa-cog" style="color: black; font-size: 30px;"></i>
       </button>
-      <ul class="dropdown-menu">
-      </ul>
-      <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="dropdown">
-        <i class="fas fa-user" style="color: black; font-size: 30px;"></i> <span class="visually-hidden">Toggle
-          Dropdown</span>
+      <button class="btn btn-secondary" data-bs-target="#userInfo" data-bs-toggle="dropdown" type="button">
+        <i class="fas fa-user" style="color: black; font-size: 30px;"></i>
       </button>
-      <ul class="dropdown-menu" id="dropdown-menu"
+      <ul class="dropdown-menu" id="userInfo"
         style="flex-direction: column; justify-content: flex-end; padding-bottom: 0px; height: 96px;">
         <li style="border: 0px solid black; text-align: center; height: 55px;">
           <i class="fas fa-user" style="color: black; font-size: 30px;"></i>
-          <div><span id="nickname"></span></div>
+          <div id="nickname"></div>
         </li>
         <div style="display: flex; text-align: center;">
           <li
             style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px">
-            <b>로그아웃</b>
+            <b><a href="/user/signin.html" style="color: black;">로그아웃</a></b>
           </li>
           <li
-            style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-right: 0px; background-color: rgb(240, 174, 53); color: #fff;">
-            <b>마이페이지</b>
+            style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-right: 0px; background-color: black; color: #fff;">
+            <b><a href="/user/mypage.html" style="color: white;">마이페이지</a></b>
           </li>
         </div>
       </ul>
-      <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="dropdown">
+      <button class="btn btn-secondary" type="button">
         <i class="fas fa-chart-bar" style="color: black; font-size: 30px;"></i>
-        <span class="visually-hidden">Toggle Dropdown</span>
       </button>
-      <ul class="dropdown-menu"></ul>
     </div>
   </header>
-
+  <!-- Header Section End -->
+  <!-- Main Section Start -->
   <main>
-    <form id="searchForm">
+    <!-- Main Search Section Start -->
+    <div class="forming">
       <div style="width: 100%; font-size: 15px;">
         <input type="text" id="search" name="search" placeholder='검색하실 제목을 입력하세요.'
-          style="width: 95%; height: 40.5px; font-size: 15px; padding-left: 20px;">
-        <button style="background-color: #fff; font-size: 20px; width: 10px;" type="submit">
+          style="width: 95%; height: 40.5px; font-size: 15px; padding-left: 20px;" value="">
+        <button id="searchButton" style="background-color: #fff; font-size: 20px; width: 10px;" type="button">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
-    </form>
-    <form id="createForm">
-      <br> <br>
-      <div class="complete_box">
+    </div>
+    <!-- Main Search Section End -->
+    <div class="forming">
+      <br />
+      <br />
+      <!-- Main Complete Section Start -->
+      <div class="completeBox">
         <div>
-          <div>
-            <div class="not-yet-complete">
-              <span class="not-completed-plan" id="notCompletedPlan">
-              </span>
-            </div>
-            <div class="task-to-do">
-              <b>완료할 작업 수</b>
-            </div>
-          </div>
+          <span id="notCompletedPlan"> </span>
+          <br>
+          <b>완료할 작업 수</b>
         </div>
         <div>
-          <div>
-            <div class="complete-yes">
-              <span class="completed-plan" id="completedPlan">
-              </span>
-            </div>
-            <div class="tasks-completed">
-              <b>완료한 작업 수</b>
-            </div>
-          </div>
+          <span id="completedPlan"> </span>
+          <br>
+          <b>완료한 작업 수</b>
         </div>
       </div>
-      <br> <label for="title"></label>
+      <!-- Main Complete Section End -->
+      <br />
+      <!-- Main Plan Create Form Section Start -->
       <input type="hidden" name="userId">
-      <input type="text" id="title" name="title" required
+      <input class="mt-2" id="title" name="title" required type="text"
         placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.'>
-      <br>
+      <br />
       <div style="width: 100%;">
         <div class="time-box">
           <div style="width: 100%;">
@@ -125,36 +114,38 @@
                 <div style="width: 100%; text-align: center; margin-left: 15px;">마감알람일</div>
               </div>
               <div style="display: flex;">
-                <input type="checkbox" id="endAlarmDateBoolean" name="checkAlarmDate" class="endAlarm"
-                  name="endAlarmBoolean">
-                <input type="date" class="endAlarm" name="remindAlarmDate" id="remindAlarmDate">
+                <input class="endAlarm" id="endAlarmDateBoolean" name="checkAlarmDate" type="checkbox">
+                <input class="endAlarm" id="endAlarmDate" name="remindAlarmDate" readonly style="width: 133px;"
+                  type="date" value="">
               </div>
             </div>
           </div>
         </div>
       </div>
-      <br>
-      <button type="submit" value="저장" id="save">저장</button>
-    </form>
-    <div id="planListSection">
-      <div id="planListHeader">
+      <br />
+      <button id="save" type="button" value="저장">저장</button>
+      <!-- Main Plan Create Form Section End -->
+    </div>
+    <!-- Main Plan List Section Start -->
+    <div id="planSection">
+      <div id="planSectionHeader">
         <div style="text-align: left;">PlanList</div>
-        <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="dropdown"
-          style="background-color: #fff;">
-          <i class="fa-solid fa-arrow-down-wide-short" style="color: black; font-size: 30px;"></i> <span
-            class="visually-hidden">Toggle Dropdown</span>
+        <button class="btn btn-secondary" data-bs-toggle="dropdown" style="background-color: #fff;" type="button">
+          <i class="fa-solid fa-arrow-down-wide-short" style="color: black; font-size: 30px;"></i>
         </button>
         <ul class="dropdown-menu">
-          <li style="border: 0px;" onclick="">&nbsp;마감일 오름차순</li>
-          <li style="border: 0px;" onclick="">&nbsp;마감일 내림차순</li>
-          <li style="border: 0px;" onclick="">&nbsp;시작일 오름차순</li>
-          <li style="border: 0px;" onclick="">&nbsp;시작일 내림차순</li>
+          <li id="endDateASC" style="border: 0px;">마감일 오름차순</li>
+          <li id="endDateDESC" style="border: 0px;">마감일 내림차순</li>
+          <li id="startDateASC" style="border: 0px;">시작일 오름차순</li>
+          <li id="startDateDESC" style="border: 0px;">시작일 내림차순</li>
         </ul>
       </div>
-      <ul id="planList"></ul>
+      <ul id="plannersEle"></ul>
     </div>
+    <!-- Main Plan List Section Start -->
   </main>
-
+  <!-- Main Section End -->
+  <!-- Offcanvas Section Start -->
   <div class="offcanvas offcanvas-end" style="width: 600px" data-bs-backdrop="static" tabindex="-1" id="detailPlan">
 
     <div class="row justify-content-end">

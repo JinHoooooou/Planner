@@ -1,4 +1,8 @@
 $(window).ready(function () {
+  requestPlanList()
+})
+
+function requestPlanList() {
   $.ajax({
     url: "/plan/list",
     type: "GET",
@@ -7,16 +11,16 @@ $(window).ready(function () {
     success: renderMainPage,
     error: function (xhr) {
       if (xhr.status === 401) {
-        alert("로그인부터해")
+        alert("로그인이 필요한 페이지입니다.")
         window.location.href = "user/login.html";
       }
     }
   })
-})
+}
 
 function renderMainPage(response) {
-  let planList = $("#planList");
-  renderMyInfo(response.writer);
+  let planList = $("#plannersEle");
+  renderMyInfo(response.nickname);
   renderCompletePlan(response.planList);
   renderCreateForm();
   renderPlanList(response.planList);
@@ -45,11 +49,10 @@ function renderCreateForm() {
     + String(today.getDate()).padStart(2, '0')
   $("#startDate").val(todayDate);
   $("#endDate").val(todayDate)
-  $("#remindAlarmDate").val(todayDate);
 }
 
 function renderPlanList(planList) {
-  let target = $("#planList");
+  let target = $("#plannersEle");
   target.empty();
   $.each(planList, function (index, plan) {
     target.append(
@@ -59,7 +62,7 @@ function renderPlanList(planList) {
             $("<input>").prop({
               "type": "checkbox",
               "name": "complete",
-              "class": "com_radio",
+              "class": "comRadio",
               "onchange": `completePlanner(${plan.planId})`
             }).attr(`${plan.complete === 'Y' ? "checked" : "notChecked"}`, "true")
           ).append(
