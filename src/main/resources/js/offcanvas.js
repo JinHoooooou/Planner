@@ -52,6 +52,7 @@ function appendOneToList(detail) {
 
   // 이벤트 추가
   $(`#detail-${detail.detailPlanId}`).on("change", ".form-check-input", updateProgress);
+  $(`#detail-${detail.detailPlanId}`).on("click", ".bi-trash3", requestDeleteDetail)
 }
 
 function accordionHeader(detail) {
@@ -139,6 +140,25 @@ function renderCreateDetailForm() {
   $("#detailEndTime").val(
     String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
   );
+}
+
+function requestDeleteDetail(event) {
+  event.preventDefault();
+  let detailPlanId = $(this).attr("id").split("-")[1];
+  console.log(detailPlanId);
+  if (confirm("정말 삭제하시겠습니까?")) {
+    $.ajax({
+      url: `/detail/${detailPlanId}`,
+      type: "DELETE",
+      success: function () {
+        $("#detailList").find(`#detail-${detailPlanId}`).remove();
+        updateProgress(event);
+      },
+      error: function () {
+        console.log("error")
+      }
+    })
+  }
 }
 
 function updateProgress(event) {
