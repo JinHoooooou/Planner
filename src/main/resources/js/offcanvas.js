@@ -54,7 +54,90 @@ function appendOneToList(detail) {
 
   // 이벤트 추가
   $(`#detail-${detail.detailPlanId}`).on("change", ".form-check-input", requestComplete);
-  $(`#detail-${detail.detailPlanId}`).on("click", ".bi-trash3", requestDeleteDetail)
+  $(`#detail-${detail.detailPlanId}`).on("click", ".bi-trash3", requestDeleteDetail);
+  $(`#detail-${detail.detailPlanId}`).on("hide.bs.collapse", requestUpdateDetail);
+}
+
+function requestUpdateDetail() {
+  let isUpdated = false;
+  let original = $(this).find("p");
+  let updateInput = $(this).find(".updateInput");
+  let detailPlanId = $(this).attr("id").split("-")[1];
+  let inputArea = $(this).find(".form-check-input");
+  console.log($(original[4]).text());
+  console.log($(updateInput[4]).val());
+  console.log(inputArea);
+  for (let i = 0; i < original.length; i++) {
+    if ($(original[i]).text().trim() != $(updateInput[i]).val()) {
+      isUpdated = true;
+      console.log("update");
+      break;
+    }
+  }
+  if (!isUpdated) {
+    return;
+  }
+
+  let updateData = {
+    "updateContents": $(updateInput[0]).val(),
+    "updateStartDate": $(updateInput[1]).val(),
+    "updateStartTime": $(updateInput[2]).val(),
+    "updateEndTime": $(updateInput[3]).val(),
+    "updateRemindAlarmTime": $(updateInput[4]).val(),
+  };
+  console.log(updateData);
+  $.ajax({
+    url: `/detail/${detailPlanId}`,
+    type: "PUT",
+    contentType: "application/json",
+    data: JSON.stringify(updateData),
+    success: function () {
+      reRenderAccordionHeader(original, updateData);
+    },
+    error: function (xhr) {
+      if (xhr.status === 401) {
+        alert("로그인이 필요한 페이지 입니다.");
+        window.location.href = "user/login.html";
+      } else if (xhr.status == 400) {
+        appendErrorIcon();
+      } else {
+        console.log("error");
+        appendErrorIcon(inputArea);
+      }
+    }
+  })
+}
+
+function appendErrorIcon(inputArea) {
+  console.log(inputArea);
+  let accordionHeader = $(inputArea).parent();
+  $(accordionHeader).addClass("text-danger");
+
+  $(inputArea[0]).replaceWith(function () {
+    return $(`<i class="bi bi-exclamation-circle col-1 my-auto mx-3" ${$(this).attr("checked") ?? ''}  ></i>`)
+  })
+
+}
+
+function reRenderAccordionHeader(original, updateData) {
+  console.log(original);
+  let accordionHeader = $(original[0]).parent();
+  $(accordionHeader).removeClass("text-danger");
+  let errorIcon = $(accordionHeader).find(".bi-exclamation-circle");
+  if (errorIcon) {
+    $(errorIcon).replaceWith(function () {
+      return $(`<input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
+      ${$(this).attr("checked") ?? ''}/>`)
+    })
+  }
+  console.log(errorIcon);
+  $(original[0]).text(updateData["updateContents"]);
+  $(original[1]).text(updateData["updateStartDate"]);
+  $(original[2]).text(updateData["updateStartTime"]);
+  $(original[3]).text(updateData["updateEndTime"]);
+  let alarmIcon = $(original[4]).parent().find(".bi-alarm");
+  $(alarmIcon).toggleClass("d-none", updateData["updateRemindAlarmTime"] === '');
+  $(original[4]).text(updateData["updateRemindAlarmTime"]);
 }
 
 function requestComplete() {
@@ -86,15 +169,18 @@ function accordionHeader(detail) {
     <div class="detailItem collapsed row" data-bs-toggle="collapse" data-bs-target="#collapse-${detail.detailPlanId}">
       <input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
         ${detail.complete === 'Y' ? "checked" : ""}/>
-      <div class="col-5 py-3 px-0 text-truncate form-checked-content">
+      <p class="col-5 py-3 px-0 text-truncate form-checked-content">
       ${detail.contents ?? ""}
-      </div>
-      <div class="col py-3">
-        <p class="h6">${detail.startDate}</p>
-        <p class="h6">${detail.startTime}~${detail.endTime}</p>
+      </p>
+      <div class="col-3 py-3">
+        <p class="h6 text-center">${detail.startDate}</p>
+        <p class="h6 d-inline">${detail.startTime}</p>
+        <span class="d-inline">~</span>
+        <p class="h6 d-inline">${detail.endTime}</p>
       </div>
       <div class="col py-3 px-0 me-3 text-end" data-bs-toggle="collapse">
-        ${detail.remindAlarmTime ? "<i class='bi bi-alarm'></i>" : ""}
+        <i class='bi bi-alarm ${detail.remindAlarmTime ? '' : 'd-none'}'></i>
+        <p class="d-none">${detail.remindAlarmTime ?? ''}</p>
         <i class="bi bi-trash3" id="$detailDeleteButton-${detail.detailPlanId}"></i>
       </div>
     </div>
@@ -107,7 +193,7 @@ function accordionBody(detail) {
     <div class="accordion-body p-2">
       <div class="container">
         <div class="row">
-          <textarea class="form-control-plaintext col ps-2 updateContents">${detail.contents ?? ""}</textarea>
+          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents ?? ""}</textarea>
           <div class="col-5">
             <div class="row justify-content-center">
               <div class="col-8">

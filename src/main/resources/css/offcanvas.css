@@ -12,20 +12,23 @@
 }
 
 
-#detailContents,
-.updateContents {
+#detailContents,.updateInput {
     resize: none;
 }
 
-.updateContents::-webkit-scrollbar {
+.updateInput::-webkit-scrollbar {
     display: none;
 }
 
-.updateInput {
+.updateInput:not(textarea) {
     font-size: 12px;
     text-align: right;
 }
 
 .offcanvas {
     --bs-offcanvas-width: 600px;
+}
+
+span.d-inline {
+    font-size: 12px;
 }

@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.json.JSONObject;
 
 @Data
 @AllArgsConstructor
@@ -91,5 +92,20 @@ public class DetailPlan {
 
   public String getEndTimeString() {
     return this.getEndTime().format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+  }
+
+  public void setFrom(JSONObject requestBody) {
+    String updateContents = requestBody.getString("updateContents");
+    String updateStartDate = requestBody.getString("updateStartDate");
+    String updateStartTime = requestBody.getString("updateStartTime");
+    String updateEndTime = requestBody.getString("updateEndTime");
+    String updateAlarmTime = requestBody.getString("updateRemindAlarmTime");
+
+    this.setContents(updateContents);
+    this.setStartTime(LocalDateTime.parse(updateStartDate + updateStartTime,
+        DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)));
+    this.setEndTime(LocalDateTime.parse(updateStartDate + updateEndTime,
+        DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)));
+    this.setRemindAlarmTime(LocalDateTime.parse(updateAlarmTime));
   }
 }

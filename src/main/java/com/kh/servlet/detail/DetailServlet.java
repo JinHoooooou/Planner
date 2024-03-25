@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import org.json.JSONObject;
 
@@ -52,6 +53,28 @@ public class DetailServlet extends HttpServlet {
       resp.getWriter().write(responseBody.toString());
     }
     resp.getWriter().close();
+  }
+
+  @Override
+  protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    HttpSession session = req.getSession();
+    Object user = session.getAttribute("userId");
+
+    if (user == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+    String[] parts = req.getRequestURI().split("/");
+    String detailPlanId = parts[parts.length - 1];
+    DetailPlan target = new DetailPlanDao().findByDetailPlanId(Integer.parseInt(detailPlanId));
+
+    BufferedReader reader = req.getReader();
+    JSONObject requestBody = new JSONObject(reader.readLine());
+    target.setFrom(requestBody);
+
+    new DetailPlanDao().update(target);
+    resp.setStatus(HttpServletResponse.SC_OK);
   }
 
   @Override
