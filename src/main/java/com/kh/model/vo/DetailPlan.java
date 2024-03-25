@@ -1,5 +1,8 @@
 package com.kh.model.vo;
 
+import com.kh.model.dao.PlanDao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -13,9 +16,9 @@ import lombok.Data;
 @Builder
 public class DetailPlan {
 
-  private static String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-  private static String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
-  private static String LOCAL_TIME_FORMAT = "HH:mm";
+  private static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+  private static String DATE_FORMAT = "yyyy-MM-dd";
+  private static String TIME_FORMAT = "HH:mm";
 
   private int detailPlanId;
   private int planId;
@@ -43,18 +46,50 @@ public class DetailPlan {
 
   private static LocalDateTime parse(String sqlDate) {
     return sqlDate == null ? null :
-        LocalDateTime.parse(sqlDate, DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_FORMAT));
+        LocalDateTime.parse(sqlDate, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
+  }
+
+  public static DetailPlan dto(HttpServletRequest req, Object user) {
+    String contents = req.getParameter("detailContents");
+    String planId = req.getParameter("planIdForDetail");
+    String startDate = req.getParameter("detailStartDate");
+    String startTime = req.getParameter("detailStartTime");
+    String endTime = req.getParameter("detailEndTime");
+
+    return DetailPlan.builder()
+        .planId(Integer.parseInt(planId))
+        .writer(String.valueOf(user))
+        .contents(contents)
+        .startTime(LocalDateTime.parse(startDate + startTime,
+            DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)))
+        .endTime(LocalDateTime.parse(startDate + endTime,
+            DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)))
+        .build();
+  }
+
+  public void validate() {
+    Plan parent = new PlanDao().findByPlanId(this.planId);
+    LocalDateTime startDate = parent.getStartDate().toLocalDate().atStartOfDay();
+    LocalDateTime endDate = parent.getEndDate().toLocalDate().atStartOfDay();
+
+    if (this.getStartTime().isBefore(startDate) || this.getStartTime().isAfter(endDate)) {
+      throw new ValidationException("invalid start date");
+    }
+
+    if (this.getStartTime().isAfter(this.getEndTime())) {
+      throw new ValidationException("invalid start/end time");
+    }
   }
 
   public String getStartDateString() {
-    return this.getStartTime().format(DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT));
+    return this.getStartTime().format(DateTimeFormatter.ofPattern(DATE_FORMAT));
   }
 
   public String getStartTimeString() {
-    return this.getStartTime().format(DateTimeFormatter.ofPattern(LOCAL_TIME_FORMAT));
+    return this.getStartTime().format(DateTimeFormatter.ofPattern(TIME_FORMAT));
   }
 
   public String getEndTimeString() {
-    return this.getEndTime().format(DateTimeFormatter.ofPattern(LOCAL_TIME_FORMAT));
+    return this.getEndTime().format(DateTimeFormatter.ofPattern(TIME_FORMAT));
   }
 }

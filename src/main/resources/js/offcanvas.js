@@ -25,6 +25,7 @@ function renderOffcanvas(response, plan) {
     "show.bs.collapse": renderCreateDetailForm,
     "hide.bs.collapse": () => { $("#detailCreateCollapseButton").text("디테일 추가"); }
   })
+  $("#detailCreateForm").on("submit", requestCreateDetail)
 }
 
 function renderPlanSection(plan) {
@@ -62,14 +63,14 @@ function accordionHeader(detail) {
       <input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
         ${detail.complete === 'Y' ? "checked" : ""}/>
       <div class="col-5 py-3 px-0 text-truncate form-checked-content">
-      ${detail.contents}
+      ${detail.contents ?? ""}
       </div>
       <div class="col py-3">
         <p class="h6">${detail.startDate}</p>
         <p class="h6">${detail.startTime}~${detail.endTime}</p>
       </div>
       <div class="col py-3 px-0 me-3 text-end" data-bs-toggle="collapse">
-        <i class="bi bi-alarm"></i>
+        ${detail.remindAlarmTime ? "<i class='bi bi-alarm'></i>" : ""}
         <i class="bi bi-trash3" id="$detailDeleteButton-${detail.detailPlanId}"></i>
       </div>
     </div>
@@ -82,7 +83,7 @@ function accordionBody(detail) {
     <div class="accordion-body p-2">
       <div class="container">
         <div class="row">
-          <textarea class="form-control-plaintext col ps-2 updateContents">${detail.contents}</textarea>
+          <textarea class="form-control-plaintext col ps-2 updateContents">${detail.contents ?? ""}</textarea>
           <div class="col-5">
             <div class="row justify-content-center">
               <div class="col-8">
@@ -140,6 +141,32 @@ function renderCreateDetailForm() {
   $("#detailEndTime").val(
     String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
   );
+}
+
+function requestCreateDetail(event) {
+  event.preventDefault()
+  $.ajax({
+    url: "/detail",
+    type: "POST",
+    contentType: "application/x-www-form-urlencoded",
+    data: $(this).serialize(),
+    dataType: "json",
+    success: function (response) {
+      appendOneToList(response);
+      $("#detailCreateCollapse").removeClass("show");
+      $("#detailCreateCollapseButton").text("디테일 추가");
+      updateProgress(event);
+    },
+    error: function (xhr) {
+      if (xhr.status === 401) {
+        alert("로그인이 필요한 페이지 입니다.");
+        window.location.href = "user/login.html";
+      } else if (xhr.status == 400) {
+        response = xhr.responseJSON;
+        $("#createErrorMessage").text(response.message);
+      }
+    }
+  })
 }
 
 function requestDeleteDetail(event) {

@@ -1,5 +1,6 @@
 package com.kh.database;
 
+import com.kh.KeyHolder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,5 +54,11 @@ public class JdbcTemplate {
       return null;
     }
     return result.get(0);
+  }
+
+  public int getNextVal() {
+    String query = "SELECT SEQ_DETAIL.NEXTVAL FROM DUAL";
+    RowMapper<KeyHolder> mapper = resultSet -> new KeyHolder(resultSet.getInt(1));
+    return executeQueryForOne(query, mapper).getId();
   }
 }
