@@ -40,6 +40,14 @@ public class DetailPlanDao {
         detailPlan.getDetailPlanId(), detailPlan.getWriter(), detailPlan.getPlanId());
   }
 
+  public int updateCompleteByDetailPlanIdAndWriter(int detailPlanId, String writer,
+      String complete) {
+    JdbcTemplate jdbctemplate = new JdbcTemplate();
+    String query = "UPDATE DETAIL_PLAN SET COMPLETE = ? WHERE DETAIL_PLAN_ID = ? AND WRITER = ?";
+
+    return jdbctemplate.executeUpdate(query, complete, detailPlanId, writer);
+  }
+
   public int deleteByDetailPlanIdAndWriter(int detailPlanId, String writer) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
     String query = """

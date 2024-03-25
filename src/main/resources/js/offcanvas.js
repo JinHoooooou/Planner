@@ -10,6 +10,7 @@ function getDetailList() {
     error: function (xhr) {
       if (xhr.status === 401) {
         alert("로그인이 필요한 페이지 입니다.")
+        window.location.href = "user/login.html";
       }
     }
   });
@@ -52,8 +53,31 @@ function appendOneToList(detail) {
   $("#detailList").append(accordionItem);
 
   // 이벤트 추가
-  $(`#detail-${detail.detailPlanId}`).on("change", ".form-check-input", updateProgress);
+  $(`#detail-${detail.detailPlanId}`).on("change", ".form-check-input", requestComplete);
   $(`#detail-${detail.detailPlanId}`).on("click", ".bi-trash3", requestDeleteDetail)
+}
+
+function requestComplete() {
+  let complete = $(this).prop("checked");
+  let detailPlanId = $(this).parents(".detailItem").attr("data-bs-target").split("-")[1];
+  $.ajax({
+    url: `/detail/${detailPlanId}?complete=${complete ? "Y" : "N"}`,
+    type: "patch",
+    success: function (response) {
+      updateProgress(event);
+    },
+    error: function (xhr) {
+      if (xhr.status === 401) {
+        alert("로그인이 필요한 페이지 입니다.");
+        window.location.href = "user/login.html";
+      } else if (xhr.status == 400) {
+        response = xhr.responseJSON;
+        $("#createErrorMessage").text(response.message);
+      } else {
+        console.log("invalid Error");
+      }
+    }
+  })
 }
 
 function accordionHeader(detail) {

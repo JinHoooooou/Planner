@@ -15,6 +15,17 @@ import org.json.JSONObject;
 public class DetailServlet extends HttpServlet {
 
   @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    String method = req.getMethod();
+    if (!method.equals("PATCH")) {
+      super.service(req, resp);
+    } else {
+      this.doPatch(req, resp);
+    }
+  }
+
+  @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     HttpSession session = req.getSession();
@@ -41,6 +52,26 @@ public class DetailServlet extends HttpServlet {
       resp.getWriter().write(responseBody.toString());
     }
     resp.getWriter().close();
+  }
+
+  @Override
+  protected void doPatch(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    HttpSession session = req.getSession();
+    Object user = session.getAttribute("userId");
+
+    if (user == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+
+    String[] parts = req.getRequestURI().split("/");
+    String detailPlanId = parts[parts.length - 1];
+    String complete = req.getParameter("complete");
+    new DetailPlanDao().updateCompleteByDetailPlanIdAndWriter(
+        Integer.parseInt(detailPlanId), String.valueOf(user), complete);
+
+    resp.setStatus(HttpServletResponse.SC_OK);
   }
 
   @Override
