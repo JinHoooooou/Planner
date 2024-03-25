@@ -169,14 +169,14 @@ function accordionHeader(detail) {
     <div class="detailItem collapsed row" data-bs-toggle="collapse" data-bs-target="#collapse-${detail.detailPlanId}">
       <input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
         ${detail.complete === 'Y' ? "checked" : ""}/>
-      <p class="col-5 py-3 px-0 text-truncate form-checked-content">
+      <p class="col-5 my-auto px-0 m-0 text-truncate form-checked-content">
       ${detail.contents ?? ""}
       </p>
-      <div class="col-3 py-3">
-        <p class="h6 text-center">${detail.startDate}</p>
-        <p class="h6 d-inline">${detail.startTime}</p>
-        <span class="d-inline">~</span>
-        <p class="h6 d-inline">${detail.endTime}</p>
+      <div class="col-3 my-auto">
+        <p class="h6 m-0">${detail.startDate}</p>
+        <p class="h6 d-inline-block m-0">${detail.startTime}</p>
+        <span class="d-inline-block m-0">~</span>
+        <p class="h6 d-inline-block m-0">${detail.endTime}</p>
       </div>
       <div class="col py-3 px-0 me-3 text-end" data-bs-toggle="collapse">
         <i class='bi bi-alarm ${detail.remindAlarmTime ? '' : 'd-none'}'></i>

@@ -12,7 +12,8 @@
 }
 
 
-#detailContents,.updateInput {
+#detailContents,
+.updateInput {
     resize: none;
 }
 
@@ -29,6 +30,6 @@
     --bs-offcanvas-width: 600px;
 }
 
-span.d-inline {
-    font-size: 12px;
+span.d-inline-block {
+    font-size: 10px;
 }
