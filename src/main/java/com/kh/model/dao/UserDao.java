@@ -72,4 +72,11 @@ public class UserDao {
       throw new IllegalArgumentException("패스워드 불일치");
     }
   }
+
+  public User findIdByUserName(String userName) {
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    RowMapper<User> mapper = User::from;
+    String query = "SELECT * FROM USERS WHERE USER_NAME=?";
+    return jdbcTemplate.executeQueryForOne(query, mapper, userName);
+  }
 }

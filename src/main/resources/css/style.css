@@ -3,23 +3,17 @@ body{
     flex-direction:column;
     align-items: center;
 }
-html{background-color: rgb(233, 236, 251) ;}
+html{background-color: #f0f3f6 ;}
 button{
     width: 25%;
     color: white;
     font-size: large;
-    background-color: rgb(52, 152, 219);
+    background-color: black;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     margin: 25px;
-}
-button:hover{
-    background-color: rgba(52, 152, 219, 0.8);
-}
-button:active{
-    background-color: rgba(52, 152, 219, 0.486);
 }
 img{
     width: 25%;

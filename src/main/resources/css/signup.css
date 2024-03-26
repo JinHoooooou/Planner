@@ -67,6 +67,6 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-#pwarea, #nnarea, #idarea{
-    font-size: 10px;
+div{
+    font-size: 11px;
 }
