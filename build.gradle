@@ -24,8 +24,8 @@ dependencies {
    
     implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.1.2.RELEASE'
     implementation 'org.json:json:20231013'
-    implementation'org.hibernate.validator:hibernate-validator:6.1.2.Final'
-    implementation'org.glassfish:jakarta.el:3.0.3'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'org.glassfish:jakarta.el:5.0.0-M1'
 }
 
 test {
