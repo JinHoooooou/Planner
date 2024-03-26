@@ -62,10 +62,9 @@ public class UserDao {
     return jdbcTemplate.executeQueryForOne(query, mapper, nickname);
   }
 
-
   public void login(String userId, String userPw) {
     User target = this.findByUserId(userId);
-    if (target == null) {
+    if (target.getUserId() == null) {
       throw new IllegalArgumentException("없는 아이디");
     }
     if (!userPw.equals(target.getUserPw())) {

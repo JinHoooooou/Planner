@@ -9,47 +9,49 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Servlet implementation class ShowPlanController
- */
 @WebServlet("/plan/list")
 public class ListPlanServlet extends HttpServlet {
 
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    request.setCharacterEncoding("utf-8");
-    response.setCharacterEncoding("utf-8");
-    response.setContentType("application/json");
-    String userId = "validUserId0";
-    String titleKeyword = request.getParameter("search");
-    List<Plan> planList = new PlanDao().findByWriter(userId);
-    User user = new UserDao().findByUserId(userId);
+    HttpSession session = req.getSession();
+    Object writer = session.getAttribute("userId");
+    if (writer == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+    User loginUser = new UserDao().findByUserId(String.valueOf(writer));
+    if (loginUser == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
     JSONObject responseBody = new JSONObject();
-    JSONArray planJsonList = new JSONArray();
+    responseBody.put("nickname", loginUser.getNickname());
 
+    List<Plan> planList = new PlanDao().findByWriter(loginUser.getUserId());
+    JSONArray jsonArray = new JSONArray();
     for (Plan plan : planList) {
       JSONObject planJson = new JSONObject();
-
+      planJson.put("planId", plan.getPlanId());
       planJson.put("title", plan.getTitle());
       planJson.put("startDate", plan.getStartDate());
       planJson.put("endDate", plan.getEndDate());
       planJson.put("remindAlarmDate", plan.getRemindAlarmDate());
-      planJson.put("planId", plan.getPlanId());
       planJson.put("complete", plan.getComplete());
-      planJsonList.put(planJson);
+      jsonArray.put(planJson);
     }
-    responseBody.put("planList", planJsonList);
-    responseBody.put("nickname", user.getNickname());
+    responseBody.put("planList", jsonArray);
 
-    response.setStatus(200);
-    response.getWriter().print(responseBody.toString());
-    response.getWriter().close();
+    resp.setStatus(HttpServletResponse.SC_OK);
+    resp.getWriter().write(responseBody.toString());
+    resp.getWriter().flush();
+    resp.getWriter().close();
   }
-
-
 }
