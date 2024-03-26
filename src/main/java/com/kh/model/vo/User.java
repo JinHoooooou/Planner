@@ -1,15 +1,16 @@
 package com.kh.model.vo;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.Pattern;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +37,8 @@ public class User {
   @Pattern(regexp = "^[가-힣a-zA-Z0-9]{3,20}$"
       , message = "닉네임: 3~20자의 한글, 영문, 숫자를 사용해야합니다.")
   private String nickname;
-  @Email(message = "이메일: 유효하지 않은 이메일입니다.")
+  @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      , message = "이메일: 유효하지 않은 이메일입니다.")
   private String email;
   @Pattern(regexp = "^01[0-9][0-9]{3,4}[0-9]{4}$"
       , message = "휴대전화번호: 유효하지 않은 휴대전화번호입니다.")
@@ -71,18 +73,22 @@ public class User {
     if (user.equalsPassword()) {
       return user;
     }
-    throw new RuntimeException("비밀번호: 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+    throw new ValidationException("비밀번호: 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
   }
 
   public void validate() {
-    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    Set<ConstraintViolation<User>> validate = validator.validate(this);
+    try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
+      Validator validator = validatorFactory.getValidator();
+      Set<ConstraintViolation<User>> violations = validator.validate(this);
 
-    for (ConstraintViolation<User> temp : validate) {
-      String temptemp1 = temp.getMessage();
-      String temptemp2 = temp.getMessage();
+      if (!violations.isEmpty()) {
+        StringBuilder errorMessage = new StringBuilder();
+        for (ConstraintViolation<User> violation : violations) {
+          errorMessage.append(violation.getMessage()).append("\n");
+        }
+        throw new ValidationException(errorMessage.toString());
+      }
     }
-
   }
 
   public boolean equalsPassword() {
