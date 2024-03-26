@@ -65,6 +65,7 @@ public class DetailPlan {
             DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)))
         .endTime(LocalDateTime.parse(startDate + endTime,
             DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)))
+        .complete("N")
         .build();
   }
 
