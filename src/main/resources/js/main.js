@@ -8,6 +8,27 @@ window.onload = function () {
 		success: function (response) {
 			planList = response.planList;
 			drawPlanList(response);
+			for (let i = 0; i < planList.length; i++) {
+				if (planList[i].complete === 'N') {
+					
+					// 마감 알람 설정 함수(alert)
+					if(planList[i].remindAlarmDate != undefined) {
+						if((new Date(planList[i].remindAlarmDate).getTime() < new Date().getTime()) ) {
+							if(new Date(planList[i].endDate).getMonth() > new Date().getMonth()) {
+								alert(planList[i].title + "마감 알람입니다!");
+							}
+							if(new Date(planList[i].endDate).getMonth() == new Date().getMonth()) {
+								if(new Date(planList[i].endDate).getDate() >= new Date().getDate()) {
+									alert(planList[i].title + "마감 알람입니다!");
+								}
+							}
+							
+							
+						}
+					}
+					
+				}
+			}
 		},
 		error: function () {
 			alert("연결실패!")
@@ -29,8 +50,24 @@ window.onload = function () {
 
 	// 검색 기능
 	document.getElementById("searchButton").onclick = searchFunction;
-	document.getElementById("search").onkeyup = function (e) { enterkey(e); }
+	
+	document.getElementById("search").onkeyup = processChange;
+	
+
+	
 };
+
+function debounce(func, timeout = 300) {
+	let timer;
+	return (...args) => {
+	  clearTimeout(timer);
+	  timer = setTimeout(() => {
+		func.apply(this, args);
+	  }, timeout);
+	};
+  }
+  
+  const processChange = debounce(() => searchFunction());
 
 function enterkey(e) {
 	if (e.keyCode == 13) {
@@ -131,9 +168,11 @@ function showTodoList() {
 	let planTitle = null;
 	let planEndDate = null;
 	let childNodes = '';
+	let planAlarmDate = null;
 
 	for (let i = 0; i < planList.length; i++) {
 		planTitle = planList[i].title;
+		planAlarmDate = planList[i].remindAlarmDate;
 		planEndDate = planList[i].endDate;
 		planListDel = planList[i].planId;
 		planListComp = planList[i].planId;
@@ -155,15 +194,36 @@ function showTodoList() {
 		<span class="deleteButton" onclick="deletePlanner(${planListDel})"><b>X</b></span>
 	</div>
 </li>`;
+
+		
 	}
 	document.getElementById("plannersEle").innerHTML = childNodes;
-	for(let i=0;i<planList.length;i++) {
+  for(let i=0;i<planList.length;i++) {
     $(`#listTitle-${i}`).attr({
       "data-bs-toggle":"offcanvas",
       "data-bs-target":"#detailPlan"
     }).data("plan", planList[i])
     .on("click", getDetailList);
   }
+
+	for(let i=0; i<planList.length; i++) {
+		let planAlarmDate = planList[i].remindAlarmDate;
+		let planEndDate = planList[i].endDate;
+		let planComplete = planList[i].complete;
+		if(planAlarmDate != null) {
+			// 마감 알람 울린 플랜에 애니메이션 효과 주기
+			if(new Date(planAlarmDate).getTime() < new Date().getTime()) {
+				if(planComplete === 'N') {
+					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;" );
+				}
+			}
+		}
+		// 마감 기한이 지난 플랜에 스타일 주기
+		if(new Date(planEndDate).getDate() < new Date().getDate()) {
+			document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 1px solid red;");
+		}
+
+	}
 }
 
 function deletePlanner(index) {
@@ -295,5 +355,43 @@ function initializeDateInput() {
 	dateInput.value = today;
 	dateInput2.value = today;
 }
+
+// // 다크 모드 적용
+// document.addEventListener("DOMContentLoaded", function() {
+//     const darkModeToggle = document.getElementById("switch");
+//     const body = document.body;
+
+//     // 초기화: 저장된 테마 모드가 있으면 적용, 없으면 시스템 설정에 따라 초기화
+//     if (localStorage.getItem("darkMode") === "enabled") {
+//         enableDarkMode();
+//     } else if (localStorage.getItem("darkMode") === "disabled") {
+//         disableDarkMode();
+//     } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+//         enableDarkMode();
+//     }
+
+//     // 다크 모드 전환 버튼 클릭 시 토글
+//     darkModeToggle.addEventListener("click", () => {
+		
+//         if (body.classList.contains("dark-mode")) {
+//             disableDarkMode();
+//         } else {
+//             enableDarkMode();
+//         }
+//     });
+
+//     // 다크 모드 활성화
+//     function enableDarkMode() {
+//         body.classList.add("dark-mode");
+//         localStorage.setItem("darkMode", "enabled");
+//     }
+
+//     // 다크 모드 비활성화
+//     function disableDarkMode() {
+//         body.classList.remove("dark-mode");
+//         localStorage.setItem("darkMode", "disabled");
+//     }
+// });
+
 
 
