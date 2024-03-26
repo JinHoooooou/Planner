@@ -184,7 +184,7 @@ function showTodoList() {
 			<input type="checkbox" name="complete" value="complete"
 				class="comRadio" onchange="completePlanner(${planListComp})"
 				${planComplete === 'Y' ? 'checked' : ''}
-				><strong id="listTitle-${planId}" ${planComplete === 'Y' ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "' : ''}>
+				><strong id="listTitle" ${planComplete === 'Y' ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "' : ''}>
 					${planTitle}
 				</strong>
 		</div>

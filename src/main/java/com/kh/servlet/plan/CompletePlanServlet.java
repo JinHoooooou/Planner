@@ -1,6 +1,8 @@
 package com.kh.servlet.plan;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import com.kh.model.dao.PlanDao;
 import com.kh.model.vo.Plan;
@@ -32,7 +34,7 @@ public class CompletePlanServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		if(result != 0) {
 		List<Plan> list = new PlanDao().findByWriter(userId);
-		HttpSession session = request.getSession();
+		
 		session.setAttribute("planList", list);
 		response.sendRedirect("/plan/showPlanForm.jsp");
 		} else {
