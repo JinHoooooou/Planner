@@ -1,11 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/kh/servlet/DeletePlanServlet.java
-package com.kh.Servlet;
-
-import java.io.IOException;
-import java.util.List;
-=======
 package com.kh.servlet.plan;
->>>>>>> ab3f356bc423c7620c2e10c7dc3a766c08bbcd29:src/main/java/com/kh/servlet/plan/DeletePlanServlet.java
 
 import com.kh.model.dao.PlanDao;
 import jakarta.servlet.ServletException;
@@ -13,6 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -28,7 +23,8 @@ public class DeletePlanServlet extends HttpServlet {
     request.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charset=utf-8");
     response.setCharacterEncoding("utf-8");
-    String userId = "validUserId0";
+    HttpSession session = request.getSession();
+    String userId = (String)session.getAttribute("userId");
     String planIdS = request.getParameter("planId");
     int planId = Integer.parseInt(planIdS);
     int result = new PlanDao().deleteByPlanIdAndWriter(planId, userId);

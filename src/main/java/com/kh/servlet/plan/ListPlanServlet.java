@@ -1,18 +1,22 @@
 package com.kh.servlet.plan;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.kh.model.dao.PlanDao;
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.Plan;
 import com.kh.model.vo.User;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class ShowPlanController
@@ -20,13 +24,20 @@ import org.json.JSONObject;
 @WebServlet("/plan/list")
 public class ListPlanServlet extends HttpServlet {
 
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     request.setCharacterEncoding("utf-8");
     response.setCharacterEncoding("utf-8");
     response.setContentType("application/json");
-    String userId = "validUserId0";
-    String titleKeyword = request.getParameter("search");
+    HttpSession session = request.getSession();
+    String userId = (String)session.getAttribute("userId");
+//    String titleKeyword = request.getParameter("search");
+    
     List<Plan> planList = new PlanDao().findByWriter(userId);
     User user = new UserDao().findByUserId(userId);
     JSONObject responseBody = new JSONObject();
