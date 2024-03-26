@@ -18,11 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class ShowPlanController
- */
 @WebServlet("/plan/list")
 public class ListPlanServlet extends HttpServlet {
+
 
   /**
 	 * 
@@ -41,26 +39,25 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     List<Plan> planList = new PlanDao().findByWriter(userId);
     User user = new UserDao().findByUserId(userId);
     JSONObject responseBody = new JSONObject();
-    JSONArray planJsonList = new JSONArray();
+    responseBody.put("nickname", loginUser.getNickname());
 
+    List<Plan> planList = new PlanDao().findByWriter(loginUser.getUserId());
+    JSONArray jsonArray = new JSONArray();
     for (Plan plan : planList) {
       JSONObject planJson = new JSONObject();
-
+      planJson.put("planId", plan.getPlanId());
       planJson.put("title", plan.getTitle());
       planJson.put("startDate", plan.getStartDate());
       planJson.put("endDate", plan.getEndDate());
       planJson.put("remindAlarmDate", plan.getRemindAlarmDate());
-      planJson.put("planId", plan.getPlanId());
       planJson.put("complete", plan.getComplete());
-      planJsonList.put(planJson);
+      jsonArray.put(planJson);
     }
-    responseBody.put("planList", planJsonList);
-    responseBody.put("nickname", user.getNickname());
+    responseBody.put("planList", jsonArray);
 
-    response.setStatus(200);
-    response.getWriter().print(responseBody.toString());
-    response.getWriter().close();
+    resp.setStatus(HttpServletResponse.SC_OK);
+    resp.getWriter().write(responseBody.toString());
+    resp.getWriter().flush();
+    resp.getWriter().close();
   }
-
-
 }

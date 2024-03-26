@@ -21,9 +21,26 @@ body {
     gap: 10px;
 }
 
+header a {
+    text-decoration: none;
+    color: black;
+}
+
 header .btn {
     background-color: #f0f3f6;
     border: 0px solid black;
+}
+
+header ul {
+    list-style: none;
+    padding: 0;
+}
+
+header li {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
 /* main */
@@ -189,6 +206,7 @@ main strong {
     margin-left: -10px;
 }
 
+
 /* 다크모드*/
 .wrapper { position: relative; }
 #switch {
@@ -258,5 +276,3 @@ main strong {
       color: white;
     }
   }
-
- 

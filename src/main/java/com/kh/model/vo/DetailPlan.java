@@ -1,5 +1,8 @@
 package com.kh.model.vo;
 
+import com.kh.model.dao.PlanDao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -7,13 +10,16 @@ import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.json.JSONObject;
 
 @Data
 @AllArgsConstructor
 @Builder
 public class DetailPlan {
 
-  private static String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+  private static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+  private static String DATE_FORMAT = "yyyy-MM-dd";
+  private static String TIME_FORMAT = "HH:mm";
 
   private int detailPlanId;
   private int planId;
@@ -22,7 +28,7 @@ public class DetailPlan {
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private LocalDateTime remindAlarmTime;
-  private boolean complete;
+  private String complete;
   private LocalDateTime createDate;
 
   public static DetailPlan from(ResultSet resultSet) throws SQLException {
@@ -31,16 +37,91 @@ public class DetailPlan {
         .planId(resultSet.getInt("PLAN_ID"))
         .writer(resultSet.getString("WRITER"))
         .contents(resultSet.getString("CONTENTS"))
-        .startTime(parse(resultSet.getString("START_TIME")))
-        .endTime(parse(resultSet.getString("END_TIME")))
-        .remindAlarmTime(parse(resultSet.getString("REMIND_ALARM_TIME")))
-        .createDate(parse(resultSet.getString("CREATE_DATE")))
-        .complete(resultSet.getBoolean("COMPLETE"))
+        .startTime(parseLocalDateTime(resultSet.getString("START_TIME")))
+        .endTime(parseLocalDateTime(resultSet.getString("END_TIME")))
+        .remindAlarmTime(parseLocalDateTime(resultSet.getString("REMIND_ALARM_TIME")))
+        .createDate(parseLocalDateTime(resultSet.getString("CREATE_DATE")))
+        .complete(resultSet.getString("COMPLETE"))
         .build();
   }
 
-  private static LocalDateTime parse(String sqlDate) {
+  private static LocalDateTime parseLocalDateTime(String sqlDate) {
     return sqlDate == null ? null :
-        LocalDateTime.parse(sqlDate, DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_FORMAT));
+        LocalDateTime.parse(sqlDate, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
+  }
+
+  public static DetailPlan postRequestDto(HttpServletRequest req, Object user)
+      throws NullPointerException, IllegalArgumentException {
+    String planId = req.getParameter("planIdForDetail");
+    String contents = req.getParameter("detailContents");
+    String startDate = req.getParameter("detailStartDate");
+    String startTime = req.getParameter("detailStartTime");
+    String endTime = req.getParameter("detailEndTime");
+
+    DetailPlan newDetail = DetailPlan.builder()
+        .planId(Integer.parseInt(planId))
+        .writer(String.valueOf(user))
+        .contents(contents.trim())
+        .startTime(LocalDateTime.parse(startDate + startTime, DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)))
+        .endTime(LocalDateTime.parse(startDate + endTime, DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)))
+        .complete("N")
+        .build();
+
+    Plan parent = new PlanDao().findByPlanId(Integer.parseInt(planId));
+    LocalDateTime planStartDate = parent.getStartDate().toLocalDate().atStartOfDay();
+    LocalDateTime planEndDate = parent.getEndDate().toLocalDate().atStartOfDay();
+
+    if (newDetail.getStartTime().isBefore(planStartDate) || newDetail.getStartTime().isAfter(planEndDate)) {
+      throw new ValidationException("invalid start date");
+    }
+
+    if (newDetail.getStartTime().isAfter(newDetail.getEndTime())) {
+      throw new ValidationException("invalid start/end time");
+    }
+
+    return newDetail;
+  }
+
+  public DetailPlan putRequestDto(JSONObject requestBody) throws NullPointerException, IllegalArgumentException {
+    String updateContents = requestBody.getString("updateContents");
+    String updateStartDate = requestBody.getString("updateStartDate");
+    String updateStartTime = requestBody.getString("updateStartTime");
+    String updateEndTime = requestBody.getString("updateEndTime");
+    String updateAlarmTime = requestBody.getString("updateRemindAlarmTime");
+
+    this.setContents(updateContents.trim());
+    this.setStartTime(LocalDateTime.parse(updateStartDate + updateStartTime,
+        DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)));
+    this.setEndTime(LocalDateTime.parse(updateStartDate + updateEndTime,
+        DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)));
+    this.setRemindAlarmTime(updateAlarmTime.isEmpty() ? null : LocalDateTime.parse(updateAlarmTime));
+
+    return this;
+  }
+
+  public JSONObject responseDto() {
+    JSONObject result = new JSONObject();
+    result.put("detailPlanId", this.getDetailPlanId());
+    result.put("planId", this.getPlanId());
+    result.put("contents", this.getContents());
+    result.put("startDate", this.getStartDateString());
+    result.put("startTime", this.getStartTimeString());
+    result.put("endTime", this.getEndTimeString());
+    result.put("remindAlarmTime", this.getRemindAlarmTime());
+    result.put("complete", this.getComplete());
+
+    return result;
+  }
+
+  public String getStartDateString() {
+    return this.getStartTime().format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+  }
+
+  public String getStartTimeString() {
+    return this.getStartTime().format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+  }
+
+  public String getEndTimeString() {
+    return this.getEndTime().format(DateTimeFormatter.ofPattern(TIME_FORMAT));
   }
 }
