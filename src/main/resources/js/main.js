@@ -104,7 +104,7 @@ function drawPlanList(response) {
 	document.getElementById("endDateDESC").onclick = function () { sortEndDateDESC(planList); }
 	document.getElementById("startDateASC").onclick = function () { sortStartDateASC(planList); }
 	document.getElementById("startDateDESC").onclick = function () { sortStartDateDESC(planList); }
-	document.getElementById("userIdInfo").innerHTML = response.nickname;
+	document.getElementById("nickname").innerHTML = response.nickname;
 }
 
 function searchFunction() {
@@ -145,7 +145,7 @@ function showTodoList() {
 			<input type="checkbox" name="complete" value="complete"
 				class="comRadio" onchange="completePlanner(${planListComp})"
 				${planComplete === 'Y' ? 'checked' : ''}
-				><strong id="listTitle" ${planComplete === 'Y' ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "' : ''}>
+				><strong id="listTitle-${i}" ${planComplete === 'Y' ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "' : ''}>
 					${planTitle}
 				</strong>
 		</div>
@@ -157,6 +157,13 @@ function showTodoList() {
 </li>`;
 	}
 	document.getElementById("plannersEle").innerHTML = childNodes;
+	for(let i=0;i<planList.length;i++) {
+    $(`#listTitle-${i}`).attr({
+      "data-bs-toggle":"offcanvas",
+      "data-bs-target":"#detailPlan"
+    }).data("plan", planList[i])
+    .on("click", getDetailList);
+  }
 }
 
 function deletePlanner(index) {
