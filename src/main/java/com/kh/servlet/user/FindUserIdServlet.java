@@ -19,11 +19,11 @@ public class FindUserIdServlet extends HttpServlet {
 
     PrintWriter out = resp.getWriter();
     String userName = req.getParameter("userName");
-    String nickname = req.getParameter("nickname");
+    String phone = req.getParameter("phone");
 
-    User user = new UserDao().findByNickname(nickname);
+    User user = new UserDao().findIdByUserName(userName);
 
-    if (user != null && user.getUserName().equals(userName)) {
+    if (user != null && user.getPhone().equals(phone)) {
       resp.setStatus(HttpServletResponse.SC_OK);
       out.println(user.getUserId());
     } else {

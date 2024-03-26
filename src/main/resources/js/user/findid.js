@@ -1,17 +1,17 @@
 $("#youid").click(function(event) {
     let userName = $('#userName').val();
-    let nickname = $('#nickname').val();
+    let phone = $('#phone').val();
 
     $.ajax({
-        url: `/user/findid?userName=${userName}&nickname=${nickname}`,
+        url: `/user/findid?userName=${userName}&phone=${phone}`,
         type: "GET",
         dataType:"html",
         data:{
             userName : $('#userName').val(),
-            nickname : $('#nickname').val()
+            phone : $('#phone').val()
         },
         success: function (data) {
-            if(confirm(userName+"("+nickname+")"+"님의 아이디는"+data+"입니다. 로그인하시겠습니까?")) {
+            if(confirm(userName+"님의 아이디는"+data+"입니다. 로그인하시겠습니까?")) {
                 document.location.href = "./signin.html"
             }
         },
