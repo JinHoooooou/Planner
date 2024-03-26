@@ -37,11 +37,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 //    String titleKeyword = request.getParameter("search");
     
     List<Plan> planList = new PlanDao().findByWriter(userId);
-    User user = new UserDao().findByUserId(userId);
+    User loginUser = new UserDao().findByUserId(userId);
     JSONObject responseBody = new JSONObject();
     responseBody.put("nickname", loginUser.getNickname());
 
-    List<Plan> planList = new PlanDao().findByWriter(loginUser.getUserId());
     JSONArray jsonArray = new JSONArray();
     for (Plan plan : planList) {
       JSONObject planJson = new JSONObject();
@@ -55,9 +54,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     }
     responseBody.put("planList", jsonArray);
 
-    resp.setStatus(HttpServletResponse.SC_OK);
-    resp.getWriter().write(responseBody.toString());
-    resp.getWriter().flush();
-    resp.getWriter().close();
+    response.setStatus(HttpServletResponse.SC_OK);
+    response.getWriter().write(responseBody.toString());
+    response.getWriter().flush();
+    response.getWriter().close();
   }
 }
