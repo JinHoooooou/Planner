@@ -1,7 +1,7 @@
 function getDetailList() {
   let plan = $(this).data("plan");
   $.ajax({
-    url: "/detail/list",
+    url: "/details",
     type: "GET",
     data: { planId: plan.planId },
     dataType: "json",
@@ -92,7 +92,7 @@ function accordionBody(detail) {
     <div class="accordion-body p-2">
       <div class="container">
         <div class="row">
-          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents ?? ""}</textarea>
+          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents.trim()}</textarea>
           <div class="col-5">
             <div class="row justify-content-center">
               <div class="col-8">
@@ -110,7 +110,7 @@ function accordionBody(detail) {
             <div class="row justify-content-end">
               <div class="col-9">
                 <input class="form-control-plaintext updateInput" type="datetime-local" 
-                  value="${detail.remindAlarmTime}"/>
+                  value="${detail.remindAlarmTime??""}"/>
               </div>
             </div>
           </div>
@@ -264,7 +264,7 @@ function renderCreateDetailForm() {
 function requestCreateDetail(event) {
   event.preventDefault()
   $.ajax({
-    url: "/detail",
+    url: "/details",
     type: "POST",
     contentType: "application/x-www-form-urlencoded",
     data: $(this).serialize(),
