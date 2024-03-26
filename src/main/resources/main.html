@@ -26,33 +26,41 @@
   <!-- Header Section Start -->
   <header>
     <h1 class="mainTitle">
-      <b id="confession"><a href="/main.html">Plan 작성하기</a></b>
+      <b id="confession"><a class="head-title" href="/main.html">Plan 작성하기</a></b>
     </h1>
-    <div id="headerIcons" style="max-width: 800px; margin: 20px auto;">
-      <button class="btn btn-secondary" type="button">
+    <div id="headerIcons" style="max-width: 800px; margin: 20px auto;" >
+      <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" data-bs-target="#darkMode">
         <i class="fas fa-cog" style="color: black; font-size: 30px;"></i>
       </button>
-      <button class="btn btn-secondary" data-bs-target="#userInfo" data-bs-toggle="dropdown" type="button">
+      <ul class="dropdown-menu" id="darkMode"  style=" flex-direction: column; justify-content: flex-end; padding-bottom: 0px; height: 70px;">
+        <li><div align="center"><b>다크모드</b></div> <div class="wrapper" align="center">
+          <input type="checkbox" id="switch">
+          <label for="switch" class="switch_label">
+            <span class="onf_btn"></span>
+          </label>
+        </div></li>
+      </ul>
+      <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="dropdown" data-bs-target="#userInfo">
         <i class="fas fa-user" style="color: black; font-size: 30px;"></i>
       </button>
       <ul class="dropdown-menu" id="userInfo"
         style="flex-direction: column; justify-content: flex-end; padding-bottom: 0px; height: 96px;">
-        <li style="border: 0px solid black; text-align: center; height: 55px;">
+        <li style="border-bottom: 0.5px solid lightgray; text-align: center; height: 66px;">
           <i class="fas fa-user" style="color: black; font-size: 30px;"></i>
           <div id="nickname"></div>
         </li>
         <div style="display: flex; text-align: center;">
           <li
-            style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px">
-            <b><a href="/user/signin.html" style="color: black;">로그아웃</a></b>
+            style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 2px; border-top:1px; border-bottom: 0px; border-left: 0px; border-right: 0px">
+            <b><a href="/user/signin.html" style="color: black; text-decoration: none;">로그아웃</a></b>
           </li>
           <li
-            style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 0px; border-bottom: 0px; border-right: 0px; background-color: black; color: #fff;">
-            <b><a href="/user/mypage.html" style="color: white;">마이페이지</a></b>
+            style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 2px; border-bottom: 0px; border-right: 0px; background-color: black; color: #fff;">
+            <b><a href="/user/mypage.html" style="color: white; text-decoration: none;">마이페이지</a></b>
           </li>
         </div>
       </ul>
-      <button class="btn btn-secondary" type="button">
+      <button class="btn btn-secondary btn-sm" type="button">
         <i class="fas fa-chart-bar" style="color: black; font-size: 30px;"></i>
       </button>
     </div>
@@ -125,11 +133,11 @@
         <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" style="background-color: #fff;">
           <i class="fa-solid fa-arrow-down-wide-short" style="color: black; font-size: 30px;"></i>
         </button>
-        <ul class="dropdown-menu">
-          <li style="border: 0px;" id="endDateASC">마감일 오름차순</li>
-          <li style="border: 0px;" id="endDateDESC">마감일 내림차순</li>
-          <li style="border: 0px;" id="startDateASC">시작일 오름차순</li>
-          <li style="border: 0px;" id="startDateDESC">시작일 내림차순</li>
+        <ul class="dropdown-menu" style="padding-bottom: 0px;">
+          <li style="border: 0px;" id="endDateASC" align="center"><b>* 마감일 오름차순</b></li>
+          <li style="border: 0px;" id="endDateDESC" align="center"><b>* 마감일 내림차순</b></li>
+          <li style="border: 0px;" id="startDateASC" align="center"><b>* 시작일 오름차순</b></li>
+          <li style="border: 0px;" id="startDateDESC" align="center"><b>* 시작일 내림차순</b></li>
         </ul>
       </div>
       <ul id="plannersEle"></ul>

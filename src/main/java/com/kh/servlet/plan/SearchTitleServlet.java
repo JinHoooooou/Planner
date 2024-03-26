@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.List;
 import org.json.JSONArray;
@@ -25,7 +27,8 @@ public class SearchTitleServlet extends HttpServlet {
     request.setCharacterEncoding("utf-8");
     response.setCharacterEncoding("utf-8");
     String keyWord = request.getParameter("search");
-    String userId = "validUserId0";
+    HttpSession session = request.getSession();
+    String userId = (String)session.getAttribute("userId");
     List<Plan> planList = new PlanDao().findByWriterAndTitleContaining(userId, keyWord);
     User user = new UserDao().findByUserId(userId);
     JSONObject responseBody = new JSONObject();
