@@ -25,7 +25,7 @@ public class ListDetailServlet extends HttpServlet {
 
     try {
       List<DetailPlan> details =
-          new DetailPlanDao().findByWriterAndPlanId(String.valueOf(writer),
+          new DetailPlanDao().findByWriterAndPlanIdOrderByDetailPlanId(String.valueOf(writer),
               Integer.parseInt(planId));
 
       JSONObject responseBody = new JSONObject();
