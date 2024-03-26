@@ -1,39 +1,38 @@
 body {
-    background-color: rgb(233, 236, 251);
+    background-color: #f0f3f6;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-  }
-
-  form {
+}
+form {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-  }
-
-  label {
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 300px;
+    text-align: center;
+}
+label {
     display: block;
     margin-bottom: 8px;
-  }
+    color: #555;
+}
 
-  input[type="text"],
-  input[type="password"],
-  input[type="email"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 16px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+}
 
-  button {
+button {
     color: #fff;
     padding: 10px;
     border: none;
@@ -41,10 +40,9 @@ body {
     cursor: pointer;
     width: 100%;
     margin-bottom: 16px;
-  }
-
-  input[type="submit"] {
-    background-color: #4caf50;
+}
+input[type="submit"] {
+    background-color: black;
     color: #fff;
     padding: 10px;
     border: none;
@@ -52,28 +50,23 @@ body {
     cursor: pointer;
     width: 100%;
     margin-bottom: 16px;
-  }
+}
 
-  input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-
-  .message {
+.message {
     margin-top: 16px;
     color: #333;
-  }
+}
 
-  .check-duplicate-btn {
+.checkDuplicateBtn {
     display: inline-block;
-    margin-left: 8px;
     padding: 8px;
-    background-color: #2196F3;
+    background-color: black;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
+}
 
-  .check-duplicate-btn:hover {
-    background-color: #0b7dda;
-  }
+div{
+    font-size: 11px;
+}
