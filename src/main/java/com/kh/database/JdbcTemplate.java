@@ -1,6 +1,5 @@
 package com.kh.database;
 
-import com.kh.KeyHolder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

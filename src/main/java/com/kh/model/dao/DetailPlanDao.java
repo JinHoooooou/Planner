@@ -1,6 +1,6 @@
 package com.kh.model.dao;
 
-import com.kh.KeyHolder;
+import com.kh.database.KeyHolder;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
 import com.kh.model.vo.DetailPlan;

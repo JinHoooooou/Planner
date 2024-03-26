@@ -1,4 +1,4 @@
-package com.kh;
+package com.kh.database;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
