@@ -90,7 +90,9 @@ public class DetailServlet extends HttpServlet {
 
     String[] parts = req.getRequestURI().split("/");
     String detailPlanId = parts[parts.length - 1];
-    String complete = req.getParameter("complete");
+    BufferedReader reader = req.getReader();
+    JSONObject requestBody = new JSONObject(reader.readLine());
+    String complete = requestBody.getString("complete");
     new DetailPlanDao().updateCompleteByDetailPlanIdAndWriter(
         Integer.parseInt(detailPlanId), String.valueOf(user), complete);
 
