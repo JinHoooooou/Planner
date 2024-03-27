@@ -211,7 +211,7 @@ function showTodoList() {
 		let planEndDate = planList[i].endDate;
 		let planComplete = planList[i].complete;
 		if(planAlarmDate != null) {
-			// 마감 알람 울린 플랜에 애니메이션 효과 주기
+			
 			if(new Date(planAlarmDate).getTime() < new Date().getTime()) {
 				if(planComplete === 'N') {
 					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;" );
@@ -219,8 +219,15 @@ function showTodoList() {
 			}
 		}
 		// 마감 기한이 지난 플랜에 스타일 주기
-		if(new Date(planEndDate).getDate() < new Date().getDate()) {
+
+		if(new Date(planEndDate).getMonth() < new Date().getMonth()) {
 			document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 1px solid red;");
+		}
+
+		if(new Date(planEndDate).getMonth() === new Date().getMonth()) {
+			if(new Date(planEndDate).getDate() < new Date().getDate()) {
+				document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 1px solid red;");
+			}
 		}
 
 	}
