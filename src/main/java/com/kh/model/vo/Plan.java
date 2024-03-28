@@ -62,15 +62,15 @@ public class Plan {
         : Date.valueOf(req.getParameter("remindAlarmDate"));
 
     if (title == null || title.isEmpty()) {
-      throw new ValidationException("invalid title");
+      throw new ValidationException("Title이 유효하지 않습니다.");
     }
     if (startDate.after(endDate)) {
-      throw new ValidationException("invalid start/end date");
+      throw new ValidationException("start/end date가 유효하지 않습니다.");
     }
 
     if (remindAlarmDate != null
         && (remindAlarmDate.before(startDate) || remindAlarmDate.after(endDate))) {
-      throw new ValidationException("invalid alarm date");
+      throw new ValidationException("alarm date가 유효하지 않습니다.");
     }
 
     return Plan.builder()
@@ -102,25 +102,25 @@ public class Plan {
     String updateRemindAlarmDate = requestBody.getString("remindAlarmDate");
 
     if (updateTitle == null || updateTitle.isEmpty()) {
-      throw new ValidationException("invalid title");
+      throw new ValidationException("Title이 유효하지 않습니다.");
     }
 
     if (updateStartDate == null || updateStartDate.isEmpty()
         || updateEndDate == null || updateEndDate.isEmpty()) {
-      throw new ValidationException("invalid start/end date");
+      throw new ValidationException("start/end date가 유효하지 않습니다.");
     }
 
     if (Date.valueOf(updateStartDate).after(Date.valueOf(updateEndDate))) {
-      throw new ValidationException("invalid start/end date");
+      throw new ValidationException("start/end date가 유효하지 않습니다.");
     }
 
     if (updateRemindAlarmDate == null) {
-      throw new ValidationException("invalid remind alarm date");
+      throw new ValidationException("alarm date가 유효하지 않습니다.");
     }
     if (!updateRemindAlarmDate.isEmpty()
         && (Date.valueOf(updateRemindAlarmDate).before(Date.valueOf(updateStartDate))
         || Date.valueOf(updateRemindAlarmDate).after(Date.valueOf(updateEndDate)))) {
-      throw new ValidationException("invalid remind alarm date");
+      throw new ValidationException("alarm date가 유효하지 않습니다.");
     }
 
     this.setTitle(updateTitle.trim());
