@@ -30,16 +30,16 @@ public class CompletePlanServlet extends HttpServlet {
 		Plan p = new Plan();
 		p.setWriter(userId);
 		p.setPlanId(planId);
-		int result = new PlanDao().completePlan(p);
-		PrintWriter out = response.getWriter();
-		if(result != 0) {
-		List<Plan> list = new PlanDao().findByWriter(userId);
-		
-		session.setAttribute("planList", list);
-		response.sendRedirect("/plan/showPlanForm.jsp");
-		} else {
-			response.setStatus(400);
-		}
+//		int result = new PlanDao().updateCompleteByPlanIdAndWriter();
+//		PrintWriter out = response.getWriter();
+//		if(result != 0) {
+//		List<Plan> list = new PlanDao().findByWriter(userId);
+//
+//		session.setAttribute("planList", list);
+//		response.sendRedirect("/plan/showPlanForm.jsp");
+//		} else {
+//			response.setStatus(400);
+//		}
 //		if(result != 0) {
 //		List<Plan> list = new PlanDao().findByWriter(userId);
 //		HttpSession session = request.getSession();

@@ -1,113 +1,80 @@
-$('#userId').blur(function(event) {
-    let userId = $('#userId').val();
-    const reg = /^[A-Za-z][A-Za-z0-9_]{7,16}$/;
-    if (!reg.test(userId)){
-        $('#idarea').html("영문자로 시작해야 하며 8~16자의 영문자, 숫자, _를 사용해야합니다.");
-    } else {
-        $('#idarea').html("");
+const userIdRegex = /^[A-Za-z][A-Za-z0-9_]{7,16}$/
+const nicknameRegex = /^[가-힣a-zA-Z0-9]{3,20}$/
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+]).{8,20}$/
+
+$(window).ready(function () {
+
+  $("#userIdDuplicateButton").on("click", requestDuplicateUserId)
+  $("#nicknameDuplicateButton").on("click", requestDuplicateNickname)
+  $("#signUpForm").on("submit", requestSignUp)
+  $('#userId').on("blur", function () {
+    $('#userIdErrorMessage').text(!userIdRegex.test($(this).val()) ? "영문자로 시작해야 하며 8~16자의 영문자, 숫자, _를 사용해야합니다." : "");
+  });
+  $("#userPw").on("blur", function () {
+    $('#userPwErrorMessage').text(!passwordRegex.test($(this).val()) ? "8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해야합니다." : "");
+  })
+  $('#userPwConfirm').on("blur", function () {
+    $('#userPwConfirmErrorMessage').text($(this).val() !== $("#userPw").val() ? "비밀번호와 비밀번호 확인이 일치하지 않습니다" : "");
+  })
+  $('#nickname').on("blur", function () {
+    $("#nicknameErrorMessage").text(!nicknameRegex.test($(this).val()) ? "3~20자의 한글, 영문, 숫자를 사용해야합니다." : "")
+  })
+
+})
+
+function requestDuplicateUserId() {
+  let userId = $("#userId").val();
+  if (!userIdRegex.test(userId)) {
+    alert("아이디는 영문자로 시작해야 하며 8~16자의 영문자, 숫자, _를 사용해야합니다.");
+    return;
+  }
+  $.ajax({
+    url: `/user/duplicate/userid/${userId}`,
+    type: "GET",
+    dataType: "json",
+    success: function () {
+      alert("사용 가능한 아이디 입니다.")
+    },
+    error: function (xhr) {
+      alert(xhr.responseJSON.message);
     }
-});
+  })
+}
 
-$('#idcheckDuplicateBtn').click(function(event) {
-    let userId = $('#userId').val();
-    const reg = /^[A-Za-z][A-Za-z0-9_]{7,16}$/;
-    if (!reg.test(userId)){
-        alert("유효한 아이디가 아닙니다.");
-    } else {
-        $.ajax({
-            url: `/user/signup/userid/duplicate?userId=${userId}`,
-            type: "GET",
-            success: function (response, textStatus, xhr){
-                alert("사용 가능한 아이디입니다.");
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                if (xhr.status == 400) {
-                    alert("유효한 아이디가 아닙니다.");
-                } else if (xhr.status == 403) {
-                    alert("이미 사용중인 아이디 입니다.");
-                }
-            }
-        });
+function requestDuplicateNickname() {
+  let nickname = $("#nickname").val();
+  if (nicknameRegex.test(nickname)) {
+    alert("닉네임은 3~20자의 한글, 영문, 숫자를 사용해야합니다.")
+    return;
+  }
+  $.ajax({
+    url: `/user/duplicate/nickname/${nickname}`,
+    type: "GET",
+    dataType: "json",
+    success: function () {
+      alert("사용 가능한 닉네임 입니다.")
+    },
+    error: function (xhr) {
+      alert(xhr.responseJSON.message);
     }
-});
+  })
+}
 
-$('#userPw').blur(function(event) {
-    let userPw = $('#userPw').val();
-    const reg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-    if (!reg.test(userPw)){
-        $('#pwarea').html("영문, 숫자 조합 8~25자리 이상 입력하시오.");
-    } else {
-        $('#pwarea').html("");
+function requestSignUp() {
+  event.preventDefault();
+  let signUpForm = $(this).serialize();
+  $.ajax({
+    url: "/user/signup",
+    type: "POST",
+    contentType: "application/x-www-form-urlencoded",
+    data: signUpForm,
+    dataType: "json",
+    success: function () {
+      alert("회원가입이 완료되었습니다.");
+      document.location.href = '/user/signin.html';
+    },
+    error: function (xhr) {
+      alert(xhr.responseJSON.message)
     }
-});
-
-$('#userPwConfirm').blur(function(event) {
-    let userPw = $('#userPw').val();
-    let userPwConfirm = $('#userPwConfirm').val();
-    if (userPw != userPwConfirm){
-        $('#checkpwarea').html("비밀번호가 일치하지 않습니다");
-    } else {
-        $('#checkpwarea').html("");
-    }
-});
-
-$('#nickname').blur(function(event){
-    let nickname = $('#nickname').val();
-    const reg = /^[가-힣a-zA-Z0-9]{3,20}$/;
-    if (!reg.test(nickname)){
-        $('#nnarea').html("3~20자의 한글, 영문, 숫자를 사용해야합니다");
-    } else {
-        $('#nnarea').html("");
-    }
-});
-
-$('#nicknamecheckDuplicateBtn').click(function(event) {
-    let nickname = $('#nickname').val();
-    const reg = /^[가-힣a-zA-Z0-9]{3,20}$/;
-    if (!reg.test(nickname)){
-        alert("유효한 닉네임이 아닙니다.");
-    } else {
-        $.ajax({
-            url:`/user/signup/nickname/duplicate?nickname=${nickname}`,
-            type: "GET",
-            success: function (response, textStatus, xhr){
-                alert("사용 가능한 닉네임입니다.");
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                if (xhr.status == 400) {
-                    alert("유효한 닉네임이 아닙니다.")
-                } else if (xhr.status == 403) {
-                    alert("이미 사용중인 닉네임 입니다.")
-                }
-            }  
-        });
-    }
-});
-
-
-$(document).ready(function () {
-    $('form').submit(function(event) {
-        event.preventDefault();
-        const reg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-        const nreg = /^[가-힣a-zA-Z0-9]{3,20}$/;
-        const ireg = /^[A-Za-z][A-Za-z0-9_]{7,16}$/;
-        if (!reg.test($('#userPw').val()) || $('#userPw').val() != $('#userPwConfirm').val() || !nreg.test($('#nickname').val()) || !ireg.test($('#userId').val())) {
-            alert("회원가입에 실패하셨습니다");
-        } else {
-            let formData = $(this).serialize();
-            $.ajax({
-                url: "/user/signup",
-                type: "POST",
-                contentType: "application/x-www-form-urlencoded",
-                data: formData,
-                success: function (response, textStatus, xhr) {
-                    alert("회원가입이 완료되었습니다"); 
-                    document.location.href='./signin.html';
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    alert("회원가입에 실패하셨습니다"); 
-                },
-            });
-        }
-    });
-});
+  })
+}

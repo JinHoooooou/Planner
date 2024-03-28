@@ -1,7 +1,8 @@
-package com.kh.servlet.detail;
+package com.kh.servlet.plan;
 
-import com.kh.model.dao.DetailPlanDao;
-import com.kh.model.vo.DetailPlan;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.dao.UserDao;
+import com.kh.model.vo.Plan;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +12,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-@WebServlet(urlPatterns = "/details")
-public class DetailGetPostServlet extends HttpServlet {
+@WebServlet("/plans")
+public class PlanGetPostServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -20,20 +21,18 @@ public class DetailGetPostServlet extends HttpServlet {
     JSONObject responseBody = new JSONObject();
 
     try {
-      String planId = req.getParameter("planId");
-      List<DetailPlan> details = new DetailPlanDao()
-          .findByWriterAndPlanIdOrderByDetailPlanId(String.valueOf(user), Integer.parseInt(planId));
+      String nickname = new UserDao().findByUserId(String.valueOf(user)).getNickname();
+      List<Plan> plans = new PlanDao().findByWriterOrderByEndDate(String.valueOf(user));
+      responseBody.put("nickname", nickname);
+      responseBody.put("planList", buildJsonArray(plans));
 
-      responseBody.put("detailList", buildJsonArray(details));
       resp.setStatus(HttpServletResponse.SC_OK);
-    } catch (NullPointerException | IllegalArgumentException e) {
-      responseBody.put("message", "요청이 잘못 되었습니다.");
-      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    } catch (Exception e) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
     resp.getWriter().write(responseBody.toString());
     resp.getWriter().close();
   }
-
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -41,11 +40,9 @@ public class DetailGetPostServlet extends HttpServlet {
     JSONObject responseBody = new JSONObject();
 
     try {
-      DetailPlan newDetail = DetailPlan.postRequestDto(req, user);
-
-      DetailPlan saved = new DetailPlanDao().save(newDetail);
-      resp.setStatus(HttpServletResponse.SC_CREATED);
-      responseBody = saved.responseDto();
+      Plan newPlan = Plan.postRequestDto(req, user);
+      new PlanDao().save(newPlan);
+      resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
     } catch (Exception e) {
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       responseBody.put("message", e.getLocalizedMessage());
@@ -54,10 +51,10 @@ public class DetailGetPostServlet extends HttpServlet {
     resp.getWriter().close();
   }
 
-  private JSONArray buildJsonArray(List<DetailPlan> details) {
+  private JSONArray buildJsonArray(List<Plan> plans) {
     JSONArray result = new JSONArray();
-    for (DetailPlan detail : details) {
-      result.put(detail.responseDto());
+    for (Plan plan : plans) {
+      result.put(plan.responseDto());
     }
     return result;
   }

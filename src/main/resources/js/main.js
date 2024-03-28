@@ -10,23 +10,21 @@ window.onload = function () {
 			drawPlanList(response);
 			for (let i = 0; i < planList.length; i++) {
 				if (planList[i].complete === 'N') {
-					
+
 					// 마감 알람 설정 함수(alert)
 					if(planList[i].remindAlarmDate != undefined) {
 						if((new Date(planList[i].remindAlarmDate).getTime() < new Date().getTime()) ) {
 							if(new Date(planList[i].endDate).getMonth() > new Date().getMonth()) {
-								alert(planList[i].title + "마감 알람입니다!");
+								$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none")
 							}
 							if(new Date(planList[i].endDate).getMonth() == new Date().getMonth()) {
 								if(new Date(planList[i].endDate).getDate() >= new Date().getDate()) {
-									alert(planList[i].title + "마감 알람입니다!");
+									$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none")
 								}
 							}
-							
-							
 						}
 					}
-					
+
 				}
 			}
 		},
@@ -50,11 +48,11 @@ window.onload = function () {
 
 	// 검색 기능
 	document.getElementById("searchButton").onclick = searchFunction;
-	
-	document.getElementById("search").onkeyup = processChange;
-	
 
-	
+	document.getElementById("search").onkeyup = processChange;
+
+
+
 };
 
 function debounce(func, timeout = 300) {
@@ -66,7 +64,7 @@ function debounce(func, timeout = 300) {
 	  }, timeout);
 	};
   }
-  
+
   const processChange = debounce(() => searchFunction());
 
 function enterkey(e) {
@@ -178,7 +176,7 @@ function showTodoList() {
 		planListComp = planList[i].planId;
 		planComplete = planList[i].complete;
 		childNodes +=
-			`<li>
+			`<li id="plan-${planList[i].planId}">
 		<div class="plannerItem">
 		<div style="display: flex;">
 			<input type="checkbox" name="complete" value="complete"
@@ -189,13 +187,14 @@ function showTodoList() {
 				</strong>
 		</div>
 		<div class="plannerDate">
+			<i id="alarmMessage-${planList[i].planId}" class="bi bi-alarm text-danger d-none"></i>
 			<span id="listEndDate">${planEndDate}</span>
 		</div>
 		<span class="deleteButton" onclick="deletePlanner(${planListDel})"><b>X</b></span>
 	</div>
 </li>`;
 
-		
+
 	}
 	document.getElementById("plannersEle").innerHTML = childNodes;
   for(let i=0;i<planList.length;i++) {
@@ -211,7 +210,7 @@ function showTodoList() {
 		let planEndDate = planList[i].endDate;
 		let planComplete = planList[i].complete;
 		if(planAlarmDate != null) {
-			
+
 			if(new Date(planAlarmDate).getTime() < new Date().getTime()) {
 				if(planComplete === 'N') {
 					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;" );
@@ -233,36 +232,46 @@ function showTodoList() {
 	}
 }
 
-function deletePlanner(index) {
-	let formData = { "planId": index };
-	$.ajax({
-		url: "/delete.pl",
-		type: "get",
-		data: formData,
-		success: function () {
-			alert("삭제 성공!")
-			location.reload();
-		},
-		error: function (error) {
-			alert("삭제 실패!")
-			console.log(error)
-		}
-	})
+function deletePlanner(planId) {
+	if (confirm("정말 삭제하시겠습니까?")) {
+		$.ajax({
+			url: `/plan/${planId}`,
+			type: "DELETE",
+			success: function () {
+				location.reload();
+			},
+			error: function (xhr) {
+				if (xhr.status === 401) {
+					alert("로그인이 필요한 페이지 입니다.");
+					window.location.href = "/user/signin.html";
+				} else {
+					alert("invalid error");
+					location.reload();
+				}
+			}
+		})
+	}
 }
 
-function completePlanner(index) {
-	let formData = { "planId": index };
+function completePlanner(planId) {
+	let formCheckInput = $(`#plan-${planId} .comRadio`);
+	let complete = $(formCheckInput).prop("checked");
 	$.ajax({
-		url: "/complete.pl",
-		type: "get",
-		data: formData,
+		url: `/plan/${planId}`,
+		type: "PATCH",
+		data: JSON.stringify({ "complete": (complete ? "Y" : "N") }),
+		contentType: "application/json",
 		success: function () {
-			alert("완료 성공!")
-			location.reload();
+			location.reload()
 		},
-		error: function (error) {
-			alert("완료 실패!")
-			console.log(error)
+		error: function (xhr) {
+			if (xhr.status === 401) {
+				alert("로그인이 필요한 페이지 입니다.");
+				window.location.href = "/user/signin.html";
+			} else {
+				alert("invalid error");
+				location.reload();
+			}
 		}
 	})
 }
@@ -379,7 +388,7 @@ function initializeDateInput() {
 
 //     // 다크 모드 전환 버튼 클릭 시 토글
 //     darkModeToggle.addEventListener("click", () => {
-		
+
 //         if (body.classList.contains("dark-mode")) {
 //             disableDarkMode();
 //         } else {

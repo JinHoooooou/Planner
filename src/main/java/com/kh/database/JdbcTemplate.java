@@ -55,8 +55,8 @@ public class JdbcTemplate {
     return result.get(0);
   }
 
-  public int getNextVal() {
-    String query = "SELECT SEQ_DETAIL.NEXTVAL FROM DUAL";
+  public int getNextVal(String sequence) {
+    String query = String.format("SELECT %s.NEXTVAL FROM DUAL", sequence);
     RowMapper<KeyHolder> mapper = resultSet -> new KeyHolder(resultSet.getInt(1));
     return executeQueryForOne(query, mapper).getId();
   }

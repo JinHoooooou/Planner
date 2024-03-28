@@ -1,0 +1,95 @@
+package com.kh.servlet.user;
+
+import com.kh.model.dao.UserDao;
+import com.kh.model.vo.User;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.IOException;
+import org.json.JSONObject;
+
+@WebServlet("/user")
+public class UserPutPatchDeleteServlet extends HttpServlet {
+
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    HttpSession session = req.getSession(false);
+    JSONObject responseBody = new JSONObject();
+
+    if (session == null || session.getAttribute("userId") == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      responseBody.put("message", "invalid session");
+      resp.getWriter().write(responseBody.toString());
+      resp.getWriter().close();
+      return;
+    }
+    Object user = session.getAttribute("userId");
+    User target = new UserDao().findByUserId(String.valueOf(user));
+
+    responseBody.put("userId", target.getUserId());
+    responseBody.put("userPw", target.getUserPw());
+    responseBody.put("userName", target.getUserName());
+    responseBody.put("nickname", target.getNickname());
+    responseBody.put("email", target.getEmail());
+    responseBody.put("phone", target.getPhone());
+
+    resp.setStatus(HttpServletResponse.SC_OK);
+    resp.getWriter().write(responseBody.toString());
+    resp.getWriter().close();
+  }
+
+  @Override
+  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    HttpSession session = req.getSession(false);
+    JSONObject responseBody = new JSONObject();
+    if (session == null || session.getAttribute("userId") == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      responseBody.put("message", "invalid session");
+      resp.getWriter().write(responseBody.toString());
+      resp.getWriter().close();
+      return;
+    }
+    Object user = session.getAttribute("userId");
+
+    try {
+      User target = new UserDao().findByUserId(String.valueOf(user));
+      BufferedReader reader = req.getReader();
+      JSONObject requestBody = new JSONObject(reader.readLine());
+      target = target.putRequestDto(requestBody);
+
+      new UserDao().updateUserInfo(target);
+      resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    } catch (Exception e) {
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      resp.getWriter().write(new JSONObject().put("message", e.getLocalizedMessage()).toString());
+      resp.getWriter().close();
+    }
+  }
+
+  @Override
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    HttpSession session = req.getSession(false);
+    JSONObject responseBody = new JSONObject();
+    if (session == null || session.getAttribute("userId") == null) {
+      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      responseBody.put("message", "invalid session");
+      resp.getWriter().write(responseBody.toString());
+      resp.getWriter().close();
+      return;
+    }
+    try {
+      new UserDao().deleteByUserId(String.valueOf(session.getAttribute("userId")));
+
+      resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    } catch (Exception e) {
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      resp.getWriter().write(new JSONObject().put("message", e.getLocalizedMessage()).toString());
+      resp.getWriter().close();
+    }
+  }
+}

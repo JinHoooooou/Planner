@@ -58,6 +58,10 @@ public class DetailPlan {
     String startTime = req.getParameter("detailStartTime");
     String endTime = req.getParameter("detailEndTime");
 
+    if (startDate.isEmpty()) {
+      throw new ValidationException("start date가 유효하지 않습니다.");
+    }
+
     DetailPlan newDetail = DetailPlan.builder()
         .planId(Integer.parseInt(planId))
         .writer(String.valueOf(user))
@@ -69,14 +73,14 @@ public class DetailPlan {
 
     Plan parent = new PlanDao().findByPlanId(Integer.parseInt(planId));
     LocalDateTime planStartDate = parent.getStartDate().toLocalDate().atStartOfDay();
-    LocalDateTime planEndDate = parent.getEndDate().toLocalDate().atStartOfDay();
+    LocalDateTime planEndDate = parent.getEndDate().toLocalDate().plusDays(1).atStartOfDay();
 
     if (newDetail.getStartTime().isBefore(planStartDate) || newDetail.getStartTime().isAfter(planEndDate)) {
-      throw new ValidationException("invalid start date");
+      throw new ValidationException("start date가 유효하지 않습니다.");
     }
 
     if (newDetail.getStartTime().isAfter(newDetail.getEndTime())) {
-      throw new ValidationException("invalid start/end time");
+      throw new ValidationException("start/end time이 유효하지 않습니다.");
     }
 
     return newDetail;
@@ -95,6 +99,18 @@ public class DetailPlan {
     this.setEndTime(LocalDateTime.parse(updateStartDate + updateEndTime,
         DateTimeFormatter.ofPattern(DATE_FORMAT + TIME_FORMAT)));
     this.setRemindAlarmTime(updateAlarmTime.isEmpty() ? null : LocalDateTime.parse(updateAlarmTime));
+
+    Plan parent = new PlanDao().findByPlanId(this.getPlanId());
+    LocalDateTime planStartDate = parent.getStartDate().toLocalDate().atStartOfDay();
+    LocalDateTime planEndDate = parent.getEndDate().toLocalDate().plusDays(1).atStartOfDay();
+
+    if (this.getStartTime().isBefore(planStartDate) || this.getStartTime().isAfter(planEndDate)) {
+      throw new ValidationException("start date가 유효하지 않습니다.");
+    }
+
+    if (this.getStartTime().isAfter(this.getEndTime())) {
+      throw new ValidationException("start/end time이 유효하지 않습니다.");
+    }
 
     return this;
   }

@@ -1,20 +1,15 @@
 package com.kh.model.vo;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.constraints.Pattern;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.json.JSONObject;
 
 @Data
 @AllArgsConstructor
@@ -24,24 +19,11 @@ public class User {
 
   // DB에 사용될 필드
 
-  @Pattern(regexp = "^[A-Za-z][A-Za-z0-9_]{7,16}$"
-      , message = "아이디: 영문자로 시작해야 하며 8~16자의 영문자, 숫자, _를 사용해야합니다.")
   private String userId;
-  @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()-_=+]).{8,20}$"
-      , message = "비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해야합니다.")
   private String userPw;
-  @Pattern(regexp = "^[가-힣]{2,20}$"
-      , message = "이름: 2~20자의 한글을 사용해야합니다."
-  )
   private String userName;
-  @Pattern(regexp = "^[가-힣a-zA-Z0-9]{3,20}$"
-      , message = "닉네임: 3~20자의 한글, 영문, 숫자를 사용해야합니다.")
   private String nickname;
-  @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-      , message = "이메일: 유효하지 않은 이메일입니다.")
   private String email;
-  @Pattern(regexp = "^01[0-9][0-9]{3,4}[0-9]{4}$"
-      , message = "휴대전화번호: 유효하지 않은 휴대전화번호입니다.")
   private String phone;
   private LocalDate enrollDate;
 
@@ -59,8 +41,38 @@ public class User {
         .build();
   }
 
-  public static User dto(HttpServletRequest req) {
-    User user = User.builder()
+  public static User postRequestDto(HttpServletRequest req) throws NullPointerException, IllegalArgumentException {
+    String userId = req.getParameter("userId");
+    String userPw = req.getParameter("userPw");
+    String userPwConfirm = req.getParameter("userPwConfirm");
+    String userName = req.getParameter("userName");
+    String nickname = req.getParameter("nickname");
+    String email = req.getParameter("email");
+    String phone = req.getParameter("phone");
+
+    if (!userId.matches("^[A-Za-z][A-Za-z0-9_]{7,16}$")) {
+      throw new ValidationException("아이디는 영문자로 시작해야 하며 8~16자의 영문자, 숫자, _를 사용해야합니다.");
+    }
+    if (!userPw.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()-_=+]).{8,20}$")) {
+      throw new ValidationException("비밀번호는 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해야합니다.");
+    }
+    if (!userPw.equals(userPwConfirm)) {
+      throw new ValidationException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+    }
+    if (!userName.matches("^[가-힣]{2,20}$")) {
+      throw new ValidationException("이름은 2~20자의 한글을 사용해야합니다.");
+    }
+    if (!nickname.matches("^[가-힣a-zA-Z0-9]{3,20}$")) {
+      throw new ValidationException("닉네임은 3~20자의 한글, 영문, 숫자를 사용해야합니다.");
+    }
+    if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+      throw new ValidationException("유효하지 않은 이메일입니다.");
+    }
+    if (!phone.matches("^01[0-9][0-9]{3,4}[0-9]{4}$")) {
+      throw new ValidationException("유효하지 않은 휴대전화번호입니다.");
+    }
+
+    return User.builder()
         .userId(req.getParameter("userId"))
         .userPw(req.getParameter("userPw"))
         .userPwConfirm(req.getParameter("userPwConfirm"))
@@ -69,29 +81,35 @@ public class User {
         .email(req.getParameter("email"))
         .phone(req.getParameter("phone"))
         .build();
-
-    if (user.equalsPassword()) {
-      return user;
-    }
-    throw new ValidationException("비밀번호: 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-  }
-
-  public void validate() {
-    try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
-      Validator validator = validatorFactory.getValidator();
-      Set<ConstraintViolation<User>> violations = validator.validate(this);
-
-      if (!violations.isEmpty()) {
-        StringBuilder errorMessage = new StringBuilder();
-        for (ConstraintViolation<User> violation : violations) {
-          errorMessage.append(violation.getMessage()).append("\n");
-        }
-        throw new ValidationException(errorMessage.toString());
-      }
-    }
   }
 
   public boolean equalsPassword() {
     return this.getUserPw().equals(this.getUserPwConfirm());
+  }
+
+  public User putRequestDto(JSONObject requestBody) {
+    String userPw = requestBody.getString("userPw");
+    String userPwConfirm = requestBody.getString("userPwConfirm");
+    String email = requestBody.getString("email");
+    String phone = requestBody.getString("phone");
+
+    if (!userPw.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()-_=+]).{8,20}$")) {
+      throw new ValidationException("비밀번호는 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해야합니다.");
+    }
+    if (!userPw.equals(userPwConfirm)) {
+      throw new ValidationException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+    }
+    if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+      throw new ValidationException("유효하지 않은 이메일입니다.");
+    }
+    if (!phone.matches("^01[0-9][0-9]{3,4}[0-9]{4}$")) {
+      throw new ValidationException("유효하지 않은 휴대전화번호입니다.");
+    }
+
+    this.setUserPw(userPw);
+    this.setEmail(email);
+    this.setPhone(phone);
+
+    return this;
   }
 }

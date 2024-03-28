@@ -7,6 +7,7 @@ body {
     align-items: center;
     height: 100vh;
 }
+
 form {
     background-color: #fff;
     border-radius: 10px;
@@ -15,15 +16,18 @@ form {
     width: 300px;
     text-align: center;
 }
+
 label {
     display: block;
     margin-bottom: 8px;
     color: #555;
 }
+
 h2 {
     color: black;
     margin-bottom: 30px;
 }
+
 input {
     width: calc(100% - 20px);
     padding: 12px;
@@ -58,7 +62,7 @@ input[type="submit"] {
     margin: 0 8px;
 }
 
-.link-container a:hover{
+.link-container a:hover {
     text-decoration: underline;
 }
 

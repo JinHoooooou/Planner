@@ -36,7 +36,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     String userId = (String)session.getAttribute("userId");
 //    String titleKeyword = request.getParameter("search");
     
-    List<Plan> planList = new PlanDao().findByWriter(userId);
+    List<Plan> planList = new PlanDao().findByWriterOrderByEndDate(userId);
     User loginUser = new UserDao().findByUserId(userId);
     JSONObject responseBody = new JSONObject();
     responseBody.put("nickname", loginUser.getNickname());
