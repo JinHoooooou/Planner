@@ -1,6 +1,7 @@
 package com.kh.model.vo;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.json.JSONObject;
 
 @Data
 @ToString
@@ -23,7 +25,7 @@ public class Plan {
   private Date startDate;
   private Date endDate;
   private Date remindAlarmDate;
-  private String complete;	// 임시로 Boolean 타입 대신 String으로 변경함!
+  private String complete;
   private Date createDate;
 
   public static Plan from(ResultSet resultSet) throws SQLException {
@@ -49,5 +51,84 @@ public class Plan {
         .complete(String.valueOf(req.getParameter("complete")))
         .createDate(Date.valueOf("create_date"))
         .build();
+  }
+
+  public static Plan postRequestDto(HttpServletRequest req, Object user)
+      throws NullPointerException, IllegalArgumentException {
+    String title = req.getParameter("title");
+    Date startDate = Date.valueOf(req.getParameter("startDate"));
+    Date endDate = Date.valueOf(req.getParameter("endDate"));
+    Date remindAlarmDate = req.getParameter("remindAlarmDate").isEmpty() ? null
+        : Date.valueOf(req.getParameter("remindAlarmDate"));
+
+    if (title == null || title.isEmpty()) {
+      throw new ValidationException("invalid title");
+    }
+    if (startDate.after(endDate)) {
+      throw new ValidationException("invalid start/end date");
+    }
+
+    if (remindAlarmDate != null
+        && (remindAlarmDate.before(startDate) || remindAlarmDate.after(endDate))) {
+      throw new ValidationException("invalid alarm date");
+    }
+
+    return Plan.builder()
+        .writer(String.valueOf(user))
+        .title(title)
+        .startDate(startDate)
+        .endDate(endDate)
+        .remindAlarmDate(remindAlarmDate)
+        .complete("N")
+        .build();
+  }
+
+  public JSONObject responseDto() {
+    JSONObject result = new JSONObject();
+    result.put("planId", this.getPlanId());
+    result.put("title", this.getTitle());
+    result.put("startDate", this.getStartDate());
+    result.put("endDate", this.getEndDate());
+    result.put("remindAlarmDate", this.getRemindAlarmDate());
+    result.put("complete", this.getComplete());
+
+    return result;
+  }
+
+  public Plan putRequestDto(JSONObject requestBody) {
+    String updateTitle = requestBody.getString("title");
+    String updateStartDate = requestBody.getString("startDate");
+    String updateEndDate = requestBody.getString("endDate");
+    String updateRemindAlarmDate = requestBody.getString("remindAlarmDate");
+
+    if (updateTitle == null || updateTitle.isEmpty()) {
+      throw new ValidationException("invalid title");
+    }
+
+    if (updateStartDate == null || updateStartDate.isEmpty()
+        || updateEndDate == null || updateEndDate.isEmpty()) {
+      throw new ValidationException("invalid start/end date");
+    }
+
+    if (Date.valueOf(updateStartDate).after(Date.valueOf(updateEndDate))) {
+      throw new ValidationException("invalid start/end date");
+    }
+
+    if (updateRemindAlarmDate == null) {
+      throw new ValidationException("invalid star");
+    }
+    if (!updateRemindAlarmDate.isEmpty()
+        && (Date.valueOf(updateRemindAlarmDate).before(Date.valueOf(updateStartDate))
+        || Date.valueOf(updateRemindAlarmDate).after(Date.valueOf(updateEndDate)))) {
+      throw new ValidationException("invalid remind alarm date");
+    }
+
+    this.setTitle(updateTitle.trim());
+    this.setStartDate(Date.valueOf(updateStartDate));
+    this.setEndDate(Date.valueOf(updateEndDate));
+    this.setRemindAlarmDate(
+        updateRemindAlarmDate.isEmpty() ? null : Date.valueOf(updateRemindAlarmDate));
+
+    return this;
   }
 }

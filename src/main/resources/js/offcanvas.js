@@ -11,17 +11,46 @@ function getDetailList() {
     },
     error: function (xhr) {
       if (xhr.status === 401) {
-        alert("로그인이 필요한 페이지 입니다.")
-        window.location.href = "user/login.html";
+        alert(xhr.responseJSON.message);
+        window.location.href = "/user/signin.html";
       }
     }
   });
+
+  $("#planUpdateButton").on("click", function () {
+    let updatePlanTitle = $("#planTitle").val();
+    let updatePlanStartDate = $("#planStartDate").val();
+    let updatePlanEndDate = $("#planEndDate").val();
+    let updatePlanRemindAlarmDate = $("#planRemindAlarm").val();
+
+    let planUpdateForm = {
+      "title": updatePlanTitle,
+      "startDate": updatePlanStartDate,
+      "endDate": updatePlanEndDate,
+      "remindAlarmDate": updatePlanRemindAlarmDate
+    }
+
+    $.ajax({
+      url: `/plan/${plan.planId}`,
+      type: "PUT",
+      data: JSON.stringify(planUpdateForm),
+      dataType: "json",
+      success: function () {
+        console.log("success")
+        location.reload();
+      },
+      error: function (xhr) {
+        $("#planUpdateErrorMessage").text(xhr.responseJSON.message)
+          .fadeIn().fadeOut(5000);
+      }
+    })
+  })
 }
 
 function renderOffcanvas(response, plan) {
   renderPlanSection(plan);
   renderList(response.detailList);
-  renderProgress(response.detailList);
+  renderProgress(plan, response.detailList);
 
   // 이벤트
   $("#detailCreateCollapse").on({
@@ -38,7 +67,7 @@ function renderPlanSection(plan) {
   $("#planTitle").val(plan.title);
   $("#planStartDate").val(plan.startDate);
   $("#planEndDate").val(plan.endDate);
-  $("#planRemindAlarm").val(`${plan.remindAlarmDate === null ? '' : plan.remindAlarmDate}`);
+  $("#planRemindAlarm").val(plan.remindAlarmDate ?? '');
   $("#detailCreateCollapse").removeClass("show")
   $("#detailCreateCollapseButton").text("디테일 추가");
   $("#createErrorMessage").empty();
@@ -57,7 +86,7 @@ function appendOneToList(detail) {
   accordionItem.append(accordionBody(detail))
   $("#detailList").append(accordionItem);
 
-  accordionItem.on("change", ".form-check-input", requestComplete);
+  accordionItem.on("change", ".form-check-input", requestDetailComplete);
   accordionItem.on("click", `#detailDeleteButton-${detail.detailPlanId}`, requestDeleteDetail);
   accordionItem.on("hide.bs.collapse", requestUpdateDetail);
 }
@@ -92,7 +121,7 @@ function accordionBody(detail) {
     <div class="accordion-body p-2">
       <div class="container">
         <div class="row">
-          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents.trim()}</textarea>
+          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents}</textarea>
           <div class="col-5">
             <div class="row justify-content-center">
               <div class="col-8">
@@ -110,7 +139,7 @@ function accordionBody(detail) {
             <div class="row justify-content-end">
               <div class="col-9">
                 <input class="form-control-plaintext updateInput" type="datetime-local" 
-                  value="${detail.remindAlarmTime??""}"/>
+                  value="${detail.remindAlarmTime ?? ""}"/>
               </div>
             </div>
           </div>
@@ -120,7 +149,7 @@ function accordionBody(detail) {
   </div>`
 }
 
-function requestComplete() {
+function requestDetailComplete() {
   let formCheckInput = $(this);
   let complete = $(formCheckInput).prop("checked");
   let detailPlanId = $(formCheckInput).parents(".accordion-item").attr("id").split("-")[1];
@@ -129,11 +158,12 @@ function requestComplete() {
     data: JSON.stringify({ "complete": (complete ? "Y" : "N") }),
     contentType: "application/json",
     type: "patch",
+    dataType: "json",
     success: updateProgress,
     error: function (xhr) {
       if (xhr.status === 401) {
-        alert("로그인이 필요한 페이지 입니다.");
-        window.location.href = "user/login.html";
+        alert(xhr.responseJSON.message);
+        window.location.href = "/user/signin.html";
       } else {
         replaceWithErrorIcon(formCheckInput);
       }
@@ -162,13 +192,14 @@ function requestUpdateDetail() {
     type: "PUT",
     contentType: "application/json",
     data: JSON.stringify(updateData),
+    dataType: "json",
     success: function () {
       updateAccordionHeader(original, updateData);
     },
     error: function (xhr) {
       if (xhr.status === 401) {
-        alert("로그인이 필요한 페이지 입니다.");
-        window.location.href = "user/login.html";
+        alert(xhr.responseJSON.message);
+        window.location.href = "/user/signin.html";
       } else {
         replaceWithErrorIcon(formCheckInput);
       }
@@ -218,21 +249,26 @@ function requestDeleteDetail() {
     $.ajax({
       url: `/detail/${detailPlanId}`,
       type: "DELETE",
+      dataType: "json",
       success: function () {
         $(`#detail-${detailPlanId}`).remove();
         updateProgress();
       },
-      error: function () {
-        console.log("error")
+      error: function (xhr) {
+        alert(xhr.responseJSON.message);
       }
     })
   }
 }
 
-function renderProgress(list) {
+function renderProgress(plan, list) {
   let progress = $("#planProgress");
-  if (list.length === 0) {
+  if (list.length === 0 && plan.complete === 'N') {
     progress.css("width", '0%').text('0%');
+    return;
+  } else if (list.length === 0 && plan.complete === 'Y') {
+    progress.css("width", "100%").text("100%");
+    return;
   }
 
   let checkedCount = 0;
@@ -259,6 +295,7 @@ function renderCreateDetailForm() {
   $("#detailEndTime").val(
     String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
   );
+  $("#createErrorMessage").empty();
 }
 
 function requestCreateDetail(event) {
@@ -278,11 +315,10 @@ function requestCreateDetail(event) {
     },
     error: function (xhr) {
       if (xhr.status === 401) {
-        alert("로그인이 필요한 페이지 입니다.");
-        window.location.href = "user/login.html";
+        alert(xhr.responseJSON.message);
+        window.location.href = "/user/signin.html";
       } else if (xhr.status === 400) {
-        response = xhr.responseJSON;
-        $("#createErrorMessage").text(response.message);
+        $("#createErrorMessage").text(xhr.responseJSON.message);
       }
     }
   })

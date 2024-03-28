@@ -2,33 +2,32 @@ package com.kh.servlet.user;
 
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.User;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import org.json.JSONObject;
 
-@WebServlet("/user/findid")
+@WebServlet("/user/find/id")
 public class FindUserIdServlet extends HttpServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-
-    PrintWriter out = resp.getWriter();
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String userName = req.getParameter("userName");
     String phone = req.getParameter("phone");
 
-    User user = new UserDao().findIdByUserName(userName);
+    User target = new UserDao().findByUserNameAndPhone(userName, phone);
+    JSONObject responseBody = new JSONObject();
 
-    if (user != null && user.getPhone().equals(phone)) {
-      resp.setStatus(HttpServletResponse.SC_OK);
-      out.println(user.getUserId());
+    if (target == null) {
+      responseBody.put("message", "등록 되지 않은 회원입니다.");
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     } else {
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      responseBody.put("message", String.format("%s님의 아이디는 %s입니다.", userName, target.getUserId()));
+      resp.setStatus(HttpServletResponse.SC_OK);
     }
+    resp.getWriter().write(responseBody.toString());
+    resp.getWriter().close();
   }
-
 }

@@ -5,41 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" href="../css/signup.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/user/signup.js"></script>
 </head>
 <body>
-<form id="signup" action="/user/signup" method="post">
-    <label for="userId">ID 입력:</label>
+<form id="signUpForm">
+    <label for="userId">ID 입력</label>
     <input type="text" id="userId" name="userId" placeholder="ID를 입력해주세요." required>
-    <div class="idarea" id="idarea"></div>
-    <button type="button" id="idcheckDuplicateBtn" class="checkDuplicateBtn">중복확인</button> 
+    <div class="errorMessage" id="userIdErrorMessage"></div>
+    <button type="button" id="userIdDuplicateButton" class="checkDuplicateBtn">중복확인</button>
 
-    <label for="userPw">비밀번호 입력:</label>
+    <label for="userPw">비밀번호 입력</label>
     <input type="password" id="userPw" name="userPw" placeholder="비빌번호를 입력해주세요." required>
-    <div class="pwarea" id="pwarea"></div>
+    <div class="errorMessage" id="userPwErrorMessage"></div>
 
-    <label for="userPwConfirm">비밀번호 확인:</label>
+    <label for="userPwConfirm">비밀번호 확인</label>
     <input type="password" id="userPwConfirm" name="userPwConfirm" placeholder="비밀번호를 한 번 더 입력해주세요." required>
-    <div class="checkpwarea" id="checkpwarea"></div>
+    <div class="errorMessage" id="userPwConfirmErrorMessage"></div>
 
-    <label for="userName">이름:</label>
+    <label for="userName">이름</label>
     <input type="text" id="userName" name="userName" placeholder="본인의 성함을 입력해주세요." required>
 
-    <label for="nickname">닉네임:</label>
+    <label for="nickname">닉네임</label>
     <input type="text" id="nickname" name="nickname" placeholder="사용하실 닉네임을 입력해주새요." required>
-    <div class="nnarea" id="nnarea"></div>
-    <button type="button" id="nicknamecheckDuplicateBtn" class="checkDuplicateBtn">중복확인</button> 
-    
+    <div class="errorMessage" id="nicknameErrorMessage"></div>
+    <button type="button" id="nicknameDuplicateButton" class="checkDuplicateBtn">중복확인</button>
 
-    <label for="email">Email:</label>
+
+    <label for="email">Email</label>
     <input type="email" id="email" name="email" placeholder="본인의 Email을 입력해주세요." required>
 
-    <label for="phone">휴대폰번호:</label>
+    <label for="phone">휴대폰번호</label>
     <input type="text" id="phone" name="phone" placeholder="본인의 휴대폰번호를 입력해주세요." required>
 
     <input type="submit" value="회원가입">
 </form>
 </body>
 </html>
-<script src="../js/user/signup.js"></script>

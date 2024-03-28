@@ -1,19 +1,18 @@
-$(document).ready(function () {
+$(window).ready(function () {
     $("#loginForm").submit(function (event) {
         event.preventDefault();
         let formData = $(this).serialize();
-
         $.ajax({
-            url: "/user/login",
+            url: "/user/signin",
             type: "POST",
             contentType: "application/x-www-form-urlencoded",
             data: formData,
-            success: function (response, textStatus, xhr) {
-                document.location.href="../main.html";
+            success: function () {
+                window.location.href = "/main.html";
             },
-            error: function (xhr, textStatus, errorThrown) {
+            error: function () {
                 alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
-            },
-        });
-    });
-});
+            }
+        })
+    })
+})

@@ -1,23 +1,24 @@
-body{
+body {
     justify-content: center;
     background-color: black;
     margin: 0;
-            padding: 0;
-            display: flex;
-            
+    padding: 0;
+    display: flex;
+
 }
-table{
+
+table {
     border-radius: 3px;
     border-color: rgb(0, 0, 0);
     border-collapse: collapse;
     background-color: white;
-    border-left:none;
-    border-right:none;
-   
+    border-left: none;
+    border-right: none;
+
 }
 
-.info{
-    width:250px;
+.info {
+    width: 250px;
     height: 30px;
     border: 0;
     margin-left: 13px;
@@ -26,54 +27,60 @@ table{
     /* border-radius: 3px; */
 }
 
-#complete{
-    width:70px;
-    height:40px;
+#updateSubmitButton {
+    width: 70px;
+    height: 40px;
     border-radius: 15px;
-    
-    
+
+
 }
 
-#space1{
-    padding: 20px; height: 20px;
+#space1 {
+    padding: 20px;
+    height: 20px;
 }
 
-h1 {color:black;
-    padding:40px;
+h1 {
+    color: black;
+    padding: 40px;
     text-align: center;
     margin-top: 50px;
     margin-bottom: 50px;
-    }
+}
 
 button {
-    margin-left:210px;
-    background-color:  white;
-    border:none;
+    margin-left: 210px;
+    background-color: white;
+    border: none;
     font-size: 20px;
     font-weight: 900;
-    
-    
+
+
 }
+
 input {
-    background-color:  white;
+    background-color: white;
     font-size: 15px;
-    color:grey;  
+    color: grey;
 }
+
 td {
-    font-weight:bolder;
+    font-weight: bolder;
 }
-form{
-   padding: 0px;
-   width:500px;
-   margin-top: 180px;
-   background-color: white;
-   border-radius: 15px;
+
+form {
+    padding: 0px;
+    width: 500px;
+    margin-top: 180px;
+    background-color: white;
+    border-radius: 15px;
 }
+
 #quit {
-    font-size:small;
-    color:gray;
+    font-size: small;
+    color: gray;
 }
+
 a {
     color: black;
 }
-

@@ -15,7 +15,7 @@ public class DetailPlanDao {
         + " VALUES( ?, ?, ?, ?, ?, ?, ?, ?) ";
 
     KeyHolder keyHolder = new KeyHolder();
-    keyHolder.setId(jdbctemplate.getNextVal());
+    keyHolder.setId(jdbctemplate.getNextVal("SEQ_DETAIL"));
 
     jdbctemplate.executeUpdate(query,
         keyHolder.getId(), detailPlan.getPlanId(), detailPlan.getWriter(), detailPlan.getContents(),
@@ -28,11 +28,9 @@ public class DetailPlanDao {
   public int update(DetailPlan detailPlan) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
 
-    String query = """
-        UPDATE DETAIL_PLAN SET
-        CONTENTS = ?, START_TIME = ?, END_TIME = ?, REMIND_ALARM_TIME = ?, COMPLETE = ?
-        WHERE DETAIL_PLAN_ID = ? AND WRITER = ? AND PLAN_ID=?
-        """;
+    String query = "UPDATE DETAIL_PLAN "
+        + "SET CONTENTS=?, START_TIME=?, END_TIME=?, REMIND_ALARM_TIME=?, COMPLETE=? "
+        + "WHERE DETAIL_PLAN_ID=? AND WRITER=? AND PLAN_ID=?";
 
     return jdbctemplate.executeUpdate(query,
         detailPlan.getContents(), detailPlan.getStartTime(), detailPlan.getEndTime(),
@@ -47,29 +45,17 @@ public class DetailPlanDao {
     return jdbctemplate.executeUpdate(query, complete, detailPlanId, writer);
   }
 
+  public int updateCompleteByPlanIdAndWriter(String complete, int planId, String writer) {
+    JdbcTemplate jdbctemplate = new JdbcTemplate();
+    String query = "UPDATE DETAIL_PLAN SET COMPLETE=? WHERE PLAN_ID=? AND WRITER=?";
+
+    return jdbctemplate.executeUpdate(query, complete, planId, writer);
+  }
+
   public int deleteByDetailPlanIdAndWriter(int detailPlanId, String writer) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
-    String query = """
-        DELETE FROM DETAIL_PLAN
-        WHERE DETAIL_PLAN_ID = ? AND WRITER = ?
-        """;
+    String query = "DELETE FROM DETAIL_PLAN WHERE DETAIL_PLAN_ID=? AND WRITER=?";
     return jdbctemplate.executeUpdate(query, detailPlanId, writer);
-  }
-
-  public List<DetailPlan> findAll() {
-    JdbcTemplate jdbctemplate = new JdbcTemplate();
-
-    String query = "SELECT * FROM DETAIL_PLAN";
-    RowMapper<DetailPlan> mapper = DetailPlan::from;
-    return jdbctemplate.executeQuery(query, mapper);
-  }
-
-  public List<DetailPlan> findByWriter(String writer) {
-    JdbcTemplate jdbctemplate = new JdbcTemplate();
-
-    String query = "SELECT * FROM DETAIL_PLAN WHERE WRITER = ?";
-    RowMapper<DetailPlan> mapper = DetailPlan::from;
-    return jdbctemplate.executeQuery(query, mapper, writer);
   }
 
   public List<DetailPlan> findByWriterAndPlanIdOrderByDetailPlanId(String writer, int planId) {

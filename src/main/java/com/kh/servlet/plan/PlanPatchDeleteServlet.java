@@ -1,7 +1,8 @@
-package com.kh.servlet.detail;
+package com.kh.servlet.plan;
 
 import com.kh.model.dao.DetailPlanDao;
-import com.kh.model.vo.DetailPlan;
+import com.kh.model.dao.PlanDao;
+import com.kh.model.vo.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,17 +12,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import org.json.JSONObject;
 
-@WebServlet(urlPatterns = "/detail/*")
-public class DetailPutPatchDeleteServlet extends HttpServlet {
+@WebServlet("/plan/*")
+public class PlanPatchDeleteServlet extends HttpServlet {
 
   @Override
-  protected void service(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     String method = req.getMethod();
-    if (!method.equals("PATCH")) {
-      super.service(req, resp);
-    } else {
+    if (method.equals("PATCH")) {
       this.doPatch(req, resp);
+    } else {
+      super.service(req, resp);
     }
   }
 
@@ -32,19 +32,19 @@ public class DetailPutPatchDeleteServlet extends HttpServlet {
 
     try {
       String[] parts = req.getRequestURI().split("/");
-      String detailPlanId = parts[parts.length - 1];
+      String planId = parts[parts.length - 1];
       BufferedReader reader = req.getReader();
       JSONObject requestBody = new JSONObject(reader.readLine());
 
-      DetailPlan target = new DetailPlanDao()
-          .findByDetailPlanIdAndWriter(Integer.parseInt(detailPlanId), String.valueOf(user));
+      Plan target = new PlanDao().findByPlanIdAndWriter(
+          Integer.parseInt(planId), String.valueOf(user));
       target = target.putRequestDto(requestBody);
-      new DetailPlanDao().update(target);
+      new PlanDao().update(target);
 
       resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
     } catch (Exception e) {
-      responseBody.put("message", e.getLocalizedMessage());
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      responseBody.put("message", e.getLocalizedMessage());
       resp.getWriter().write(responseBody.toString());
       resp.getWriter().close();
     }
@@ -53,23 +53,21 @@ public class DetailPutPatchDeleteServlet extends HttpServlet {
   @Override
   protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     Object user = req.getSession().getAttribute("userId");
-    JSONObject responseBody = new JSONObject();
 
     try {
       String[] parts = req.getRequestURI().split("/");
-      String detailPlanId = parts[parts.length - 1];
+      String planId = parts[parts.length - 1];
       BufferedReader reader = req.getReader();
       JSONObject requestBody = new JSONObject(reader.readLine());
 
       String complete = requestBody.getString("complete");
-      new DetailPlanDao()
-          .updateCompleteByDetailPlanIdAndWriter(complete, Integer.parseInt(detailPlanId), String.valueOf(user));
+      new PlanDao().updateCompleteByPlanIdAndWriter(complete, Integer.parseInt(planId), String.valueOf(user));
+      new DetailPlanDao().updateCompleteByPlanIdAndWriter(complete, Integer.parseInt(planId), String.valueOf(user));
 
       resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
     } catch (Exception e) {
-      responseBody.put("message", e.getLocalizedMessage());
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      resp.getWriter().write(responseBody.toString());
+      resp.getWriter().write(new JSONObject().put("message", e.getLocalizedMessage()).toString());
       resp.getWriter().close();
     }
   }
@@ -77,20 +75,17 @@ public class DetailPutPatchDeleteServlet extends HttpServlet {
   @Override
   protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     Object user = req.getSession().getAttribute("userId");
-    JSONObject responseBody = new JSONObject();
 
     try {
       String[] parts = req.getRequestURI().split("/");
-      String detailPlanId = parts[parts.length - 1];
+      String planId = parts[parts.length - 1];
 
-      new DetailPlanDao()
-          .deleteByDetailPlanIdAndWriter(Integer.parseInt(detailPlanId), String.valueOf(user));
+      new PlanDao().deleteByPlanIdAndWriter(Integer.parseInt(planId), String.valueOf(user));
 
       resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
     } catch (Exception e) {
-      responseBody.put("message", e.getLocalizedMessage());
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      resp.getWriter().write(responseBody.toString());
+      resp.getWriter().write(new JSONObject().put("message", e.getLocalizedMessage()).toString());
       resp.getWriter().close();
     }
   }

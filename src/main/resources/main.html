@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -40,7 +40,7 @@
           </label>
         </div></li>
       </ul>
-      <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="dropdown" data-bs-target="#userInfo">
+      <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" data-bs-target="#userInfo">
         <i class="fas fa-user" style="color: black; font-size: 30px;"></i>
       </button>
       <ul class="dropdown-menu" id="userInfo"
@@ -52,7 +52,7 @@
         <div style="display: flex; text-align: center;">
           <li
             style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 2px; border-top:1px; border-bottom: 0px; border-left: 0px; border-right: 0px">
-            <b><a href="/user/signin.html" style="color: black; text-decoration: none;">로그아웃</a></b>
+            <b><a id="logout" style="color: black; text-decoration: none;">로그아웃</a></b>
           </li>
           <li
             style="width: 50%; font-size: small; margin-bottom: 0px; border-radius: 2px; border-bottom: 0px; border-right: 0px; background-color: black; color: #fff;">
@@ -60,25 +60,29 @@
           </li>
         </div>
       </ul>
-      <button class="btn btn-secondary btn-sm" type="button">
+      <button class="btn btn-secondary" type="button">
         <i class="fas fa-chart-bar" style="color: black; font-size: 30px;"></i>
       </button>
     </div>
   </header>
-
+  <!-- Header Section End -->
+  <!-- Main Section Start -->
   <main>
+    <!-- Main Search Section Start -->
     <div class="forming">
       <div style="width: 100%; font-size: 15px;">
         <input type="text" id="search" name="search" placeholder='검색하실 제목을 입력하세요.'
           style="width: 95%; height: 40.5px; font-size: 15px; padding-left: 20px;" value="">
-        <button style="background-color: #fff; font-size: 20px; width: 10px;" type="button" id="searchButton">
+        <button id="searchButton" style="background-color: #fff; font-size: 20px; width: 10px;" type="button">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
     </div>
+    <!-- Main Search Section End -->
     <div class="forming">
       <br />
       <br />
+      <!-- Main Complete Section Start -->
       <div class="completeBox">
         <div>
           <span id="notCompleted"> </span>
@@ -91,9 +95,11 @@
           <b>완료한 작업 수</b>
         </div>
       </div>
+      <!-- Main Complete Section End -->
       <br />
+      <!-- Main Plan Create Form Section Start -->
       <input type="hidden" name="userId">
-      <input class="mt-2" type="text" id="title" name="title" required
+      <input class="mt-2" id="title" name="title" required type="text"
         placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.'>
       <br />
       <div style="width: 100%;">
@@ -125,31 +131,35 @@
         </div>
       </div>
       <br />
-      <button type="button" value="저장" id="save">저장</button>
+      <button id="save" type="button" value="저장">저장</button>
+      <!-- Main Plan Create Form Section End -->
     </div>
+    <!-- Main Plan List Section Start -->
     <div id="planSection">
       <div id="planSectionHeader">
         <div style="text-align: left;">PlanList</div>
-        <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" style="background-color: #fff;">
+        <button class="btn btn-secondary" data-bs-toggle="dropdown" style="background-color: #fff;" type="button">
           <i class="fa-solid fa-arrow-down-wide-short" style="color: black; font-size: 30px;"></i>
         </button>
         <ul class="dropdown-menu" style="padding-bottom: 0px;">
-          <li style="border: 0px;" id="endDateASC" align="center"><b>* 마감일 오름차순</b></li>
-          <li style="border: 0px;" id="endDateDESC" align="center"><b>* 마감일 내림차순</b></li>
-          <li style="border: 0px;" id="startDateASC" align="center"><b>* 시작일 오름차순</b></li>
-          <li style="border: 0px;" id="startDateDESC" align="center"><b>* 시작일 내림차순</b></li>
+          <li id="endDateASC" align="center" style="border: 0px;"><b>* 마감일 오름차순</b></li>
+          <li id="endDateDESC" align="center" style="border: 0px;"><b>* 마감일 내림차순</b></li>
+          <li id="startDateASC" align="center" style="border: 0px;"><b>* 시작일 오름차순</b></li>
+          <li id="startDateDESC" align="center" style="border: 0px;"><b>* 시작일 내림차순</b></li>
         </ul>
       </div>
       <ul id="plannersEle"></ul>
     </div>
+    <!-- Main Plan List Section Start -->
   </main>
-
+  <!-- Main Section End -->
   <!-- Offcanvas Section Start -->
   <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="detailPlan">
     <!-- Offcanvas Header Section Start -->
     <div class="container">
       <div class="row justify-content-end">
-        <button class="col-2 m-2 btn btn-primary btn-submit" type="button">저장</button>
+        <p class="col text-danger my-auto text-end" id="planUpdateErrorMessage"></p>
+        <button class="col-2 m-2 btn btn-primary btn-submit" type="button" id="planUpdateButton">저장</button>
         <button class="col-2 me-3 my-auto btn-close" data-bs-dismiss="offcanvas" type="button"></button>
         <hr class="border border-danger border-1" />
       </div>
@@ -159,12 +169,12 @@
     <div class="offcanvas-body">
       <div class="offcanvas-title bg-body-secondary rounded w-75 mx-auto p-2">
         <!-- Plan Info Section Start -->
-        <div class="container">
+        <form class="container" id="planUpdateForm">
           <div class="row text-secondary">
             <label class="col bi bi-book" for="planTitle"> | Title</label>
           </div>
-          <div class="row display-5 mb-2">
-            <div class="col-8">
+          <div class="row h1 mb-2">
+            <div class="col">
               <input class="form-control-plaintext p-0" id="planTitle" type="text">
             </div>
           </div>
@@ -188,7 +198,7 @@
               <input class="form-control-plaintext p-0" id="planRemindAlarm" type="date">
             </div>
           </div>
-        </div>
+        </form>
         <div class="row justify-content-center">
           <button class="col-5 btn btn-light" data-bs-target="#detailCreateCollapse" id="detailCreateCollapseButton"
             data-bs-toggle="collapse">
