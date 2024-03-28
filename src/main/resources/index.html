@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="img/planner_favicon.png" rel="icon" type="image/x-icon" />
   <link href="css/index.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="></script>
   <title>고회성사</title>
 </head>
 
@@ -14,6 +16,19 @@
   <img src="img/planner_main.png" alt="플래너 이미지">
   <button onclick="location.href='user/signin.html'">로그인</button>
   <button onclick="location.href='user/signup.html'">회원가입</button>
+
+  <script>
+    $.ajax({
+      url: "/user",
+      type: "GET",
+      dataType: "json",
+      success: function () {
+        alert("로그아웃 먼저 하세요.")
+        window.location.href = '/main.html';
+      },
+      error: function () { }
+    })
+  </script>
 </body>
 
 </html>
