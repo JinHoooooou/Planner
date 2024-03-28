@@ -5,6 +5,22 @@ plugins {
 group = 'com.kh'
 version = '1.0-SNAPSHOT'
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.kh.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
+
+
 repositories {
     mavenCentral()
 }
@@ -20,9 +36,6 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.1.0-alpha1'
     compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.1.0-M1'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '10.1.18'
-	implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '10.1.18'
-   
-    implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.1.2.RELEASE'
     implementation 'org.json:json:20231013'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
     implementation 'org.glassfish:jakarta.el:5.0.0-M1'
