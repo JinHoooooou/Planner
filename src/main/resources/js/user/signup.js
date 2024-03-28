@@ -2,8 +2,7 @@ const userIdRegex = /^[A-Za-z][A-Za-z0-9_]{7,16}$/
 const nicknameRegex = /^[가-힣a-zA-Z0-9]{3,20}$/
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+]).{8,20}$/
 
-$(window).ready(function () {
-
+$(document).ready(function () {
   $("#userIdDuplicateButton").on("click", requestDuplicateUserId)
   $("#nicknameDuplicateButton").on("click", requestDuplicateNickname)
   $("#signUpForm").on("submit", requestSignUp)
@@ -43,7 +42,8 @@ function requestDuplicateUserId() {
 
 function requestDuplicateNickname() {
   let nickname = $("#nickname").val();
-  if (nicknameRegex.test(nickname)) {
+  console.log(nickname);
+  if (!nicknameRegex.test(nickname)) {
     alert("닉네임은 3~20자의 한글, 영문, 숫자를 사용해야합니다.")
     return;
   }
@@ -55,6 +55,7 @@ function requestDuplicateNickname() {
       alert("사용 가능한 닉네임 입니다.")
     },
     error: function (xhr) {
+      console.log("ㅋㅋ");
       alert(xhr.responseJSON.message);
     }
   })

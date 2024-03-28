@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 @WebServlet("/user/duplicate/nickname/*")
@@ -14,7 +16,7 @@ public class NicknameDuplicateServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    String[] parts = req.getRequestURI().split("/");
+    String[] parts = URLDecoder.decode(req.getRequestURI(), StandardCharsets.UTF_8).split("/");
     String nickname = parts[parts.length - 1];
     JSONObject responseBody = new JSONObject();
 
