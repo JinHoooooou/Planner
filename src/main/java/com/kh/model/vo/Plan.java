@@ -115,7 +115,7 @@ public class Plan {
     }
 
     if (updateRemindAlarmDate == null) {
-      throw new ValidationException("invalid star");
+      throw new ValidationException("invalid remind alarm date");
     }
     if (!updateRemindAlarmDate.isEmpty()
         && (Date.valueOf(updateRemindAlarmDate).before(Date.valueOf(updateStartDate))
