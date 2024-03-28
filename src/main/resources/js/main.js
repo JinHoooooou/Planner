@@ -12,13 +12,13 @@ window.onload = function () {
 				if (planList[i].complete === 'N') {
 
 					// 마감 알람 설정 함수(alert)
-					if(planList[i].remindAlarmDate != undefined) {
-						if((new Date(planList[i].remindAlarmDate).getTime() < new Date().getTime()) ) {
-							if(new Date(planList[i].endDate).getMonth() > new Date().getMonth()) {
+					if (planList[i].remindAlarmDate != undefined) {
+						if ((new Date(planList[i].remindAlarmDate).getTime() < new Date().getTime())) {
+							if (new Date(planList[i].endDate).getMonth() > new Date().getMonth()) {
 								$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none")
 							}
-							if(new Date(planList[i].endDate).getMonth() == new Date().getMonth()) {
-								if(new Date(planList[i].endDate).getDate() >= new Date().getDate()) {
+							if (new Date(planList[i].endDate).getMonth() == new Date().getMonth()) {
+								if (new Date(planList[i].endDate).getDate() >= new Date().getDate()) {
 									$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none")
 								}
 							}
@@ -53,28 +53,74 @@ window.onload = function () {
 	document.getElementById("search").onkeyup = processChange;
 	$("#logout").on("click", requestLogOut);
 
-
+	document.getElementById("switch").onchange = darkMode;
 
 };
+
+function darkMode() {
+	let body = document.body;
+	body.classList.toggle("dark-mode");
+	let h1 = document.getElementById("h-title")
+	h1.classList.toggle("dark-mode");
+	let icon_dark = document.getElementsByClassName("icon-dark")
+	let ic_dark = document.getElementsByClassName("ic-dark")
+	for (let i = 0; i < icon_dark.length; i++) {
+		icon_dark[i].classList.toggle("dark-mode");
+		ic_dark[i].classList.toggle("dark-mode");
+	}
+	let main = document.querySelector("main")
+	main.classList.toggle("dark-mode-main");
+	let input_dark = document.getElementsByClassName("input-dark")
+	for (let i = 0; i < input_dark.length; i++) {
+		input_dark[i].classList.toggle("dark-mode-input");
+
+	}
+	let completion = document.getElementsByClassName("completion")
+	for (let i = 0; i < completion.length; i++) {
+		completion[i].classList.toggle("dark-mode");
+	}
+	let searchButton_dark = document.getElementById("searchButton")
+	searchButton_dark.classList.toggle("dark-mode");
+	let dark_scheme = document.getElementsByClassName("scheme-dark")
+	for (let i = 0; i < dark_scheme.length; i++) {
+		dark_scheme[i].classList.toggle("dark-scheme");
+	}
+	let save = document.getElementById("save")
+	save.classList.toggle("dark-mode-save");
+	document.getElementById("plDiv").classList.toggle("dark-mode");
+
+	let plannerItem = document.getElementsByClassName("plannerItem");
+	for (let i = 0; i < plannerItem.length; i++) {
+		plannerItem[i].classList.toggle("dark-mode");
+	}
+	let EndListDate = document.getElementsByClassName("EndListDate");
+	for (let i = 0; i < EndListDate.length; i++) {
+		EndListDate[i].classList.toggle("dark-mode");
+	}
+
+
+}
+
 function requestLogOut() {
 	$.ajax({
 		url: "/user/logout",
 		success: function () {
-			window.location.href = "/index.html" },
+			window.location.href = "/index.html"
+		},
 		error: function () { alert("invalid error") }
 	})
 }
 function debounce(func, timeout = 300) {
 	let timer;
 	return (...args) => {
-	  clearTimeout(timer);
-	  timer = setTimeout(() => {
-		func.apply(this, args);
-	  }, timeout);
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			func.apply(this, args);
+		}, timeout);
 	};
-  }
+}
 
-  const processChange = debounce(() => searchFunction());
+const processChange = debounce(() => searchFunction());
 
 function enterkey(e) {
 	if (e.keyCode == 13) {
@@ -84,6 +130,10 @@ function enterkey(e) {
 }
 // 메인페이지 & 검색 시 페이지
 function drawPlanList(response) {
+	let switch_dark = document.getElementById("switch");
+	let plannerItem = document.getElementsByClassName("plannerItem");
+	let EndListDate = document.getElementsByClassName("EndListDate");
+
 	let count = 0;
 	for (let i = 0; i < planList.length; i++) {
 		if (planList[i].complete === 'N') {
@@ -100,6 +150,12 @@ function drawPlanList(response) {
 		});
 
 		showTodoList();
+		if (switch_dark.checked) {
+			for (let i = 0; i < plannerItem.length; i++) {
+				plannerItem[i].classList.add("dark-mode");
+				EndListDate[i].classList.add("dark-mode");
+			}
+		}
 		return endDateAsc;
 	}
 
@@ -113,6 +169,12 @@ function drawPlanList(response) {
 		});
 
 		showTodoList();
+		if (switch_dark.checked) {
+			for (let i = 0; i < plannerItem.length; i++) {
+				plannerItem[i].classList.add("dark-mode");
+				EndListDate[i].classList.add("dark-mode");
+			}
+		}
 		return endDateDesc;
 	}
 
@@ -125,6 +187,12 @@ function drawPlanList(response) {
 			return 0;
 		});
 		showTodoList();
+		if (switch_dark.checked) {
+			for (let i = 0; i < plannerItem.length; i++) {
+				plannerItem[i].classList.add("dark-mode");
+				EndListDate[i].classList.add("dark-mode");
+			}
+		}
 		return startDateAsc;
 	}
 
@@ -137,6 +205,12 @@ function drawPlanList(response) {
 			return 0;
 		});
 		showTodoList();
+		if (switch_dark.checked) {
+			for (let i = 0; i < plannerItem.length; i++) {
+				plannerItem[i].classList.add("dark-mode");
+				EndListDate[i].classList.add("dark-mode");
+			}
+		}
 		return startDateDesc;
 	}
 
@@ -197,7 +271,7 @@ function showTodoList() {
 		</div>
 		<div class="plannerDate">
 			<i id="alarmMessage-${planList[i].planId}" class="bi bi-alarm text-danger d-none"></i>
-			<span id="listEndDate">${planEndDate}</span>
+			<span id="listEndDate" class="EndListDate">${planEndDate}</span>
 		</div>
 		<span class="deleteButton" onclick="deletePlanner(${planListDel})"><b>X</b></span>
 	</div>
@@ -206,36 +280,36 @@ function showTodoList() {
 
 	}
 	document.getElementById("plannersEle").innerHTML = childNodes;
-  for(let i=0;i<planList.length;i++) {
-    $(`#listTitle-${i}`).attr({
-      "data-bs-toggle":"offcanvas",
-      "data-bs-target":"#detailPlan"
-    }).data("plan", planList[i])
-    .on("click", getDetailList);
-  }
+	for (let i = 0; i < planList.length; i++) {
+		$(`#listTitle-${i}`).attr({
+			"data-bs-toggle": "offcanvas",
+			"data-bs-target": "#detailPlan"
+		}).data("plan", planList[i])
+			.on("click", getDetailList);
+	}
 
-	for(let i=0; i<planList.length; i++) {
+	for (let i = 0; i < planList.length; i++) {
 		let planAlarmDate = planList[i].remindAlarmDate;
 		let planEndDate = planList[i].endDate;
 		let planComplete = planList[i].complete;
-		if(planAlarmDate != null) {
+		if (planAlarmDate != null) {
 
-			if(new Date(planAlarmDate).getTime() < new Date().getTime()) {
-				if(planComplete === 'N') {
-					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;" );
+			if (new Date(planAlarmDate).getTime() < new Date().getTime()) {
+				if (planComplete === 'N') {
+					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;");
 					$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none");
 				}
 			}
 		}
 		// 마감 기한이 지난 플랜에 스타일 주기
 
-		if(new Date(planEndDate).getMonth() < new Date().getMonth()) {
-			document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 1px solid red;");
+		if (new Date(planEndDate).getMonth() < new Date().getMonth()) {
+			document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 2px solid red;");
 		}
 
-		if(new Date(planEndDate).getMonth() === new Date().getMonth()) {
-			if(new Date(planEndDate).getDate() < new Date().getDate()) {
-				document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 1px solid red;");
+		if (new Date(planEndDate).getMonth() === new Date().getMonth()) {
+			if (new Date(planEndDate).getDate() < new Date().getDate()) {
+				document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 2px solid red;");
 			}
 		}
 
@@ -272,7 +346,7 @@ function completePlanner(planId) {
 		data: JSON.stringify({ "complete": (complete ? "Y" : "N") }),
 		contentType: "application/json",
 		success: function () {
-			location.reload()
+				location.reload();
 		},
 		error: function (xhr) {
 			if (xhr.status === 401) {
