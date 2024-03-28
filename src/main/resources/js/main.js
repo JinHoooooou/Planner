@@ -30,6 +30,7 @@ window.onload = function () {
 		},
 		error: function () {
 			alert("연결실패!")
+			window.location.href = "/index.html";
 		},
 	})
 	initializeDateInput();
@@ -50,11 +51,19 @@ window.onload = function () {
 	document.getElementById("searchButton").onclick = searchFunction;
 
 	document.getElementById("search").onkeyup = processChange;
+	$("#logout").on("click", requestLogOut);
 
 
 
 };
-
+function requestLogOut() {
+	$.ajax({
+		url: "/user/logout",
+		success: function () {
+			window.location.href = "/index.html" },
+		error: function () { alert("invalid error") }
+	})
+}
 function debounce(func, timeout = 300) {
 	let timer;
 	return (...args) => {
@@ -214,6 +223,7 @@ function showTodoList() {
 			if(new Date(planAlarmDate).getTime() < new Date().getTime()) {
 				if(planComplete === 'N') {
 					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;" );
+					$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none");
 				}
 			}
 		}

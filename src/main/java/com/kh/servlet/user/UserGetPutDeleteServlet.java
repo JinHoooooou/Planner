@@ -13,7 +13,7 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 @WebServlet("/user")
-public class UserPutPatchDeleteServlet extends HttpServlet {
+public class UserGetPutDeleteServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -22,7 +22,7 @@ public class UserPutPatchDeleteServlet extends HttpServlet {
 
     if (session == null || session.getAttribute("userId") == null) {
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      responseBody.put("message", "invalid session");
+      responseBody.put("message", "세션이 유효하지 않습니다.");
       resp.getWriter().write(responseBody.toString());
       resp.getWriter().close();
       return;
@@ -48,7 +48,7 @@ public class UserPutPatchDeleteServlet extends HttpServlet {
     JSONObject responseBody = new JSONObject();
     if (session == null || session.getAttribute("userId") == null) {
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      responseBody.put("message", "invalid session");
+      responseBody.put("message", "세션이 유효하지 않습니다.");
       resp.getWriter().write(responseBody.toString());
       resp.getWriter().close();
       return;
@@ -77,7 +77,7 @@ public class UserPutPatchDeleteServlet extends HttpServlet {
     JSONObject responseBody = new JSONObject();
     if (session == null || session.getAttribute("userId") == null) {
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      responseBody.put("message", "invalid session");
+      responseBody.put("message", "세션이 유효하지 않습니다.");
       resp.getWriter().write(responseBody.toString());
       resp.getWriter().close();
       return;

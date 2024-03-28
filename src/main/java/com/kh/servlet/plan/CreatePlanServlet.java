@@ -49,6 +49,7 @@ public class CreatePlanServlet extends HttpServlet {
     plan.setStartDate(startDate2);
     plan.setEndDate(endDate2);
     plan.setRemindAlarmDate(remindAlarmDate2);
+    plan.setComplete("N");
 
     int result = new PlanDao().save(plan);
 

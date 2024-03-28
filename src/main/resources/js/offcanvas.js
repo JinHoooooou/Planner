@@ -10,9 +10,11 @@ function getDetailList() {
       renderOffcanvas(response, plan)
     },
     error: function (xhr) {
+      alert(xhr.responseJSON.message);
       if (xhr.status === 401) {
-        alert(xhr.responseJSON.message);
-        window.location.href = "/user/signin.html";
+        window.location.href = "/index.html";
+      } else if(xhr.status === 400) {
+        window.location.href = "/main.html"
       }
     }
   });
@@ -40,7 +42,7 @@ function getDetailList() {
         location.reload();
       },
       error: function (xhr) {
-        $("#planUpdateErrorMessage").text(xhr.responseJSON.message)
+        $("#errorMessage").text(xhr.responseJSON.message)
           .fadeIn().fadeOut(5000);
       }
     })
@@ -70,7 +72,6 @@ function renderPlanSection(plan) {
   $("#planRemindAlarm").val(plan.remindAlarmDate ?? '');
   $("#detailCreateCollapse").removeClass("show")
   $("#detailCreateCollapseButton").text("디테일 추가");
-  $("#createErrorMessage").empty();
 }
 
 function renderList(list) {
@@ -161,9 +162,9 @@ function requestDetailComplete() {
     dataType: "json",
     success: updateProgress,
     error: function (xhr) {
+      alert(xhr.responseJSON.message);
       if (xhr.status === 401) {
-        alert(xhr.responseJSON.message);
-        window.location.href = "/user/signin.html";
+        window.location.href = "/index.html";
       } else {
         replaceWithErrorIcon(formCheckInput);
       }
@@ -295,7 +296,6 @@ function renderCreateDetailForm() {
   $("#detailEndTime").val(
     String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
   );
-  $("#createErrorMessage").empty();
 }
 
 function requestCreateDetail(event) {
@@ -310,7 +310,6 @@ function requestCreateDetail(event) {
       appendOneToList(response);
       $("#detailCreateCollapse").removeClass("show");
       $("#detailCreateCollapseButton").text("디테일 추가");
-      $("#createErrorMessage").empty();
       updateProgress(event);
     },
     error: function (xhr) {
@@ -318,7 +317,7 @@ function requestCreateDetail(event) {
         alert(xhr.responseJSON.message);
         window.location.href = "/user/signin.html";
       } else if (xhr.status === 400) {
-        $("#createErrorMessage").text(xhr.responseJSON.message);
+        $("#errorMessage").text(xhr.responseJSON.message).fadeIn().fadeOut(5000);
       }
     }
   })
