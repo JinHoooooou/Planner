@@ -13,7 +13,7 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 @WebServlet("/plan/*")
-public class PlanPatchDeleteServlet extends HttpServlet {
+public class PlanPutPatchDeleteServlet extends HttpServlet {
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

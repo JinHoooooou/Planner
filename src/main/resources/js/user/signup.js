@@ -18,7 +18,16 @@ $(document).ready(function () {
   $('#nickname').on("blur", function () {
     $("#nicknameErrorMessage").text(!nicknameRegex.test($(this).val()) ? "3~20자의 한글, 영문, 숫자를 사용해야합니다." : "")
   })
-
+  $.ajax({
+    url: "/user",
+    type: "GET",
+    dataType: "json",
+    success: function () {
+      alert("로그아웃 먼저 하세요.")
+      window.location.href = '/main.html';
+    },
+    error: function () { }
+  })
 })
 
 function requestDuplicateUserId() {

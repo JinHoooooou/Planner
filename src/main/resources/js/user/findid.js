@@ -20,5 +20,15 @@ $(window).ready(function () {
       },
     })
   });
+  $.ajax({
+    url: "/user",
+    type: "GET",
+    dataType: "json",
+    success: function () {
+      alert("로그아웃 먼저 하세요.")
+      window.location.href = '/main.html';
+    },
+    error: function () { }
+  })
 })
 
