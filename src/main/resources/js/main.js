@@ -1,6 +1,32 @@
 let planList = [];
 
 window.onload = function () {
+	
+	initializeDateInput();
+	planners = [];
+	var now_utc = Date.now()
+	var timeOff = new Date().getTimezoneOffset() * 60000;
+	var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+
+	document.getElementById("startDate").setAttribute("min", today);
+	document.getElementById("endDate").setAttribute("min", today);
+	document.getElementById("endAlarmDate").setAttribute("min", today);
+
+	// html 인라인으로 선언한 함수 부분 수정하기
+	document.getElementById("endAlarmDateBoolean").onchange = is_checked;
+	document.getElementById("save").onclick = submitPlanner;
+
+	// 검색 기능
+	document.getElementById("searchButton").onclick = searchFunction;
+
+	document.getElementById("search").onkeyup = processChange;
+	$("#logout").on("click", requestLogOut);
+
+	document.getElementById("switch").onchange = darkMode;
+	getPlanList();
+};
+
+function getPlanList() {
 	$.ajax({
 		url: "/plan/list",
 		type: "get",
@@ -33,29 +59,7 @@ window.onload = function () {
 			window.location.href = "/index.html";
 		},
 	})
-	initializeDateInput();
-	planners = [];
-	var now_utc = Date.now()
-	var timeOff = new Date().getTimezoneOffset() * 60000;
-	var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-
-	document.getElementById("startDate").setAttribute("min", today);
-	document.getElementById("endDate").setAttribute("min", today);
-	document.getElementById("endAlarmDate").setAttribute("min", today);
-
-	// html 인라인으로 선언한 함수 부분 수정하기
-	document.getElementById("endAlarmDateBoolean").onchange = is_checked;
-	document.getElementById("save").onclick = submitPlanner;
-
-	// 검색 기능
-	document.getElementById("searchButton").onclick = searchFunction;
-
-	document.getElementById("search").onkeyup = processChange;
-	$("#logout").on("click", requestLogOut);
-
-	document.getElementById("switch").onchange = darkMode;
-
-};
+}
 
 function darkMode() {
 	let body = document.body;
@@ -294,7 +298,7 @@ function showTodoList() {
 		let planComplete = planList[i].complete;
 		if (planAlarmDate != null) {
 
-			if (new Date(planAlarmDate).getTime() < new Date().getTime()) {
+			if (new Date(planAlarmDate).setHours(0, 0, 0, 0) < new Date().getTime()) {
 				if (planComplete === 'N') {
 					document.getElementsByClassName("plannerItem")[i].setAttribute("style", "animation: heartBeat 1s ease-in-out infinite;");
 					$(`#alarmMessage-${planList[i].planId}`).removeClass("d-none");
@@ -308,7 +312,7 @@ function showTodoList() {
 		}
 
 		if (new Date(planEndDate).getMonth() === new Date().getMonth()) {
-			if (new Date(planEndDate).getDate() < new Date().getDate()) {
+			if (new Date(planEndDate).setHours(0, 0, 0, 0) < new Date().getDate()) {
 				document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 2px solid red;");
 			}
 		}
@@ -322,7 +326,8 @@ function deletePlanner(planId) {
 			url: `/plan/${planId}`,
 			type: "DELETE",
 			success: function () {
-				location.reload();
+				// location.reload();
+				getPlanList();
 			},
 			error: function (xhr) {
 				if (xhr.status === 401) {
@@ -346,7 +351,8 @@ function completePlanner(planId) {
 		data: JSON.stringify({ "complete": (complete ? "Y" : "N") }),
 		contentType: "application/json",
 		success: function () {
-				location.reload();
+			// locataion.reload();
+			getPlanList();
 		},
 		error: function (xhr) {
 			if (xhr.status === 401) {
@@ -417,7 +423,8 @@ function submitPlanner() {
 		data: formData,
 		success: function () {
 			alert("추가 성공!")
-			location.reload();
+			// location.onload();
+			getPlanList();
 		},
 		error: function () {
 			alert("추가 실패!")
@@ -434,64 +441,33 @@ function formatDate(dateString) {
 
 function getCurrentDate() {
 	const today = new Date();
+	console.log(today);
 	const month = (today.getMonth() + 1).toString().padStart(2, '0');
 	const day = today.getDate().toString().padStart(2, '0');
 	return `${today.getFullYear()}-${month}-${day}`;
+	
 }
 
 function initializeDateInput() {
 	// 날짜 입력 필드 찾기
-	var dateInput = document.getElementById('startDate');
-	var dateInput2 = document.getElementById('endDate');
-
+	let dateInput = document.getElementById('startDate');
+	let dateInput2 = document.getElementById('endDate');
+	
+	
 	// 현재 날짜를 포함한 임의의 날짜로 설정 (형식을 강제로 바꾸기 위함)
-	var currentDate = new Date();
-	var year = currentDate.getFullYear();
-	var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-	var day = ('0' + currentDate.getDate()).slice(-2);
-	var today = year + '-' + month + '-' + day;
+	let currentDate = new Date();
+	let year = currentDate.getFullYear();
+	let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+	let day = ('0' + currentDate.getDate()).slice(-2);
+	let today = year + '-' + month + '-' + day;
 
 	// 날짜 입력 필드의 값을 현재 날짜로 설정
 	dateInput.value = today;
 	dateInput2.value = today;
+	
 }
 
-// // 다크 모드 적용
-// document.addEventListener("DOMContentLoaded", function() {
-//     const darkModeToggle = document.getElementById("switch");
-//     const body = document.body;
 
-//     // 초기화: 저장된 테마 모드가 있으면 적용, 없으면 시스템 설정에 따라 초기화
-//     if (localStorage.getItem("darkMode") === "enabled") {
-//         enableDarkMode();
-//     } else if (localStorage.getItem("darkMode") === "disabled") {
-//         disableDarkMode();
-//     } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-//         enableDarkMode();
-//     }
-
-//     // 다크 모드 전환 버튼 클릭 시 토글
-//     darkModeToggle.addEventListener("click", () => {
-
-//         if (body.classList.contains("dark-mode")) {
-//             disableDarkMode();
-//         } else {
-//             enableDarkMode();
-//         }
-//     });
-
-//     // 다크 모드 활성화
-//     function enableDarkMode() {
-//         body.classList.add("dark-mode");
-//         localStorage.setItem("darkMode", "enabled");
-//     }
-
-//     // 다크 모드 비활성화
-//     function disableDarkMode() {
-//         body.classList.remove("dark-mode");
-//         localStorage.setItem("darkMode", "disabled");
-//     }
-// });
 
 
 
