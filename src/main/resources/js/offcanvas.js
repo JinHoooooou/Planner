@@ -122,7 +122,7 @@ function accordionBody(detail) {
     <div class="accordion-body p-2">
       <div class="container">
         <div class="row">
-          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents}</textarea>
+          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents ?? ""}</textarea>
           <div class="col-5">
             <div class="row justify-content-center">
               <div class="col-8">
@@ -175,7 +175,16 @@ function requestDetailComplete() {
 function requestUpdateDetail() {
   let original = $(this).find("p");
   let update = $(this).find(".updateInput");
+
   if (!isUpdated(original, update)) {
+    let accordionHeader = $(original[0]).parent();
+    console.log((accordionHeader))
+    $(accordionHeader).removeClass("text-danger");
+    let errorIcon = $(accordionHeader).find(".bi-exclamation-circle");
+    if (errorIcon) {
+      $(errorIcon).replaceWith($(`<input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
+      ${$(errorIcon).attr("checked") ?? ''}/>`));
+    }
     return;
   }
 

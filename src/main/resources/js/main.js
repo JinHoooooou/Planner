@@ -312,7 +312,7 @@ function showTodoList() {
 		}
 
 		if (new Date(planEndDate).getMonth() === new Date().getMonth()) {
-			if (new Date(planEndDate).setHours(0, 0, 0, 0) < new Date().getDate()) {
+			if (new Date(planEndDate).getDate() < new Date().getDate()) {
 				document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 2px solid red;");
 			}
 		}
