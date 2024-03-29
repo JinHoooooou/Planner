@@ -5,12 +5,12 @@ body {
 
 /*다크모드 스타일 적용 */
 .dark-mode {
-    background-color: rgb(30, 30, 30) !important;
+    background-color: rgb(70, 70, 70) !important;
     color: white !important;
 }
 
 .dark-mode-main {
-    background-color: rgb(30, 30, 30) !important;
+    background-color: rgb(70, 70, 70) !important;
     color: white !important;
     border-radius: 10px !important;
     border: 2px solid white !important;
@@ -18,12 +18,12 @@ body {
 
 .dark-mode-save {
     background-color: white !important;
-    color: rgb(30, 30, 30) !important;
+    color: rgb(70, 70, 70) !important;
     font-weight: bold !important;
 }
 
 .dark-mode-input {
-    background-color: rgb(30, 30, 30) !important;
+    background-color: rgb(70, 70, 70) !important;
     color: white !important;
     border-color: white !important;
 }
@@ -35,9 +35,9 @@ body {
 .dark-scheme {
     color-scheme: dark !important;
     border-color: white !important;
+    
+    
 }
-
-
 
 /* Header */
 .mainTitle {
