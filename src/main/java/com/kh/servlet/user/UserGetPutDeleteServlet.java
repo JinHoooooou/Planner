@@ -62,6 +62,7 @@ public class UserGetPutDeleteServlet extends HttpServlet {
       target = target.putRequestDto(requestBody);
 
       new UserDao().updateUserInfo(target);
+      session.invalidate();
       resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
     } catch (Exception e) {
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
