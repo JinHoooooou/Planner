@@ -3,7 +3,7 @@ function getDetailList() {
   $.ajax({
     url: "/details",
     type: "GET",
-    data: { planId: plan.planId },
+    data: {planId: plan.planId},
     dataType: "json",
     async: false,
     success: function (response) {
@@ -13,40 +13,11 @@ function getDetailList() {
       alert(xhr.responseJSON.message);
       if (xhr.status === 401) {
         window.location.href = "/index.html";
-      } else if(xhr.status === 400) {
+      } else if (xhr.status === 400) {
         window.location.href = "/main.html"
       }
     }
   });
-
-  $("#planUpdateButton").on("click", function () {
-    let updatePlanTitle = $("#planTitle").val();
-    let updatePlanStartDate = $("#planStartDate").val();
-    let updatePlanEndDate = $("#planEndDate").val();
-    let updatePlanRemindAlarmDate = $("#planRemindAlarm").val();
-
-    let planUpdateForm = {
-      "title": updatePlanTitle,
-      "startDate": updatePlanStartDate,
-      "endDate": updatePlanEndDate,
-      "remindAlarmDate": updatePlanRemindAlarmDate
-    }
-
-    $.ajax({
-      url: `/plan/${plan.planId}`,
-      type: "PUT",
-      data: JSON.stringify(planUpdateForm),
-      dataType: "json",
-      success: function () {
-        console.log("success")
-        location.reload();
-      },
-      error: function (xhr) {
-        $("#errorMessage").text(xhr.responseJSON.message)
-          .fadeIn().fadeOut(5000);
-      }
-    })
-  })
 }
 
 function renderOffcanvas(response, plan) {
@@ -122,7 +93,7 @@ function accordionBody(detail) {
     <div class="accordion-body p-2">
       <div class="container">
         <div class="row">
-          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents ?? ""}</textarea>
+          <textarea class="form-control-plaintext col ps-2 updateInput">${detail.contents}</textarea>
           <div class="col-5">
             <div class="row justify-content-center">
               <div class="col-8">
@@ -156,7 +127,7 @@ function requestDetailComplete() {
   let detailPlanId = $(formCheckInput).parents(".accordion-item").attr("id").split("-")[1];
   $.ajax({
     url: `/detail/${detailPlanId}`,
-    data: JSON.stringify({ "complete": (complete ? "Y" : "N") }),
+    data: JSON.stringify({"complete": (complete ? "Y" : "N")}),
     contentType: "application/json",
     type: "patch",
     dataType: "json",
@@ -175,16 +146,7 @@ function requestDetailComplete() {
 function requestUpdateDetail() {
   let original = $(this).find("p");
   let update = $(this).find(".updateInput");
-
   if (!isUpdated(original, update)) {
-    let accordionHeader = $(original[0]).parent();
-    console.log((accordionHeader))
-    $(accordionHeader).removeClass("text-danger");
-    let errorIcon = $(accordionHeader).find(".bi-exclamation-circle");
-    if (errorIcon) {
-      $(errorIcon).replaceWith($(`<input class="col-1 my-auto mx-3 form-check-input" data-bs-toggle="collapse" type="checkbox" 
-      ${$(errorIcon).attr("checked") ?? ''}/>`));
-    }
     return;
   }
 
@@ -249,7 +211,7 @@ function replaceWithErrorIcon(formCheckInput) {
   let accordionHeader = $(formCheckInput).parent();
   $(accordionHeader).addClass("text-danger");
   $(formCheckInput).replaceWith(
-    $(`<i class="bi bi-exclamation-circle col-1 my-auto mx-2 p-0" ${$(formCheckInput).attr("checked")
+      $(`<i class="bi bi-exclamation-circle col-1 my-auto mx-2 p-0" ${$(formCheckInput).attr("checked")
       ?? ''}  ></i>`));
 }
 
@@ -287,7 +249,7 @@ function renderProgress(plan, list) {
   });
 
   progress.css("width", (checkedCount / list.length) * 100 + '%')
-    .text(Math.round((checkedCount / list.length) * 100).toFixed(1) + '%');
+  .text(Math.round((checkedCount / list.length) * 100).toFixed(1) + '%');
 }
 
 function renderCreateDetailForm() {
@@ -295,15 +257,15 @@ function renderCreateDetailForm() {
   $("#detailCreateCollapseButton").text("접기");
   $("#detailContents").val("");
   $("#detailStartDate").val(
-    today.getFullYear() + "-"
-    + String(today.getMonth() + 1).padStart(2, '0') + "-"
-    + String(today.getDate()).padStart(2, '0')
+      today.getFullYear() + "-"
+      + String(today.getMonth() + 1).padStart(2, '0') + "-"
+      + String(today.getDate()).padStart(2, '0')
   );
   $("#detailStartTime").val(
-    String(today.getHours()).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
+      String(today.getHours()).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
   );
   $("#detailEndTime").val(
-    String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
+      String(today.getHours() + 1).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0')
   );
 }
 
@@ -337,5 +299,5 @@ function updateProgress() {
   let totalCheckBoxCount = $(".form-check-input").length;
   let progressPercent = (checkedCount / totalCheckBoxCount) * 100;
   $("#planProgress").css("width", progressPercent + '%')
-    .text(Math.round(progressPercent).toFixed(1) + '%')
+  .text(Math.round(progressPercent).toFixed(1) + '%')
 }
