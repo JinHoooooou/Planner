@@ -20,6 +20,7 @@ public interface Message {
   String ERROR_USER_PHONE = "유효하지 않은 휴대전화번호입니다.";
 
   String SUCCESS_SIGNUP = "환영합니다.\n가입이 완료되었습니다\n\n로그인 후 이용해주세요.";
+  String SUCCESS_UPDATE_USER = "회원 정보가 변경되었습니다.\n다시 로그인하세요.";
 
   String INVALID_REQUEST = "올바른 요청이 아닙니다.";
   String INVALID_SESSION = "세션이 유효하지 않습니다.\n다시 로그인하세요.";

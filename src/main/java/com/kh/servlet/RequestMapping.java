@@ -5,6 +5,7 @@ import com.kh.servlet.user.GetUserInfoController;
 import com.kh.servlet.user.NicknameDuplicateController;
 import com.kh.servlet.user.SignInController;
 import com.kh.servlet.user.SignUpController;
+import com.kh.servlet.user.UpdateUserController;
 import com.kh.servlet.user.UserIdDuplicateController;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class RequestMapping {
     map.put("/api/user/signin", new SignInController());
     map.put("/api/user/info", new GetUserInfoController());
     map.put("/api/user/delete", new DeleteUserController());
+    map.put("/api/user/update", new UpdateUserController());
   }
 
   public RestController findController(String url) {

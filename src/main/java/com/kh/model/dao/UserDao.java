@@ -4,6 +4,7 @@ import com.kh.constant.Message;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
 import com.kh.model.dto.SignInRequestDto;
+import com.kh.model.dto.UpdateUserRequestDto;
 import com.kh.model.vo.User;
 
 public class UserDao {
@@ -22,12 +23,15 @@ public class UserDao {
         user.getNickname(), user.getEmail(), user.getPhone());
   }
 
-  public int updateUserInfo(User update) {
+  public int updateUserInfo(String userId, UpdateUserRequestDto requestDto) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "UPDATE USERS SET USER_PW=?, EMAIL=?, PHONE=? WHERE USER_ID=?";
-    return jdbcTemplate.executeUpdate(query, update.getUserPw(), update.getEmail(),
-        update.getPhone(),
-        update.getUserId());
+    int result = jdbcTemplate
+        .executeUpdate(query, requestDto.getUserPw(), requestDto.getEmail(), requestDto.getPhone(), userId);
+    if (result == 0) {
+      throw new RuntimeException(Message.INVALID_SESSION);
+    }
+    return result;
   }
 
   public int deleteByUserId(String userId) {
