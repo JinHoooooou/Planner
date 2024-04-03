@@ -72,13 +72,13 @@ function requestSignUp() {
   event.preventDefault();
   let signUpForm = $(this).serialize();
   $.ajax({
-    url: "/user/signup",
+    url: "/api/user/signup",
     type: "POST",
     contentType: "application/x-www-form-urlencoded",
     data: signUpForm,
     dataType: "json",
-    success: function () {
-      alert("회원가입이 완료되었습니다.");
+    success: function (response) {
+      alert(response.message);
       document.location.href = '/user/signin.html';
     },
     error: function (xhr) {

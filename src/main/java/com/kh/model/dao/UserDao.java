@@ -1,13 +1,19 @@
 package com.kh.model.dao;
 
+import com.kh.constant.Message;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
 import com.kh.model.vo.User;
-import java.util.List;
 
 public class UserDao {
 
   public int save(User user) {
+    if (this.findByUserId(user.getUserId()) != null) {
+      throw new RuntimeException(Message.DUPLICATE_USER_ID);
+    }
+    if (this.findByNickname(user.getNickname()) != null) {
+      throw new RuntimeException(Message.DUPLICATE_USER_NICKNAME);
+    }
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "INSERT INTO USERS(USER_ID, USER_PW, USER_NAME, NICKNAME, EMAIL, PHONE)"
         + " VALUES(?, ?, ?, ?, ?, ?)";
