@@ -2,6 +2,7 @@ package com.kh.controller.user;
 
 import com.kh.constant.Message;
 import com.kh.controller.RestController;
+import com.kh.controller.UserSessionUtils;
 import com.kh.model.dao.UserDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,24 +11,28 @@ import org.json.JSONObject;
 
 public class DeleteUserController implements RestController {
 
+  private UserDao userDao = new UserDao();
+
   @Override
   public JSONObject execute(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(false);
     JSONObject responseBody = new JSONObject();
-    if (session == null || session.getAttribute("userId") == null) {
-      responseBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+    HttpSession session = request.getSession(false);
+
+    if (!UserSessionUtils.isSignIn(session)) {
       responseBody.put("message", Message.INVALID_SESSION);
+      responseBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
       return responseBody;
     }
+
     try {
-      new UserDao().deleteByUserId(String.valueOf(session.getAttribute("userId")));
+      String userId = UserSessionUtils.getUserIdFromSession(session);
+      userDao.deleteByUserId(userId);
 
       responseBody.put("status", HttpServletResponse.SC_NO_CONTENT);
     } catch (RuntimeException e) {
-      responseBody.put("status", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       responseBody.put("message", e.getLocalizedMessage());
+      responseBody.put("status", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
-
     return responseBody;
   }
 }

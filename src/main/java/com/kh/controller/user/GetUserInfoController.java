@@ -2,6 +2,7 @@ package com.kh.controller.user;
 
 import com.kh.constant.Message;
 import com.kh.controller.RestController;
+import com.kh.controller.UserSessionUtils;
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,19 +12,22 @@ import org.json.JSONObject;
 
 public class GetUserInfoController implements RestController {
 
+  private UserDao userDao = new UserDao();
+
   @Override
   public JSONObject execute(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(false);
     JSONObject responseBody = new JSONObject();
+    HttpSession session = request.getSession(false);
 
-    if (session == null || session.getAttribute("userId") == null) {
+    if (!UserSessionUtils.isSignIn(session)) {
       responseBody.put("message", Message.INVALID_SESSION);
       responseBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
       return responseBody;
     }
+
     try {
-      Object user = session.getAttribute("userId");
-      User target = new UserDao().findByUserId(String.valueOf(user));
+      String userId = UserSessionUtils.getUserIdFromSession(session);
+      User target = userDao.findByUserId(userId);
 
       responseBody.put("data", target.parseJson());
       responseBody.put("status", HttpServletResponse.SC_OK);

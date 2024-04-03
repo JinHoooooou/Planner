@@ -2,6 +2,7 @@ package com.kh.controller.user;
 
 import com.kh.constant.Message;
 import com.kh.controller.RestController;
+import com.kh.controller.UserSessionUtils;
 import com.kh.model.dao.UserDao;
 import com.kh.model.dto.UpdateUserRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,11 +14,12 @@ public class UpdateUserController implements RestController {
 
   @Override
   public JSONObject execute(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(false);
     JSONObject responseBody = new JSONObject();
-    if (session == null || session.getAttribute("userId") == null) {
-      responseBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+    HttpSession session = request.getSession(false);
+
+    if (!UserSessionUtils.isSignIn(session)) {
       responseBody.put("message", Message.INVALID_SESSION);
+      responseBody.put("status", HttpServletResponse.SC_UNAUTHORIZED);
       return responseBody;
     }
 
@@ -34,7 +36,6 @@ public class UpdateUserController implements RestController {
       responseBody.put("message", e.getLocalizedMessage());
       responseBody.put("status", HttpServletResponse.SC_BAD_REQUEST);
     }
-
     return responseBody;
   }
 }
