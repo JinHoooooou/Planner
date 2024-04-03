@@ -53,7 +53,7 @@ function requestUpdateUser() {
 function requestDeleteUser() {
   if (confirm("정말 탈퇴하시겠습니까?")) {
     $.ajax({
-      url: "/user",
+      url: "/api/user",
       type: "DELETE",
       dataType: "json",
       success: function () {

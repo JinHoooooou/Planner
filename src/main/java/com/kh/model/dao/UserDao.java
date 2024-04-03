@@ -33,7 +33,11 @@ public class UserDao {
   public int deleteByUserId(String userId) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     String query = "DELETE FROM USERS WHERE USER_ID=?";
-    return jdbcTemplate.executeUpdate(query, userId);
+    int result = jdbcTemplate.executeUpdate(query, userId);
+    if (result == 0) {
+      throw new RuntimeException(Message.INVALID_SESSION);
+    }
+    return result;
   }
 
   public User findByUserId(String userId) {

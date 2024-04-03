@@ -1,5 +1,6 @@
 package com.kh.servlet;
 
+import com.kh.servlet.user.DeleteUserController;
 import com.kh.servlet.user.GetUserInfoController;
 import com.kh.servlet.user.NicknameDuplicateController;
 import com.kh.servlet.user.SignInController;
@@ -18,6 +19,7 @@ public class RequestMapping {
     map.put("/api/user/signup", new SignUpController());
     map.put("/api/user/signin", new SignInController());
     map.put("/api/user/info", new GetUserInfoController());
+    map.put("/api/user/delete", new DeleteUserController());
   }
 
   public RestController findController(String url) {
