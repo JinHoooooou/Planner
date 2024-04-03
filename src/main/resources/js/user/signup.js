@@ -54,20 +54,15 @@ function requestDuplicateUserId() {
 
 function requestDuplicateNickname() {
   let nickname = $("#nickname").val();
-  console.log(nickname);
-  if (!nicknameRegex.test(nickname)) {
-    alert("닉네임은 3~20자의 한글, 영문, 숫자를 사용해야합니다.")
-    return;
-  }
   $.ajax({
-    url: `/user/duplicate/nickname/${nickname}`,
+    url: "/api/user/duplicate/nickname",
     type: "GET",
+    data: {"nickname": nickname},
     dataType: "json",
-    success: function () {
-      alert("사용 가능한 닉네임 입니다.")
+    success: function (response) {
+      alert(response.message)
     },
     error: function (xhr) {
-      console.log("ㅋㅋ");
       alert(xhr.responseJSON.message);
     }
   })
