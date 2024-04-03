@@ -4,6 +4,7 @@ import com.kh.controller.user.DeleteUserController;
 import com.kh.controller.user.GetUserInfoController;
 import com.kh.controller.user.NicknameDuplicateController;
 import com.kh.controller.user.SignInController;
+import com.kh.controller.user.SignOutController;
 import com.kh.controller.user.SignUpController;
 import com.kh.controller.user.UpdateUserController;
 import com.kh.controller.user.UserIdDuplicateController;
@@ -22,6 +23,7 @@ public class RequestMapping {
     map.put("/api/user/info", new GetUserInfoController());
     map.put("/api/user/delete", new DeleteUserController());
     map.put("/api/user/update", new UpdateUserController());
+    map.put("/api/user/signout", new SignOutController());
   }
 
   public RestController findController(String url) {

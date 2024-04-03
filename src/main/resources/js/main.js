@@ -20,7 +20,7 @@ window.onload = function () {
   document.getElementById("searchButton").onclick = searchFunction;
 
   document.getElementById("search").onkeyup = processChange;
-  $("#logout").on("click", requestLogOut);
+  $("#signOut").on("click", requestSignOut);
 
   document.getElementById("switch").onchange = darkMode;
   getPlanList();
@@ -66,12 +66,16 @@ function getPlanList() {
 
           // 마감 알람 설정 함수(alert)
           if (planList[i].remindAlarmDate != undefined) {
-            if ((new Date(planList[i].remindAlarmDate).getTime() < new Date().getTime())) {
-              if (new Date(planList[i].endDate).getMonth() > new Date().getMonth()) {
+            if ((new Date(planList[i].remindAlarmDate).getTime()
+                < new Date().getTime())) {
+              if (new Date(planList[i].endDate).getMonth()
+                  > new Date().getMonth()) {
                 $(`#alarmMessage-${planList[i].planId}`).removeClass("d-none")
               }
-              if (new Date(planList[i].endDate).getMonth() == new Date().getMonth()) {
-                if (new Date(planList[i].endDate).getDate() >= new Date().getDate()) {
+              if (new Date(planList[i].endDate).getMonth()
+                  == new Date().getMonth()) {
+                if (new Date(planList[i].endDate).getDate()
+                    >= new Date().getDate()) {
                   $(`#alarmMessage-${planList[i].planId}`).removeClass("d-none")
                 }
               }
@@ -131,14 +135,14 @@ function darkMode() {
 
 }
 
-function requestLogOut() {
+function requestSignOut() {
   $.ajax({
-    url: "/user/logout",
+    url: "/api/user/signout",
     success: function () {
       window.location.href = "/index.html"
     },
-    error: function () {
-      alert("invalid error")
+    error: function (xhr) {
+      alert(xhr.responseJSON.message);
     }
   })
 }
@@ -219,10 +223,12 @@ function drawPlanList(response) {
 
   function sortStartDateASC(planList) {
     const startDateAsc = planList.sort(function (a, b) {
-      if (new Date(a["startDate"]).getTime() < new Date(b["startDate"]).getTime()) {
+      if (new Date(a["startDate"]).getTime() < new Date(
+          b["startDate"]).getTime()) {
         return -1;
       }
-      if (new Date(a["startDate"]).getTime() > new Date(b["startDate"]).getTime()) {
+      if (new Date(a["startDate"]).getTime() > new Date(
+          b["startDate"]).getTime()) {
         return 1;
       }
       return 0;
@@ -239,10 +245,12 @@ function drawPlanList(response) {
 
   function sortStartDateDESC(planList) {
     const startDateDesc = planList.sort(function (a, b) {
-      if (new Date(a["startDate"]).getTime() < new Date(b["startDate"]).getTime()) {
+      if (new Date(a["startDate"]).getTime() < new Date(
+          b["startDate"]).getTime()) {
         return 1;
       }
-      if (new Date(a["startDate"]).getTime() > new Date(b["startDate"]).getTime()) {
+      if (new Date(a["startDate"]).getTime() > new Date(
+          b["startDate"]).getTime()) {
         return -1;
       }
       return 0;
@@ -316,7 +324,8 @@ function showTodoList() {
 				class="comRadio" onchange="completePlanner(${planListComp})"
 				${planComplete === 'Y' ? 'checked' : ''}
 				><strong id="listTitle-${i}" ${planComplete === 'Y'
-            ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "' : ''}>
+            ? 'style="text-decoration : line-through; text-decoration-thickness: 3px; "'
+            : ''}>
 					${planTitle}
 				</strong>
 		</div>
@@ -346,7 +355,8 @@ function showTodoList() {
 
       if (new Date(planAlarmDate).setHours(0, 0, 0, 0) < new Date().getTime()) {
         if (planComplete === 'N') {
-          document.getElementsByClassName("plannerItem")[i].setAttribute("style",
+          document.getElementsByClassName("plannerItem")[i].setAttribute(
+              "style",
               "animation: heartBeat 1s ease-in-out infinite;");
           $(`#alarmMessage-${planList[i].planId}`).removeClass("d-none");
         }
@@ -355,12 +365,14 @@ function showTodoList() {
     // 마감 기한이 지난 플랜에 스타일 주기
 
     if (new Date(planEndDate).getMonth() < new Date().getMonth()) {
-      document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 2px solid red;");
+      document.getElementsByClassName("plannerItem")[i].setAttribute("style",
+          "border: 2px solid red;");
     }
 
     if (new Date(planEndDate).getMonth() === new Date().getMonth()) {
       if (new Date(planEndDate).getDate() < new Date().getDate()) {
-        document.getElementsByClassName("plannerItem")[i].setAttribute("style", "border: 2px solid red;");
+        document.getElementsByClassName("plannerItem")[i].setAttribute("style",
+            "border: 2px solid red;");
       }
     }
 
@@ -463,7 +475,12 @@ function submitPlanner() {
   if (endAlarmDateBoolean.checked && !endAlarmDate) {
     endAlarmDate = getCurrentDate();
   }
-  let formData = {"title": title, "startDate": startDate, "endDate": endDate, "remindAlarmDate": endAlarmDate}
+  let formData = {
+    "title": title,
+    "startDate": startDate,
+    "endDate": endDate,
+    "remindAlarmDate": endAlarmDate
+  }
   $.ajax({
     url: "/plan/create",
     type: "post",
