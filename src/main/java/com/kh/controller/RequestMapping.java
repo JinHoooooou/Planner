@@ -1,12 +1,12 @@
-package com.kh.servlet;
+package com.kh.controller;
 
-import com.kh.servlet.user.DeleteUserController;
-import com.kh.servlet.user.GetUserInfoController;
-import com.kh.servlet.user.NicknameDuplicateController;
-import com.kh.servlet.user.SignInController;
-import com.kh.servlet.user.SignUpController;
-import com.kh.servlet.user.UpdateUserController;
-import com.kh.servlet.user.UserIdDuplicateController;
+import com.kh.controller.user.DeleteUserController;
+import com.kh.controller.user.GetUserInfoController;
+import com.kh.controller.user.NicknameDuplicateController;
+import com.kh.controller.user.SignInController;
+import com.kh.controller.user.SignUpController;
+import com.kh.controller.user.UpdateUserController;
+import com.kh.controller.user.UserIdDuplicateController;
 import java.util.HashMap;
 import java.util.Map;
 

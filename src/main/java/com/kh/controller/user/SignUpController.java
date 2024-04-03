@@ -1,10 +1,10 @@
-package com.kh.servlet.user;
+package com.kh.controller.user;
 
 import com.kh.constant.Message;
+import com.kh.controller.RestController;
 import com.kh.model.dao.UserDao;
 import com.kh.model.dto.SignUpRequestDto;
 import com.kh.model.vo.User;
-import com.kh.servlet.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
