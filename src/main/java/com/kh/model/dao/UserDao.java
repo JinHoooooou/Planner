@@ -3,6 +3,7 @@ package com.kh.model.dao;
 import com.kh.constant.Message;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
+import com.kh.model.dto.SignInRequestDto;
 import com.kh.model.vo.User;
 
 public class UserDao {
@@ -56,13 +57,13 @@ public class UserDao {
     return jdbcTemplate.executeQueryForOne(query, mapper, nickname);
   }
 
-  public void login(String userId, String userPw) {
-    User target = this.findByUserId(userId);
-    if (target.getUserId() == null) {
-      throw new IllegalArgumentException("없는 아이디");
+  public void signIn(SignInRequestDto requestDto) {
+    User target = this.findByUserId(requestDto.getUserId());
+    if (target == null) {
+      throw new RuntimeException(Message.NOT_EXIST_USER_ID);
     }
-    if (!userPw.equals(target.getUserPw())) {
-      throw new IllegalArgumentException("패스워드 불일치");
+    if (!target.getUserPw().equals(requestDto.getUserPw())) {
+      throw new RuntimeException(Message.NOT_EQUAL_USER_PASSWORD);
     }
   }
 }
