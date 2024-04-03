@@ -1,5 +1,6 @@
 package com.kh.servlet;
 
+import com.kh.servlet.user.GetUserInfoController;
 import com.kh.servlet.user.NicknameDuplicateController;
 import com.kh.servlet.user.SignInController;
 import com.kh.servlet.user.SignUpController;
@@ -16,6 +17,7 @@ public class RequestMapping {
     map.put("/api/user/duplicate/nickname", new NicknameDuplicateController());
     map.put("/api/user/signup", new SignUpController());
     map.put("/api/user/signin", new SignInController());
+    map.put("/api/user/info", new GetUserInfoController());
   }
 
   public RestController findController(String url) {

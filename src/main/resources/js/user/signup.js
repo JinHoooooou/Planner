@@ -24,7 +24,7 @@ $(document).ready(function () {
     $("#nicknameErrorMessage").text(!nicknameRegex.test($(this).val()) ? nicknameMessage : "")
   })
   $.ajax({
-    url: "/user",
+    url: "/api/user",
     type: "GET",
     dataType: "json",
     success: function () {

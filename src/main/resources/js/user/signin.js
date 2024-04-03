@@ -17,7 +17,7 @@ $(window).ready(function () {
     })
   })
   $.ajax({
-    url: "/user",
+    url: "/api/user",
     type: "GET",
     dataType: "json",
     success: function () {

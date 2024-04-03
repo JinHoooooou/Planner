@@ -1,12 +1,16 @@
 $(window).ready(function () {
   $.ajax({
-    url: "/user",
+    url: "/api/user/info",
     type: "GET",
     dataType: "json",
     success: renderInfo,
     error: function (xhr) {
       alert(xhr.responseJSON.message);
-      window.location.href = "/index.html";
+      if (xhr.status === 401) {
+        window.location.href = "/index.html";
+      } else {
+        window.location.href = "/main.html";
+      }
     }
   })
 
@@ -15,13 +19,14 @@ $(window).ready(function () {
 })
 
 function renderInfo(response) {
-  $("#userId").val(response.userId);
-  $("#userPw").val(response.userPw);
-  $("#userPwConfirm").val(response.userPw);
-  $("#userName").val(response.userName);
-  $("#nickname").val(response.nickname);
-  $("#email").val(response.email);
-  $("#phone").val(response.phone);
+  let userInfo = response.data
+  $("#userId").val(userInfo.userId);
+  $("#userPw").val(userInfo.userPw);
+  $("#userPwConfirm").val(userInfo.userPw);
+  $("#userName").val(userInfo.userName);
+  $("#nickname").val(userInfo.nickname);
+  $("#email").val(userInfo.email);
+  $("#phone").val(userInfo.phone);
 }
 
 function requestUpdateUser() {

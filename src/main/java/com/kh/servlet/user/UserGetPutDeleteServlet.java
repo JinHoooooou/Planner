@@ -16,33 +16,6 @@ import org.json.JSONObject;
 public class UserGetPutDeleteServlet extends HttpServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    HttpSession session = req.getSession(false);
-    JSONObject responseBody = new JSONObject();
-
-    if (session == null || session.getAttribute("userId") == null) {
-      resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      responseBody.put("message", "세션이 유효하지 않습니다.");
-      resp.getWriter().write(responseBody.toString());
-      resp.getWriter().close();
-      return;
-    }
-    Object user = session.getAttribute("userId");
-    User target = new UserDao().findByUserId(String.valueOf(user));
-
-    responseBody.put("userId", target.getUserId());
-    responseBody.put("userPw", target.getUserPw());
-    responseBody.put("userName", target.getUserName());
-    responseBody.put("nickname", target.getNickname());
-    responseBody.put("email", target.getEmail());
-    responseBody.put("phone", target.getPhone());
-
-    resp.setStatus(HttpServletResponse.SC_OK);
-    resp.getWriter().write(responseBody.toString());
-    resp.getWriter().close();
-  }
-
-  @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     HttpSession session = req.getSession(false);
     JSONObject responseBody = new JSONObject();

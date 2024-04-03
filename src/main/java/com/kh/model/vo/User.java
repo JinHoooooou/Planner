@@ -73,4 +73,16 @@ public class User {
 
     return this;
   }
+
+  public JSONObject parseJson() {
+    JSONObject result = new JSONObject();
+    result.put("userId", this.getUserId());
+    result.put("userPw", this.getUserPw());
+    result.put("userName", this.getUserName());
+    result.put("nickname", this.getNickname());
+    result.put("email", this.getEmail());
+    result.put("phone", this.getPhone());
+
+    return result;
+  }
 }
