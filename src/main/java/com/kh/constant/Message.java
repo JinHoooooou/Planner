@@ -24,4 +24,9 @@ public interface Message {
 
   String INVALID_REQUEST = "올바른 요청이 아닙니다.";
   String INVALID_SESSION = "세션이 유효하지 않습니다.\n다시 로그인하세요.";
+
+  String EMPTY_PLAN_TITLE = "제목을 입력해 주세요.";
+  String INVALID_PLAN_DATE = "시작 날짜는 마감 날짜보다 앞서야 합니다.";
+  String INVALID_PLAN_ALARM_DATE = "알람 날짜는 마감 날짜보다 앞서야 합니다.";
+
 }

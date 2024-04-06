@@ -1,5 +1,7 @@
 package com.kh.controller;
 
+import com.kh.controller.plan.CreatePlanController;
+import com.kh.controller.plan.ListPlanController;
 import com.kh.controller.user.DeleteUserController;
 import com.kh.controller.user.GetUserInfoController;
 import com.kh.controller.user.NicknameDuplicateController;
@@ -24,6 +26,9 @@ public class RequestMapping {
     map.put("/api/user/delete", new DeleteUserController());
     map.put("/api/user/update", new UpdateUserController());
     map.put("/api/user/signout", new SignOutController());
+
+    map.put("/api/plan/list", new ListPlanController());
+    map.put("/api/plan/create", new CreatePlanController());
   }
 
   public RestController findController(String url) {

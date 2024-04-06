@@ -123,10 +123,10 @@ main ul {
 }
 
 main li {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    cursor: pointer;
+  /*border: 1px solid #ccc;*/
+  /*border-radius: 4px;*/
+  /*margin-bottom: 10px;*/
+  /*cursor: pointer;*/
 }
 
 main input[type="date"] {
@@ -200,7 +200,6 @@ main strong {
 #planSection {
     margin-top: 20px;
     align-items: center;
-    text-align: center;
 }
 
 #planSectionHeader {

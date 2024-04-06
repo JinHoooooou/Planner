@@ -71,7 +71,7 @@
     <!-- Main Search Section Start -->
     <div class="forming">
       <div style="width: 100%; font-size: 15px;">
-        <input type="text" id="search" name="search" placeholder='검색하실 제목을 입력하세요.' class="input-dark"
+        <input type="text" id="searchPlanInput" name="search" placeholder='검색하실 제목을 입력하세요.' class="input-dark"
           style="width: 95%; height: 40.5px; font-size: 15px; padding-left: 20px;" value="">
         <button id="searchButton" style="background-color: #fff; font-size: 25px; width: 10px; cursor:pointer;" type="button">
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -85,12 +85,12 @@
       <!-- Main Complete Section Start -->
       <div class="completeBox">
         <div>
-          <span id="notCompleted" class="completion"> </span>
+          <span id="notCompletedPlanCount" class="completion"> </span>
           <br>
           <b>완료할 작업 수</b>
         </div>
         <div>
-          <span id="completed" class="completion"> </span>
+          <span id="completedPlanCount" class="completion"> </span>
           <br>
           <b>완료한 작업 수</b>
         </div>
@@ -99,7 +99,7 @@
       <br />
       <!-- Main Plan Create Form Section Start -->
       <input type="hidden" name="userId">
-      <input class="mt-2 input-dark" id="title" name="title" required type="text"
+      <input class="mt-2 input-dark" id="planTitleInput" name="title" required type="text"
         placeholder='+ "Plan 제목" 추가하기, 시작일과 종료일을 설정하고 [저장] 버튼을 누르면 "Plan 제목"이 추가됩니다.'>
       <br />
       <div style="width: 100%;">
@@ -111,8 +111,10 @@
                 <div style="width: 35%; text-align: center;">마감일</div>
               </div>
               <div style="display: flex;">
-                <input type="date" name="startDate" id="startDate" class="startAlarm scheme-dark" style="max-height: 40.5px; min-height: 40.5px;" required>
-                <input type="date" name="endDate" id="endDate" class="endAlarm scheme-dark" style="max-height: 40.5px; min-height: 40.5px;" required>
+                <input type="date" name="startDate" id="planStartDateInput" class="startAlarm scheme-dark"
+                       style="max-height: 40.5px; min-height: 40.5px;" required>
+                <input type="date" name="endDate" id="planEndDateInput" class="endAlarm scheme-dark"
+                       style="max-height: 40.5px; min-height: 40.5px;" required>
               </div>
             </div>
           </div>
@@ -131,7 +133,7 @@
         </div>
       </div>
       <br />
-      <button id="save" type="button" value="저장">저장</button>
+      <button id="createPlanButton" type="button" value="저장">저장</button>
       <!-- Main Plan Create Form Section End -->
     </div>
     <!-- Main Plan List Section Start -->
@@ -148,7 +150,7 @@
           <li id="startDateDESC" align="center" style="border: 0px; cursor:pointer;"><b>* 시작일 내림차순</b></li>
         </ul>
       </div>
-      <ul id="plannersEle"></ul>
+      <div class="list-group" id="planList"></div>
     </div>
     <!-- Main Plan List Section Start -->
   </main>

@@ -1,18 +1,25 @@
 package com.kh.model.dao;
 
 import com.kh.database.JdbcTemplate;
+import com.kh.database.KeyHolder;
 import com.kh.database.RowMapper;
+import com.kh.model.dto.CreatePlanRequestDto;
 import com.kh.model.vo.Plan;
 import java.util.List;
 
 public class PlanDao {
 
-  public int save(Plan plan) {
+  public Plan save(CreatePlanRequestDto requestDto, String userId) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    String query = "INSERT INTO PLAN(PLAN_ID, WRITER, TITLE, START_DATE, END_DATE, REMIND_ALARM_DATE, COMPLETE)"
-        + "VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, ?, ?)";
-    return jdbcTemplate.executeUpdate(query, plan.getWriter(), plan.getTitle(), plan.getStartDate(),
-        plan.getEndDate(), plan.getRemindAlarmDate(), plan.getComplete());
+    String query = "INSERT INTO PLAN(PLAN_ID, WRITER, TITLE, START_DATE, END_DATE, REMIND_ALARM_DATE)"
+        + "VALUES(SEQ_PLAN.NEXTVAL, ?, ?, ?, ?, ?)";
+    KeyHolder keyHolder = new KeyHolder();
+    keyHolder.setId(jdbcTemplate.getNextVal("SEQ_PLAN"));
+
+    jdbcTemplate.executeUpdate(query, userId, requestDto.getTitle(), requestDto.getStartDate(),
+        requestDto.getEndDate(), requestDto.getRemindAlarmDate());
+
+    return this.findByPlanIdAndWriter(keyHolder.getId(), userId);
   }
 
   public int update(Plan update) {

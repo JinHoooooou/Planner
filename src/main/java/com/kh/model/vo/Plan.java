@@ -83,7 +83,7 @@ public class Plan {
         .build();
   }
 
-  public JSONObject responseDto() {
+  public JSONObject parseJson() {
     JSONObject result = new JSONObject();
     result.put("planId", this.getPlanId());
     result.put("title", this.getTitle());
