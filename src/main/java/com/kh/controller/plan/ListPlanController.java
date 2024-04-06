@@ -3,6 +3,7 @@ package com.kh.controller.plan;
 import com.kh.constant.Message;
 import com.kh.controller.RestController;
 import com.kh.controller.UserSessionUtils;
+import com.kh.model.dao.DetailPlanDao;
 import com.kh.model.dao.PlanDao;
 import com.kh.model.dao.UserDao;
 import com.kh.model.vo.Plan;
@@ -15,8 +16,9 @@ import org.json.JSONObject;
 
 public class ListPlanController implements RestController {
 
-  private UserDao userDao = new UserDao();
-  private PlanDao planDao = new PlanDao();
+  private final UserDao userDao = new UserDao();
+  private final PlanDao planDao = new PlanDao();
+  private final DetailPlanDao detailDao = new DetailPlanDao();
 
   @Override
   public JSONObject execute(HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +52,9 @@ public class ListPlanController implements RestController {
   private JSONArray buildJsonArray(List<Plan> plans) {
     JSONArray result = new JSONArray();
     for (Plan plan : plans) {
-      result.put(plan.parseJson());
+      boolean hasDetails = !detailDao
+          .findByWriterAndPlanIdOrderByDetailPlanId(plan.getWriter(), plan.getPlanId()).isEmpty();
+      result.put(plan.parseJson().put("hasDetails", hasDetails));
     }
     return result;
   }

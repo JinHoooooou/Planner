@@ -35,8 +35,6 @@ body {
 .dark-scheme {
   color-scheme: dark !important;
   border-color: white !important;
-
-
 }
 
 /* Header */
@@ -52,7 +50,6 @@ body {
 
 #headerIcons {
   text-align: right;
-  align-items: right;
   gap: 10px;
 }
 
@@ -63,7 +60,7 @@ header a {
 
 header .btn {
   background-color: #f0f3f6;
-  border: 0px solid black;
+  border: 0 solid black;
 }
 
 header ul {
@@ -72,9 +69,7 @@ header ul {
 }
 
 header li {
-
   border-radius: 4px;
-
   cursor: pointer;
 }
 
@@ -121,21 +116,10 @@ main ul {
   padding: 0;
 }
 
-main li {
-  /*border: 1px solid #ccc;*/
-  /*border-radius: 4px;*/
-  /*margin-bottom: 10px;*/
-  /*cursor: pointer;*/
-}
-
 main input[type="date"] {
   width: 35%;
 }
 
-main .btn {
-  background-color: #f0f3f6;
-  border: 0px solid black;
-}
 
 /* main .forming */
 
@@ -143,13 +127,6 @@ main .btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-#save {
-  width: 80px;
-  background-color: black;
-  color: #fff;
-  border-radius: 4px;
 }
 
 main strong {
@@ -161,7 +138,6 @@ main strong {
   display: flex;
   border: 1px solid lightgray;
   width: 100%;
-  display: flex;
   border-radius: 4px;
   text-align: center;
   justify-content: space-evenly;
@@ -209,18 +185,6 @@ main strong {
 }
 
 /* main -> main.js */
-.plannerItem {
-  padding-left: 20px;
-  font-size: 15px;
-  border: 1px solid lightgray;
-  background-color: #fff;
-  height: 40.5px;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ccc;
-}
 
 .plannerDate {
   color: #777;
@@ -228,21 +192,9 @@ main strong {
   flex: 1;
 }
 
-a.flex-grow-1 {
-  max-width: 410px;
+a.flex-fill {
+  max-width: 430px;
 }
-
-.deleteButton {
-  color: #e91e63;
-  cursor: pointer;
-}
-
-.comRadio {
-  width: 30px;
-  margin-right: 10px;
-  margin-left: -10px;
-}
-
 
 /* 다크모드*/
 .wrapper {

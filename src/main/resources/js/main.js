@@ -82,27 +82,28 @@ function renderPlanList(planList) {
             .on("change", () => {
               requestCompletePlan(plan.planId);
             })
-        ).append(
-            $(`<a id="list-${plan.planId}" href="#" class="flex-grow-1 form-checked-content">`)
+        )
+        .append(
+            $(`<a id="list-${plan.planId}">`)
             .data("plan", plan)
             .attr({
               "data-bs-toggle": "offcanvas",
-              "data-bs-target": "#detailPlan"
-            }).on("click", getDetailList).append(
-                $(`<p class="display-6 my-auto text-truncate">`).text(plan.title)
+              "data-bs-target": "#detailPlan",
+              "href": "#"
+            })
+            .addClass("d-flex flex-grow-1 text-truncate align-items-center justify-content-end form-checked-content")
+            .on("click", getDetailList)
+            .append(
+                $(`<p class="flex-fill display-6 my-auto text-truncate">`).text(plan.title)
+            ).append(
+                $(`<div class="mx-2">`).addClass(plan.remindAlarmDate ? "bi bi-bell-fill" : "")
+            ).append(
+                $(`<div class="mx-2">`).addClass(plan.hasDetails ? "bi bi-diagram-3-fill" : "")
+            ).append(
+                $(`<p class="m-0">`).text(`${plan.startDate} ~ ${plan.endDate}`)
             )
-        ).append(
-            $(`<i class="bi bi-bell-fill mx-2">`)
-        ).append(
-            $(`<i class="bi bi-diagram-3-fill mx-2">`))
-        .append(
-            $(`<div>`).text(plan.startDate)
-        ).append(
-            $(`<div>`).text("~")
         )
         .append(
-            $(`<div>`).text(plan.endDate)
-        ).append(
             $(`<i class="bi bi-trash3-fill ms-2 h2">`).on("click", () => {
               requestDeletePlan(plan.planId);
             })
