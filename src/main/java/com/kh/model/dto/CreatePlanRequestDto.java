@@ -43,7 +43,7 @@ public class CreatePlanRequestDto {
     if (this.getStartDate().isAfter(this.getEndDate())) {
       throw new RuntimeException(Message.INVALID_PLAN_DATE);
     }
-    if (this.getRemindAlarmDate().isAfter(this.getEndDate())) {
+    if (this.getRemindAlarmDate() != null && this.getRemindAlarmDate().isAfter(this.getEndDate())) {
       throw new RuntimeException(Message.INVALID_PLAN_ALARM_DATE);
     }
   }
