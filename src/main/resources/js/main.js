@@ -6,38 +6,23 @@ $(window).ready(function () {
 
   // 메인 페이지 기본적으로 렌더링 다 한 후에 이벤트 적용
   $("#createPlanButton").on("click", requestCreatePlan);
-  $("#signOut").on("click", requestSignOut);
   $("#planUpdateButton").on("click", requestUpdatePlan);
+  $("#signOut").on("click", requestSignOut);
 
+  let planList = data.planList;
+  $("#sortByStartDateAscButton").on("click", () => {
+    sortBy(planList, "startDate", "ASC")
+  });
+  $("#sortByStartDateDescButton").on("click", () => {
+    sortBy(planList, "startDate", "DESC")
+  });
+  $("#sortByEndDateAscButton").on("click", () => {
+    sortBy(planList, "endDate", "ASC");
+  });
+  $("#sortByEndDateDescButton").on("click", () => {
+    sortBy(planList, "endDate", "DESC")
+  });
 })
-
-function requestUpdatePlan() {
-  let updatePlanTitle = $("#planTitle").val();
-  let updatePlanStartDate = $("#planStartDate").val();
-  let updatePlanEndDate = $("#planEndDate").val();
-  let updatePlanRemindAlarmDate = $("#planRemindAlarm").val();
-
-  let planUpdateForm = {
-    "title": updatePlanTitle,
-    "startDate": updatePlanStartDate,
-    "endDate": updatePlanEndDate,
-    "remindAlarmDate": updatePlanRemindAlarmDate
-  }
-
-  $.ajax({
-    url: `/plan/` + $("#planIdForDetail").val(),
-    type: "PUT",
-    data: JSON.stringify(planUpdateForm),
-    dataType: "json",
-    success: function () {
-      location.reload();
-    },
-    error: function (xhr) {
-      $("#errorMessage").text(xhr.responseJSON.message)
-      .fadeIn().fadeOut(5000);
-    }
-  })
-}
 
 function requestPlanListAndNickname() {
   let result = {};
@@ -88,7 +73,6 @@ function renderCreatePlanForm() {
 function renderPlanList(planList) {
   $("#planList").empty();
   $.each(planList, function (index, plan) {
-    let alarmDate = new Date(plan.remindAlarmDate).setHours(0, 0, 0, 0)
     $("#planList").append(
         $(`<div id="plan-${plan.planId}">`)
         .addClass("d-flex align-items-center list-group-item list-group-item-action")
@@ -153,6 +137,72 @@ function renderPlanList(planList) {
   });
 }
 
+function requestCreatePlan() {
+  let title = $("#planTitleInput").val()
+  let startDate = $("#planStartDateInput").val()
+  let endDate = $("#planEndDateInput").val()
+  let remindAlarmDate = $("#endAlarmDate").val();
+
+  let formData = {
+    "title": title, "startDate": startDate, "endDate": endDate, "remindAlarmDate": remindAlarmDate
+  }
+
+  $.ajax({
+    url: "/api/plan/create", type: "post", data: formData, dataType: "json", success: function (response) {
+      requestPlanListAndNickname();
+    }, error: function (xhr) {
+      alert(xhr.responseJSON.message);
+    }
+  })
+}
+
+function requestUpdatePlan() {
+  let updatePlanTitle = $("#planTitle").val();
+  let updatePlanStartDate = $("#planStartDate").val();
+  let updatePlanEndDate = $("#planEndDate").val();
+  let updatePlanRemindAlarmDate = $("#planRemindAlarm").val();
+
+  let planUpdateForm = {
+    "title": updatePlanTitle,
+    "startDate": updatePlanStartDate,
+    "endDate": updatePlanEndDate,
+    "remindAlarmDate": updatePlanRemindAlarmDate
+  }
+
+  $.ajax({
+    url: `/plan/` + $("#planIdForDetail").val(),
+    type: "PUT",
+    data: JSON.stringify(planUpdateForm),
+    dataType: "json",
+    success: function () {
+      location.reload();
+    },
+    error: function (xhr) {
+      $("#errorMessage").text(xhr.responseJSON.message)
+      .fadeIn().fadeOut(5000);
+    }
+  })
+}
+
+function requestSignOut() {
+  $.ajax({
+    url: "/api/user/signout", success: function () {
+      window.location.href = "/index.html"
+    }, error: function (xhr) {
+      alert(xhr.responseJSON.message);
+    }
+  })
+}
+
+function sortBy(list, by, order) {
+  let sorted = list.sort((a, b) => {
+    let timeA = new Date(a[by])
+    let timeB = new Date(b[by])
+    return timeA === timeB ? a["planId"] - b["planId"] : order === "ASC" ? timeA - timeB : timeB - timeA;
+  })
+  renderPlanList(sorted);
+}
+
 function darkMode() {
   let body = document.body;
   body.classList.toggle("dark-mode");
@@ -196,18 +246,6 @@ function darkMode() {
 
 }
 
-function requestSignOut() {
-  $.ajax({
-    url: "/api/user/signout",
-    success: function () {
-      window.location.href = "/index.html"
-    },
-    error: function (xhr) {
-      alert(xhr.responseJSON.message);
-    }
-  })
-}
-
 function debounce(func, timeout = 300) {
   let timer;
   return (...args) => {
@@ -219,122 +257,6 @@ function debounce(func, timeout = 300) {
 }
 
 // 메인페이지 & 검색 시 페이지
-function drawPlanList(response) {
-  let switch_dark = document.getElementById("switch");
-  let plannerItem = document.getElementsByClassName("plannerItem");
-  let EndListDate = document.getElementsByClassName("EndListDate");
-
-  let count = 0;
-  for (let i = 0; i < planList.length; i++) {
-    if (planList[i].complete === 'N') {
-      count++;
-    }
-  }
-
-  function sortEndDateASC() {
-    const endDateAsc = planList.sort(function (a, b) {
-      if (new Date(a["endDate"]).getTime() < new Date(b["endDate"]).getTime()) {
-        return -1;
-      }
-      if (new Date(a["endDate"]).getTime() > new Date(b["endDate"]).getTime()) {
-        return 1;
-      }
-      return 0;
-    });
-
-    showTodoList();
-    if (switch_dark.checked) {
-      for (let i = 0; i < plannerItem.length; i++) {
-        plannerItem[i].classList.add("dark-mode");
-        EndListDate[i].classList.add("dark-mode");
-      }
-    }
-    return endDateAsc;
-  }
-
-  function sortEndDateDESC(planList) {
-    const endDateDesc = planList.sort(function (a, b) {
-      if (new Date(a["endDate"]).getTime() < new Date(b["endDate"]).getTime()) {
-        return 1;
-      }
-      if (new Date(a["endDate"]).getTime() > new Date(b["endDate"]).getTime()) {
-        return -1;
-      }
-      return 0;
-    });
-
-    showTodoList();
-    if (switch_dark.checked) {
-      for (let i = 0; i < plannerItem.length; i++) {
-        plannerItem[i].classList.add("dark-mode");
-        EndListDate[i].classList.add("dark-mode");
-      }
-    }
-    return endDateDesc;
-  }
-
-  function sortStartDateASC(planList) {
-    const startDateAsc = planList.sort(function (a, b) {
-      if (new Date(a["startDate"]).getTime() < new Date(
-          b["startDate"]).getTime()) {
-        return -1;
-      }
-      if (new Date(a["startDate"]).getTime() > new Date(
-          b["startDate"]).getTime()) {
-        return 1;
-      }
-      return 0;
-    });
-    showTodoList();
-    if (switch_dark.checked) {
-      for (let i = 0; i < plannerItem.length; i++) {
-        plannerItem[i].classList.add("dark-mode");
-        EndListDate[i].classList.add("dark-mode");
-      }
-    }
-    return startDateAsc;
-  }
-
-  function sortStartDateDESC(planList) {
-    const startDateDesc = planList.sort(function (a, b) {
-      if (new Date(a["startDate"]).getTime() < new Date(
-          b["startDate"]).getTime()) {
-        return 1;
-      }
-      if (new Date(a["startDate"]).getTime() > new Date(
-          b["startDate"]).getTime()) {
-        return -1;
-      }
-      return 0;
-    });
-    showTodoList();
-    if (switch_dark.checked) {
-      for (let i = 0; i < plannerItem.length; i++) {
-        plannerItem[i].classList.add("dark-mode");
-        EndListDate[i].classList.add("dark-mode");
-      }
-    }
-    return startDateDesc;
-  }
-
-  sortEndDateASC();
-
-  document.getElementById("notCompleted").innerHTML = count;
-  document.getElementById("completed").innerHTML = planList.length - count;
-  document.getElementById("endDateASC").onclick = function () {
-    sortEndDateASC(planList);
-  }
-  document.getElementById("endDateDESC").onclick = function () {
-    sortEndDateDESC(planList);
-  }
-  document.getElementById("startDateASC").onclick = function () {
-    sortStartDateASC(planList);
-  }
-  document.getElementById("startDateDESC").onclick = function () {
-    sortStartDateDESC(planList);
-  }
-  document.getElementById("nickname").innerHTML = response.data.nickname;
-}
 
 function showTodoList() {
 
@@ -423,33 +345,6 @@ function is_checked() {
     document.getElementById("endAlarmDate").readOnly = true;
     document.getElementById("endAlarmDate").value = "";
   }
-}
-
-function requestCreatePlan() {
-  let title = $("#planTitleInput").val()
-  let startDate = $("#planStartDateInput").val()
-  let endDate = $("#planEndDateInput").val()
-  let remindAlarmDate = $("#endAlarmDate").val();
-
-  let formData = {
-    "title": title,
-    "startDate": startDate,
-    "endDate": endDate,
-    "remindAlarmDate": remindAlarmDate
-  }
-
-  $.ajax({
-    url: "/api/plan/create",
-    type: "post",
-    data: formData,
-    dataType: "json",
-    success: function (response) {
-      requestPlanListAndNickname();
-    },
-    error: function (xhr) {
-      alert(xhr.responseJSON.message);
-    }
-  })
 }
 
 
