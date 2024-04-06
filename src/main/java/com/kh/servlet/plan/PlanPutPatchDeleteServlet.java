@@ -1,6 +1,5 @@
 package com.kh.servlet.plan;
 
-import com.kh.model.dao.DetailPlanDao;
 import com.kh.model.dao.PlanDao;
 import com.kh.model.vo.Plan;
 import jakarta.servlet.ServletException;
@@ -46,28 +45,6 @@ public class PlanPutPatchDeleteServlet extends HttpServlet {
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       responseBody.put("message", e.getLocalizedMessage());
       resp.getWriter().write(responseBody.toString());
-      resp.getWriter().close();
-    }
-  }
-
-  @Override
-  protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Object user = req.getSession().getAttribute("userId");
-
-    try {
-      String[] parts = req.getRequestURI().split("/");
-      String planId = parts[parts.length - 1];
-      BufferedReader reader = req.getReader();
-      JSONObject requestBody = new JSONObject(reader.readLine());
-
-      String complete = requestBody.getString("complete");
-      new PlanDao().updateCompleteByPlanIdAndWriter(complete, Integer.parseInt(planId), String.valueOf(user));
-      new DetailPlanDao().updateCompleteByPlanIdAndWriter(complete, Integer.parseInt(planId), String.valueOf(user));
-
-      resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
-    } catch (Exception e) {
-      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      resp.getWriter().write(new JSONObject().put("message", e.getLocalizedMessage()).toString());
       resp.getWriter().close();
     }
   }

@@ -78,6 +78,10 @@ function renderPlanList(planList) {
         .addClass("d-flex align-items-center list-group-item list-group-item-action")
         .append(
             $(`<input class="form-check-input my-auto me-3" type="checkbox">`)
+            .attr(plan.complete === 'Y' ? "checked" : "unchecked", "true")
+            .on("change", () => {
+              requestCompletePlan(plan.planId);
+            })
         ).append(
             $(`<a id="list-${plan.planId}" href="#" class="flex-grow-1 text-truncate">`)
             .data("plan", plan)
@@ -135,6 +139,33 @@ function renderPlanList(planList) {
         //         ? "heartBeat 1s ease-in-out infinite" : "")
     )
   });
+}
+
+function requestCompletePlan(planId) {
+  let formCheckInput = $(`#plan-${planId} .form-check-input`);
+  let complete = $(formCheckInput).prop("checked");
+  console.log(planId);
+  $.ajax({
+    url: `/api/plan/complete`,
+    type: "POST",
+    data: {
+      "planId": planId,
+      "complete": (complete ? "Y" : "N")
+    },
+    dataType: "json",
+    success: function () {
+      location.reload();
+      // requestPlanListAndNickname();
+    },
+    error: function (xhr) {
+      alert(xhr.responseJSON.message);
+      if (xhr.status === 401) {
+        window.location.href = "/user/signin.html";
+      } else {
+        location.reload();
+      }
+    }
+  })
 }
 
 function requestCreatePlan() {
@@ -264,13 +295,11 @@ function debounce(func, timeout = 300) {
 // 메인페이지 & 검색 시 페이지
 
 function showTodoList() {
-
   for (let i = 0; i < planList.length; i++) {
     let planAlarmDate = planList[i].remindAlarmDate;
     let planEndDate = planList[i].endDate;
     let planComplete = planList[i].complete;
     if (planAlarmDate != null) {
-
       if (new Date(planAlarmDate).setHours(0, 0, 0, 0) < new Date().getTime()) {
         if (planComplete === 'N') {
           document.getElementsByClassName("plannerItem")[i].setAttribute(
@@ -281,19 +310,16 @@ function showTodoList() {
       }
     }
     // 마감 기한이 지난 플랜에 스타일 주기
-
     if (new Date(planEndDate).getMonth() < new Date().getMonth()) {
       document.getElementsByClassName("plannerItem")[i].setAttribute("style",
           "border: 2px solid red;");
     }
-
     if (new Date(planEndDate).getMonth() === new Date().getMonth()) {
       if (new Date(planEndDate).getDate() < new Date().getDate()) {
         document.getElementsByClassName("plannerItem")[i].setAttribute("style",
             "border: 2px solid red;");
       }
     }
-
   }
 }
 
