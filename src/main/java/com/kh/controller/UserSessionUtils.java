@@ -12,6 +12,6 @@ public class UserSessionUtils {
   }
 
   public static boolean isSignIn(HttpSession session) {
-    return getUserIdFromSession(session) != null;
+    return session != null && getUserIdFromSession(session) != null;
   }
 }
