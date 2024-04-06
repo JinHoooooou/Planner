@@ -229,6 +229,10 @@ main strong {
     flex: 1;
 }
 
+a.flex-grow-1 {
+  max-width: 410px;
+}
+
 .deleteButton {
     color: #e91e63;
     cursor: pointer;

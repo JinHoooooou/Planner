@@ -79,13 +79,13 @@ function renderPlanList(planList) {
         .append(
             $(`<input class="form-check-input my-auto me-3" type="checkbox">`)
         ).append(
-            $(`<a id="list-${plan.planId}" href="#" class="flex-grow-1">`)
+            $(`<a id="list-${plan.planId}" href="#" class="flex-grow-1 text-truncate">`)
             .data("plan", plan)
             .attr({
               "data-bs-toggle": "offcanvas",
               "data-bs-target": "#detailPlan"
             }).on("click", getDetailList).append(
-                $(`<div class="display-6">`).text(plan.title)
+                $(`<p class="display-6 my-auto text-truncate">`).text(plan.title)
             )
         ).append(
             $(`<i class="bi bi-bell-fill mx-2">`)
@@ -148,8 +148,13 @@ function requestCreatePlan() {
   }
 
   $.ajax({
-    url: "/api/plan/create", type: "post", data: formData, dataType: "json", success: function (response) {
-      requestPlanListAndNickname();
+    url: "/api/plan/create",
+    type: "post",
+    data: formData,
+    dataType: "json",
+    success: function (response) {
+      // requestPlanListAndNickname();
+      location.reload();
     }, error: function (xhr) {
       alert(xhr.responseJSON.message);
     }
