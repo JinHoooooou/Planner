@@ -83,7 +83,7 @@ function renderPlanList(planList) {
               requestCompletePlan(plan.planId);
             })
         ).append(
-            $(`<a id="list-${plan.planId}" href="#" class="flex-grow-1 text-truncate">`)
+            $(`<a id="list-${plan.planId}" href="#" class="flex-grow-1 form-checked-content">`)
             .data("plan", plan)
             .attr({
               "data-bs-toggle": "offcanvas",
@@ -103,40 +103,10 @@ function renderPlanList(planList) {
         .append(
             $(`<div>`).text(plan.endDate)
         ).append(
-            $(`<i class="bi bi-trash3-fill mx-2">`)
+            $(`<i class="bi bi-trash3-fill ms-2 h2">`).on("click", () => {
+              requestDeletePlan(plan.planId);
+            })
         )
-
-        // $("<div>").addClass("").append(
-        //     $("<div>").css("display", "flex").append(
-        //         $("<input>").prop({
-        //           "type": "checkbox",
-        //           "name": "complete",
-        //           "class": "comRadio"
-        //         }).attr($(plan.complete === 'Y') ? "checked" : "unchecked",
-        //             "true")
-        //         .on("change", () => completePlanner(plan.planId))
-        //     ).append(
-        //         $("<strong>").prop("id", `listTitle-${plan.planId}`)
-        //         .attr({
-        //               "data-bs-toggle": "offcanvas",
-        //               "data-bs-target": "#detailPlan"
-        //             }
-        //         ).data("plan", plan)
-        //         .text(plan.title)
-        //         .on("click", getDetailList)
-        //     )
-        // ).append(
-        //     $("<div>").addClass("plannerDate").append(
-        //         $("<i>").prop("id", `alarmMessage-${plan.planId}`)
-        //         .addClass("bi bi-alarm text-danger d-none")
-        //     ).append(
-        //         $("<span>").prop("id", "listEndDate")
-        //         .addClass("EndListDate")
-        //         .text(plan.endDate)
-        //     )
-        // ).css("animation",
-        //     alarmDate < new Date().getTime() && plan.complete === 'N'
-        //         ? "heartBeat 1s ease-in-out infinite" : "")
     )
   });
 }
@@ -166,6 +136,29 @@ function requestCompletePlan(planId) {
       }
     }
   })
+}
+
+function requestDeletePlan(planId) {
+  if (confirm("정말 삭제하시겠습니까?")) {
+    $.ajax({
+      url: `/api/plan/delete`,
+      type: "GET",
+      data: {"planId": planId},
+      dataType: "json",
+      success: function () {
+        location.reload();
+        // requestPlanListAndNickname();
+      },
+      error: function (xhr) {
+        alert(xhr.responseJSON.message);
+        if (xhr.status === 401) {
+          window.location.href = "/user/signin.html";
+        } else {
+          location.reload();
+        }
+      }
+    })
+  }
 }
 
 function requestCreatePlan() {
@@ -320,61 +313,6 @@ function showTodoList() {
             "border: 2px solid red;");
       }
     }
-  }
-}
-
-function deletePlanner(planId) {
-  if (confirm("정말 삭제하시겠습니까?")) {
-    $.ajax({
-      url: `/plan/${planId}`,
-      type: "DELETE",
-      success: function () {
-        // location.reload();
-        requestPlanListAndNickname();
-      },
-      error: function (xhr) {
-        if (xhr.status === 401) {
-          alert("로그인이 필요한 페이지 입니다.");
-          window.location.href = "/user/signin.html";
-        } else {
-          alert("invalid error");
-          location.reload();
-        }
-      }
-    })
-  }
-}
-
-function completePlanner(planId) {
-  let formCheckInput = $(`#plan-${planId} .comRadio`);
-  let complete = $(formCheckInput).prop("checked");
-  $.ajax({
-    url: `/plan/${planId}`,
-    type: "PATCH",
-    data: JSON.stringify({"complete": (complete ? "Y" : "N")}),
-    contentType: "application/json",
-    success: function () {
-      // locataion.reload();
-      requestPlanListAndNickname();
-    },
-    error: function (xhr) {
-      if (xhr.status === 401) {
-        alert("로그인이 필요한 페이지 입니다.");
-        window.location.href = "/user/signin.html";
-      } else {
-        alert("invalid error");
-        location.reload();
-      }
-    }
-  })
-}
-
-function is_checked() {
-  if (document.getElementById("endAlarmDateBoolean").checked == true) {
-    document.getElementById("endAlarmDate").readOnly = false;
-  } else if (document.getElementById("endAlarmDateBoolean").checked == false) {
-    document.getElementById("endAlarmDate").readOnly = true;
-    document.getElementById("endAlarmDate").value = "";
   }
 }
 

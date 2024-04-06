@@ -2,6 +2,7 @@ package com.kh.controller;
 
 import com.kh.controller.plan.CompletePlanController;
 import com.kh.controller.plan.CreatePlanController;
+import com.kh.controller.plan.DeletePlanController;
 import com.kh.controller.plan.ListPlanController;
 import com.kh.controller.user.DeleteUserController;
 import com.kh.controller.user.GetUserInfoController;
@@ -31,6 +32,7 @@ public class RequestMapping {
     map.put("/api/plan/list", new ListPlanController());
     map.put("/api/plan/create", new CreatePlanController());
     map.put("/api/plan/complete", new CompletePlanController());
+    map.put("/api/plan/delete", new DeletePlanController());
   }
 
   public RestController findController(String url) {

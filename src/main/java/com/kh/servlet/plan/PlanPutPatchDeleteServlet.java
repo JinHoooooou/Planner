@@ -48,22 +48,4 @@ public class PlanPutPatchDeleteServlet extends HttpServlet {
       resp.getWriter().close();
     }
   }
-
-  @Override
-  protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Object user = req.getSession().getAttribute("userId");
-
-    try {
-      String[] parts = req.getRequestURI().split("/");
-      String planId = parts[parts.length - 1];
-
-      new PlanDao().deleteByPlanIdAndWriter(Integer.parseInt(planId), String.valueOf(user));
-
-      resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
-    } catch (Exception e) {
-      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      resp.getWriter().write(new JSONObject().put("message", e.getLocalizedMessage()).toString());
-      resp.getWriter().close();
-    }
-  }
 }
