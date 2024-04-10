@@ -8,30 +8,32 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class CreatePlanRequestDto {
+public class UpdatePlanRequestDto {
 
+  private int planId;
   private String title;
   private LocalDate startDate;
   private LocalDate endDate;
-  private LocalDate remindAlarmDate;
+  private LocalDate alarmDate;
 
-  public static CreatePlanRequestDto from(HttpServletRequest request) {
+  public static UpdatePlanRequestDto from(HttpServletRequest request) {
     try {
       String title = request.getParameter("title");
       String startDate = request.getParameter("startDate");
       String endDate = request.getParameter("endDate");
-      String remindAlarmDate = request.getParameter("remindAlarmDate");
-      return CreatePlanRequestDto.builder()
+      String alarmDate = request.getParameter("alarmDate");
+
+      return UpdatePlanRequestDto.builder()
           .title(title)
           .startDate(parseLocalDate(startDate))
           .endDate(parseLocalDate(endDate))
-          .remindAlarmDate(parseLocalDate(remindAlarmDate))
+          .alarmDate(parseLocalDate(alarmDate))
           .build();
-    } catch (RuntimeException e) {
+    } catch (Exception e) {
       throw new RuntimeException(Message.INVALID_REQUEST);
     }
   }
@@ -44,13 +46,16 @@ public class CreatePlanRequestDto {
   }
 
   public void validate() {
-    if (this.getTitle().isEmpty()) {
+    if (this.getTitle() == null || this.getTitle().isEmpty()) {
       throw new RuntimeException(Message.EMPTY_PLAN_TITLE);
+    }
+    if (this.getStartDate() == null || this.getEndDate() == null) {
+      throw new RuntimeException(Message.EMPTY_PLAN_DATE);
     }
     if (this.getStartDate().isAfter(this.getEndDate())) {
       throw new RuntimeException(Message.INVALID_PLAN_DATE);
     }
-    if (this.getRemindAlarmDate() != null && this.getRemindAlarmDate().isAfter(this.getEndDate())) {
+    if (this.getAlarmDate() != null && this.getAlarmDate().isAfter(this.getEndDate())) {
       throw new RuntimeException(Message.INVALID_PLAN_ALARM_DATE);
     }
   }
