@@ -3,8 +3,8 @@ package com.kh.model.dao;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.KeyHolder;
 import com.kh.database.RowMapper;
-import com.kh.model.dto.CreatePlanRequestDto;
-import com.kh.model.dto.UpdatePlanRequestDto;
+import com.kh.model.dto.plan.CreatePlanRequestDto;
+import com.kh.model.dto.plan.UpdatePlanRequestDto;
 import com.kh.model.vo.Plan;
 import java.util.List;
 

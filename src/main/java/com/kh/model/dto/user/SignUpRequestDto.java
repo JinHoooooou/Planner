@@ -1,4 +1,4 @@
-package com.kh.model.dto;
+package com.kh.model.dto.user;
 
 import com.kh.constant.Message;
 import com.kh.constant.Regex;

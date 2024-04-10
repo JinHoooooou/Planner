@@ -2,7 +2,7 @@ package com.kh.controller.user;
 
 import com.kh.controller.RestController;
 import com.kh.model.dao.UserDao;
-import com.kh.model.dto.SignInRequestDto;
+import com.kh.model.dto.user.SignInRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

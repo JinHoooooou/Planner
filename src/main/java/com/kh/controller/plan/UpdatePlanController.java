@@ -4,7 +4,7 @@ import com.kh.constant.Message;
 import com.kh.controller.RestController;
 import com.kh.controller.UserSessionUtils;
 import com.kh.model.dao.PlanDao;
-import com.kh.model.dto.UpdatePlanRequestDto;
+import com.kh.model.dto.plan.UpdatePlanRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
