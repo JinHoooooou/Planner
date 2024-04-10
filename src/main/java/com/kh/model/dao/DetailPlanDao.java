@@ -58,12 +58,12 @@ public class DetailPlanDao {
     return jdbctemplate.executeUpdate(query, detailPlanId, writer);
   }
 
-  public List<DetailPlan> findByWriterAndPlanIdOrderByDetailPlanId(String writer, int planId) {
+  public List<DetailPlan> findByPlanIdOrderByDetailPlanId(int planId) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
 
-    String query = "SELECT * FROM DETAIL_PLAN WHERE WRITER = ? AND PLAN_ID=? ORDER BY DETAIL_PLAN_ID";
+    String query = "SELECT * FROM DETAIL_PLAN WHERE AND PLAN_ID=? ORDER BY DETAIL_PLAN_ID";
     RowMapper<DetailPlan> mapper = DetailPlan::from;
-    return jdbctemplate.executeQuery(query, mapper, writer, planId);
+    return jdbctemplate.executeQuery(query, mapper, planId);
   }
 
   public DetailPlan findByDetailPlanIdAndWriter(int detailPlanId, String writer) {
