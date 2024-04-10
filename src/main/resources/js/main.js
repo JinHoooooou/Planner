@@ -1,15 +1,17 @@
 let planList = [];
-
+let nickname = "";
 $(window).ready(function () {
   let data = requestPlanListAndNickname();
-  renderMainPage(data);
+  nickname = data.nickname;
+  planList = data.planList;
+
+  renderMainPage();
 
   // 메인 페이지 기본적으로 렌더링 다 한 후에 이벤트 적용
   $("#createPlanButton").on("click", requestCreatePlan);
   $("#planUpdateButton").on("click", requestUpdatePlan);
   $("#signOut").on("click", requestSignOut);
 
-  let planList = data.planList;
   $("#sortByStartDateAscButton").on("click", () => {
     sortBy(planList, "startDate", "ASC")
   });
@@ -32,8 +34,7 @@ function requestPlanListAndNickname() {
     dataType: "json",
     async: false,
     success: function (response) {
-      result = response.data
-      planList = response.data.planList;
+      result = response.data;
     },
     error: function (xhr) {
       alert(xhr.responseJSON.message)
@@ -43,11 +44,11 @@ function requestPlanListAndNickname() {
   return result;
 }
 
-function renderMainPage(data) {
-  $("#nickname").text(data.nickname);
-  renderCompletePlanCount(data.planList);
+function renderMainPage() {
+  $("#nickname").text(nickname);
+  renderCompletePlanCount(planList);
   renderCreatePlanForm();
-  renderPlanList(data.planList);
+  renderPlanList(planList);
 }
 
 function renderCompletePlanCount(planList) {
@@ -115,7 +116,6 @@ function renderPlanList(planList) {
 function requestCompletePlan(planId) {
   let formCheckInput = $(`#plan-${planId} .form-check-input`);
   let complete = $(formCheckInput).prop("checked");
-  console.log(planId);
   $.ajax({
     url: `/api/plan/complete`,
     type: "POST",
@@ -125,8 +125,12 @@ function requestCompletePlan(planId) {
     },
     dataType: "json",
     success: function () {
-      location.reload();
-      // requestPlanListAndNickname();
+      $.each(planList, function (index, plan) {
+        if (plan.planId === planId) {
+          plan.complete = complete ? "Y" : "N";
+        }
+      })
+      renderCompletePlanCount(planList);
     },
     error: function (xhr) {
       alert(xhr.responseJSON.message);
@@ -147,8 +151,13 @@ function requestDeletePlan(planId) {
       data: {"planId": planId},
       dataType: "json",
       success: function () {
-        location.reload();
-        // requestPlanListAndNickname();
+        $.each(planList, function (index, plan) {
+          if (plan.planId === planId) {
+            planList.splice(index, 1)
+          }
+        })
+        renderCompletePlanCount(planList);
+        renderPlanList(planList);
       },
       error: function (xhr) {
         alert(xhr.responseJSON.message);
@@ -178,8 +187,8 @@ function requestCreatePlan() {
     data: formData,
     dataType: "json",
     success: function (response) {
-      // requestPlanListAndNickname();
-      location.reload();
+      planList.push(response.data)
+      renderMainPage()
     }, error: function (xhr) {
       alert(xhr.responseJSON.message);
     }
