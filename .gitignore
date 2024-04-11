@@ -1,6 +1,7 @@
 /build/
 /.gradle/
 /tomcat.8080
+env/
 
 .gradle
 build/
