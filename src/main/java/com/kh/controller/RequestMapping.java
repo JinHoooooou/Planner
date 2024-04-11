@@ -1,5 +1,6 @@
 package com.kh.controller;
 
+import com.kh.controller.detail.CreateDetailController;
 import com.kh.controller.detail.ListDetailController;
 import com.kh.controller.plan.CompletePlanController;
 import com.kh.controller.plan.CreatePlanController;
@@ -38,6 +39,7 @@ public class RequestMapping {
     map.put("/api/plan/update", new UpdatePlanController());
 
     map.put("/api/detail/list", new ListDetailController());
+    map.put("/api/detail/create", new CreateDetailController());
   }
 
   public RestController findController(String url) {

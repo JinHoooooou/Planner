@@ -3,26 +3,26 @@ package com.kh.model.dao;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.KeyHolder;
 import com.kh.database.RowMapper;
+import com.kh.model.dto.detail.CreateDetailRequestDto;
 import com.kh.model.vo.DetailPlan;
 import java.util.List;
 
 public class DetailPlanDao {
 
-  public DetailPlan save(DetailPlan detailPlan) {
+  public DetailPlan save(CreateDetailRequestDto requestDto, String userId) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
     String query = "INSERT INTO DETAIL_PLAN(DETAIL_PLAN_ID, PLAN_ID, WRITER, CONTENTS,"
-        + " START_TIME, END_TIME, REMIND_ALARM_TIME, COMPLETE)"
-        + " VALUES( ?, ?, ?, ?, ?, ?, ?, ?) ";
+        + " START_TIME, END_TIME)"
+        + " VALUES( ?, ?, ?, ?, ?, ?) ";
 
     KeyHolder keyHolder = new KeyHolder();
     keyHolder.setId(jdbctemplate.getNextVal("SEQ_DETAIL"));
 
     jdbctemplate.executeUpdate(query,
-        keyHolder.getId(), detailPlan.getPlanId(), detailPlan.getWriter(), detailPlan.getContents(),
-        detailPlan.getStartTime(), detailPlan.getEndTime(), detailPlan.getRemindAlarmTime(),
-        detailPlan.getComplete());
+        keyHolder.getId(), requestDto.getPlanId(), userId, requestDto.getContents(),
+        requestDto.getStartTime(), requestDto.getEndTime());
 
-    return findByDetailPlanIdAndWriter(keyHolder.getId(), detailPlan.getWriter());
+    return findByDetailPlanIdAndWriter(keyHolder.getId(), userId);
   }
 
   public int update(DetailPlan detailPlan) {
