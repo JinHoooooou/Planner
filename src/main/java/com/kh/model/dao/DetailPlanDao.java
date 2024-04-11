@@ -8,21 +8,16 @@ import java.util.List;
 
 public class DetailPlanDao {
 
-  public DetailPlan save(DetailPlan detailPlan) {
+  public DetailPlan save(DetailPlan detail) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
-    String query = "INSERT INTO DETAIL_PLAN(DETAIL_PLAN_ID, PLAN_ID, WRITER, CONTENTS,"
-        + " START_TIME, END_TIME, REMIND_ALARM_TIME, COMPLETE)"
-        + " VALUES( ?, ?, ?, ?, ?, ?, ?, ?) ";
+    String query = "INSERT INTO DETAIL_PLAN(PLAN_ID, WRITER, CONTENTS, START_TIME, END_TIME)"
+        + " VALUES(?, ?, ?, ?, ?)";
 
     KeyHolder keyHolder = new KeyHolder();
-    keyHolder.setId(jdbctemplate.getNextVal("SEQ_DETAIL"));
+    jdbctemplate.executeUpdate(query, keyHolder, detail.getDetailPlanId(), detail.getWriter(), detail.getContents()
+        , detail.getStartTime(), detail.getEndTime());
 
-    jdbctemplate.executeUpdate(query,
-        keyHolder.getId(), detailPlan.getPlanId(), detailPlan.getWriter(), detailPlan.getContents(),
-        detailPlan.getStartTime(), detailPlan.getEndTime(), detailPlan.getRemindAlarmTime(),
-        detailPlan.getComplete());
-
-    return findByDetailPlanIdAndWriter(keyHolder.getId(), detailPlan.getWriter());
+    return findByDetailPlanIdAndWriter(keyHolder.getId(), detail.getWriter());
   }
 
   public int update(DetailPlan detailPlan) {

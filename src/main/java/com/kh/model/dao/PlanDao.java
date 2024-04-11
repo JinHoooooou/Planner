@@ -11,13 +11,11 @@ public class PlanDao {
 
   public Plan save(CreatePlanRequestDto requestDto, String userId) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    String query = "INSERT INTO PLAN(PLAN_ID, WRITER, TITLE, START_DATE, END_DATE, REMIND_ALARM_DATE)"
-        + "VALUES(?, ?, ?, ?, ?, ?)";
+    String query = "INSERT INTO PLAN(WRITER, TITLE, START_DATE, END_DATE, REMIND_ALARM_DATE)"
+        + "VALUES(?, ?, ?, ?, ?)";
 
     KeyHolder keyHolder = new KeyHolder();
-    keyHolder.setId(jdbcTemplate.getNextVal("SEQ_PLAN"));
-
-    jdbcTemplate.executeUpdate(query, keyHolder.getId(), userId, requestDto.getTitle(), requestDto.getStartDate(),
+    jdbcTemplate.executeUpdate(query, keyHolder, userId, requestDto.getTitle(), requestDto.getStartDate(),
         requestDto.getEndDate(), requestDto.getRemindAlarmDate());
 
     return this.findByPlanIdAndWriter(keyHolder.getId(), userId);
