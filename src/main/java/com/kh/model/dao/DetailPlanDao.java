@@ -3,21 +3,26 @@ package com.kh.model.dao;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.KeyHolder;
 import com.kh.database.RowMapper;
+import com.kh.model.dto.detail.CreateDetailRequestDto;
 import com.kh.model.vo.DetailPlan;
 import java.util.List;
 
 public class DetailPlanDao {
 
-  public DetailPlan save(DetailPlan detail) {
+  public DetailPlan save(CreateDetailRequestDto requestDto, String userId) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
-    String query = "INSERT INTO DETAIL_PLAN(PLAN_ID, WRITER, CONTENTS, START_TIME, END_TIME)"
-        + " VALUES(?, ?, ?, ?, ?)";
+    String query = "INSERT INTO DETAIL_PLAN(DETAIL_PLAN_ID, PLAN_ID, WRITER, CONTENTS,"
+        + " START_TIME, END_TIME)"
+        + " VALUES( ?, ?, ?, ?, ?, ?) ";
 
     KeyHolder keyHolder = new KeyHolder();
-    jdbctemplate.executeUpdate(query, keyHolder, detail.getDetailPlanId(), detail.getWriter(), detail.getContents()
-        , detail.getStartTime(), detail.getEndTime());
+    keyHolder.setId(jdbctemplate.getNextVal("SEQ_DETAIL"));
 
-    return findByDetailPlanIdAndWriter(keyHolder.getId(), detail.getWriter());
+    jdbctemplate.executeUpdate(query,
+        keyHolder.getId(), requestDto.getPlanId(), userId, requestDto.getContents(),
+        requestDto.getStartTime(), requestDto.getEndTime());
+
+    return findByDetailPlanIdAndWriter(keyHolder.getId(), userId);
   }
 
   public int update(DetailPlan detailPlan) {
@@ -53,12 +58,12 @@ public class DetailPlanDao {
     return jdbctemplate.executeUpdate(query, detailPlanId, writer);
   }
 
-  public List<DetailPlan> findByWriterAndPlanIdOrderByDetailPlanId(String writer, int planId) {
+  public List<DetailPlan> findByPlanIdOrderByDetailPlanId(int planId) {
     JdbcTemplate jdbctemplate = new JdbcTemplate();
 
-    String query = "SELECT * FROM DETAIL_PLAN WHERE WRITER = ? AND PLAN_ID=? ORDER BY DETAIL_PLAN_ID";
+    String query = "SELECT * FROM DETAIL_PLAN WHERE AND PLAN_ID=? ORDER BY DETAIL_PLAN_ID";
     RowMapper<DetailPlan> mapper = DetailPlan::from;
-    return jdbctemplate.executeQuery(query, mapper, writer, planId);
+    return jdbctemplate.executeQuery(query, mapper, planId);
   }
 
   public DetailPlan findByDetailPlanIdAndWriter(int detailPlanId, String writer) {

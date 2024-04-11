@@ -115,7 +115,7 @@ public class DetailPlan {
     return this;
   }
 
-  public JSONObject responseDto() {
+  public JSONObject parseJson() {
     JSONObject result = new JSONObject();
     result.put("detailPlanId", this.getDetailPlanId());
     result.put("planId", this.getPlanId());

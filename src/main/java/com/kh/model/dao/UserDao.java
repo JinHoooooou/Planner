@@ -3,8 +3,8 @@ package com.kh.model.dao;
 import com.kh.constant.Message;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.RowMapper;
-import com.kh.model.dto.SignInRequestDto;
-import com.kh.model.dto.UpdateUserRequestDto;
+import com.kh.model.dto.user.SignInRequestDto;
+import com.kh.model.dto.user.UpdateUserRequestDto;
 import com.kh.model.vo.User;
 
 public class UserDao {

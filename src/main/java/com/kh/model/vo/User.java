@@ -1,6 +1,6 @@
 package com.kh.model.vo;
 
-import com.kh.model.dto.SignUpRequestDto;
+import com.kh.model.dto.user.SignUpRequestDto;
 import jakarta.validation.ValidationException;
 import java.sql.ResultSet;
 import java.sql.SQLException;

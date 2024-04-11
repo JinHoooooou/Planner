@@ -3,7 +3,8 @@ package com.kh.model.dao;
 import com.kh.database.JdbcTemplate;
 import com.kh.database.KeyHolder;
 import com.kh.database.RowMapper;
-import com.kh.model.dto.CreatePlanRequestDto;
+import com.kh.model.dto.plan.CreatePlanRequestDto;
+import com.kh.model.dto.plan.UpdatePlanRequestDto;
 import com.kh.model.vo.Plan;
 import java.util.List;
 
@@ -21,14 +22,12 @@ public class PlanDao {
     return this.findByPlanIdAndWriter(keyHolder.getId(), userId);
   }
 
-  public int update(Plan update) {
+  public int update(int targetPlanId, UpdatePlanRequestDto requestDto) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    String query = "UPDATE PLAN SET TITLE=?, START_DATE=?, END_DATE=?, REMIND_ALARM_DATE=?, COMPLETE=? "
-        + "WHERE (WRITER=? AND PLAN_ID=?)";
-    return jdbcTemplate.executeUpdate(query,
-        update.getTitle(), update.getStartDate(), update.getEndDate(),
-        update.getRemindAlarmDate(), update.getComplete(), update.getWriter(),
-        update.getPlanId());
+    String query = "UPDATE PLAN SET TITLE=?, START_DATE=?, END_DATE=?, REMIND_ALARM_DATE=?"
+        + "WHERE AND PLAN_ID=?";
+    return jdbcTemplate.executeUpdate(query, requestDto.getTitle(), requestDto.getStartDate(), requestDto.getEndDate(),
+        requestDto.getAlarmDate(), targetPlanId);
   }
 
   public int updateCompleteByPlanIdAndWriter(String complete, int planId, String writer) {

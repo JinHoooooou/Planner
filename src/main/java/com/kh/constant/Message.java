@@ -26,7 +26,12 @@ public interface Message {
   String INVALID_SESSION = "세션이 유효하지 않습니다.\n다시 로그인하세요.";
 
   String EMPTY_PLAN_TITLE = "제목을 입력해 주세요.";
+  String EMPTY_PLAN_DATE = "시작/마감 날짜를 입력해 주세요.";
   String INVALID_PLAN_DATE = "시작 날짜는 마감 날짜보다 앞서야 합니다.";
   String INVALID_PLAN_ALARM_DATE = "알람 날짜는 마감 날짜보다 앞서야 합니다.";
 
+  String EMPTY_DETAIL_DATE = "날짜를 입력해 주세요.";
+  String EMPTY_DETAIL_TIME = "시작/종료 시간을 입력해 주세요.";
+  String INVALID_DETAIL_DATE = "시작 날짜는 플랜의 시작~마감 사이어야 합니다.";
+  String INVALID_DETAIL_TIME = "시작 시간은 종료 시간보다 앞서야 합니다.";
 }

@@ -3,7 +3,7 @@ package com.kh.controller.user;
 import com.kh.constant.Message;
 import com.kh.controller.RestController;
 import com.kh.model.dao.UserDao;
-import com.kh.model.dto.SignUpRequestDto;
+import com.kh.model.dto.user.SignUpRequestDto;
 import com.kh.model.vo.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

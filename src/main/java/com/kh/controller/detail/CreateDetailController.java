@@ -1,19 +1,19 @@
-package com.kh.controller.plan;
+package com.kh.controller.detail;
 
 import com.kh.constant.Message;
 import com.kh.controller.RestController;
 import com.kh.controller.UserSessionUtils;
-import com.kh.model.dao.PlanDao;
-import com.kh.model.dto.plan.CreatePlanRequestDto;
-import com.kh.model.vo.Plan;
+import com.kh.model.dao.DetailPlanDao;
+import com.kh.model.dto.detail.CreateDetailRequestDto;
+import com.kh.model.vo.DetailPlan;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 
-public class CreatePlanController implements RestController {
+public class CreateDetailController implements RestController {
 
-  private final PlanDao planDao = new PlanDao();
+  private final DetailPlanDao detailDao = new DetailPlanDao();
 
   @Override
   public JSONObject execute(HttpServletRequest request, HttpServletResponse response) {
@@ -27,13 +27,14 @@ public class CreatePlanController implements RestController {
     }
 
     try {
-      CreatePlanRequestDto requestDto = CreatePlanRequestDto.from(request);
+      CreateDetailRequestDto requestDto = CreateDetailRequestDto.from(request);
       requestDto.validate();
 
-      Plan saved = planDao.save(requestDto, UserSessionUtils.getUserIdFromSession(session));
-      responseBody.put("data", saved.parseJson());
+      DetailPlan savedDetail = detailDao.save(requestDto, UserSessionUtils.getUserIdFromSession(session));
+
+      responseBody.put("data", savedDetail.parseJson());
       responseBody.put("status", HttpServletResponse.SC_CREATED);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       responseBody.put("message", e.getLocalizedMessage());
       responseBody.put("status", HttpServletResponse.SC_BAD_REQUEST);
     }

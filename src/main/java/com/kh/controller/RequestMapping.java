@@ -1,9 +1,12 @@
 package com.kh.controller;
 
+import com.kh.controller.detail.CreateDetailController;
+import com.kh.controller.detail.ListDetailController;
 import com.kh.controller.plan.CompletePlanController;
 import com.kh.controller.plan.CreatePlanController;
 import com.kh.controller.plan.DeletePlanController;
 import com.kh.controller.plan.ListPlanController;
+import com.kh.controller.plan.UpdatePlanController;
 import com.kh.controller.user.DeleteUserController;
 import com.kh.controller.user.GetUserInfoController;
 import com.kh.controller.user.NicknameDuplicateController;
@@ -33,6 +36,10 @@ public class RequestMapping {
     map.put("/api/plan/create", new CreatePlanController());
     map.put("/api/plan/complete", new CompletePlanController());
     map.put("/api/plan/delete", new DeletePlanController());
+    map.put("/api/plan/update", new UpdatePlanController());
+
+    map.put("/api/detail/list", new ListDetailController());
+    map.put("/api/detail/create", new CreateDetailController());
   }
 
   public RestController findController(String url) {

@@ -1,4 +1,4 @@
-package com.kh.model.dto;
+package com.kh.model.dto.plan;
 
 import com.kh.constant.Message;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,13 +27,20 @@ public class CreatePlanRequestDto {
       String remindAlarmDate = request.getParameter("remindAlarmDate");
       return CreatePlanRequestDto.builder()
           .title(title)
-          .startDate(LocalDate.parse(startDate))
-          .endDate(LocalDate.parse(endDate))
-          .remindAlarmDate(remindAlarmDate.isEmpty() ? null : LocalDate.parse(remindAlarmDate))
+          .startDate(parseLocalDate(startDate))
+          .endDate(parseLocalDate(endDate))
+          .remindAlarmDate(parseLocalDate(remindAlarmDate))
           .build();
     } catch (RuntimeException e) {
       throw new RuntimeException(Message.INVALID_REQUEST);
     }
+  }
+
+  private static LocalDate parseLocalDate(String dateString) {
+    if (dateString == null || dateString.isEmpty()) {
+      return null;
+    }
+    return LocalDate.parse(dateString);
   }
 
   public void validate() {

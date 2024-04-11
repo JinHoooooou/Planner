@@ -1,4 +1,4 @@
-package com.kh.model.dto;
+package com.kh.model.dto.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
